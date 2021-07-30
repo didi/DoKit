@@ -3,8 +3,8 @@
 ## DoKit Android 最新版本
 **由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral()，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：**
 
-**lastversion:3.4.2；kotlin编译插件为1.4.32 ；支持Gradle 6.8及以上**
-**lastversion:3.4.2.1； kotlin编译插件为1.3.72； 支持Gradle 6.8及以下**
+**lastversion:3.4.3；kotlin编译插件为1.4.32 ；支持Gradle 6.8及以上**
+**lastversion:3.4.3.1； kotlin编译插件为1.3.72； 支持Gradle 6.8及以下**
 
 |DoKit|最新版本|描述|
 |-|-|-|
@@ -58,6 +58,7 @@ dependencies {
 
 
 ```
+//数据mock内部网络库支持
 debugImplementation 'io.github.didi.dokit:dokitx-rpc:${lastversion}'
 //一机多控内部网络库支持
 debugImplementation 'io.github.didi.dokit:dokitx-rpc-mc:${lastversion}'
@@ -345,7 +346,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: Class<out T>
         ): T? {
             return null
@@ -353,7 +354,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: KClass<out T>
         ): T? {
             return null
