@@ -18,7 +18,10 @@ extension KitTypeExt on KitType {
     if (KitType.builtin == this) {
       return BUILTIN_DEFAULT_GROUP;
     }
-    return BIZ_DEFAULT_GROUP;
+    if (KitType.biz == this) {
+      return BIZ_DEFAULT_GROUP;
+    }
+    return UNKNOWN_GROUP;
   }
 }
 
