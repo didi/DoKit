@@ -1,29 +1,14 @@
 {
-  "name": "plugin_debug",
+  "name": "DoKit For Android",
   "version": "1.0.0",
-  "description": "调试plugin",
+  "description": "DoKit Script",
   "scripts": {
     "debug": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
     "check": "./gradlew checkUploadConfig",
     "clean": "./gradlew clean",
-    "copy": "./gradlew copyPluginSource",
-    "pluginAssemble": "./gradlew :dokit-plugin:assemble",
-    "assemble": "./gradlew assembleRelease",
-    "publish-dokit": "./gradlew :dokit:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-ft": "./gradlew :dokit-ft:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-mc": "./gradlew :dokit-mc:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-no-op": "./gradlew :dokit-no-op:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-okhttp-api": "./gradlew :dokit-okhttp-api:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-okhttp-v3": "./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-okhttp-v4": "./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-plugin": "./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-rpc": "./gradlew :dokit-rpc:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-rpc-mc": "./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-util": "./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository",
-    "publish-dokit-weex": "./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository",
-    "upload": "npm run check &&  npm run clean && npm run copy && npm run pluginAssemble && npm run assemble && npm run publish-dokit && npm run publish-dokit-ft && npm run publish-dokit-ft && npm run publish-dokit-mc && npm run publish-dokit-no-op && npm run publish-dokit-okhttp-api && npm run publish-dokit-okhttp-v3 && npm run publish-dokit-okhttp-v4 && npm run publish-dokit-plugin && npm run publish-dokit-rpc && npm run publish-dokit-rpc-mc && npm run publish-dokit-util && npm run publish-dokit-weex"
+    "upload": "npm run check &&  npm run clean && npm run copy && npm run ./upload.sh"
 
   },
-  "author": "jintai <704167880@qq.com>",
+  "author": "jint <704167880@qq.com>",
   "license": "MIT"
 }

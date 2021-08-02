@@ -96,19 +96,12 @@ task checkUploadConfig() {
         if (rootProject.ext.publish_config["archives_type"] != 3) {
             throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 3。")
         }
+        try {
+            rootProject.project("dokit-rpc").name
+            rootProject.project("dokit-rpc-mc").name
+        } catch (Exception e) {
+            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        }
+
     }
 }
-
-
-//project.tasks.whenTaskAdded { Task theTask ->
-//    if (theTask.name == 'assembleRelease') {
-//        theTask.mustRunAfter(":dokit-plugin:assemble")
-//    }
-//}
-
-//解决打包时由于javadocRelease校验引起的打包失败
-//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
