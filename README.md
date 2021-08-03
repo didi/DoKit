@@ -241,7 +241,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [LinJZong](https://github.com/LinJZong) 、
 [jayconscious](https://github.com/jayconscious) 、
 [xukaibin](https://github.com/xu984386604)
-
+[jellybean](https://github.com/excitedhaha)
 **贡献者榜单**
 、
 [changzuozhen](https://github.com/changzuozhen)、
