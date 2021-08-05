@@ -4,14 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.ListView
-import androidx.core.view.children
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.util.ResourceUtils
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.SystemViewInfo
 import com.didichuxing.doraemonkit.util.UIUtils
 
@@ -26,112 +24,110 @@ import com.didichuxing.doraemonkit.util.UIUtils
  */
 object ViewPathUtil {
 
-    /**
-     * @param strategy
-     * 0:当前事件发生的view就为特殊的view
-     * 1:当前事件发生的view不是特殊的view
-     */
-    private fun addSpecialSystemViewInfo(
+    private fun addParentViewInfo(
         systemViewInfos: MutableList<SystemViewInfo>,
         parent: ViewGroup?,
         view: View,
-        strategy: Int
     ) {
-        if (strategy == 0) {
-            when (view) {
-                is ViewPager,
-                is ListView,
+        parent?.let {
+            when (parent) {
                 is RecyclerView -> {
                     systemViewInfos.add(
                         SystemViewInfo(
-                            view::class.tagName,
-                            UIUtils.getRealIdText(view),
-                            if (view is ViewGroup) {
-                                view.childCount
-                            } else {
-                                -1
-                            },
-                            -1,
+                            parent::class.tagName,
+                            UIUtils.getRealIdText(parent),
+                            parent.childCount,
+                            parent.indexOfChild(view),
                             true,
-                            -1,
-                            isCurrentEventView = true
+                            parent.getChildAdapterPosition(view)
+                        )
+                    )
+                }
+
+                is ListView -> {
+                    systemViewInfos.add(
+                        SystemViewInfo(
+                            parent::class.tagName,
+                            UIUtils.getRealIdText(parent),
+                            parent.childCount,
+                            parent.indexOfChild(view),
+                            true,
+                            parent.getPositionForView(view)
+                        )
+                    )
+                }
+
+                is ViewPager -> {
+                    systemViewInfos.add(
+                        SystemViewInfo(
+                            parent::class.tagName,
+                            UIUtils.getRealIdText(parent),
+                            parent.indexOfChild(view),
+                            parent.childCount,
+                            true,
+                            parent.currentItem
                         )
                     )
                 }
                 else -> {
                     systemViewInfos.add(
                         SystemViewInfo(
-                            view::class.tagName,
-                            UIUtils.getRealIdText(view),
-                            if (view is ViewGroup) {
-                                view.childCount
-                            } else {
-                                -1
-                            },
-                            -1,
-                            false,
-                            -1,
-                            isCurrentEventView = true
+                            parent::class.tagName,
+                            UIUtils.getRealIdText(parent),
+                            parent.indexOfChild(view),
+                            parent.indexOfChild(view)
                         )
                     )
                 }
             }
-        } else {
-            parent?.let {
-                when (parent) {
-                    is RecyclerView -> {
-                        systemViewInfos.add(
-                            SystemViewInfo(
-                                parent::class.tagName,
-                                UIUtils.getRealIdText(parent),
-                                parent.childCount,
-                                parent.indexOfChild(view),
-                                true,
-                                parent.getChildAdapterPosition(view)
-                            )
-                        )
-                    }
-
-                    is ListView -> {
-                        systemViewInfos.add(
-                            SystemViewInfo(
-                                parent::class.tagName,
-                                UIUtils.getRealIdText(parent),
-                                parent.childCount,
-                                parent.indexOfChild(view),
-                                true,
-                                parent.getPositionForView(view)
-                            )
-                        )
-                    }
-
-                    is ViewPager -> {
-                        systemViewInfos.add(
-                            SystemViewInfo(
-                                parent::class.tagName,
-                                UIUtils.getRealIdText(parent),
-                                parent.indexOfChild(view),
-                                parent.childCount,
-                                true,
-                                parent.currentItem
-                            )
-                        )
-                    }
-                    else -> {
-                        systemViewInfos.add(
-                            SystemViewInfo(
-                                parent::class.tagName,
-                                UIUtils.getRealIdText(parent),
-                                parent.indexOfChild(view),
-                                parent.indexOfChild(view)
-                            )
-                        )
-                    }
-                }
-            }
-
         }
 
+
+    }
+
+
+    private fun addSelfViewInfo(
+        systemViewInfos: MutableList<SystemViewInfo>,
+        view: View
+    ) {
+        when (view) {
+            is ViewPager,
+            is ListView,
+            is RecyclerView -> {
+                systemViewInfos.add(
+                    SystemViewInfo(
+                        view::class.tagName,
+                        UIUtils.getRealIdText(view),
+                        if (view is ViewGroup) {
+                            view.childCount
+                        } else {
+                            -1
+                        },
+                        -1,
+                        true,
+                        -1,
+                        isCurrentEventView = true
+                    )
+                )
+            }
+            else -> {
+                systemViewInfos.add(
+                    SystemViewInfo(
+                        view::class.tagName,
+                        UIUtils.getRealIdText(view),
+                        if (view is ViewGroup) {
+                            view.childCount
+                        } else {
+                            -1
+                        },
+                        -1,
+                        false,
+                        -1,
+                        isCurrentEventView = true
+                    )
+                )
+            }
+        }
     }
 
     /**
@@ -139,23 +135,18 @@ object ViewPathUtil {
      */
     fun createViewPathOfWindow(view: View): MutableList<SystemViewInfo> {
         val systemViewInfos: MutableList<SystemViewInfo> = mutableListOf()
-        addSpecialSystemViewInfo(
-            systemViewInfos, if (view.parent is ViewGroup) {
-                view.parent as ViewGroup
-            } else {
-                null
-            }, view, 0
-        )
+        addSelfViewInfo(systemViewInfos, view)
+
         var parentViewGroup: ViewParent? = view.parent
         if (parentViewGroup is ViewGroup) {
-            addSpecialSystemViewInfo(systemViewInfos, parentViewGroup, view, 1)
+            addParentViewInfo(systemViewInfos, parentViewGroup, view)
         }
         while (parentViewGroup != null && parentViewGroup::class.tagName != "android.view.ViewRootImpl") {
             if (parentViewGroup is ViewGroup) {
                 val currentView: ViewGroup = parentViewGroup
                 if (parentViewGroup.parent is ViewGroup) {
                     parentViewGroup = parentViewGroup.parent as ViewGroup
-                    addSpecialSystemViewInfo(systemViewInfos, parentViewGroup, currentView, 1)
+                    addParentViewInfo(systemViewInfos, parentViewGroup, currentView)
                 } else {
                     parentViewGroup = parentViewGroup.parent
                 }

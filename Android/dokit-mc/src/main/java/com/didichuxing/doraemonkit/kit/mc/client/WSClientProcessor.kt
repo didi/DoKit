@@ -329,19 +329,28 @@ object WSClientProcessor {
         when (targetView) {
             is ScrollView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
-                    targetView.smoothScrollTo(accEventInfo.scrollX!!, accEventInfo.scrollY!!)
+                    targetView.smoothScrollTo(
+                        ConvertUtils.dp2px(accEventInfo.scrollX!!.toFloat()),
+                        ConvertUtils.dp2px(accEventInfo.scrollY!!.toFloat())
+                    )
                 }
             }
 
             is NestedScrollView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
-                    targetView.smoothScrollTo(accEventInfo.scrollX!!, accEventInfo.scrollY!!)
+                    targetView.smoothScrollTo(
+                        ConvertUtils.dp2px(accEventInfo.scrollX!!.toFloat()),
+                        ConvertUtils.dp2px(accEventInfo.scrollY!!.toFloat())
+                    )
                 }
             }
 
             is HorizontalScrollView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
-                    targetView.smoothScrollTo(accEventInfo.scrollX!!, accEventInfo.scrollY!!)
+                    targetView.smoothScrollTo(
+                        ConvertUtils.dp2px(accEventInfo.scrollX!!.toFloat()),
+                        ConvertUtils.dp2px(accEventInfo.scrollY!!.toFloat())
+                    )
                 }
             }
 
@@ -351,7 +360,7 @@ object WSClientProcessor {
                         accEventInfo.fromIndex!! == 0 -> {
                             targetView.smoothScrollToPosition(0)
                         }
-                        accEventInfo.toIndex!! + 1 == targetView.adapter?.itemCount -> {
+                        accEventInfo.toIndex!! == targetView.adapter?.itemCount!! - 1 -> {
                             targetView.smoothScrollToPosition(accEventInfo.toIndex)
                         }
                         else -> {
@@ -359,7 +368,26 @@ object WSClientProcessor {
                         }
                     }
 
-                    //targetView.smoothScrollToPosition(accEventInfo.fromIndex!!)
+
+//                    if (targetView.layoutManager is LinearLayoutManager) {
+//                        val layoutManager = targetView.layoutManager as LinearLayoutManager
+//                        if (layoutManager.orientation == RecyclerView.VERTICAL) {
+//                            if (targetView.scrollY <= ConvertUtils.dp2px(10.0f)) {
+//                                targetView.smoothScrollBy(
+//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaX!!.toFloat()),
+//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaY!!.toFloat())
+//                                )
+//                            }
+//
+//                        } else {
+//                            if (targetView.scrollX <= ConvertUtils.dp2px(10.0f)) {
+//                                targetView.smoothScrollBy(
+//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaX!!.toFloat()),
+//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaY!!.toFloat())
+//                                )
+//                            }
+//                        }
+//                    }
                 }
             }
 

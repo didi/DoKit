@@ -6,14 +6,18 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.data.McConfigInfo
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.SPUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -39,10 +43,7 @@ class DoKitMcDatasFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         mRv = findViewById(R.id.rv)
         mEmpty = findViewById(R.id.tv_empty)
-        mRv.layoutManager = LinearLayoutManager(requireActivity())
-        val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
-        decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
-        mRv.addItemDecoration(decoration)
+
         mAdapter = McCaseListAdapter(mutableListOf<McCaseInfo>())
         mAdapter.setOnItemClickListener { adapter, _, pos ->
             val item = adapter.data[pos] as McCaseInfo
@@ -59,11 +60,25 @@ class DoKitMcDatasFragment : BaseFragment() {
                 saveCaseId(item.caseId)
                 ToastUtils.showShort("用例: ${item.caseName} 已被选中")
             }
-
-            adapter.notifyDataSetChanged()
+            if (DoKitManager.WS_MODE == WSMode.HOST) {
+                doKitGlobalScope.launch {
+                    delay(100)
+                    adapter.notifyDataSetChanged()
+                }
+            } else {
+                adapter.notifyDataSetChanged()
+            }
 
         }
-        mRv.adapter = mAdapter
+        mRv.apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(requireActivity())
+            val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
+            decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
+            addItemDecoration(decoration)
+        }
+
+
         lifecycleScope.launch {
             val data = McHttpManager.caseList<McCaseInfo>().data
             data?.let {

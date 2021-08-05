@@ -20,6 +20,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
+import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
 
@@ -230,20 +231,20 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             acc.movementGranularity,
             acc.toIndex,
             acc.action,
-            acc.maxScrollX,
-            acc.maxScrollY,
+            ConvertUtils.px2dp(acc.maxScrollX.toFloat()),
+            ConvertUtils.px2dp(acc.maxScrollY.toFloat()),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                acc.scrollDeltaX
+                ConvertUtils.px2dp(acc.scrollDeltaX.toFloat())
             } else {
                 -1
             },
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                acc.scrollDeltaY
+                ConvertUtils.px2dp(acc.scrollDeltaY.toFloat())
             } else {
                 -1
             },
-            acc.scrollX,
-            acc.scrollY,
+            ConvertUtils.px2dp(acc.scrollX.toFloat()),
+            ConvertUtils.px2dp(acc.scrollY.toFloat()),
             acc.isScrollable,
             acc.contentChangeTypes,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
