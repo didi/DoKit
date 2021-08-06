@@ -227,47 +227,51 @@ object ViewPathUtil {
 
     }
 
-    private fun dealSpecialViewGroup(viewParentInfo: SystemViewInfo, viewGroup: ViewGroup): View {
-        when (viewGroup) {
-            is RecyclerView -> {
-                return viewGroup.layoutManager?.findViewByPosition(viewParentInfo.currentEventPosition)!!
-            }
-
-            is ListView -> {
-                return getViewByPosition(viewParentInfo.currentEventPosition, viewGroup)
-            }
-
-            is ViewPager -> {
-                if (viewGroup.currentItem != viewParentInfo.currentEventPosition) {
-                    viewGroup.currentItem = viewParentInfo.currentEventPosition
-                    Thread.sleep(10)
+    private fun dealSpecialViewGroup(viewParentInfo: SystemViewInfo, viewGroup: ViewGroup): View? {
+        try {
+            when (viewGroup) {
+                is RecyclerView -> {
+                    return viewGroup.layoutManager?.findViewByPosition(viewParentInfo.currentEventPosition)!!
                 }
 
-                val adapter: PagerAdapter? = viewGroup.adapter
-                adapter?.let {
-                    if (it is FragmentPagerAdapter) {
-                        val fragment = it.getItem(viewParentInfo.currentEventPosition)
-                        return fragment.requireView()
-                    } else {
-                        val item = it.instantiateItem(
-                            viewGroup,
-                            viewParentInfo.currentEventPosition
-                        )
-                        if (item is View) {
-                            return item
+                is ListView -> {
+                    return getViewByPosition(viewParentInfo.currentEventPosition, viewGroup)
+                }
+
+                is ViewPager -> {
+                    if (viewGroup.currentItem != viewParentInfo.currentEventPosition) {
+                        viewGroup.currentItem = viewParentInfo.currentEventPosition
+                        Thread.sleep(10)
+                    }
+
+                    val adapter: PagerAdapter? = viewGroup.adapter
+                    adapter?.let {
+                        if (it is FragmentPagerAdapter) {
+                            val fragment = it.getItem(viewParentInfo.currentEventPosition)
+                            return fragment.requireView()
                         } else {
-                            viewGroup.getChildAt(viewParentInfo.childIndexOfViewParent)
+                            val item = it.instantiateItem(
+                                viewGroup,
+                                viewParentInfo.currentEventPosition
+                            )
+                            if (item is View) {
+                                return item
+                            } else {
+                                viewGroup.getChildAt(viewParentInfo.childIndexOfViewParent)
+                            }
                         }
                     }
+                    return viewGroup.getChildAt(viewParentInfo.childIndexOfViewParent)
                 }
-                return viewGroup.getChildAt(viewParentInfo.childIndexOfViewParent)
-            }
 
-            else -> {
-                return viewGroup.getChildAt(viewParentInfo.currentEventPosition)
+                else -> {
+                    return viewGroup.getChildAt(viewParentInfo.currentEventPosition)
+                }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
-
 
     }
 

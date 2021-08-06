@@ -368,26 +368,6 @@ object WSClientProcessor {
                         }
                     }
 
-
-//                    if (targetView.layoutManager is LinearLayoutManager) {
-//                        val layoutManager = targetView.layoutManager as LinearLayoutManager
-//                        if (layoutManager.orientation == RecyclerView.VERTICAL) {
-//                            if (targetView.scrollY <= ConvertUtils.dp2px(10.0f)) {
-//                                targetView.smoothScrollBy(
-//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaX!!.toFloat()),
-//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaY!!.toFloat())
-//                                )
-//                            }
-//
-//                        } else {
-//                            if (targetView.scrollX <= ConvertUtils.dp2px(10.0f)) {
-//                                targetView.smoothScrollBy(
-//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaX!!.toFloat()),
-//                                    ConvertUtils.dp2px(accEventInfo.scrollDeltaY!!.toFloat())
-//                                )
-//                            }
-//                        }
-//                    }
                 }
             }
 
