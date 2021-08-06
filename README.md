@@ -240,10 +240,10 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
 [jayconscious](https://github.com/jayconscious) 、
-[xukaibin](https://github.com/xu984386604)
+[xukaibin](https://github.com/xu984386604) 、
+[jellybean](https://github.com/excitedhaha)
 
 **贡献者榜单**
-、
 [changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、 
