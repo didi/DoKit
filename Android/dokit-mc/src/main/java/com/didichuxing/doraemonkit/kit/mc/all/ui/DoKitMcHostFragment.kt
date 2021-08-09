@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
+import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
@@ -136,6 +137,13 @@ class DoKitMcHostFragment : BaseFragment() {
                 View_onInitializeAccessibilityEventHook()
             )
 
+
+
+//            DexposedBridge.findAndHookMethod(
+//                View.OnClickListener::class.java, "onClick", View::class.java,
+//                View_onClickListenerEventHook()
+//            )
+
             //hook OnTouchListener#onTouch
 //            val onTouchEventMethod = XposedHelpers.findMethodExact(
 //                View::class.java,
@@ -144,7 +152,6 @@ class DoKitMcHostFragment : BaseFragment() {
 //            )
 //
 //            DexposedBridge.hookMethod(onTouchEventMethod, View_onTouchEventHook())
-
 
         } catch (e: Exception) {
             e.printStackTrace()

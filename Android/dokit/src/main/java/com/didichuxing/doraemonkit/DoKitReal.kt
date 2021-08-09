@@ -243,6 +243,14 @@ object DoKitReal {
      * 全局方法hook
      */
     private fun globalRunTimeHook() {
+        try {
+            val mcProcessor = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)
+            mcProcessor?.let {
+                it.proceed(mapOf("action" to "global_hook"))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 

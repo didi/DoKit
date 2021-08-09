@@ -81,11 +81,12 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
             val requestBodyMap = createRequestBodyMap(request)
             val strRequestBody = GsonUtils.toJson(requestBodyMap)
             val strResponseBody = response.peekBody(Long.MAX_VALUE).string()
-            LogHelper.i(TAG, "========业务接口 Start url:$url ========")
-            LogHelper.json(TAG, strResponseBody)
-            LogHelper.i(TAG, "========业务接口 End url:$url ========")
+//            LogHelper.i(TAG, "========业务接口 Start url:$url ========")
+//            LogHelper.json(TAG, strResponseBody)
+//            LogHelper.i(TAG, "========业务接口 End url:$url ========")
             val k =
                 "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
+            LogHelper.i(TAG, "originKey===>$k")
             val key = ByteString.encodeUtf8(k).md5().hex()
             when (DoKitManager.WS_MODE) {
                 WSMode.RECORDING -> {
@@ -94,6 +95,7 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
                         val httInfo = HttpUploadInfo(
                             DoKitManager.PRODUCT_ID,
                             DoKitMcManager.MC_CASE_ID,
+                            k,
                             key,
                             method,
                             path,

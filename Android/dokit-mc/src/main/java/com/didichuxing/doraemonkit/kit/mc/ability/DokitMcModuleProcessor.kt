@@ -3,12 +3,15 @@ package com.didichuxing.doraemonkit.kit.mc.ability
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.core.*
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
+import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.didichuxing.doraemonkit.util.SPUtils
+import de.robv.android.xposed.DexposedBridge
 
 /**
  * ================================================
@@ -47,6 +50,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         DoKitMcManager.MC_CASE_ID =
                             SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)
                         DoKitManager.WS_MODE = WSMode.RECORDING
+                    } else {
                     }
                 }
                 "mc_custom_event" -> {
@@ -56,6 +60,14 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         actions["param"] as Map<String, String>?
                     )
                 }
+                "global_hook" -> {
+                    DexposedBridge.findAndHookMethod(
+                        View::class.java, "setOnClickListener",
+                        View.OnClickListener::class.java, View_onClickListenerEventHook()
+                    )
+
+                }
+
                 else -> {
 
                 }

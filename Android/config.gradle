@@ -11,7 +11,7 @@ ext {
 //            group_id     : 'com.didichuxing.doraemonkit',
             group_id     : 'io.github.didi.dokit',
 //            version      : '3.4.0-SNAPSHOT'
-            version      : '3.4.3'
+            version      : '3.4.3.104'
     ]
 
     android = [compileSdkVersion            : 29,
@@ -24,12 +24,12 @@ ext {
                versionCode                  : 1,
                versionName                  : "1.0.0",
                glide_version                : "4.9.0",
-//               kotlin_version               : "1.3.72",
+               kotlin_version               : "1.3.72",
 //           kotlin_version               : "1.4.20",
-               kotlin_version               : "1.4.32",
-//               kotlinx_coroutines_version   : "1.3.7",
+//               kotlin_version               : "1.4.32",
+               kotlinx_coroutines_version   : "1.3.7",
 //               kotlinx_coroutines_version   : "1.4.2",
-               kotlinx_coroutines_version   : "1.4.3",
+//               kotlinx_coroutines_version   : "1.4.3",
                booster_version              : "3.3.1",
                jcenter_gradle_plugin_version: "3.5.3",
                gradle_plugin_version        : "4.2.2",

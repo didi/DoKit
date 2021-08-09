@@ -27,7 +27,7 @@ object ViewPathUtil {
     private fun addParentViewInfo(
         systemViewInfos: MutableList<SystemViewInfo>,
         parent: ViewGroup?,
-        view: View,
+        view: View
     ) {
         parent?.let {
             when (parent) {
@@ -137,21 +137,18 @@ object ViewPathUtil {
         val systemViewInfos: MutableList<SystemViewInfo> = mutableListOf()
         addSelfViewInfo(systemViewInfos, view)
 
-        var parentViewGroup: ViewParent? = view.parent
-        if (parentViewGroup is ViewGroup) {
-            addParentViewInfo(systemViewInfos, parentViewGroup, view)
-        }
-        while (parentViewGroup != null && parentViewGroup::class.tagName != "android.view.ViewRootImpl") {
-            if (parentViewGroup is ViewGroup) {
-                val currentView: ViewGroup = parentViewGroup
-                if (parentViewGroup.parent is ViewGroup) {
-                    parentViewGroup = parentViewGroup.parent as ViewGroup
-                    addParentViewInfo(systemViewInfos, parentViewGroup, currentView)
-                } else {
-                    parentViewGroup = parentViewGroup.parent
-                }
+        var currentView = view
+        var parentView = currentView.parent
+
+        while (parentView != null && parentView::class.tagName != "android.view.ViewRootImpl") {
+            if (parentView is ViewGroup) {
+                addParentViewInfo(systemViewInfos, parentView, currentView)
+                currentView = parentView
+                parentView = currentView.parent
             }
         }
+
+
         return systemViewInfos
     }
 

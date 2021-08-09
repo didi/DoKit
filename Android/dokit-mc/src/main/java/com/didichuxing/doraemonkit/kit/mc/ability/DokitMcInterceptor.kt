@@ -86,6 +86,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
 //            LogHelper.i(TAG, "========业务接口 End url:$url ========")
             val k =
                 "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
+            LogHelper.i(TAG, "originKey===>$k")
             val key = ByteString.encodeUtf8(k).md5().hex()
             when (DoKitManager.WS_MODE) {
                 WSMode.RECORDING -> {
@@ -95,6 +96,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                         val httInfo = HttpUploadInfo(
                             DoKitManager.PRODUCT_ID,
                             DoKitMcManager.MC_CASE_ID,
+                            k,
                             key,
                             method,
                             path,
