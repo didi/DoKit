@@ -11,6 +11,9 @@
 #import "DoraemonMCEventCapturer.h"
 #import "DoraemonMCXPathSerializer.h"
 #import "DoraemonMCGustureSerializer.h"
+#import "UIGestureRecognizer+DoraemonMCSerializer.h"
+#import "UIResponder+DoraemonMCSerializer.h"
+#import "DoraemonMCXPathSerializer.h"
 
 #define DoraemonMCEventHandler_call_super_handle_event if (![super handleEvent:eventInfo]) {\
         return NO;\
@@ -50,7 +53,7 @@
     UIView *targetView = self.targetView;
     
     NSDictionary *data = self.messageInfo.eventInfo;
-    NSInteger gesIndex = [data[@"gesIndex"] intValue];
+    NSInteger gesIndex = [data[kUIGestureRecognizerDoraemonMCSerializerWrapperKey][kUIGestureRecognizerDoraemonMCSerializerIndexKey] intValue];
     
     if (targetView.gestureRecognizers.count <= gesIndex) {
         NSLog(@"gestureRecognizer has not found %@",eventInfo);
@@ -124,28 +127,8 @@
     DoraemonMCEventHandler_call_super_handle_event
 
     UIView *rootView = self.targetView;
-    NSDictionary *data = self.messageInfo.eventInfo;
-
-    if ([rootView isKindOfClass:[UIControl class]]) {
-        UIControl *ctl = (UIControl *)rootView;
-        UIControlState ctlState = [data[@"ctlState"] integerValue];
-        
-        if (ctlState & UIControlStateHighlighted) {
-            [ctl setHighlighted:YES];
-        }else {
-            [ctl setHighlighted:NO];
-        }
-        if (ctlState & UIControlStateSelected) {
-            [ctl setSelected:YES];
-        }else {
-            [ctl setHighlighted:NO];
-        }
-        if (ctlState & UIControlStateDisabled) {
-            [ctl setEnabled:NO];
-        }else {
-            [ctl setHighlighted:YES];
-        }
-    }
+    NSDictionary *data = self.messageInfo.eventInfo;    
+    [rootView do_mc_serialize_syncInfoWithDictionary:data];
     
     if ([rootView isKindOfClass:[UITextField class]]) {
         UITextField *tfView =  (UITextField *)rootView ;
@@ -165,5 +148,41 @@
     return YES;
 }
 
+@end
+
+@implementation DoraemonMCTabbarEventHandler
+
+- (BOOL)handleEvent:(DoraemonMCMessage *)eventInfo {
+    DoraemonMCEventHandler_call_super_handle_event
+
+    UIView *rootView = self.targetView;
+    
+    UITabBarController *tabbarC = [DoraemonMCXPathSerializer ownerVCWithView:rootView];
+    if ([tabbarC isKindOfClass:[UITabBarController class]]) {
+        NSDictionary *data = self.messageInfo.eventInfo;
+        NSInteger selectIndex = [data[@"selectIndex"] integerValue];
+        BOOL notMatch = NO;
+        if (tabbarC.viewControllers.count <= selectIndex ||
+            ![data[@"selectVC"] isEqualToString:NSStringFromClass([tabbarC.viewControllers[selectIndex] class])]) {
+            notMatch = YES;
+        }
+        if (notMatch) {
+            __block UIViewController *matchVC = nil;
+            [tabbarC.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([NSStringFromClass(obj.class) isEqualToString:data[@"selectVC"]]) {
+                    matchVC = obj;
+                }
+            }];
+            if (matchVC) {
+                [tabbarC setSelectedViewController:matchVC];
+            }
+        }else {
+            [tabbarC setSelectedIndex:selectIndex];
+        }
+        return YES;
+    }
+    
+    return NO;
+}
 
 @end

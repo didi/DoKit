@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonMCXPathSerializer.h"
+#import <WebKit/WebKit.h>
 
 static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 @interface DoraemonMCXPathSerializer ()
@@ -53,6 +54,13 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
     return self;
 }
 
+- (NSArray<Class> *)ignoreContainerClasses {
+    return @[
+        [UIWebView class],
+        [WKWebView class]
+    ];
+}
+
 - (void)parseView:(UIView *)view {
     UIWindow *currentWindow = nil;
     if ([view isKindOfClass:[UIWindow class]] && view.window == nil) {
@@ -72,11 +80,20 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         [UIApplication sharedApplication].keyWindow == currentWindow) {
         self.windowIndex = kDoraemonMCXPathUseKeyWindowIndex;
     }
+    self.windowClsName = NSStringFromClass(currentWindow.class);
+    self.windowRootVCClsName = currentWindow.rootViewController ? NSStringFromClass(currentWindow.rootViewController.class) : @"null";
     NSMutableArray<DoraemonMCXPathNode *> *currentPathNodeList = [NSMutableArray array];
     
     UIView *currentV = view;
     BOOL isOnCell = NO;
+
     while (currentV && currentV != currentWindow) {
+        
+        if ([[self ignoreContainerClasses] containsObject:currentV.class]) {
+            self.ignore = YES;
+            break;
+        }
+        
         NSDictionary *reuseViewMap = @{
             NSStringFromClass(UICollectionViewCell.class) : UICollectionView.class,
             NSStringFromClass(UITableViewCell.class) : UITableView.class,
@@ -101,7 +118,7 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
             self.pathNodeList = currentPathNodeList.copy;
             [currentPathNodeList removeAllObjects];
             
-            break;
+            continue;
         }
         
         DoraemonMCXPathNode *node = [[DoraemonMCXPathNode alloc] init];
@@ -111,6 +128,13 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         
         currentV = currentV.superview;
     }
+    
+    if (self.ignore) {
+        return;
+    }
+    
+    self.isOneCell = isOnCell;
+    
     if (isOnCell) {
         self.listContainerPathNodeList = currentPathNodeList.copy;
     }else {
@@ -125,18 +149,21 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         return;
     }
     NSArray *components = [xPath componentsSeparatedByString:@"-"];
+    if (components.count > 0) {
+        NSString *windowInfo = components.firstObject;
+        NSArray *windowInfoArr = [windowInfo componentsSeparatedByString:@"/"];
+        self.windowIndex = [windowInfoArr[0] integerValue];
+        self.windowClsName = windowInfoArr[1];
+        self.windowRootVCClsName = windowInfoArr[2];
+    }
     switch (components.count) {
         case 2:
         {
-            self.windowIndex = [components.firstObject integerValue];
             NSArray *nodes = [components.lastObject componentsSeparatedByString:@"/"];
             NSMutableArray *arrM = [NSMutableArray array];
             [nodes enumerateObjectsUsingBlock:^(NSString *_Nonnull nodeString, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSArray *nodeComponents =[nodeString componentsSeparatedByString:@"&"];
-                if (nodeComponents.count == 2) {
-                    DoraemonMCXPathNode *node = [[DoraemonMCXPathNode alloc] init];
-                    node.index = [nodeComponents.firstObject integerValue];
-                    node.className = nodeComponents.lastObject;
+                DoraemonMCXPathNode *node = [DoraemonMCXPathNode nodeWithString:nodeString];
+                if (node) {
                     [arrM addObject:node];
                 }
             }];
@@ -145,15 +172,11 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
             break;
         case 4:
         {
-            self.windowIndex = [components.firstObject integerValue];
             NSArray *nodes = [components[1] componentsSeparatedByString:@"/"];
             NSMutableArray *arrM = [NSMutableArray array];
             [nodes enumerateObjectsUsingBlock:^(NSString *_Nonnull nodeString, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSArray *nodeComponents =[nodeString componentsSeparatedByString:@"&"];
-                if (nodeComponents.count == 2) {
-                    DoraemonMCXPathNode *node = [[DoraemonMCXPathNode alloc] init];
-                    node.index = [nodeComponents.firstObject integerValue];
-                    node.className = nodeComponents.lastObject;
+                DoraemonMCXPathNode *node = [DoraemonMCXPathNode nodeWithString:nodeString];
+                if (node) {
                     [arrM addObject:node];
                 }
             }];
@@ -168,11 +191,8 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
             nodes = [components.lastObject componentsSeparatedByString:@"/"];
             arrM = [NSMutableArray array];
             [nodes enumerateObjectsUsingBlock:^(NSString *_Nonnull nodeString, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSArray *nodeComponents =[nodeString componentsSeparatedByString:@"&"];
-                if (nodeComponents.count == 2) {
-                    DoraemonMCXPathNode *node = [[DoraemonMCXPathNode alloc] init];
-                    node.index = [nodeComponents.firstObject integerValue];
-                    node.className = nodeComponents.lastObject;
+                DoraemonMCXPathNode *node = [DoraemonMCXPathNode nodeWithString:nodeString];
+                if (node) {
                     [arrM addObject:node];
                 }
             }];
@@ -186,9 +206,16 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 
 }
 
+- (NSString *)pathStringWitgNode:(DoraemonMCXPathNode *)node isLastNode:(BOOL)isLastNode{
+    return [NSString stringWithFormat:@"%zd&%@%@",
+            node.index,
+            node.className ,
+            isLastNode?@"":@"/"];
+}
+
 /**
  字符串拼装格式
- 1-1&UIView/2&UIView/3UIImage/1&UITabeView-5/3-3&UIView/2&UIButton/4&UILabel
+ 1-1&UIView&2&3&0/2&UIView&2&3&0/3UIImage&2&3&0/1&UITabeView&2&3&0-5/3-3&UIView&2&3&0/2&UIButton&2&3&0/4&UILabel&2&3&0
  windowIndex-控件或list容器的索引路径与class名称路径-控件所在cell的索引section/row_控件在cell上的索引路径与class名称路径
  */
 - (NSString *)generalPathToTransfer {
@@ -200,32 +227,86 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
     __block NSString *pathString = @"";
     
     [self.pathNodeList enumerateObjectsUsingBlock:^(DoraemonMCXPathNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
-        pathString = [pathString stringByAppendingFormat:@"%zd&%@%@",node.index,node.className , (self.listContainerPathNodeList.count == (idx+1))?@"":@"/"];
+        pathString = [pathString stringByAppendingString:[self pathStringWitgNode:node
+                                                                       isLastNode:(self.pathNodeList.count == (idx+1))]];
     }];
     
     if (self.isOneCell) {
         __block NSString *listContainerPath = @"";
         
         [self.listContainerPathNodeList enumerateObjectsUsingBlock:^(DoraemonMCXPathNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
-            listContainerPath = [listContainerPath stringByAppendingFormat:@"%zd&%@%@",node.index,node.className , (self.listContainerPathNodeList.count == (idx+1))?@"":@"/"];
+            listContainerPath = [listContainerPath stringByAppendingString:[self pathStringWitgNode:node
+                                                                           isLastNode:(self.listContainerPathNodeList.count == (idx+1))]];
+
         }];
-        resultPathString = [NSString stringWithFormat:@"%zd-%@-%zd/%zd-%@",
+        resultPathString = [NSString stringWithFormat:@"%zd/%@/%@-%@-%zd/%zd-%@",
                             self.windowIndex,
+                            self.windowClsName,
+                            self.windowRootVCClsName,
                             listContainerPath,
                             self.cellIndexPath.section,
                             self.cellIndexPath.row,
                             pathString];
     }else {
-        resultPathString = [NSString stringWithFormat:@"%zd-%@",self.windowIndex,pathString];
+        resultPathString = [NSString stringWithFormat:@"%zd/%@/%@-%@",self.windowIndex,self.windowClsName,self.windowRootVCClsName,pathString];
     }
     
     return resultPathString;
+}
+
+- (BOOL)isWindowMatch:(UIWindow *)window {
+    if (!window) {
+        return NO;
+    }
+    
+    if (![NSStringFromClass(window.class) isEqualToString:self.windowClsName]) {
+        return NO;
+    }
+    
+    if (window.rootViewController == nil) {
+        return [self.windowClsName isEqualToString:@"null"];
+    }
+    
+    return [NSStringFromClass(window.rootViewController.class) isEqualToString:self.windowRootVCClsName];
+    
+}
+
+- (BOOL)isMatchWithView:(UIView *)view node:(DoraemonMCXPathNode *)node {
+    if (![NSStringFromClass(view.class) isEqualToString:node.className]) {
+        return NO;
+    }
+    return YES;
 }
 
 - (UIView *)fetchView {
     UIWindow *rootWidow = nil;
     if ([UIApplication sharedApplication].windows.count > self.windowIndex) {
         rootWidow = [[UIApplication sharedApplication].windows objectAtIndex:self.windowIndex];
+        if (![self isWindowMatch:rootWidow]) {
+            rootWidow = nil;
+            NSInteger i = 1 ;
+            while (true) {
+                if ((self.windowIndex - i) >= 0) {
+                    UIWindow *tempWindow = [UIApplication sharedApplication].windows[self.windowIndex - i];
+                    if ([self isWindowMatch:tempWindow]) {
+                        rootWidow = tempWindow ;
+                        break;
+                    }
+                }
+                
+                if ((self.windowIndex + i) < [UIApplication sharedApplication].windows.count) {
+                    UIWindow *tempWindow = [UIApplication sharedApplication].windows[self.windowIndex + i];
+                    if ([self isWindowMatch:tempWindow]) {
+                        rootWidow = tempWindow ;
+                        break;
+                    }
+                }
+                i ++ ;
+                if ((self.windowIndex - i) < 0 && [UIApplication sharedApplication].windows.count <= (i + self.windowIndex)) {
+                    break;
+                }
+            }
+        }
     }
     if (kDoraemonMCXPathUseKeyWindowIndex == self.windowIndex) {
         rootWidow = [UIApplication sharedApplication].keyWindow;
@@ -239,13 +320,27 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         __block BOOL notMatch = NO;
         __block UIView *currentV = rootWidow;
         [self.listContainerPathNodeList enumerateObjectsUsingBlock:^(DoraemonMCXPathNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (currentV != nil && currentV.subviews.count > node.index) {
-                UIView *tempV = currentV.subviews[node.index];
-                if ([NSStringFromClass(tempV.class) isEqualToString:node.className]) {
+            if (currentV != nil ) {
+                UIView *tempV = nil;
+                if (currentV.subviews.count > node.index) {
+                    tempV = currentV.subviews[node.index];
+                }
+                if (tempV && [self isMatchWithView:tempV node:node]) {
                     currentV = tempV;
                 }else {
-                    notMatch = YES;
-                    *stop = YES;
+                    __block UIView *resultV = nil;
+                    [currentV.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        if ([self isMatchWithView:obj node:node]) {
+                            resultV = obj;
+                            *stop = YES;
+                        }
+                    }];
+                    if (resultV) {
+                        currentV = resultV;
+                    }else {
+                        notMatch = YES;
+                        *stop = YES;
+                    }
                 }
             }else {
                 notMatch = YES;
@@ -273,13 +368,27 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         
 
         [self.pathNodeList enumerateObjectsUsingBlock:^(DoraemonMCXPathNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (currentVOnCell != nil && currentVOnCell.subviews.count > node.index) {
-                UIView *tempV = currentVOnCell.subviews[node.index];
-                if ([NSStringFromClass(tempV.class) isEqualToString:node.className]) {
+            if (currentVOnCell != nil) {
+                UIView *tempV = nil;
+                if (currentVOnCell.subviews.count > node.index) {
+                    tempV = currentVOnCell.subviews[node.index];
+                }
+                if (tempV && [self isMatchWithView:tempV node:node]) {
                     currentVOnCell = tempV;
                 }else {
-                    notMatchOnCell = YES;
-                    *stop = YES;
+                    __block UIView *resultV = nil;
+                    [currentVOnCell.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        if ([self isMatchWithView:obj node:node]) {
+                            resultV = obj;
+                            *stop = YES;
+                        }
+                    }];
+                    if (resultV) {
+                        currentVOnCell = resultV;
+                    }else {
+                        notMatchOnCell = YES;
+                        *stop = YES;
+                    }
                 }
             }else {
                 notMatchOnCell = YES;
@@ -295,15 +404,25 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
         __block BOOL notMatch = NO;
         __block UIView *currentV = rootWidow;
         [self.pathNodeList enumerateObjectsUsingBlock:^(DoraemonMCXPathNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
+             __block UIView *tempV =  nil ;
             if (currentV != nil && currentV.subviews.count > node.index) {
-                UIView *tempV = currentV.subviews[node.index];
-                if ([NSStringFromClass(tempV.class) isEqualToString:node.className]) {
+                tempV = currentV.subviews[node.index];
+                if ([self isMatchWithView:tempV node:node]) {
                     currentV = tempV;
                 }else {
-                    notMatch = YES;
-                    *stop = YES;
+                    tempV = nil;
                 }
-            }else {
+            }
+            if (!tempV) {
+                [currentV.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([self isMatchWithView:obj node:node]) {
+                        tempV = obj;
+                        currentV = tempV;
+                    }
+                }];
+            }
+            
+            if (tempV == nil) {
                 notMatch = YES;
                 *stop = YES;
             }
@@ -316,6 +435,7 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 }
 
 + (UIViewController *)ownerVCWithView:(UIView *)view {
+    
     UIResponder *currentResponder = view.nextResponder;
     while (![currentResponder isKindOfClass:[UIViewController class]] && currentResponder) {
         currentResponder = currentResponder.nextResponder;
@@ -326,5 +446,16 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 @end
 
 @implementation DoraemonMCXPathNode
+
++ (instancetype)nodeWithString:(NSString *)string {
+    NSArray *nodeComponents =[string componentsSeparatedByString:@"&"];
+    if (nodeComponents.count == 2) {
+        DoraemonMCXPathNode *node = [[self alloc] init];
+        node.index = [nodeComponents[0] integerValue];
+        node.className = nodeComponents[1];
+        return node;
+    }
+    return nil;
+}
 
 @end

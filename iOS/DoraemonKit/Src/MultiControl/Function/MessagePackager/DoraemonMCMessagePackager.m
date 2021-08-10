@@ -8,14 +8,13 @@
 #import "DoraemonMCMessagePackager.h"
 #import "DoraemonMCXPathSerializer.h"
 #import "DoraemonMCGustureSerializer.h"
+#import "UIResponder+DoraemonMCSerializer.h"
 
 static NSString const *kIsFirstResponderKey = @"isFirstResponder";
 static NSString const *kVcClsNameKey = @"vcClsName";
 static NSString const *kEventInfoKey = @"eventInfo";
 static NSString const *kXpathKey = @"xPath";
 static NSString const *kTypeKey = @"type";
-
-
 
 @implementation DoraemonMCMessagePackager
 
@@ -29,7 +28,21 @@ static NSString const *kTypeKey = @"type";
                          messageType:(DoraemonMCMessageType)type {
     DoraemonMCMessage *messageInstance = [[DoraemonMCMessage alloc] init];
     messageInstance.type = type;
-    messageInstance.xPath = [DoraemonMCXPathSerializer xPathStringWithView:view];
+    DoraemonMCXPathSerializer *xPathInstance = [DoraemonMCXPathSerializer xPathInstanceWithView:view];
+    if (xPathInstance.ignore) {
+        return nil;
+    }
+    // tabbar上的控件 使用hook系统tabbar点击的方式同步， 只处理DoraemonMCMessageTypeTarbarSelected的情况
+    if ([xPathInstance.vcCls isKindOfClass:[UITabBarController class]] && type != DoraemonMCMessageTypeTarbarSelected) {
+        return nil;
+    }
+    messageInstance.xPath = [xPathInstance generalPathToTransfer];
+    messageInstance.isFirstResponder = view.isFirstResponder;
+    UIViewController *vc = [DoraemonMCXPathSerializer ownerVCWithView:view];
+    if (vc) {
+        messageInstance.currentVCClassName = NSStringFromClass(vc.class) ;
+    }
+    
     switch (type) {
         case DoraemonMCMessageTypeControl:
         {
@@ -57,24 +70,31 @@ static NSString const *kTypeKey = @"type";
             if ([view respondsToSelector:@selector(text)]) {
                 text = [view valueForKey:@"text"];
             }
-            NSMutableDictionary *dictM = [NSMutableDictionary dictionaryWithDictionary:@{
-                @"section": @(indexPath.section),
-                @"row": @(indexPath.row) ,
-            }];
+            NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
             if (text) {
                 dictM[@"text"] = text;
             }
+            [dictM addEntriesFromDictionary:[view do_mc_serialize_dictionary]];
             messageInstance.eventInfo =  dictM.copy;
+            break;
+        }
+        case DoraemonMCMessageTypeTarbarSelected:
+        {
+            if ([vc isKindOfClass:[UITabBarController class]]) {
+                UITabBarController *tabbarC = (UITabBarController *)vc;
+                messageInstance.eventInfo = @{
+                    @"selectIndex" : @(indexPath.row),
+                    @"selectVC" : NSStringFromClass(tabbarC.selectedViewController.class)
+                };
+            }else {
+                messageInstance = nil;
+            }
             break;
         }
         default:
             break;
     }
-    messageInstance.isFirstResponder = view.isFirstResponder;
-    UIViewController *vc = [DoraemonMCXPathSerializer ownerVCWithView:view];
-    if (vc) {
-        messageInstance.currentVCClassName = NSStringFromClass(vc.class) ;
-    }
+
     return messageInstance;
 }
 

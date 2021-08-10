@@ -12,7 +12,7 @@
 
 @interface DoraemonMCCommandGenerator : NSObject
 
-+ (DoraemonMCMessage *)sendMessageWithView:(UIView *)view
++ (void )sendMessageWithView:(UIView *)view
                                     gusture:(UIGestureRecognizer *)gusture
                                      action:(SEL)action
                                   indexPath:(NSIndexPath *)indexPath

@@ -7,10 +7,12 @@
 
 #import "DoraemonMCEventCapturer.h"
 #import "DoraemonMCServer.h"
-#import <objc/runtime.h>
 #import "DoraemonMCXPathSerializer.h"
 #import "DoraemonMCCommandGenerator.h"
 #import "DoraemonMCReuseViewDelegateProxy.h"
+#import "NSObject+DoraemonMCSupport.h"
+#import "UIGestureRecognizer+DoraemonMCSerializer.h"
+#import <objc/runtime.h>
 
 @implementation UIApplication (DoraemonMCSupport)
 
@@ -44,110 +46,6 @@
 
 @end
 
-
-
-
-
-@implementation UIPanGestureRecognizer (DoraemonMCSupport)
-
-
-+ (void)load {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(translationInView:) swizzledSel:@selector(do_mc_translationInView:)];
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(velocityInView:) swizzledSel:@selector(do_mc_velocityInView:)];
-    });
-}
-
-
-- (void)setDo_mc_vol_at_host:(CGPoint)do_mc_vol_at_host
-{
-    objc_setAssociatedObject(self, @selector(do_mc_vol_at_host), [NSValue valueWithCGPoint:do_mc_vol_at_host], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (CGPoint)do_mc_vol_at_host {
-    return [self do_mc_point_value_forkey:_cmd];
-}
-
-
-- (void)setDo_mc_translation_at_host:(CGPoint)do_mc_translation_at_host {
-    objc_setAssociatedObject(self, @selector(do_mc_translation_at_host), [NSValue valueWithCGPoint:do_mc_translation_at_host], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (CGPoint)do_mc_translation_at_host {
-    return [self do_mc_point_value_forkey:_cmd];
-}
-
-- (CGPoint)do_mc_translationInView:(UIView *)view {
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
-        return [self do_mc_translationInView:view];
-    }
-    return self.do_mc_location_at_host;
-}
-
-- (CGPoint)do_mc_velocityInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_vol_at_host)) {
-        return [self do_mc_translationInView:view];
-    }
-    return self.do_mc_vol_at_host;
-}
-
-
-@end
-
-
-@implementation DoraemonMCGestureTargetActionPair
-
-- (instancetype)initWithTarget:(id)target action:(SEL)action sender:(id)sender {
-    if (self = [super init]) {
-        self.target = target;
-        self.action = action;
-        self.sender = sender;
-    }
-    return self;
-}
-
-- (BOOL)isEqualToTarget:(id)target andAction:(SEL)action {
-    return (self.target == target) && [NSStringFromSelector(self.action) isEqualToString:NSStringFromSelector(action)];
-}
-
-- (BOOL)valid {
-    return [self.target respondsToSelector:self.action];
-}
-
-- (void)doAction {
-    if ([NSStringFromSelector(self.action) containsString:@":"]) {
-        [self.target performSelector:self.action withObject:self.sender];
-    }else {
-        [self.target performSelector:self.action];
-    }
-}
-
-@end
-
-
-@implementation UILongPressGestureRecognizer (DoraemonMCSupport)
-
-
-+ (void)load {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(locationInView:) swizzledSel:@selector(do_mc_locationInView:)];
-    });
-}
-
-- (CGPoint)do_mc_locationInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
-        return [self do_mc_locationInView:view];
-    }
-    return self.do_mc_location_at_host;
-}
-
-
-@end
-
 @implementation UIGestureRecognizer (DoraemonMCSupport)
 
 + (void)load {
@@ -156,7 +54,6 @@
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(initWithTarget:action:) swizzledSel:@selector(do_mc_initWithTarget:action:)];
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(removeTarget:action:) swizzledSel:@selector(do_mc_removeTarget:action:)];
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(addTarget:action:) swizzledSel:@selector(do_mc_addTarget:action:)];
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(locationInView:) swizzledSel:@selector(do_mc_locationInView:)];
     });
 }
 
@@ -182,12 +79,6 @@
     [self do_mc_addTarget:target action:action];
 }
 
-- (CGPoint)do_mc_locationInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
-        return [self do_mc_locationInView:view];
-    }
-    return self.do_mc_location_at_host;
-}
 
 - (void)do_mc_handleGestureSend:(id)sender {
     [DoraemonMCCommandGenerator sendMessageWithView:self.view
@@ -238,18 +129,6 @@
     }
     return arrM;
 }
-
-
-- (void)setDo_mc_location_at_host:(CGPoint)do_mc_location_at_host {
-    objc_setAssociatedObject(self, @selector(do_mc_location_at_host), [NSValue valueWithCGPoint:do_mc_location_at_host], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (CGPoint)do_mc_location_at_host {
-    return [self do_mc_point_value_forkey:_cmd];
-}
-
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key {}
-- (id)valueForUndefinedKey:(NSString *)key {return nil;}
 
 @end
 
@@ -302,10 +181,7 @@
 
 @end
 
-
 @implementation UITextView (support)
-
-
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -321,15 +197,13 @@
     return instance;
 }
 
-
-
 - (void)do_mc_sendTextViewPayload:(NSDictionary*(^)(NSDictionary*))payload {
-  if (![DoraemonMCServer isOpen]) {
+    if (![DoraemonMCServer isOpen]) {
         return;
     }
     if (![self isKindOfClass:[UITextView class]]) {
         return;
-
+        
     }
     [DoraemonMCCommandGenerator sendMessageWithView:self
                                             gusture:nil
@@ -338,14 +212,7 @@
                                         messageType:DoraemonMCMessageTypeTextInput];
 }
 
-
-
-
 @end
-
-
-
-
 
 
 @interface UITableView (DoraemonMCSupport)
@@ -392,71 +259,33 @@
 
 @end
 
-
-@implementation NSObject (DoraemonMCSupport)
-
-+ (void)do_mc_swizzleClassMethodWithOriginSel:(SEL)oriSel swizzledSel:(SEL)swiSel {
-    Class cls = object_getClass(self);
-    
-    Method originAddObserverMethod = class_getClassMethod(cls, oriSel);
-    Method swizzledAddObserverMethod = class_getClassMethod(cls, swiSel);
-    
-    [self do_mc_swizzleMethodWithOriginSel:oriSel oriMethod:originAddObserverMethod swizzledSel:swiSel swizzledMethod:swizzledAddObserverMethod class:cls];
-}
-
-+ (void)do_mc_swizzleInstanceMethodWithOriginSel:(SEL)oriSel swizzledSel:(SEL)swiSel {
-    Method originAddObserverMethod = class_getInstanceMethod(self, oriSel);
-    Method swizzledAddObserverMethod = class_getInstanceMethod(self, swiSel);
-    
-    [self do_mc_swizzleMethodWithOriginSel:oriSel oriMethod:originAddObserverMethod swizzledSel:swiSel swizzledMethod:swizzledAddObserverMethod class:self];
-}
-
-+ (void)do_mc_swizzleInstanceMethodWithOriginSel:(SEL)oriSel swizzledSel:(SEL)swiSel cls:(Class)cls {
-    Method originAddObserverMethod = class_getInstanceMethod(self, oriSel);
-    Method swizzledAddObserverMethod = class_getInstanceMethod(cls, swiSel);
-    
-    
-    BOOL didAddMethod = class_addMethod(cls, oriSel, method_getImplementation(swizzledAddObserverMethod), method_getTypeEncoding(swizzledAddObserverMethod));
-    
-    if (didAddMethod) {
-        class_replaceMethod(cls, swiSel, method_getImplementation(originAddObserverMethod), method_getTypeEncoding(originAddObserverMethod));
-    } else {
-        method_exchangeImplementations(originAddObserverMethod, swizzledAddObserverMethod);
-    }
-}
-
-+ (void)do_mc_swizzleMethodWithOriginSel:(SEL)oriSel
-                         oriMethod:(Method)oriMethod
-                       swizzledSel:(SEL)swizzledSel
-                    swizzledMethod:(Method)swizzledMethod
-                             class:(Class)cls {
-    BOOL didAddMethod = class_addMethod(cls, oriSel, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-    
-    if (didAddMethod) {
-        class_replaceMethod(cls, swizzledSel, method_getImplementation(oriMethod), method_getTypeEncoding(oriMethod));
-    } else {
-        method_exchangeImplementations(oriMethod, swizzledMethod);
-    }
-}
-
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key{}
-
-- (CGPoint)do_mc_point_value_forkey:(const void * _Nonnull)key {
-   NSValue *value = objc_getAssociatedObject(self, key);
-    if (![value isKindOfClass:[NSValue class]]) {
-        return CGPointZero;
-    }
-    return [value CGPointValue];
-}
-
-- (CGRect)do_mc_rect_value_forkey:(const void * _Nonnull)key {
-   NSValue *value = objc_getAssociatedObject(self, key);
-    if (![value isKindOfClass:[NSValue class]]) {
-        return CGRectZero;
-    }
-    return [value CGRectValue];;
-}
+@interface UITabBarController (DoraemonMCSupport)
 
 @end
 
+@implementation UITabBarController (DoraemonMCSupport)
 
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(setSelectedViewController:) swizzledSel:@selector(do_mc_setSelectedViewController:)];
+    });
+}
+
+
+- (void)do_mc_setSelectedViewController:(__kindof UIViewController *)selectedViewController {
+    [self do_mc_setSelectedViewController:selectedViewController];
+    if (![DoraemonMCServer isOpen]) {
+        return;
+    }
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.viewControllers indexOfObject:selectedViewController] inSection:0];
+    [DoraemonMCCommandGenerator sendMessageWithView:self.view
+                                            gusture:nil
+                                             action:nil
+                                          indexPath:indexPath
+                                        messageType:DoraemonMCMessageTypeTarbarSelected];
+}
+
+
+@end
