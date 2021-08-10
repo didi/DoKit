@@ -8,12 +8,11 @@
 #import <UIKit/UIKit.h>
 
 
-
 @interface DoraemonMCReuseViewDelegateProxy : NSProxy <UICollectionViewDelegate , UITableViewDelegate>
 
 @property (nonatomic , weak) id target;
 
-+ (instancetype)proxyWithTarget:(id<UICollectionViewDelegate>)target;
++ (instancetype)proxyWithTarget:(id)target;
 
 @end
 

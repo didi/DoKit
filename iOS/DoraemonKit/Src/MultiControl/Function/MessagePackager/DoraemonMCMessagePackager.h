@@ -19,6 +19,8 @@ typedef NS_ENUM(NSInteger , DoraemonMCMessageType) {
     DoraemonMCMessageTypeDidSelectCell,
     /// 基于文本输入
     DoraemonMCMessageTypeTextInput,
+    /// 底部tabbar选中
+    DoraemonMCMessageTypeTarbarSelected
 };
 
 @interface DoraemonMCMessage : NSObject

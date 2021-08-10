@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 控件的类名
 @property (nonatomic , copy) NSString *className;
 
++ (instancetype)nodeWithString:(NSString *)string;
+ 
 @end
 
 @interface DoraemonMCXPathSerializer : NSObject
@@ -34,6 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 控件所在window在当前所有window数组的索引
 @property (nonatomic , assign) NSInteger windowIndex;
+
+/// 控件所在window的类名
+@property (nonatomic , copy  ) NSString *windowClsName;
+
+/// 控件所在window的根控制器类名
+@property (nonatomic , copy  ) NSString *windowRootVCClsName;
+
+/// 默认false
+@property (nonatomic , assign) BOOL ignore;
 
 /// 控件所在控制器类名
 @property (nonatomic , weak  ) UIViewController *vcCls;

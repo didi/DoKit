@@ -24,7 +24,8 @@
             @(DoraemonMCMessageTypeControl): [DoraemonMCControlEventHandler new],
             @(DoraemonMCMessageTypeDidSelectCell) : [DoraemonMCReuseCellEventHandler new],
             @(DoraemonMCMessageTypeGuesture) : [DoraemonMCGestureRecognizerEventHandler new],
-            @(DoraemonMCMessageTypeTextInput) : [DoraemonMCTextFiledEventHandler new]
+            @(DoraemonMCMessageTypeTextInput) : [DoraemonMCTextFiledEventHandler new],
+            @(DoraemonMCMessageTypeTarbarSelected) : [DoraemonMCTabbarEventHandler new]
         };
     });
 

@@ -11,11 +11,11 @@
 
 @implementation DoraemonMCReuseViewDelegateProxy
 
-+ (instancetype)proxyWithTarget:(id<UICollectionViewDelegate>)target {
++ (instancetype)proxyWithTarget:(id)target {
     return [[self alloc] initWithTarget:target];
 }
 
-- (instancetype)initWithTarget:(id<UICollectionViewDelegate>)target {
+- (instancetype)initWithTarget:(id)target {
     _target = target ;
     return self;
 }
