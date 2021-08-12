@@ -1,6 +1,6 @@
 //
 //  DoraemonMockDataViewController.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by didi on 2019/11/5.
 //

@@ -1,6 +1,6 @@
 //
 //  DoraemonOscillogramView.h
-//  CocoaLumberjack
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/1/3.
 //

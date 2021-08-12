@@ -1,6 +1,6 @@
 //
 //  DoraemonSubThreadUICheckManager.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/9/13.
 //
