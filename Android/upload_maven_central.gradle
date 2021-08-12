@@ -1,0 +1,171 @@
+import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
+import org.json.JSONObject
+// mavenCentral 打包脚本
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+//def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+def DOKIT_VERSION = rootProject.ext.publish_config["version"]
+def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
+
+//生成源码注释
+task packageSourcesJar(type: Jar) {
+    classifier 'sources'
+    if (project.ARTIFACT_ID == "dokitx-plugin") {
+        from project.kotlin.sourceSets.main.kotlin.source
+    } else {
+        from project.android.sourceSets.main.java.source
+    }
+
+}
+if (project.ARTIFACT_ID == "dokitx-plugin") {
+    task packageJavadoc(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+}
+
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    println "Found secret props file, loading props"
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+    println "Found secret props file, loading props"
+} else {
+    throw NullPointerException("no local.properties exists")
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def USERNAME = properties.getProperty('MAVEN_CENTRAL_USERNAME', "")
+def PASSWORD = properties.getProperty('MAVEN_CENTRAL_PASSWORD', "")
+
+//读取module和ARTIFACT_ID的映射文件
+def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
+//println("jsonObject==>${MODULE_JSONOBJECT.getString("doraemonkit")}")
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // The coordinates of the library, being set from variables that
+                // we'll set up in a moment
+                groupId DOKIT_GROUP_ID
+                artifactId project.ARTIFACT_ID
+                version DOKIT_VERSION
+                artifact packageSourcesJar
+                // Two artifacts, the `aar` and the sources
+                if (project.ARTIFACT_ID == "dokitx-plugin") {
+                    artifact packageJavadoc
+                    artifact("$buildDir/libs/${project.getName()}.jar")
+                } else {
+                    artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                }
+
+
+                // Self-explanatory metadata for the most part
+                pom {
+                    name = project.ARTIFACT_ID
+                    description = 'DoKit is an efficiency platform for the entire life cycle of general front-end product research and development.'
+                    // If your project has a dedicated site, use its URL here
+                    url = 'https://github.com/didi/DoraemonKit'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'OrangeLab'
+                            name = 'Orange Lab'
+                            email = 'orange-lab@didiglobal.com'
+                        }
+                    }
+                    // Version control info, if you're using GitHub, follow the format as seen here
+                    scm {
+                        connection = 'scm:git:git://github.com/didi/DoraemonKit.git'
+                        developerConnection = 'scm:git:ssh://github.com/didi/DoraemonKit.git'
+                        url = 'https://github.com/didi/DoraemonKit/tree/master'
+                    }
+                    // A slightly hacky fix so that your POM will include any transitive dependencies
+                    // that your library builds upon
+                    withXml {
+                        def dependenciesNode = asNode().appendNode('dependencies')
+                        project.configurations.implementation.allDependencies.each { dependency ->
+                            if (!dependency.name.isEmpty() && dependency.name != "unspecified") {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                if (dependency instanceof DefaultProjectDependency) {
+                                    //统一project 前缀
+                                    if (dependency.name.startsWith("dokit")) {
+                                        dependencyNode.appendNode('groupId', DOKIT_GROUP_ID)
+                                        dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.getString(dependency.name))
+                                        dependencyNode.appendNode('version', DOKIT_VERSION)
+                                    }
+                                } else {
+                                    dependencyNode.appendNode('groupId', dependency.group)
+                                    dependencyNode.appendNode('artifactId', dependency.name)
+                                    dependencyNode.appendNode('version', dependency.version)
+                                }
+                            }
+
+
+//                            println("${project.name} dependency is ===>${dependency}")
+//                            println("${project.name} dependency is ===>${dependency.group}:${dependency.name}:${dependency.version}")
+//                            if(!it.name.isEmpty() && it.name != "unspecified"){
+//                                def dependencyNode = dependenciesNode.appendNode('dependency')
+//                                if(it.name.startsWith("dokit-")){
+//
+//                                }
+//
+//                                dependencyNode.appendNode('groupId', it.group)
+//                                dependencyNode.appendNode('artifactId', it.name)
+//                                dependencyNode.appendNode('version', it.version)
+//                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            // The repository to publish to, Sonatype/MavenCentral
+            maven {
+                // This is an arbitrary name, you may also use "mavencentral" or
+                // any other name that's descriptive for you
+                name = "mavenCentral"
+
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                // You only need this if you want to publish snapshots, otherwise just set the URL
+                // to the release repo directly
+                url = DOKIT_VERSION.endsWith('-SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+                // 用于打印url，方便查看aar是否存在
+                def searchUrl = "https://search.maven.org/artifact/"
+                System.out.println("aar url：" + searchUrl + DOKIT_GROUP_ID + "/" + project.ARTIFACT_ID + "/" + DOKIT_VERSION + "/aar")
+
+                // The username and password we've fetched earlier
+                credentials {
+                    username USERNAME
+                    password PASSWORD
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}

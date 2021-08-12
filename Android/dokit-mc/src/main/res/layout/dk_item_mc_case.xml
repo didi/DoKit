@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical"
+    android:padding="@dimen/dk_dp_10">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dk_color_CC3A4B"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="用例名" />
+
+
+    <TextView
+        android:id="@+id/tv_caseid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="@dimen/dk_dp_10"
+        android:textColor="@color/dk_color_CC3A4B"
+        android:textStyle="bold"
+        tools:text="caseId:" />
+
+    <TextView
+        android:id="@+id/tv_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_caseid"
+        android:layout_marginTop="@dimen/dk_dp_10"
+        android:textColor="@color/dk_color_666666"
+        tools:text="采集人:" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_person"
+        android:layout_marginTop="@dimen/dk_dp_10"
+        android:textColor="@color/dk_color_666666"
+        tools:text="采集时间:" />
+
+    <RadioButton
+        android:id="@+id/rb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="false" />
+
+</RelativeLayout>

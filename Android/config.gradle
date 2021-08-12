@@ -1,0 +1,151 @@
+ext {
+    publish_config = [
+            //0:发布到到本地localRepoURL仓库
+            //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
+            //2:发布到jcenter远程仓库
+            //3:发布到maven_central远程仓库
+            archives_type: 0,
+            //0:依赖dokit本地module运行
+            //1:依赖dokit远程aar运行
+            run_type     : 0,
+//            group_id     : 'com.didichuxing.doraemonkit',
+            group_id     : 'io.github.didi.dokit',
+//            version      : '3.4.0-SNAPSHOT'
+            version      : '3.4.3'
+    ]
+
+    android = [compileSdkVersion            : 29,
+               suppotrSdkVersion            : "28.0.0",
+               applicationId                : "com.didichuxing.doraemondemo",
+               minSdkVersion_16             : 16,
+               minSdkVersion_21             : 21,
+               targetSdkVersion             : 29,
+               //app版本号
+               versionCode                  : 1,
+               versionName                  : "1.0.0",
+               glide_version                : "4.9.0",
+//               kotlin_version               : "1.3.72",
+//           kotlin_version               : "1.4.20",
+               kotlin_version               : "1.4.32",
+//               kotlinx_coroutines_version   : "1.3.7",
+//               kotlinx_coroutines_version   : "1.4.2",
+               kotlinx_coroutines_version   : "1.4.3",
+               booster_version              : "3.3.1",
+               jcenter_gradle_plugin_version: "3.5.3",
+               gradle_plugin_version        : "4.2.2",
+               ktor                         : "1.5.4",
+               okhttp_v2                    : "2.7.5",
+               okhttp_v3                    : "3.14.7",
+               okhttp_v4                    : "4.7.0"
+    ]
+
+    dependencies = [// ###### android library  start ######
+                    "multidex"                      : 'androidx.multidex:multidex:2.0.0',
+                    "appcompat"                     : 'androidx.appcompat:appcompat:1.1.0',
+                    "cardview"                      : 'androidx.cardview:cardview:1.0.0',
+                    "recyclerview"                  : 'androidx.recyclerview:recyclerview:1.1.0',
+                    "material"                      : 'com.google.android.material:material:1.1.0',
+                    "annotation"                    : "androidx.annotation:annotation:1.1.0",
+                    "kotlin"                        : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version"]}",
+                    "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version"]}",
+                    "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version"]}",
+                    "core-ktx"                      : "androidx.core:core-ktx:1.3.0",
+                    "activity-ktx"                  : "androidx.activity:activity-ktx:1.2.3",
+                    "webkit"                        : "androidx.webkit:webkit:1.3.0",
+                    "volley"                        : "com.android.volley:volley:1.1.1",
+                    "fragment"                      : "androidx.fragment:fragment:1.3.5",
+                    "fragment-ktx"                  : "androidx.fragment:fragment-ktx:1.3.5",
+                    "drawerlayout"                  : "androidx.drawerlayout:drawerlayout:1.1.1",
+                    //constraintLayout
+                    "constraintLayout"              : 'androidx.constraintlayout:constraintlayout:1.1.3',
+
+                    //lifecycle
+                    "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1",
+                    "lifecycle-comm"                : "androidx.lifecycle:lifecycle-common-java8:2.3.1",
+                    //test
+                    "junit"                         : "junit:junit:4.12",
+                    //第三方
+                    "guava"                         : "com.google.guava:guava:27.1-android",
+                    //表格
+                    //"SmartTable"                    : 'com.github.huangyanbin:SmartTable:2.2.0',
+                    "retrofit2"                     : "com.squareup.retrofit2:retrofit:2.8.1",
+                    "retrofit2_rxjava2"             : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
+                    "retrofit2_gson"                : "com.squareup.retrofit2:converter-gson:2.8.1",
+                    //暂时不支持3.14.0以上的okhttp版本
+                    "okhttp_v2"                     : "com.squareup.okhttp:okhttp:${android["okhttp_v2"]}",
+                    "okhttp_v3"                     : "com.squareup.okhttp3:okhttp:${android["okhttp_v3"]}",
+                    "okhttp_v4"                     : "com.squareup.okhttp3:okhttp:${android["okhttp_v4"]}",
+                    //okSocket wiki:https://www.jianshu.com/p/8ee3ee766265
+                    "oksocket"                      : "com.tonystark.android:socket:4.2.2",
+                    "oksocket-server"               : "com.tonystark.android:socket-server:4.2.2",
+                    //ktor
+                    "ktor_server_core"              : "io.ktor:ktor-server-core:${android["ktor"]}",
+                    "ktor_server_cio"               : "io.ktor:ktor-server-cio:${android["ktor"]}",
+                    "ktor_server_netty"             : "io.ktor:ktor-server-netty:${android["ktor"]}",
+                    "ktor_server_websockets"        : "io.ktor:ktor-websockets:${android["ktor"]}",
+                    "ktor_client_websockets"        : "io.ktor:ktor-client-websockets:${android["ktor"]}",
+                    "ktor_client_cio"               : "io.ktor:ktor-client-cio:${android["ktor"]}",
+                    "ktor_client_apache"            : "io.ktor:ktor-client-apache:${android["ktor"]}",
+                    "ktor_client_android"           : "io.ktor:ktor-client-android:${android["ktor"]}",
+                    "ktor_client_okhttp"            : "io.ktor:ktor-client-okhttp:${android["ktor"]}",
+                    "ktor_jackson"                  : "io.ktor:ktor-jackson:${android["ktor"]}",
+                    //将urlconnection代理到okhttp
+                    //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
+                    "okio"                          : "com.squareup.okio:okio:1.17.2",
+                    "epic"                          : 'me.weishu:epic:0.11.1',
+                    "utilcode"                      : 'com.blankj:utilcodex:1.29.0',
+                    "glide"                         : "com.github.bumptech.glide:glide:${android["glide_version"]}",
+                    "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
+                    "glide_okhttp3"                 : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
+                    "glide_compiler"                : "com.github.bumptech.glide:compiler:${android["glide_version"]}",
+                    "picasso"                       : 'com.squareup.picasso:picasso:2.71828',
+                    "fresco"                        : 'com.facebook.fresco:fresco:1.13.0',
+                    "fresco-processors"             : "jp.wasabeef:fresco-processors:2.1.0",
+                    "image-loader"                  : 'com.nostra13.universalimageloader:universal-image-loader:1.9.5',
+                    "rootbeer-lib"                  : 'com.scottyab:rootbeer-lib:0.0.8',
+                    "gson"                          : 'com.google.code.gson:gson:2.8.2',
+                    "zxing"                         : 'com.google.zxing:core:3.3.0',
+                    "free_reflection"               : 'me.weishu:free_reflection:2.1.0',
+                    "leakcanary_android"            : 'com.squareup.leakcanary:leakcanary-android:2.7',
+                    "haha"                          : 'com.squareup.haha:haha:2.0.4',
+                    "debug-db"                      : "com.amitshekhar.android:debug-db:1.0.6",
+                    "debug-db-encrypt"              : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
+                    //https://github.com/Tencent/wcdb
+                    "wcdb"                          : "com.tencent.wcdb:wcdb-android:1.0.8",
+                    "weex_inspector"                : "com.taobao.android:weex_inspector:0.24.2.11",
+                    "weex_sdk"                      : "org.apache.weex:sdk:0.28.0",
+                    "brvah"                         : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4',
+                    "easy_refresh_layout"           : 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
+                    "android_spinkit"               : 'com.github.ybq:Android-SpinKit:1.4.0',
+                    "jsonviewer"                    : "com.yuyh.json:jsonviewer:1.0.6",
+                    "room_runtime"                  : 'androidx.room:room-runtime:2.0.0',
+                    "room_compile"                  : 'androidx.room:room-compiler:2.0.0',
+                    "um_analytics"                  : 'com.umeng.umsdk:analytics:8.0.0',
+                    "um_common"                     : 'com.umeng.umsdk:common:2.0.0',
+                    "didi_http"                     : 'com.didichuxing.foundation:http:2.1.0.86',
+                    "didi_rpc"                      : 'com.didichuxing.foundation:rpc:2.1.0.86',
+                    "okgo"                          : "com.lzy.net:okgo:3.0.4",
+                    //高德地图定位
+                    "amap_location"                 : 'com.amap.api:location:latest.integration',
+                    //高德地图
+                    "amap_map2d"                    : 'com.amap.api:map2d:latest.integration',
+                    "amap_map3d"                    : 'com.amap.api:map3d:latest.integration',
+                    "amap_search"                   : 'com.amap.api:search:latest.integration',
+                    "amap_navi"                     : 'com.amap.api:navi-3dmap:latest.integration',
+                    //腾讯地图定位
+                    "tencent_location"              : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
+                    "tencent_map"                   : 'com.tencent.map:tencent-map-vector-sdk:4.4.0',
+                    "tencent_map_util"              : 'com.tencent.map:sdk-utilities:1.0.6',
+                    "easypermissions"               : "pub.devrel:easypermissions:2.0.1",
+                    //跨进程通信框架
+                    "abridge"                       : "com.sjtu.yifei:abridge:1.0.1",
+                    "jsoup"                         : "org.jsoup:jsoup:1.13.1",
+                    "mimecraft"                     : "com.squareup.mimecraft:mimecraft:1.1.1",
+                    //tencent x5 浏览器 https://x5.tencent.com/
+                    "tbs"                           : "com.tencent.tbs.tbssdk:sdk:43903",
+//                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
+                    "flexbox"                       : 'com.google.android:flexbox:1.0.0',
+                    "auto_service"                  : 'com.google.auto.service:auto-service:1.0'
+
+    ]
+}
