@@ -92,16 +92,6 @@
     if ([DoraemonMCServer isOpen]) {
         [self do_mc_handleGestureSend:sender];
     }
-
-}
-
-- (void)do_mc_manual_doAction {
-    [self.do_mc_targetActionPairs enumerateObjectsUsingBlock:^(DoraemonMCGestureTargetActionPair * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.valid) {
-            [obj doAction];
-        }
-    }];
-    self.do_mc_location_at_host = CGPointZero;
 }
 
 - (void)do_mc_removeTarget:(id)target action:(SEL)action {

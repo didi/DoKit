@@ -66,7 +66,6 @@ static NSString const *kUIPanGestureRecognizerVelocityYKey = @"y";
     NSDictionary *translateMap = map[kUIPanGestureRecognizerTranslateKey];
     CGPoint translation = CGPointMake([translateMap[kUIPanGestureRecognizerTranslateXKey] doubleValue] * screenWidth ,
                                       [translateMap[kUIPanGestureRecognizerTranslateYKey] doubleValue] * screenHeight);
-    NSLog(@"%f",[translateMap[kUIPanGestureRecognizerTranslateYKey] doubleValue]);
 
     NSDictionary *velocityMap = map[kUIPanGestureRecognizerVelocityKey];
     CGPoint velocity = CGPointMake([velocityMap[kUIPanGestureRecognizerVelocityXKey] doubleValue] * screenWidth,

@@ -89,7 +89,14 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 
     while (currentV && currentV != currentWindow) {
         
-        if ([[self ignoreContainerClasses] containsObject:currentV.class]) {
+        __block BOOL shouldIgnore = NO;
+        [[self ignoreContainerClasses] enumerateObjectsUsingBlock:^(Class  _Nonnull cls, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([currentV isKindOfClass:cls]) {
+                shouldIgnore = YES;
+                *stop = YES;
+            }
+        }];
+        if (shouldIgnore) {
             self.ignore = YES;
             break;
         }
@@ -272,9 +279,6 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 }
 
 - (BOOL)isMatchWithView:(UIView *)view node:(DoraemonMCXPathNode *)node {
-    if (![NSStringFromClass(view.class) isEqualToString:node.className]) {
-        return NO;
-    }
     return YES;
 }
 
