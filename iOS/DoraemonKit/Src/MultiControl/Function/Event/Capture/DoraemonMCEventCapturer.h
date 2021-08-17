@@ -12,7 +12,6 @@
 
 @property (nonatomic , strong , readonly) NSMutableArray<DoraemonMCGestureTargetActionPair *> *do_mc_targetActionPairs;
 
-- (void)do_mc_manual_doAction ;
 
 - (void)do_mc_handleGestureSend:(id)sender;
 

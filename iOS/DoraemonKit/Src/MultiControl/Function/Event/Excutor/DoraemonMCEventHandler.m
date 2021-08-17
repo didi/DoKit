@@ -24,9 +24,12 @@
 - (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
     self.messageInfo = eventInfo;
     self.targetView = [self fetchTargetView];
+    NSString *vcClsnameSufix =  [eventInfo.currentVCClassName componentsSeparatedByString:@"."].lastObject;
+    NSString *currentViewVCClsnameSufix = [NSStringFromClass([DoraemonMCXPathSerializer ownerVCWithView:self.targetView].class) componentsSeparatedByString:@"."].lastObject;
+    
     // 页面类名校验
     if (eventInfo.currentVCClassName.length > 0 &&
-        ![[DoraemonMCXPathSerializer ownerVCWithView:self.targetView] isKindOfClass:NSClassFromString(eventInfo.currentVCClassName)]) {
+        ![vcClsnameSufix isEqualToString:currentViewVCClsnameSufix]) {
         return NO;
     }
 
@@ -64,7 +67,6 @@
     
     [DoraemonMCGustureSerializer syncInfoToGusture:ges withDict:data];
 
-    [ges do_mc_manual_doAction];
     return YES;
 }
 
