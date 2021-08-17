@@ -107,12 +107,19 @@
     
     if ([rootView isKindOfClass:[UITableView class]]) {
         UITableView *tableView =  (UITableView *)rootView ;
-        [tableView.delegate tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[data[@"row"] intValue]
-                                                                                           inSection:[data[@"section"] intValue]]];
+        NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                          inSection:[data[@"section"] intValue]];
+        if ([tableView cellForRowAtIndexPath:targetIndexPath] != nil) {
+            [tableView.delegate tableView:tableView didSelectRowAtIndexPath:targetIndexPath];
+        }
     }else if ([rootView isKindOfClass:[UICollectionView class]]) {
         UICollectionView *collectionView =  (UICollectionView *)rootView ;
-        [collectionView.delegate collectionView:collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:[data[@"row"] intValue]
-                                                                                                           inSection:[data[@"section"] intValue]]];
+
+        NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                          inSection:[data[@"section"] intValue]];
+        if ([collectionView cellForItemAtIndexPath:targetIndexPath] != nil) {
+            [collectionView.delegate collectionView:collectionView didSelectItemAtIndexPath:targetIndexPath];
+        }
     }
     
     return YES;
@@ -157,7 +164,7 @@
 
     UIView *rootView = self.targetView;
     
-    UITabBarController *tabbarC = [DoraemonMCXPathSerializer ownerVCWithView:rootView];
+    UITabBarController *tabbarC = (UITabBarController *)[DoraemonMCXPathSerializer ownerVCWithView:rootView];
     if ([tabbarC isKindOfClass:[UITabBarController class]]) {
         NSDictionary *data = self.messageInfo.eventInfo;
         NSInteger selectIndex = [data[@"selectIndex"] integerValue];
