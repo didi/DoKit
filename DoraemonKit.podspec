@@ -89,5 +89,17 @@ Pod::Spec.new do |s|
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'FBRetainCycleDetector'
   end
+
+    #一机多控
+    s.subspec 'WithMultiControl' do |ss|
+      ss.source_files = 'iOS/DoraemonKit/Src/MultiControl/**/*{.h,.m}'
+      ss.pod_target_xcconfig = {
+        'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMultiControl'
+      }
+      ss.dependency 'DoraemonKit/Core'
+      ss.dependency 'CocoaLumberjack'
+      ss.dependency 'CocoaHTTPServer'
+    end
+
 end
 

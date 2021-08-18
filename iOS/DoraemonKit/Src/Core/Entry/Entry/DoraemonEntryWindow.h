@@ -17,4 +17,6 @@
 // 定制位置
 - (instancetype)initWithStartPoint:(CGPoint)startingPosition;
 - (void)show;
+
+- (void)configEntryBtnBlingWithText:(NSString *)text backColor:(UIColor *)backColor;
 @end
