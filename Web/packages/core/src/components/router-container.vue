@@ -28,9 +28,6 @@ export default {
     canBack(){
       return this.$route.name !== 'home'
     }
-  },
-  created(){
-    console.log(this.$router)
   }
 }
 </script>

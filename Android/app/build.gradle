@@ -1,0 +1,216 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: 'doraemonkit.gradle'
+//apply plugin: 'com.didiglobal.booster'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        ndk {
+            abiFilters "armeabi", "arm64-v8a"
+        }
+        multiDexEnabled true
+    }
+    signingConfigs {
+        release {
+            storeFile file("keystore/test.keystore")
+            storePassword "test123456"
+            keyAlias "test"
+            keyPassword "test123456"
+        }
+    }
+    buildTypes {
+        debug {
+            resValue("string", "dokit_db_Person.db", "a_password")
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+//            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    flavorDimensions "default"
+//    productFlavors {
+//        product0 {
+//            applicationId "com.didichuxing.doraemondemo0"
+////            resValue "string", "app_name", "DoKitDemo0"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product0"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//        product1 {
+//            applicationId "com.didichuxing.doraemondemo1"
+////            resValue "string", "app_name", "DoKitDemo1"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product1"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //指定资源和代码目录
+    sourceSets {
+        debug {
+            manifest.srcFile 'src/debug/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
+        }
+
+        release {
+            manifest.srcFile 'src/release/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
+        }
+    }
+
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        viewBinding = true
+    }
+
+
+
+    packagingOptions {
+        //dokit ktor pickFirst
+//        pickFirst 'META-INF/io.netty.versions.properties'
+//        pickFirst 'META-INF/INDEX.LIST'
+    }
+
+
+}
+
+
+//dokit 扩展
+
+//dokitExt {
+//    //通用设置
+//    comm {
+//        //地图经纬度开关
+//        gpsSwitch true
+//        //网络开关
+//        networkSwitch true
+//        //大图开关
+//        bigImgSwitch true
+//        //webView js 抓包
+//        webViewSwitch true
+//    }
+//
+//    slowMethod {
+//        //调用栈模式配置
+//        stackMethod {
+//            //默认值为 5ms 小于该值的函数在调用栈中不显示
+//            thresholdTime 5
+//            //调用栈函数入口
+//            enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
+//            //黑名单 粒度最小到类 暂不支持到方法
+//            methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
+//        }
+//        //普通模式配置
+//        normalMethod {
+//            //默认值为 500ms 小于该值的函数在运行时不会在控制台中被打印
+//            thresholdTime 100
+//            //需要针对函数插装的包名
+//            packageNames = ["com.didichuxing.doraemondemo"]
+//            //不需要针对函数插装的包名和类名
+//            methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+//        }
+//    }
+//}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation rootProject.ext.dependencies["junit"]
+    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["flexbox"]
+    implementation rootProject.ext.dependencies["lifecycle-viewmodel-savedstate"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["coroutines-core"]
+    implementation rootProject.ext.dependencies["coroutines-android"]
+    implementation rootProject.ext.dependencies["material"]
+    implementation rootProject.ext.dependencies["kotlin"]
+    implementation rootProject.ext.dependencies["fragment"]
+    implementation rootProject.ext.dependencies["fragment-ktx"]
+    implementation rootProject.ext.dependencies["retrofit2"]
+    implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
+    implementation rootProject.ext.dependencies["retrofit2_gson"]
+    implementation rootProject.ext.dependencies["okhttp_v3"]
+    implementation rootProject.ext.dependencies["okgo"]
+    implementation rootProject.ext.dependencies["glide"]
+//    implementation rootProject.ext.dependencies["glide_okhttp3"]
+    kapt rootProject.ext.dependencies["glide_compiler"]
+    implementation rootProject.ext.dependencies["picasso"]
+    implementation rootProject.ext.dependencies["fresco"]
+    implementation rootProject.ext.dependencies["fresco-processors"]
+    implementation rootProject.ext.dependencies["image-loader"]
+    implementation rootProject.ext.dependencies["room_runtime"]
+    implementation rootProject.ext.dependencies["wcdb"]
+    implementation rootProject.ext.dependencies["jsoup"]
+    //weex相关
+    implementation rootProject.ext.dependencies["weex_inspector"]
+    implementation rootProject.ext.dependencies["weex_sdk"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["brvah"]
+
+    implementation rootProject.ext.dependencies["easypermissions"]
+    releaseImplementation rootProject.ext.dependencies["okgo"]
+    //高德地图定位
+    implementation rootProject.ext.dependencies["amap_location"]
+    //高德地图
+//    implementation rootProject.ext.dependencies["amap_map3d"]
+    //高德搜索
+    implementation rootProject.ext.dependencies["amap_search"]
+    implementation rootProject.ext.dependencies["amap_navi"]
+    //腾讯地图定位
+//    implementation rootProject.ext.dependencies["tencent_location"]
+//    implementation rootProject.ext.dependencies["tencent_map"]
+//    implementation rootProject.ext.dependencies["tencent_map_util"]
+//    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
+    //百度地图定位
+//    implementation files('libs/BaiduLBS_Android.jar')
+    //腾讯x5
+    implementation rootProject.ext.dependencies["tbs"]
+    debugImplementation rootProject.ext.dependencies["leakcanary_android"]
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+}
+
+
+//configurations.all {
+//    //循环每个依赖库
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        //获取当前循环到的依赖库
+//        def requested = details.requested
+//        //如果这个依赖库群组的名字是com.android.support
+//        if (requested.group == 'com.squareup.okhttp3') {
+//            //且其名字不是以multidex开头的
+//            if (requested.name == "okhttp") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                //details.useVersion '3.14.7'
+//                details.useVersion rootProject.ext.android["okhttp_v4"]
+//            }
+//        }
+//    }
+//}

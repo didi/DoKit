@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slidebar_root"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <!--background-->
+    <View
+        android:id="@+id/slidebar_root_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_unlock_bar_normal_v5" />
+
+    <!--float background-->
+    <FrameLayout
+        android:id="@+id/slidebar_float_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_unlock_bar_btn_normal_v5">
+
+        <ImageView
+            android:id="@+id/slidebar_float_view"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:src="@mipmap/btn_icon_unlock_arrow" />
+    </FrameLayout>
+
+    <!--label-->
+    <TextView
+        android:id="@+id/slidebar_text_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+</merge>

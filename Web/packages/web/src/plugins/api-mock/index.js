@@ -1,6 +1,7 @@
 import ApiMock from './main.vue'
 import {getGlobalData, RouterPlugin} from '@dokit/web-core'
-import { request, getPartUrlByParam } from "@dokit/web-utils";
+import { getPartUrlByParam } from "@dokit/web-utils";
+import { request } from './../../assets/util'
 
 const mockBaseUrl = "https://pre.dokit.cn";
 

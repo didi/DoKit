@@ -1,0 +1,14 @@
+{
+  "name": "DoKit For Android",
+  "version": "1.0.0",
+  "description": "DoKit Script",
+  "scripts": {
+    "debug": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
+    "check": "./gradlew checkUploadConfig",
+    "clean": "./gradlew clean",
+    "upload": "npm run check &&  npm run clean && npm run copy && npm run ./upload.sh"
+
+  },
+  "author": "jint <704167880@qq.com>",
+  "license": "MIT"
+}

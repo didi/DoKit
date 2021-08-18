@@ -46,10 +46,7 @@ export default {
   methods: {
     toggleShowContainer() {
       toggleContainer()
-    },
-  },
-  created(){
-    console.log("CurState: ",this.$store.state)
+    }
   }
 };
 </script>

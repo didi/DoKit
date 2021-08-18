@@ -20,6 +20,20 @@ export const getPartUrlByParam = (url, param) => {
   return res[fields.indexOf(param)]
 }
 
+export const getQueryMap = (queryStr) => {
+  if (!queryStr) {
+    return null
+  }
+  let queryMap = {}
+  let queryList = queryStr.split('&')
+  queryList.forEach(query => {
+    if (query) {
+      queryMap[query.split('=')[0]] = query.split('=')[1]
+    }
+  });
+  return queryMap
+}
+
 export const guid = function () {
   function S4() { 
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1)

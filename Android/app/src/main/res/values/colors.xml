@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_00A39E">#00A39E</color>
+    <color name="color_414657">#414657</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorCircleMarkerFill">#750090FF</color>
+    <color name="colorCircleMarkerStroke">#684C00FF</color>
+</resources>

@@ -1,0 +1,63 @@
+apply plugin: 'com.android.library'
+apply from: '../upload.gradle'
+
+/**
+ * 必须配置git path 否则会报Error:(29, 0) CreateProcess error=2, The system cannot find the file specified 错误
+ * 假如你不想配置git path 可以将下文的GIT_SHA值写死成具体的字符串
+ * @return
+ */
+def gitSha() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        buildConfigField "String", "LEAKCANARY_LIBRARY_VERSION", "\"1.6.3\""
+        buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        //viewBinding = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["kotlin"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation 'androidx.test.ext:junit:1.1.2'
+    //leakCanary
+    implementation rootProject.ext.dependencies["haha"]
+    compileOnly project(':dokit')
+    //跨进程通信框架
+    compileOnly project(":dokit-util")
+
+}

@@ -10,7 +10,7 @@ export default new RouterPlugin({
 
     onLoad() {
         //console.log(window.performance.now())
-        console.log('resources')
+        // console.log('resources')
     },
     onUnload() {
 

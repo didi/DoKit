@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mock_location_root_container"
+    android:layout_width="220dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/env_info3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="env_info3" />
+
+    <ScrollView
+        android:id="@+id/cl_mock_gps_scrollview"
+        android:layout_width="220dp"
+        android:layout_height="100dp"
+        android:maxHeight="100dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/env_info3">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/cl_mock_gps_flexbox_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:justifyContent="space_evenly">
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

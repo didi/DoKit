@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mock_location_root_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/dk_color_FFFFFF">
+
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="1dp"
+        android:minHeight="1dp"
+        android:text="重置"
+        android:textAllCaps="false"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toStartOf="@id/textView3"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="位置微调"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/btn_reset"
+        app:layout_constraintEnd_toStartOf="@id/env_switch3"
+        app:layout_constraintStart_toEndOf="@id/btn_reset"
+        app:layout_constraintTop_toTopOf="@id/btn_reset" />
+
+
+    <Switch
+        android:id="@+id/env_switch3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@id/btn_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView3"
+        app:layout_constraintTop_toTopOf="@id/btn_reset" />
+
+
+    <SeekBar
+        android:id="@+id/dk_sb_seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="500"
+        android:min="10"
+        android:progress="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_reset" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_mock_speed"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dk_sb_seekBar">
+
+        <Button
+            android:id="@+id/dk_btn_downMockSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="1dp"
+            android:minHeight="1dp"
+            android:text="-"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_mock_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="步进速度控制:10"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/dk_btn_upMockSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="1dp"
+            android:minHeight="1dp"
+            android:text="+"
+            android:textSize="10dp" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_mock_gps_north"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="1dp"
+        android:minHeight="1dp"
+        android:text="上"
+        android:textAllCaps="false"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_mock_gps_south"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_mock_speed" />
+
+    <Button
+        android:id="@+id/btn_mock_gps_south"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="1dp"
+        android:minHeight="1dp"
+        android:text="下️"
+        android:textAllCaps="false"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toStartOf="@id/btn_mock_gps_west"
+        app:layout_constraintStart_toEndOf="@id/btn_mock_gps_north"
+        app:layout_constraintTop_toTopOf="@id/btn_mock_gps_north" />
+
+    <Button
+        android:id="@+id/btn_mock_gps_west"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="1dp"
+        android:minHeight="1dp"
+        android:text="左️️"
+        android:textAllCaps="false"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toStartOf="@id/btn_mock_gps_east"
+        app:layout_constraintStart_toEndOf="@id/btn_mock_gps_south"
+        app:layout_constraintTop_toTopOf="@id/btn_mock_gps_north" />
+
+    <Button
+        android:id="@+id/btn_mock_gps_east"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="1dp"
+        android:minHeight="1dp"
+        android:text="右️️️"
+        android:textAllCaps="false"
+        android:textSize="9sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_mock_gps_west"
+        app:layout_constraintTop_toTopOf="@id/btn_mock_gps_north" />
+
+    <TextView
+        android:id="@+id/env_info3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="3"
+        android:textColor="@android:color/black"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_mock_gps_north"
+        tools:text="env_info3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

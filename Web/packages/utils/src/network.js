@@ -14,7 +14,7 @@ const getAllResponseHeadersMap = function (xhr) {
   });
 }
 
-class Request extends EventEmitter{
+export class Request extends EventEmitter{
   constructor(){
     super()
     this.hookFetchConfig = {}
@@ -23,7 +23,13 @@ class Request extends EventEmitter{
   }
   initialize(){
     let Req = this
-    let {send:originSend, open:originOpen, setRequestHeader: originSetRequestHeader} = window.XMLHttpRequest.prototype;
+    // const {send:originSend, open:originOpen, setRequestHeader: originSetRequestHeader} = window.XMLHttpRequest.prototype;
+
+    const winXhrProto = window.XMLHttpRequest.prototype;
+
+    const originSend = winXhrProto.send;
+    const originOpen = winXhrProto.open;
+    const originSetRequestHeader = winXhrProto.setRequestHeader;
     // XMLHttp
     window.XMLHttpRequest.prototype.setRequestHeader = function(){
 
@@ -36,24 +42,38 @@ class Request extends EventEmitter{
         id: guid(),
         type: 'xhr',
         requestInfo: {
-          method: args[0],
+          method: args[0].toUpperCase(),
           url: args[1]
         }
       }
 
-      xhr.addEventListener('readystatechange', function () {
+      xhr.addEventListener('readystatechange', function (e) {
         switch (xhr.readyState) {
           case 2:
             // this.headersReceived();
+          break;
           case 4:
             Req.handleDone(xhr);
+          break;
         }
+      });
+
+      xhr.addEventListener('error', function (e) {
+        Req.emit('REQUEST.ERROR', {
+          id: this.reqConf.id,
+          responseInfo: {
+            type: 'error'
+          }
+        })
       });
   
       originOpen.apply(this, args);
     };
 
     window.XMLHttpRequest.prototype.send = function(){
+      if (arguments.length) {
+        this.reqConf.requestInfo.body = arguments[0]
+      }
       Req.emit('REQUEST.SEND', this.reqConf)
       originSend.apply(this, arguments);
     }
@@ -69,8 +89,9 @@ class Request extends EventEmitter{
         type: 'fetch',
         requestInfo: {
           url: args[0],
-          method: args.length > 1 ? (args[1].method || 'get') : 'get',
+          method: (args.length > 1 ? (args[1].method || 'get') : 'get').toUpperCase(),
           headers: args.length > 1 ? (args[1].headers || {}) : {},
+          body: args.length > 1 ? (args[1].body || '') : ''
         }
       })
       const fetchResult = origFetch(...args);
@@ -128,12 +149,13 @@ class Request extends EventEmitter{
   handleDone(xhr) {
     const resType = xhr.responseType;
     let resTxt = '';
-
     const update = () => {
       this.emit('REQUEST.DONE', {
         id: xhr.reqConf.id,
         responseInfo: {
-          resRaw: resTxt
+          resRaw: resTxt,
+          contentType: xhr.getResponseHeader('Content-Type'),
+          status: xhr.status,
         }
       })
     };
@@ -158,6 +180,3 @@ class Request extends EventEmitter{
   }
 
 }
-
-// 单例，保证有且只有一个
-export default new Request()

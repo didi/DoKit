@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mock_location_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxWidth="220dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_mock_route_container"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_mock_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="route:"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_mock_route"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_mock_route">
+
+            <Button
+                android:id="@+id/btn_route_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1dp"
+                android:minHeight="1dp"
+                android:text="-"
+                android:textSize="10dp" />
+
+            <SeekBar
+                android:id="@+id/dk_sb_mock_route_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="20"
+                android:min="0"
+                android:progress="0" />
+
+            <Button
+                android:id="@+id/btn_route_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1dp"
+                android:minHeight="1dp"
+                android:text="+"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_mock_route_control"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_mock_route">
+
+            <Button
+                android:id="@+id/btn_route_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1dp"
+                android:minHeight="1dp"
+                android:text="pause"
+                android:textSize="10dp" />
+
+
+            <Button
+                android:id="@+id/btn_route_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="1dp"
+                android:minHeight="1dp"
+                android:text="resume"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 import Network from './main.vue'
 import {getGlobalData, RouterPlugin} from '@dokit/web-core'
-import { request } from "@dokit/web-utils";
+import { request } from "./../../assets/util";
 
 
 export default new RouterPlugin({
@@ -18,6 +18,11 @@ export default new RouterPlugin({
     request.on('REQUEST.DONE', info => {
       let index = state.requestList.findIndex(e => e.id === info.id)
       state.requestList[index].responseInfo = info.responseInfo
+    })
+
+    request.on('REQUEST.ERROR', info => {
+      let index = state.requestList.findIndex(e => e.id === info.id)
+      state.requestList[index].responseInfo = {...state.requestList[index].responseInfo, ...info.responseInfo}
     })
   },
   onUnload(){

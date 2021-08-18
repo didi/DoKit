@@ -82,7 +82,6 @@ export default {
       }
     },
     refresh() {
-      console.log("refresh");
       this.$emit("refresh");
     },
   },
