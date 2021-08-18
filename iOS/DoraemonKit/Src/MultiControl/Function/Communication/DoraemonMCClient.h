@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)disConnect;
 
++ (void)showToast:(NSString *)toastContent;
 @end
 
 NS_ASSUME_NONNULL_END

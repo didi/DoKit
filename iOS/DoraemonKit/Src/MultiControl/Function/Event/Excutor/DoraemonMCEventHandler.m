@@ -14,6 +14,7 @@
 #import "UIGestureRecognizer+DoraemonMCSerializer.h"
 #import "UIResponder+DoraemonMCSerializer.h"
 #import "DoraemonMCXPathSerializer.h"
+#import "DoraemonMCClient.h"
 
 #define DoraemonMCEventHandler_call_super_handle_event if (![super handleEvent:eventInfo]) {\
         return NO;\
@@ -30,9 +31,15 @@
     // 页面类名校验
     if (eventInfo.currentVCClassName.length > 0 &&
         ![vcClsnameSufix isEqualToString:currentViewVCClsnameSufix]) {
+        [DoraemonMCClient showToast:@"一机多控：收到主机手势消息，但当前页面与主机不一致，因此未执行此手势"];
         return NO;
     }
 
+    if (self.targetView == nil) {
+        [DoraemonMCClient showToast:@"一机多控：收到主机手势消息，但并未成功在当前页面找到对应控件，因此未执行此手势"];
+        return NO;
+    }
+    
     if (self.messageInfo.isFirstResponder && self.targetView.isFirstResponder == NO) {
         [self.targetView becomeFirstResponder];
     }else if (self.messageInfo.isFirstResponder == NO && self.targetView.isFirstResponder) {

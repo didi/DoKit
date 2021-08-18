@@ -103,6 +103,10 @@
     }
 }
 
+
++ (void)showToast:(NSString *)toastContent {
+    [[self shareInstance] showToast:toastContent];
+}
 - (void)showToast:(NSString *)toastContent {
     if (![toastContent isKindOfClass:[NSString class]] ||
         toastContent.length == 0) {
