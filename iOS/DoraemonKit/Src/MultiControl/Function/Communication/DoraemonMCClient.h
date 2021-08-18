@@ -13,10 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)isConnected;
 
-+ (void)connectWithUrl:(NSString *)url;
++ (void)connectWithUrl:(NSString *)url completion:(void(^)(BOOL))completion;
 
 + (void)disConnect;
 
++ (void)showToast:(NSString *)toastContent;
 @end
 
 NS_ASSUME_NONNULL_END

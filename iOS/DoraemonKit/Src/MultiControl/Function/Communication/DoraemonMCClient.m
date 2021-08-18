@@ -10,12 +10,16 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonMCCommandExcutor.h"
 #import "DoraemonHomeWindow.h"
+#import "DoraemonManager.h"
+#import "UIColor+Doraemon.h"
 
 @interface DoraemonMCClient () <SRWebSocketDelegate>
 
 @property (strong, nonatomic) SRWebSocket *wsInstance;
 
 @property (assign, nonatomic) BOOL isConnected;
+
+@property (copy ,  nonatomic) void(^completion)(BOOL);
 
 @end
 
@@ -34,8 +38,8 @@
     return [[self shareInstance] isConnected] ;
 }
 
-+ (void)connectWithUrl:(NSString *)url{
-    [[self shareInstance] connectWithUrl:url];
++ (void)connectWithUrl:(NSString *)url completion:(nonnull void (^)(BOOL))completion{
+    [[self shareInstance] connectWithUrl:url completion:completion];
 }
 
 + (void)disConnect {
@@ -49,7 +53,8 @@
     self.isConnected = NO;
 }
 
-- (void)connectWithUrl:(NSString *)url {
+- (void)connectWithUrl:(NSString *)url completion:(nonnull void (^)(BOOL))completion {
+    self.completion = completion;
     [self disConnect];
     NSURL *URL = [NSURL URLWithString:url];
     self.wsInstance = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:URL]];
@@ -60,9 +65,15 @@
 
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
-    NSLog(@"didOpen");
     self.isConnected = YES;
-    [self showToast:@"连接成功"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showToast:@"连接成功"];
+        [[DoraemonManager shareInstance] configEntryBtnBlingWithText:@"从" backColor:[UIColor doraemon_blue]];
+    });
+    if (self.completion) {
+        self.completion(YES);
+        self.completion = nil;
+    }
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
@@ -71,13 +82,31 @@
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
     self.isConnected = NO;
-    [self showToast:error.localizedDescription];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showToast:error.localizedDescription];
+        [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
+    });
+    if (self.completion) {
+        self.completion(NO);
+        self.completion = nil;
+    }
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     self.isConnected = NO;
-    [self showToast:@"一机多控连接关闭"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showToast:@"一机多控连接关闭"];
+        [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
+    });
+    if (self.completion) {
+        self.completion(NO);
+        self.completion = nil;
+    }
 }
 
+
++ (void)showToast:(NSString *)toastContent {
+    [[self shareInstance] showToast:toastContent];
+}
 - (void)showToast:(NSString *)toastContent {
     if (![toastContent isKindOfClass:[NSString class]] ||
         toastContent.length == 0) {

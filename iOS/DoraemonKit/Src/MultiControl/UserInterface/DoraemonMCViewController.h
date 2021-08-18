@@ -9,14 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger , DoraemonMCViewControllerType) {
-    DoraemonMCViewControllerTypeServer,
-    DoraemonMCViewControllerTypeClient
+typedef NS_ENUM(NSInteger , DoraemonMCViewControllerWorkMode) {
+    DoraemonMCViewControllerWorkModeNone,
+    DoraemonMCViewControllerWorkModeServer,
+    DoraemonMCViewControllerWorkModeClient
 };
 
 @interface DoraemonMCViewController : DoraemonBaseViewController
-
-+ (instancetype)instanceWithType:(DoraemonMCViewControllerType)type;
 
 @end
 
