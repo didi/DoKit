@@ -120,15 +120,15 @@ NSInteger const kDoraemonMCServerPort = 8088;
 - (void)didOpen {
     [super didOpen];
     NSLog(@"didOpen");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.didi.DoraemonMCServer.wsDidConnect" object:nil userInfo:@{@"count":@([DoraemonMCServer connectCount])}];
 }
 
 - (void)didReceiveMessage:(NSString *)msg {
-    NSLog(@"didReceiveMessage : %@" , msg);
+    [super didReceiveMessage:msg];
 }
 
 - (void)didClose {
     [super didClose];
-    NSLog(@"didClose");
 }
 
 @end

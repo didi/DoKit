@@ -11,12 +11,23 @@
 #import "DoraemonMCServer.h"
 #import "DoraemonMCClient.h"
 #import "DoraemonAppInfoUtil.h"
-
+#import "DoraemonManager.h"
+#import "UIColor+Doraemon.h"
 @interface DoraemonMCViewController ()<DoraemonQRScanDelegate>
 
-@property (nonatomic, assign) DoraemonMCViewControllerType type;
 
 @property (nonatomic, strong) DoraemonQRScanView *scanView;
+
+/// 主机按钮
+@property (nonatomic , strong) UIButton *masterDeviceBtn;
+@property (nonatomic , strong) UIButton *masterCloseBtn;
+
+/// 从机按钮
+@property (nonatomic , strong) UIButton *assisDeviceBtn;
+
+@property (nonatomic , strong) UILabel *asssisTip;
+
+@property (nonatomic , strong) UIButton *assisDisConnectBtn;
 
 @property (nonatomic, strong) UIImageView *qrCodeImage;
 
@@ -25,23 +36,26 @@
 @property (nonatomic, strong) UILabel *bottomTip;
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
+
+@property (nonatomic , strong) UIImageView *banner;
+
+@property (nonatomic , strong) UILabel *clientCountLabel;
 @end
 
 @implementation DoraemonMCViewController
 
-+ (instancetype)instanceWithType:(DoraemonMCViewControllerType)type {
-    DoraemonMCViewController *instance = [[DoraemonMCViewController alloc] init];
-    instance.type = type;
-    return instance;
+
+- (void)wsDidiConnectHandle:(NSNotification *)notify {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.clientCountLabel.text = [NSString stringWithFormat:@"当前连接从机数：%zd",[DoraemonMCServer connectCount]];
+    });
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setupUI];
-    if ([self isServer]) {
-        [self startServer];
-    }
+    [self refreshUI];
+
 }
 
 - (UIActivityIndicatorView *)loadingView {
@@ -65,11 +79,14 @@
             [self.loadingView stopAnimating];
             self.loadingView.hidden = YES;
             if(startServerSuccess) {
+                [[DoraemonManager shareInstance] configEntryBtnBlingWithText:@"主" backColor:[UIColor doraemon_blue]];
                 [DoraemonToastUtil showToastBlack:@"服务开启成功" inView:self.view];
                 self.errorLabel.hidden = YES;
                 self.qrCodeImage.hidden = NO;
                 self.bottomTip.hidden = NO;
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wsDidiConnectHandle:) name:@"com.didi.DoraemonMCServer.wsDidConnect" object:nil];
             }else {
+                [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
                 if (error) {
                     [DoraemonToastUtil showToastBlack:error.localizedDescription inView:self.view];
                 }
@@ -77,61 +94,77 @@
                 self.qrCodeImage.hidden = YES;
                 self.bottomTip.hidden = YES;
             }
+            [self refreshUI];
         });
 
     });
 
 }
 
-- (BOOL)isServer {
-    return DoraemonMCViewControllerTypeServer == self.type;
-}
-
-- (void)setupUI {
-    self.title = [self isServer] ? @"主机服务二维码" : @"连接主机" ;
-    if ([self isServer]) {
-        self.qrCodeImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 150, 100, 300, 300)];
-        [self.view addSubview:self.qrCodeImage];
-        NSString *url = [NSString stringWithFormat:@"http://%@:%zd/MyWs",[DoraemonAppInfoUtil getIPAddress:YES] , kDoraemonMCServerPort];
-        self.qrCodeImage.image = [self.class QRCodeFromString:url size:300];
-        
-        self.bottomTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.qrCodeImage.frame) + 50, self.view.bounds.size.width - 60, 100)];
-        self.bottomTip.font = [UIFont systemFontOfSize:15];
-        self.bottomTip.numberOfLines = 0 ;
-        self.bottomTip.textColor = [UIColor doraemon_blue];
-        self.bottomTip.textAlignment = NSTextAlignmentCenter;
-        
-        [self.view addSubview:self.bottomTip];
-        self.bottomTip.text = [NSString stringWithFormat: @"请用其他手机的一机多控功能扫描以上二维码,连接该机器\n连接地址:%@",url];
+- (DoraemonMCViewControllerWorkMode)workMode {
+    if ([DoraemonMCClient isConnected]) {
+        return DoraemonMCViewControllerWorkModeClient;
     }
-}
-
-
-- (UILabel *)errorLabel {
-    if (!_errorLabel) {
-        _errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 30)];
-        _errorLabel.font = [UIFont systemFontOfSize:15];
-        _errorLabel.textAlignment = NSTextAlignmentCenter;
-        _errorLabel.text = @"服务开启失败,点击重试";
-        _errorLabel.textColor = [UIColor doraemon_blue];
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(errorLabelDidTap)];
-        _errorLabel.userInteractionEnabled = YES;
-        [_errorLabel addGestureRecognizer:tapGes];
-        [self.view addSubview:_errorLabel];
-        _errorLabel.hidden = YES;
+    if ([DoraemonMCServer isOpen]) {
+        return DoraemonMCViewControllerWorkModeServer;
     }
-    return _errorLabel;
+    return DoraemonMCViewControllerWorkModeNone;
 }
 
-- (void)errorLabelDidTap {
+- (UIButton *)masterDeviceBtn {
+    if (!_masterDeviceBtn) {
+        _masterDeviceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.banner.frame) + 30, 100, 30)];
+        _masterDeviceBtn.clipsToBounds = YES;
+        _masterDeviceBtn.layer.cornerRadius = 5 ;
+        _masterDeviceBtn.backgroundColor = [UIColor doraemon_blue];
+        [_masterDeviceBtn setTitle:@"主机" forState:UIControlStateNormal];
+        [_masterDeviceBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _masterDeviceBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_masterDeviceBtn];
+        [_masterDeviceBtn addTarget:self action:@selector(masterDeviceBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _masterDeviceBtn;
+}
+
+- (UIButton *)assisDisConnectBtn {
+    if (!_assisDisConnectBtn) {
+        _assisDisConnectBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.asssisTip.frame) + 30, 100, 30)];
+        _assisDisConnectBtn.clipsToBounds = YES;
+        _assisDisConnectBtn.layer.cornerRadius = 5 ;
+        _assisDisConnectBtn.backgroundColor = [UIColor doraemon_blue];
+        [_assisDisConnectBtn setTitle:@"断开连接" forState:UIControlStateNormal];
+        [_assisDisConnectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _assisDisConnectBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_assisDisConnectBtn];
+        [_assisDisConnectBtn addTarget:self action:@selector(assisDisConnectBtnCLick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _assisDisConnectBtn;
+}
+
+
+- (UIButton *)assisDeviceBtn {
+    if (!_assisDeviceBtn) {
+        _assisDeviceBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.masterDeviceBtn.frame) + 30, 100, 30)];
+        _assisDeviceBtn.clipsToBounds = YES;
+        _assisDeviceBtn.layer.cornerRadius = 5 ;
+        _assisDeviceBtn.backgroundColor = [UIColor doraemon_blue];
+        [_assisDeviceBtn setTitle:@"从机" forState:UIControlStateNormal];
+        [_assisDeviceBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _assisDeviceBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_assisDeviceBtn];
+        [_assisDeviceBtn addTarget:self action:@selector(assisDeviceBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _assisDeviceBtn;
+}
+
+
+
+- (void)masterDeviceBtnClick {
     [self startServer];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    if (![self isServer]) {
-        
+
+- (void)assisDeviceBtnClick {
 #if TARGET_IPHONE_SIMULATOR  //模拟器
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"连接主机" message:@"请输入主机Ip地址,点击确定,连接主机" preferredStyle:UIAlertControllerStyleAlert];
         
@@ -158,15 +191,154 @@
         self.scanView = scaner;
         [scaner startScanning];
 #endif
-    }
-
 }
+
+- (void)assisDisConnectBtnCLick {
+    [DoraemonMCClient disConnect];
+    [self refreshUI];
+}
+
+
+- (void)masterCloseBtnClick {
+    [DoraemonMCServer close];
+    [self refreshUI];
+}
+
+- (UIImageView *)banner {
+    if (!_banner) {
+        CGFloat marginTop = 100 ;
+        UIImage *bannerImg =  [UIImage doraemon_xcassetImageNamed:@"dk_mc_banner"];
+        CGFloat bannerHeight = 300 ;
+        if (bannerImg.size.width) {
+            bannerHeight = self.view.bounds.size.width * bannerImg.size.height/bannerImg.size.width;
+        }
+        _banner = [[UIImageView alloc] initWithFrame:CGRectMake(0, marginTop, self.view.bounds.size.width, bannerHeight)];
+        _banner.image = bannerImg;
+        _banner.contentMode = UIViewContentModeScaleAspectFit;
+        [self.view addSubview:_banner];
+    }
+    return _banner;
+}
+
+- (void)refreshUI {
+    self.title = @"一机多控";
+
+    [self banner];
+    
+    switch ([self workMode]) {
+        case DoraemonMCViewControllerWorkModeClient:
+        {
+            self.masterDeviceBtn.hidden = YES;
+            self.qrCodeImage.hidden = YES;
+            self.bottomTip.hidden = YES;
+            self.errorLabel.hidden = YES;
+            self.assisDisConnectBtn.hidden = NO;
+            self.clientCountLabel.hidden = YES;
+            self.masterCloseBtn.hidden = YES;
+            self.assisDeviceBtn.hidden = YES;
+            if (self.asssisTip == nil) {
+                self.asssisTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.banner.frame) + 20, self.view.bounds.size.width - 60, 100)];
+                self.asssisTip.font = [UIFont systemFontOfSize:15];
+                self.asssisTip.numberOfLines = 0 ;
+                self.asssisTip.textColor = [UIColor doraemon_blue];
+                self.asssisTip.textAlignment = NSTextAlignmentCenter;
+                self.asssisTip.text = @"已连接至主机";
+                [self.view addSubview:self.asssisTip];
+            }
+            
+            _assisDisConnectBtn.frame = CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.asssisTip.frame) + 30, 100, 30);
+
+            self.asssisTip.hidden = NO;
+            break;
+        }
+        case DoraemonMCViewControllerWorkModeServer:
+        {
+            if (self.qrCodeImage == nil) {
+                self.qrCodeImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 100, CGRectGetMaxY(self.banner.frame) + 20, 200, 200)];
+                [self.view addSubview:self.qrCodeImage];
+
+
+                self.masterCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.qrCodeImage.frame) + 30, 100, 30)];
+                self.masterCloseBtn.clipsToBounds = YES;
+                self.masterCloseBtn.layer.cornerRadius = 5 ;
+                self.masterCloseBtn.backgroundColor = [UIColor doraemon_blue];
+                [self.masterCloseBtn setTitle:@"关闭服务" forState:UIControlStateNormal];
+                [self.masterCloseBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                self.masterCloseBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+                [self.view addSubview:self.masterCloseBtn];
+                [self.masterCloseBtn addTarget:self action:@selector(masterCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
+                
+                
+                self.bottomTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.masterCloseBtn.frame) + 20, self.view.bounds.size.width - 60, 100)];
+                self.bottomTip.font = [UIFont systemFontOfSize:15];
+                self.bottomTip.numberOfLines = 0 ;
+                self.bottomTip.textColor = [UIColor doraemon_blue];
+                self.bottomTip.textAlignment = NSTextAlignmentCenter;
+                self.clientCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bottomTip.frame) + 20, self.view.bounds.size.width, 30)];
+                self.clientCountLabel.textColor = [UIColor doraemon_blue];
+                self.clientCountLabel.textAlignment = NSTextAlignmentCenter;
+                [self.view addSubview:self.clientCountLabel];
+                [self.view addSubview:self.bottomTip];
+            }
+            NSString *url = [NSString stringWithFormat:@"http://%@:%zd/MyWs",[DoraemonAppInfoUtil getIPAddress:YES] , kDoraemonMCServerPort];
+            self.qrCodeImage.image = [self.class QRCodeFromString:url size:300];
+            self.bottomTip.text = [NSString stringWithFormat: @"请用其他手机的一机多控功能扫描以上二维码,连接该机器\n连接地址:%@",url];
+            self.masterDeviceBtn.hidden = YES;
+            self.assisDeviceBtn.hidden = YES;
+            self.qrCodeImage.hidden = NO;
+            self.bottomTip.hidden = NO;
+            self.errorLabel.hidden = YES;
+            self.clientCountLabel.hidden = NO;
+            self.clientCountLabel.frame = CGRectMake(0, CGRectGetMaxY(self.bottomTip.frame) + 20, self.view.bounds.size.width, 30);
+            self.clientCountLabel.text = [NSString stringWithFormat:@"当前连接从机数：%zd",[DoraemonMCServer connectCount]];
+            self.assisDisConnectBtn.hidden = YES;
+            self.masterCloseBtn.hidden = NO;
+            self.asssisTip.hidden = YES;
+            break;
+        }
+        case DoraemonMCViewControllerWorkModeNone:
+        {
+            self.masterDeviceBtn.hidden = NO;
+            self.assisDeviceBtn.hidden = NO;
+            self.assisDisConnectBtn.hidden = YES;
+            self.qrCodeImage.hidden = YES;
+            self.bottomTip.hidden = YES;
+            self.errorLabel.hidden = YES;
+            self.clientCountLabel.hidden = YES;
+            self.masterCloseBtn.hidden = YES;
+            self.asssisTip.hidden = YES;
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+
+- (UILabel *)errorLabel {
+    if (!_errorLabel) {
+        _errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.banner.frame) + 20, self.view.bounds.size.width, 30)];
+        _errorLabel.font = [UIFont systemFontOfSize:15];
+        _errorLabel.textAlignment = NSTextAlignmentCenter;
+        _errorLabel.text = @"服务开启失败,点击重试";
+        _errorLabel.textColor = [UIColor doraemon_blue];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(errorLabelDidTap)];
+        _errorLabel.userInteractionEnabled = YES;
+        [_errorLabel addGestureRecognizer:tapGes];
+        [self.view addSubview:_errorLabel];
+        _errorLabel.hidden = YES;
+    }
+    return _errorLabel;
+}
+
+- (void)errorLabelDidTap {
+    [self startServer];
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    if (![self isServer]) {
-        [self removeScanView];
-    }
+    [self removeScanView];
 }
 
 - (void)removeScanView{
@@ -178,8 +350,11 @@
 }
 
 - (void)dealUrl:(NSString *)URL{
-    [self leftNavBackClick:nil];
-    [DoraemonMCClient connectWithUrl:URL];
+    [DoraemonMCClient connectWithUrl:URL completion:^(BOOL success) {
+        if (success) {
+            [self refreshUI];
+        }
+    }];
 }
 
 - (BOOL)needBigTitleView{
