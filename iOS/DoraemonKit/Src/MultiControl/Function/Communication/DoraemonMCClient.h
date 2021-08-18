@@ -9,11 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+FOUNDATION_EXPORT NSNotificationName DoraemonMCClientStatusChanged;
+
 @interface DoraemonMCClient : NSObject
 
 + (BOOL)isConnected;
 
-+ (void)connectWithUrl:(NSString *)url completion:(void(^)(BOOL))completion;
++ (void)connectWithUrl:(NSString *)url;
 
 + (void)disConnect;
 

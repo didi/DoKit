@@ -44,6 +44,9 @@
 
 @implementation DoraemonMCViewController
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)wsDidiConnectHandle:(NSNotification *)notify {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -55,6 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self refreshUI];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:DoraemonMCClientStatusChanged object:nil];
 
 }
 
@@ -201,6 +205,7 @@
 
 - (void)masterCloseBtnClick {
     [DoraemonMCServer close];
+    [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
     [self refreshUI];
 }
 
@@ -350,11 +355,7 @@
 }
 
 - (void)dealUrl:(NSString *)URL{
-    [DoraemonMCClient connectWithUrl:URL completion:^(BOOL success) {
-        if (success) {
-            [self refreshUI];
-        }
-    }];
+    [DoraemonMCClient connectWithUrl:URL];
 }
 
 - (BOOL)needBigTitleView{

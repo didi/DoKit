@@ -13,13 +13,14 @@
 #import "DoraemonManager.h"
 #import "UIColor+Doraemon.h"
 
+
+NSNotificationName DoraemonMCClientStatusChanged = @"DoraemonMCClientStatusChanged";
+
 @interface DoraemonMCClient () <SRWebSocketDelegate>
 
 @property (strong, nonatomic) SRWebSocket *wsInstance;
 
 @property (assign, nonatomic) BOOL isConnected;
-
-@property (copy ,  nonatomic) void(^completion)(BOOL);
 
 @end
 
@@ -38,8 +39,8 @@
     return [[self shareInstance] isConnected] ;
 }
 
-+ (void)connectWithUrl:(NSString *)url completion:(nonnull void (^)(BOOL))completion{
-    [[self shareInstance] connectWithUrl:url completion:completion];
++ (void)connectWithUrl:(NSString *)url {
+    [[self shareInstance] connectWithUrl:url ];
 }
 
 + (void)disConnect {
@@ -53,8 +54,7 @@
     self.isConnected = NO;
 }
 
-- (void)connectWithUrl:(NSString *)url completion:(nonnull void (^)(BOOL))completion {
-    self.completion = completion;
+- (void)connectWithUrl:(NSString *)url{
     [self disConnect];
     NSURL *URL = [NSURL URLWithString:url];
     self.wsInstance = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:URL]];
@@ -70,10 +70,7 @@
         [self showToast:@"连接成功"];
         [[DoraemonManager shareInstance] configEntryBtnBlingWithText:@"从" backColor:[UIColor doraemon_blue]];
     });
-    if (self.completion) {
-        self.completion(YES);
-        self.completion = nil;
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonMCClientStatusChanged object:nil];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
@@ -86,10 +83,7 @@
         [self showToast:error.localizedDescription];
         [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
     });
-    if (self.completion) {
-        self.completion(NO);
-        self.completion = nil;
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonMCClientStatusChanged object:nil];
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     self.isConnected = NO;
@@ -97,10 +91,7 @@
         [self showToast:@"一机多控连接关闭"];
         [[DoraemonManager shareInstance] configEntryBtnBlingWithText:nil backColor:nil];
     });
-    if (self.completion) {
-        self.completion(NO);
-        self.completion = nil;
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonMCClientStatusChanged object:nil];
 }
 
 
