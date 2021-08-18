@@ -19,6 +19,7 @@
 #import "UIView+Doraemon.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonDemoMemoryLeakViewController.h"
+#import "DoraemonDemoMultiControlViewController.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -48,7 +49,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 9;
+    return 11;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -77,6 +78,8 @@
         txt = DoraemonDemoLocalizedString(@"通用测试Demo");
     }else if(row==8){
         txt = DoraemonDemoLocalizedString(@"内存泄漏测试");
+    }else if(row == 9){
+        txt = DoraemonDemoLocalizedString(@"一机多控制测试");
     }
     cell.textLabel.text = txt;
     return cell;
@@ -101,10 +104,14 @@
         vc = [[DoraemonDemoCrashViewController alloc] init];
     }else if(row == 7){
         vc = [[DoraemonDemoCommonViewController alloc] init];
-    }else{
+    }else if(row == 8){
         vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
+    }else if(row == 9){
+        vc = [[DoraemonDemoMultiControlViewController alloc] init];
     }
-    [self.navigationController pushViewController:vc animated:YES];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }
  
     //产生crash
 //    NSArray *dataArray = @[@"1",@"2"];
