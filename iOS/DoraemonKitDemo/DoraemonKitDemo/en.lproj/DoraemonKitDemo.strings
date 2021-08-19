@@ -71,4 +71,7 @@
     //Other
     "block方式加入插件"                       = "Add plugins from block";
     "测试插件"                                     = "Test plugin";
+    
+    // 一机多控测试
+    "一机多控测试Demo"                        = "Multi Control Demo" ;
 }

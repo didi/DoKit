@@ -81,7 +81,6 @@ static NSString const *kUIPanGestureRecognizerVelocityYKey = @"y";
         
 }
 
-
 #pragma mark - hook
 
 + (void)load {
@@ -120,19 +119,24 @@ static NSString const *kUIPanGestureRecognizerVelocityYKey = @"y";
     return self.do_mc_translation_at_host;
 }
 
-- (CGPoint)do_mc_pan_velocityInView:(UIView *)view{
+- (CGPoint)do_mc_pan_velocityInView:(UIView *)view {
     if (CGPointEqualToPoint(CGPointZero, self.do_mc_vol_at_host)) {
         return [self do_mc_pan_velocityInView:view];
     }
     return self.do_mc_vol_at_host;
 }
 
-- (CGPoint)do_mc_pan_locationInView:(UIView *)view{
+- (CGPoint)do_mc_pan_locationInView:(UIView *)view {
     if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
         return  [self do_mc_pan_locationInView:view];
     }
     return self.do_mc_location_at_host;
 }
 
+- (void)do_mc_clear_all_value_at_host{
+    [super do_mc_location_at_host];
+    self.do_mc_translation_at_host = CGPointZero;
+    self.do_mc_vol_at_host = CGPointZero;
+}
 
 @end
