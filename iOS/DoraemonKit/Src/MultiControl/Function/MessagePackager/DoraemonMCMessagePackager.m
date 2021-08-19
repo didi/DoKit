@@ -57,6 +57,7 @@ static NSString const *kTypeKey = @"type";
             break;
         }
         case DoraemonMCMessageTypeDidSelectCell:
+        case DoraemonMCMessageTypeDidScrollToCell:
         {
             messageInstance.eventInfo =  @{
                 @"section": @(indexPath.section),

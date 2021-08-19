@@ -35,6 +35,9 @@
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector {
+    if ([NSStringFromSelector(aSelector) isEqualToString:NSStringFromSelector(@selector(scrollViewDidEndDecelerating:))]) {
+        return YES;
+    }
     return [_target respondsToSelector:aSelector];
 }
 
@@ -103,6 +106,29 @@
     }
     if ([self.target respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
         [self.target tableView:tableView didSelectRowAtIndexPath:indexPath];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if ([DoraemonMCServer isOpen]) {
+        NSIndexPath *lastIndexPath = nil;
+        if ([scrollView isKindOfClass:[UITableView class]]) {
+            UITableView *tableView = (UITableView *)scrollView;
+            lastIndexPath = [tableView indexPathsForVisibleRows].lastObject;
+        }else  if ([scrollView isKindOfClass:[UICollectionView class]]) {
+            UICollectionView *collectionView = (UICollectionView *)scrollView;
+            lastIndexPath = [collectionView indexPathsForVisibleItems].lastObject;
+        }
+        if (lastIndexPath != nil) {
+            [DoraemonMCCommandGenerator sendMessageWithView:scrollView
+                                                    gusture:nil
+                                                     action:nil
+                                                  indexPath:lastIndexPath
+                                                messageType:DoraemonMCMessageTypeDidScrollToCell];
+        }
+    }
+    if ([self.target respondsToSelector:_cmd]) {
+        [self.target scrollViewDidEndDecelerating:scrollView];
     }
 }
 @end

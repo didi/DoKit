@@ -97,7 +97,15 @@ static NSString const *kUIGestureRecognizerPropsKey = @"gesProps";
             }
         }];
     }
-    
+
+    if ([stateNumber intValue] == UIGestureRecognizerStateCancelled ||
+        [stateNumber intValue] == UIGestureRecognizerStateEnded) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self do_mc_clear_all_value_at_host];
+            });
+        });
+    }
 }
 
 #pragma mark - hook
@@ -124,8 +132,14 @@ static NSString const *kUIGestureRecognizerPropsKey = @"gesProps";
     return [self do_mc_point_value_forkey:_cmd];
 }
 
+
+- (void)do_mc_clear_all_value_at_host {
+    self.do_mc_location_at_host = CGPointZero;
+}
+
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {}
 - (id)valueForUndefinedKey:(NSString *)key {return nil;}
+
 
 
 @end

@@ -20,9 +20,11 @@
     static NSDictionary *eventHandlerMap = nil ;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        DoraemonMCReuseCellEventHandler *handlerReuseCell =  [DoraemonMCReuseCellEventHandler new];
         eventHandlerMap = @{
             @(DoraemonMCMessageTypeControl): [DoraemonMCControlEventHandler new],
-            @(DoraemonMCMessageTypeDidSelectCell) : [DoraemonMCReuseCellEventHandler new],
+            @(DoraemonMCMessageTypeDidSelectCell) : handlerReuseCell,
+            @(DoraemonMCMessageTypeDidScrollToCell) : handlerReuseCell,
             @(DoraemonMCMessageTypeGuesture) : [DoraemonMCGestureRecognizerEventHandler new],
             @(DoraemonMCMessageTypeTextInput) : [DoraemonMCTextFiledEventHandler new],
             @(DoraemonMCMessageTypeTarbarSelected) : [DoraemonMCTabbarEventHandler new]
