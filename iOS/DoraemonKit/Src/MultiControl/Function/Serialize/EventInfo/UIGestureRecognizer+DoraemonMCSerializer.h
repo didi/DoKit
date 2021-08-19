@@ -15,6 +15,7 @@ UIKIT_EXTERN NSString const *kUIGestureRecognizerDoraemonMCSerializerIndexKey;
 
 @interface UIGestureRecognizer (DoraemonMCSerializer)
 
+
 /// 当前手势对象的信息转为字典
 - (NSDictionary *)do_mc_serialize_dictionary;
 /// 将字典中的值同步到当前手势对象的属性参数
@@ -26,6 +27,8 @@ UIKIT_EXTERN NSString const *kUIGestureRecognizerDoraemonMCSerializerIndexKey;
 /// 主机上 手势的触摸坐标
 @property (nonatomic , assign) CGPoint do_mc_location_at_host;
 
+/// 清除用于一机多控的所有关联属性
+- (void)do_mc_clear_all_value_at_host;
 @end
 
 NS_ASSUME_NONNULL_END

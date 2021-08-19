@@ -52,8 +52,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(initWithTarget:action:) swizzledSel:@selector(do_mc_initWithTarget:action:)];
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(removeTarget:action:) swizzledSel:@selector(do_mc_removeTarget:action:)];
-        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(addTarget:action:) swizzledSel:@selector(do_mc_addTarget:action:)];
     });
 }
 
@@ -61,22 +59,6 @@
     [self do_mc_initWithTarget:self action:@selector(do_mc_action:)];
     [self addTarget:target action:action];
     return self;
-}
-
-- (void)do_mc_addTarget:(id)target action:(SEL)action {
-    __block BOOL existed = NO;
-    [self.do_mc_targetActionPairs enumerateObjectsUsingBlock:^(DoraemonMCGestureTargetActionPair * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.target == target &&
-            [NSStringFromSelector(obj.action) isEqualToString:NSStringFromSelector(action)]) {
-            existed = YES;
-            *stop = YES;
-        }
-    }];
-    if (!existed) {
-        [self.do_mc_targetActionPairs addObject:[[DoraemonMCGestureTargetActionPair alloc] initWithTarget:target action:action sender:self]];
-    }
-
-    [self do_mc_addTarget:target action:action];
 }
 
 
@@ -92,32 +74,6 @@
     if ([DoraemonMCServer isOpen]) {
         [self do_mc_handleGestureSend:sender];
     }
-}
-
-- (void)do_mc_removeTarget:(id)target action:(SEL)action {
-    
-    [self.do_mc_targetActionPairs enumerateObjectsUsingBlock:^(DoraemonMCGestureTargetActionPair * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isEqualToTarget:target andAction:action]) {
-            [self.do_mc_targetActionPairs removeObject:obj];
-            *stop = YES;
-        }
-    }];
-    
-    [self do_mc_removeTarget:target action:action];
-
-}
-
-
-
-#pragma mark - Associated Object
-
-- (NSMutableArray<DoraemonMCGestureTargetActionPair *> *)do_mc_targetActionPairs {
-    NSMutableArray *arrM =  objc_getAssociatedObject(self, _cmd) ;
-    if (!arrM) {
-        arrM = [NSMutableArray array];
-        objc_setAssociatedObject(self, @selector(do_mc_targetActionPairs), arrM, OBJC_ASSOCIATION_RETAIN);
-    }
-    return arrM;
 }
 
 @end

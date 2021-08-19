@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger , DoraemonMCMessageType) {
     DoraemonMCMessageTypeControl,
     /// 基于复用列表项被点击的
     DoraemonMCMessageTypeDidSelectCell,
+    DoraemonMCMessageTypeDidScrollToCell,
     /// 基于文本输入
     DoraemonMCMessageTypeTextInput,
     /// 底部tabbar选中
