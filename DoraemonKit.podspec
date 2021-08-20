@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.7'
+  s.version          = '3.0.8'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
