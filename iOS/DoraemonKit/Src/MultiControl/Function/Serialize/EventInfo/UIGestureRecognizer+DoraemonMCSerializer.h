@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-UIKIT_EXTERN NSString const *kUIGestureRecognizerDoraemonMCSerializerWrapperKey ;
+UIKIT_EXTERN NSString  const * _Nonnull kUIGestureRecognizerDoraemonMCSerializerWrapperKey ;
 
-UIKIT_EXTERN NSString const *kUIGestureRecognizerDoraemonMCSerializerIndexKey;
+UIKIT_EXTERN NSString  const * _Nonnull kUIGestureRecognizerDoraemonMCSerializerIndexKey;
 
 @interface UIGestureRecognizer (DoraemonMCSerializer)
 

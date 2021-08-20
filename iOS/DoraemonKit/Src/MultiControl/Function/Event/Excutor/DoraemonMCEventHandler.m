@@ -92,11 +92,14 @@
         UIControl *ctl = (UIControl *)rootView;
         [[ctl allTargets] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
             if ([obj respondsToSelector:action]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 if ([data[@"action"] containsString:@":"]) {
                     [obj performSelector:action withObject:rootView];
                 }else {
                     [obj performSelector:action];
                 }
+#pragma clang diagnostic pop
             }
         }];
     }

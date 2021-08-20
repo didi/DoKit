@@ -110,7 +110,7 @@ static NSString const *kTypeKey = @"type";
     messageInstance.xPath = dict[kXpathKey];
     messageInstance.eventInfo = dict[kEventInfoKey];
     messageInstance.currentVCClassName = dict[kVcClsNameKey];
-    messageInstance.isFirstResponder = dict[kIsFirstResponderKey];
+    messageInstance.isFirstResponder = [dict[kIsFirstResponderKey] boolValue];
     return messageInstance;
 }
 
