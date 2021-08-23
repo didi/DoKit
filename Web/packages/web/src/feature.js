@@ -14,8 +14,8 @@ import {IndependPlugin, RouterPlugin} from '@dokit/web-core'
 
 export const BasicFeatures = {
   title: '常用工具',
-  // list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
-  list: [Console, AppInfo, Resource, Network, Storage, H5DoorPlugin]
+  list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
+  // list: [Console, AppInfo, Resource, Network, Storage, H5DoorPlugin]
 }
 
 export const DokitFeatures = {

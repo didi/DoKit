@@ -173,5 +173,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 /// DoKit 支持的旋转方向
 @property (assign, nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations;
 
+
+- (void)configEntryBtnBlingWithText:(nullable NSString *)text backColor:(nullable UIColor *)backColor;
 @end
 NS_ASSUME_NONNULL_END

@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
 @property (nonatomic) CGPoint startingPosition;
+@property (nonatomic, strong) UILabel *entryBtnBlingTextLabel;
 
 @end
 
@@ -214,4 +215,42 @@
     }
 }
 
+- (void)configEntryBtnBlingWithText:(NSString *)text backColor:(UIColor *)backColor {
+
+    if (text == nil || text.length == 0) {
+        [self destoryBlingText];
+        return;
+    }
+    backColor = backColor ?: [UIColor whiteColor];
+
+    if (!self.entryBtnBlingTextLabel) {
+        self.entryBtnBlingTextLabel = [[UILabel alloc] initWithFrame:self.entryBtn.bounds];
+        self.entryBtnBlingTextLabel.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        [self.entryBtn addSubview:self.entryBtnBlingTextLabel];
+        self.entryBtnBlingTextLabel.layer.cornerRadius = self.entryBtnBlingTextLabel.bounds.size.width/2.0;
+        self.entryBtnBlingTextLabel.clipsToBounds = YES;
+        self.entryBtnBlingTextLabel.font = [UIFont systemFontOfSize:self.entryBtn.bounds.size.width - 10];
+        self.entryBtnBlingTextLabel.textAlignment = NSTextAlignmentCenter;
+        self.entryBtnBlingTextLabel.textColor = [UIColor whiteColor];
+        CABasicAnimation* animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        animation.fromValue = @1;
+        animation.toValue = @0;
+        animation.duration = 3.0;
+        animation.beginTime = CACurrentMediaTime() + 0;
+        animation.repeatCount = HUGE_VALF ;
+        animation.autoreverses = YES;
+        animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseInEaseOut];
+        animation.fillMode = kCAFillModeForwards;
+        [self.entryBtnBlingTextLabel.layer addAnimation:animation forKey:@"bling"];
+    }
+    self.entryBtnBlingTextLabel.backgroundColor = backColor;
+    self.entryBtnBlingTextLabel.text = [text substringToIndex:1];
+    
+}
+
+- (void)destoryBlingText {
+    [self.entryBtnBlingTextLabel.layer removeAllAnimations];
+    [self.entryBtnBlingTextLabel removeFromSuperview];
+    self.entryBtnBlingTextLabel = nil;
+}
 @end

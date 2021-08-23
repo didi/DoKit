@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.7'
+  s.version          = '3.0.8'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -34,6 +34,7 @@ Pod::Spec.new do |s|
     ss.dependency 'GCDWebServer/WebUploader'
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
+    ss.dependency 'AFNetworking'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -89,5 +90,18 @@ Pod::Spec.new do |s|
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'FBRetainCycleDetector'
   end
+
+    #一机多控
+    s.subspec 'WithMultiControl' do |ss|
+      ss.source_files = 'iOS/DoraemonKit/Src/MultiControl/**/*{.h,.m}'
+      ss.pod_target_xcconfig = {
+        'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMultiControl'
+      }
+      ss.dependency 'DoraemonKit/Core'
+      ss.dependency 'CocoaLumberjack'
+      ss.dependency 'CocoaHTTPServer'
+      ss.dependency 'SocketRocket'
+    end
+
 end
 
