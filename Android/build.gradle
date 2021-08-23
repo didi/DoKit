@@ -1,16 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     apply from: "config.gradle"
-    def archives_type = rootProject.ext.publish_config["archives_type"]
     def runType = rootProject.ext.publish_config["run_type"]
     def dokitPluginVersion = rootProject.ext.publish_config["version"]
     def kotlinVersion = rootProject.ext.android["kotlin_version"]
-    def gradlePluginVersion
-    if (archives_type == 2) {
-        gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
-    } else {
-        gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
-    }
+    def gradlePluginVersion = rootProject.ext.android["agp_module_verson"]
+
 
     repositories {
         google()
@@ -19,7 +14,7 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -27,8 +22,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
-        //jcenter
-        classpath "com.novoda:bintray-release:0.9.2"
+
         // MavenCentral
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.30"
         if (runType == 1) {
@@ -50,7 +44,7 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -68,9 +62,13 @@ task clean(type: Delete) {
  * 删除指定目录下的文件
  */
 task deleteSource(type: Delete) {
-    doLast {
+    doFirst {
+        println("path===>${project.rootDir}")
         println("===delete Plugin Source start===")
-        delete "${project.rootDir}/dokit-plugin/src/main/kotlin"
+    }
+    followSymlinks = true
+    delete "${project.rootDir}/dokit-plugin/src/main/kotlin"
+    doLast {
         println("===delete Plugin Source end===")
     }
 }
@@ -79,11 +77,15 @@ task deleteSource(type: Delete) {
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    doLast {
+    doFirst {
         println("===copy Plugin Source start===")
-        from "${project.rootDir}/buildSrc/src/main/kotlin"
-        into "${project.rootDir}/dokit-plugin/src/main/kotlin"
-        include('**/*')
+    }
+
+    from "${project.rootDir}/buildSrc/src/main/kotlin"
+    into "${project.rootDir}/dokit-plugin/src/main/kotlin"
+    include('**/*')
+
+    doLast {
         println("===copy Plugin Source end===")
     }
 }
@@ -93,8 +95,30 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
  */
 task checkUploadConfig() {
     doLast {
-        if (rootProject.ext.publish_config["archives_type"] != 3) {
-            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 3。")
+        if (rootProject.ext.publish_config["archives_type"] != 2) {
+            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 2。")
+        }
+        try {
+            rootProject.project("dokit-rpc").name
+            rootProject.project("dokit-rpc-mc").name
+
+        } catch (Exception e) {
+            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        }
+
+        try {
+            rootProject.project("dokit-plugin").name
+        } catch (Exception e) {
+            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        }
+
+    }
+}
+
+task checkLocalUploadConfig() {
+    doLast {
+        if (rootProject.ext.publish_config["archives_type"] == 2) {
+            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 1或者2。")
         }
         try {
             rootProject.project("dokit-rpc").name
@@ -103,5 +127,12 @@ task checkUploadConfig() {
             throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
         }
 
+        try {
+            rootProject.project("dokit-plugin").name
+        } catch (Exception e) {
+            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        }
+
     }
 }
+

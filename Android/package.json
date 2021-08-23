@@ -1,13 +1,16 @@
 {
-  "name": "DoKit For Android",
+  "name": "DoKit_For_Android",
   "version": "1.0.0",
-  "description": "DoKit Script",
+  "description": "DoKit_Script",
   "scripts": {
     "debug": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
     "check": "./gradlew checkUploadConfig",
+    "check_local": "./gradlew checkLocalUploadConfig",
     "clean": "./gradlew clean",
-    "upload": "npm run check &&  npm run clean && npm run copy && npm run ./upload.sh"
-
+    "upload_bash": "./upload.sh",
+    "upload_bash_local": "./upload_local.sh",
+    "upload": "npm run check &&  npm run clean && npm run upload_bash",
+    "uploadLocal": "npm run check_local &&  npm run clean && npm run upload_bash_local"
   },
   "author": "jint <704167880@qq.com>",
   "license": "MIT"

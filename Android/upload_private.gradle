@@ -1,4 +1,7 @@
-//本地或者滴滴内部仓库打包脚本
+import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
+import org.json.JSONObject
+
+//本地或者滴滴内部仓库打包脚本(插件需要单独区分)
 apply plugin: 'maven-publish'
 def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 def DOKIT_VERSION = rootProject.ext.publish_config["version"]
@@ -7,60 +10,121 @@ def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
-def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
-def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
-def USERNAME = properties.getProperty('USERNAME', "")
-def PASSWORD = properties.getProperty('PASSWORD', "")
+def DIDI_REPOSITORY_URL = properties.getProperty('DIDI_REPOSITORY_URL', "")
+def DIDI_SNAPSHOT_REPOSITORY_URL = properties.getProperty('DIDI_SNAPSHOT_REPOSITORY_URL', "")
+def USERNAME = properties.getProperty('DIDI_USERNAME', "")
+def PASSWORD = properties.getProperty('DIDI_PASSWORD', "")
 
-//生成源码注释
-task androidSourcesJar(type: Jar) {
-    from project.android.sourceSets.main.java.srcDirs
+//读取module和ARTIFACT_ID的映射文件
+def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
+
+task packageSourcesJar(type: Jar) {
     classifier 'sources'
+    if (project.ARTIFACT_ID == "dokitx-plugin") {
+        from project.kotlin.sourceSets.main.kotlin.source
+    } else {
+        from project.android.sourceSets.main.java.source
+    }
+
 }
 
-if (PUBLISH_ARCHIVES_TYPE == 1) {
-    afterEvaluate {
-        publishing {
-            publications {
-                release(MavenPublication) {
-                    from components.release
-                    groupId = DOKIT_GROUP_ID
-                    artifactId = project.ARTIFACT_ID
-                    version = DOKIT_VERSION
-                    // 上传source，这样使用放可以看到方法注释
-                    artifact androidSourcesJar
+if (project.ARTIFACT_ID == "dokitx-plugin") {
+    task packageJavadoc(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // The coordinates of the library, being set from variables that
+                // we'll set up in a moment
+                groupId DOKIT_GROUP_ID
+                artifactId project.ARTIFACT_ID
+                version DOKIT_VERSION
+                // Two artifacts, the `aar` and the sources
+                if (project.ARTIFACT_ID == "dokitx-plugin") {
+                    artifact packageJavadoc
+                    artifact("$buildDir/libs/${project.getName()}.jar")
+                } else {
+                    artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
                 }
-            }
-            repositories {
-                maven {
-                    def REPOSITORY_URL = DOKIT_VERSION.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
-                    println("DoKit====>${project.ARTIFACT_ID}_${DOKIT_VERSION}==${REPOSITORY_URL}")
-                    url = uri(REPOSITORY_URL)
-                    //认证用户和密码
-                    credentials {
-                        username USERNAME
-                        password PASSWORD
+
+                // Self-explanatory metadata for the most part
+                pom {
+                    name = project.ARTIFACT_ID
+                    description = 'DoKit is an efficiency platform for the entire life cycle of general front-end product research and development.'
+                    // If your project has a dedicated site, use its URL here
+                    url = 'https://github.com/didi/DoraemonKit'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'OrangeLab'
+                            name = 'Orange Lab'
+                            email = 'orange-lab@didiglobal.com'
+                        }
+                    }
+                    // Version control info, if you're using GitHub, follow the format as seen here
+                    scm {
+                        connection = 'scm:git:git://github.com/didi/DoraemonKit.git'
+                        developerConnection = 'scm:git:ssh://github.com/didi/DoraemonKit.git'
+                        url = 'https://github.com/didi/DoraemonKit/tree/master'
+                    }
+                    // A slightly hacky fix so that your POM will include any transitive dependencies
+                    // that your library builds upon
+                    withXml {
+                        def dependenciesNode = asNode().appendNode('dependencies')
+                        project.configurations.implementation.allDependencies.each { dependency ->
+                            if (!dependency.name.isEmpty() && dependency.name != "unspecified") {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                if (dependency instanceof DefaultProjectDependency) {
+                                    //统一project 前缀
+                                    if (dependency.name.startsWith("dokit")) {
+                                        dependencyNode.appendNode('groupId', DOKIT_GROUP_ID)
+                                        dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.getString(dependency.name))
+                                        dependencyNode.appendNode('version', DOKIT_VERSION)
+                                    }
+                                } else {
+                                    dependencyNode.appendNode('groupId', dependency.group)
+                                    dependencyNode.appendNode('artifactId', dependency.name)
+                                    dependencyNode.appendNode('version', dependency.version)
+                                }
+                            }
+
+                        }
                     }
                 }
             }
         }
-    }
-} else if (PUBLISH_ARCHIVES_TYPE == 0) {
-    afterEvaluate {
-        publishing {
-            publications {
-                release(MavenPublication) {
-                    from components.release
-                    groupId = DOKIT_GROUP_ID
-                    artifactId = project.ARTIFACT_ID
-                    version = DOKIT_VERSION
-                    // 上传source，这样使用可以看到方法注释
-                    artifact androidSourcesJar
+        repositories {
+            // The repository to publish to, Sonatype/MavenCentral
+            maven {
+                // This is an arbitrary name, you may also use "mavencentral" or
+                // any other name that's descriptive for you
+                name = "mavenCentral"
+
+                // You only need this if you want to publish snapshots, otherwise just set the URL
+                // to the release repo directly
+                if(PUBLISH_ARCHIVES_TYPE == 0){
+                    url = LOCAL_REPOSITORY_URL
+                }else  if(PUBLISH_ARCHIVES_TYPE ==1 ){
+                    url = DIDI_REPOSITORY_URL
                 }
-            }
-            repositories {
-                maven {
-                    url = uri(LOCAL_REPOSITORY_URL)
+
+
+                // The username and password we've fetched earlier
+                if (PUBLISH_ARCHIVES_TYPE == 1) {
+                    credentials {
+                        username USERNAME
+                        password PASSWORD
+                    }
                 }
             }
         }

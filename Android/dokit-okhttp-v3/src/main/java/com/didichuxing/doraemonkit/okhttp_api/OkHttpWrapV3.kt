@@ -70,7 +70,7 @@ object OkHttpWrapV3 {
     }
 
     fun toRequestBody(content: String?, mediaType: MediaType?): RequestBody? {
-        return RequestBody.create(mediaType, content)
+        return RequestBody.create(mediaType, content ?: "")
     }
 
 
