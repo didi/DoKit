@@ -7,10 +7,8 @@ ext {
             //0:依赖dokit本地module运行
             //1:依赖dokit远程aar运行
             run_type     : 0,
-//            group_id     : 'com.didichuxing.doraemonkit',
             group_id     : 'io.github.didi.dokit',
-//            version      : '3.4.0-SNAPSHOT'
-            version      : '3.5.0'
+            version      : '3.5.0-beta01'
     ]
 
     android = [compileSdkVersion            : 29,
@@ -30,7 +28,6 @@ ext {
 //               kotlinx_coroutines_version   : "1.4.2",
                kotlinx_coroutines_version   : "1.4.3",
                booster_version              : "4.0.0",
-               jcenter_gradle_plugin_version: "3.5.3",
                agp_module_verson            : "7.0.0",
                agp_plugin_verson            : "4.2.2",
                ktor                         : "1.5.4",
