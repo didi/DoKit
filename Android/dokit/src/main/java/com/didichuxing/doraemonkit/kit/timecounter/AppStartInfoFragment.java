@@ -59,11 +59,13 @@ public class AppStartInfoFragment extends BaseFragment {
 
         mInfo = findViewById(R.id.app_start_info);
         StringBuilder builder = new StringBuilder();
-        if (TextUtils.isEmpty(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT)) {
+        if (TextUtils.isEmpty(MethodStackUtil.STR_APP_ON_CREATE) && TextUtils.isEmpty(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT)) {
             builder.append("只有配置slowMethod的strategy=0模式下才能统计到启动函数调用栈");
         } else {
-            builder.append(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT);
-            builder.append("\n");
+            if(!TextUtils.isEmpty(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT)){
+                builder.append(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT);
+                builder.append("\n");
+            }
             builder.append(MethodStackUtil.STR_APP_ON_CREATE);
         }
 

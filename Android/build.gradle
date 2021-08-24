@@ -93,10 +93,10 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
 /**
  * 打包上传配置检查
  */
-task checkUploadConfig() {
+task checkUploadConfig4Maven() {
     doLast {
         if (rootProject.ext.publish_config["archives_type"] != 2) {
-            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 2。")
+            throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 2。")
         }
         try {
             rootProject.project("dokit-rpc").name
@@ -115,10 +115,31 @@ task checkUploadConfig() {
     }
 }
 
-task checkLocalUploadConfig() {
+task checkUploadConfig4Local() {
     doLast {
-        if (rootProject.ext.publish_config["archives_type"] == 2) {
-            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 1或者2。")
+        if (rootProject.ext.publish_config["archives_type"] != 0) {
+            throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 0。")
+        }
+        try {
+            rootProject.project("dokit-rpc").name
+            rootProject.project("dokit-rpc-mc").name
+        } catch (Exception e) {
+            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        }
+
+        try {
+            rootProject.project("dokit-plugin").name
+        } catch (Exception e) {
+            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        }
+
+    }
+}
+
+task checkUploadConfig4Didi() {
+    doLast {
+        if (rootProject.ext.publish_config["archives_type"] != 1) {
+            throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 1。")
         }
         try {
             rootProject.project("dokit-rpc").name

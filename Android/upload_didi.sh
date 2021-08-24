@@ -1,7 +1,8 @@
 #!/bin/bash
 
-./gradlew checkUploadConfig4Local || ! echo "执行当前打包上传任务必须修改config.gradle配置中的archives_type = 0" || exit
+./gradlew checkUploadConfig4Didi || ! echo "执行当前打包上传任务必须修改config.gradle配置中的archives_type = 1" || exit
 ./gradlew copyPluginSource
+./gradlew clean
 ./gradlew :dokit-plugin:assemble
 ./gradlew assembleRelease
 ./gradlew :dokit:publish
@@ -16,4 +17,4 @@
 ./gradlew :dokit-rpc-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
-echo "本地打包完成！！！"
+echo "打包上传到滴滴内部仓库完成！！！"
