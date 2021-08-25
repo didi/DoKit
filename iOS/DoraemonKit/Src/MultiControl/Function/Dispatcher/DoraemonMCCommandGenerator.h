@@ -18,6 +18,12 @@
                                   indexPath:(NSIndexPath *)indexPath
                                messageType:(DoraemonMCMessageType)type;
 
++ (DoraemonMCMessage *)sendCustomMessageWithView:(UIView *)view
+                                       eventInfo:(NSDictionary *)eventInfo
+                                     messageType:(NSString *)type;
+
+
+
 @end
 
 
