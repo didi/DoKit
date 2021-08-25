@@ -29,5 +29,18 @@
     }
 
 }
+
+
++ (DoraemonMCMessage *)sendCustomMessageWithView:(UIView *)view
+                                       eventInfo:(NSDictionary *)eventInfo
+                                     messageType:(NSString *)type {
+    
+    DoraemonMCMessage *message = [DoraemonMCMessagePackager packageCustomMessageWithView:view
+                                                                               eventInfo:eventInfo
+                                                                             messageType:type];
+    
+    [DoraemonMCServer sendMessage:message.toMessageString];
+    return message;
+}
 @end
 

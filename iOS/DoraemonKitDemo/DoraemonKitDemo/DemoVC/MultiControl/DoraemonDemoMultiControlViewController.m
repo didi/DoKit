@@ -16,6 +16,56 @@
 #import "DoraemonDemoMultiConSwipeGesture.h"
 #import "DoraemonDemoMultiConTapGesture.h"
 #import "DoraemonDemoMultiConScreenEdgePanGesture.h"
+#import "DoraemonMCCommandExcutor.h"
+#import "DoraemonMCMessagePackager.h"
+#import "DoraemonDemoMultiSlideView.h"
+@interface DoraemonMCEventHandler1: DoraemonMCEventHandler
+
+
+
+@end
+
+@implementation DoraemonMCEventHandler1
+
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
+    
+    self.messageInfo = eventInfo;
+    self.targetView = [self fetchTargetView];
+    NSString *message =  [NSString stringWithFormat:@"%@,%@",self.targetView, [self.messageInfo.eventInfo objectForKey:@"eventInfo"]];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"自定义手势" message:message
+       delegate:nil cancelButtonTitle:@"好的" otherButtonTitles: nil];
+    [alert show];
+    
+    return YES;
+}
+
+@end
+
+
+
+@interface DoraemonMCEventHandler2: DoraemonMCEventHandler
+
+
+
+@end
+
+@implementation DoraemonMCEventHandler2
+
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
+    
+    self.messageInfo = eventInfo;
+    self.targetView = [self fetchTargetView];
+    NSString *message =  [NSString stringWithFormat:@"%@,%@",self.targetView, [self.messageInfo.eventInfo objectForKey:@"eventInfo"]];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"自定义手势" message:message
+       delegate:nil cancelButtonTitle:@"好的" otherButtonTitles: nil];
+    [alert show];
+    
+    return YES;
+}
+
+@end
+
+
 @interface DoraemonDemoMultiControlViewController ()
 @property (nonatomic,strong) UIScrollView * superScrollView;
 @end
@@ -27,7 +77,7 @@
     self.title = DoraemonDemoLocalizedString(@"一机多控Demo");
     
     self.superScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.superScrollView.contentSize = CGSizeMake(self.view.doraemon_width, self.view.doraemon_height*1.2);
+    self.superScrollView.contentSize = CGSizeMake(self.view.doraemon_width, self.view.doraemon_height*1.3);
     [self.view addSubview:self.superScrollView];
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 60)];
@@ -52,18 +102,25 @@
     [btn_3 addTarget:self action:@selector(controlEvent3) forControlEvents:UIControlEventTouchUpInside];
     [self.superScrollView addSubview:btn_3];
 
+    // 自定义事件
+    DoraemonMCEventHandler1 *customHandler1 = [DoraemonMCEventHandler1 new];
+    [DoraemonMCCommandExcutor addCustomMessage:@"customType1" eventHandlerName:customHandler1];
     
     
+    DoraemonMCEventHandler2 *customHandler2 = [DoraemonMCEventHandler2 new];
+    [DoraemonMCCommandExcutor addCustomMessage:@"customType2" eventHandlerName:customHandler2];
     
+    
+    DoraemonDemoMultiSlideView  *slideView  = [[DoraemonDemoMultiSlideView alloc]initWithFrame:CGRectMake(30, btn_3.doraemon_bottom +20, btn_3.doraemon_width-60, 60)];
+    [self.superScrollView addSubview:slideView];
+    
+
     //输入文本
-    UITextField *field_1 = [[UITextField alloc] initWithFrame:CGRectMake(60, btn_3.doraemon_bottom+20, self.view.doraemon_width-120, 60)];
+    UITextField *field_1 = [[UITextField alloc] initWithFrame:CGRectMake(60, slideView.doraemon_bottom+20, self.view.doraemon_width-120, 60)];
     field_1.placeholder = @"输入文案测试";
     field_1.clearButtonMode = UITextFieldViewModeAlways;
     field_1.backgroundColor = [UIColor whiteColor];
     [self.superScrollView addSubview:field_1];
-    
-    
-    
     
     
     //输入 UITextView 文本
@@ -73,23 +130,15 @@
     textView_1.backgroundColor = [UIColor whiteColor];
     [self.superScrollView addSubview:textView_1];
     
-
-    
-    
-    
-    // 单击  UITapGestureRecognizer
-    
-    
-    //左右滑动  UISwipeGestureRecognizer
-    
-    
-    //旋转  UISwipeGestureRecognizer
-    
-    
-   
+    //输入 UITextView 文本
+    UITextView  *textView_2 = [[UITextView alloc]initWithFrame:CGRectMake(60, textView_1.doraemon_bottom+20, self.view.doraemon_width-120, 60)];
+    textView_2.layer.borderWidth = 0.5;
+    textView_2.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    textView_2.backgroundColor = [UIColor whiteColor];
+    [self.superScrollView addSubview:textView_2];
     
     //长按
-    UIButton *longPress = [[UIButton alloc] initWithFrame:CGRectMake(0, textView_1.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    UIButton *longPress = [[UIButton alloc] initWithFrame:CGRectMake(0, textView_2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     longPress.backgroundColor = [UIColor orangeColor];
     [longPress setTitle:DoraemonDemoLocalizedString(@"长安点击事件") forState:UIControlStateNormal];
     [longPress addTarget:self action:@selector(longPressEvent) forControlEvents:UIControlEventTouchUpInside];
@@ -132,13 +181,10 @@
     [screenEdgePan addTarget:self action:@selector(screenEdgePanEvent) forControlEvents:UIControlEventTouchUpInside];
     [self.superScrollView addSubview:screenEdgePan];
     
+
     
     
     
-    // 无法识别的手势， 通过touchesBegan 方法来识别
-    
-    
-  
 }
 
 - (void)controlEvent{
@@ -207,3 +253,5 @@
     [self.navigationController pushViewController:screenEdgePan animated:YES];
 }
 @end
+
+
