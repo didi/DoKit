@@ -44,6 +44,7 @@ afterEvaluate {
                 groupId DOKIT_GROUP_ID
                 artifactId project.ARTIFACT_ID
                 version DOKIT_VERSION
+                artifact packageSourcesJar
                 // Two artifacts, the `aar` and the sources
                 if (project.ARTIFACT_ID == "dokitx-plugin") {
                     artifact packageJavadoc
