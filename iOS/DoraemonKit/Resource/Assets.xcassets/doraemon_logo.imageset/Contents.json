@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "doraemon_logo@2x.png",
+      "filename" : "dk_doraemon.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "doraemon_logo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

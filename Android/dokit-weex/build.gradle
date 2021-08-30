@@ -57,21 +57,26 @@ dependencies {
 }
 
 
-def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
-if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
-    publish.dependsOn([
-            ':dokit-no-op:publish',
-            ':dokit-util:publish',
-            ':dokit-plugin:uploadArchives',
-            ':dokit-okhttp-v3:publish',
-            ':dokit-okhttp-v4:publish',
-            ':dokit-okhttp-api:publish',
-            ':dokit:publish',
-            ':dokit-mc:publish',
-            ':dokit-ft:publish',
-            ':dokit-rpc:publish',
-            ':dokit-rpc-mc:publish'
-    ])
-}
+//def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+//if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
+//
+//    publish.mustRunAfter {
+//
+//    }
+//
+//    publish.dependsOn([
+//            ':dokit-no-op:publish',
+//            ':dokit-util:publish',
+//            ':dokit-plugin:publish',
+//            ':dokit-okhttp-v3:publish',
+//            ':dokit-okhttp-v4:publish',
+//            ':dokit-okhttp-api:publish',
+//            ':dokit:publish',
+//            ':dokit-mc:publish',
+//            ':dokit-ft:publish',
+//            ':dokit-rpc:publish',
+//            ':dokit-rpc-mc:publish'
+//    ])
+//}
 
 

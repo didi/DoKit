@@ -30,6 +30,7 @@ object McHttpManager {
 
     const val host = "https://www.dokit.cn"
 //    const val host = "https://pre.dokit.cn"
+//    const val host = "http://dokit-test.intra.xiaojukeji.com"
 
     var mExcludeKey: List<String> = mutableListOf()
 

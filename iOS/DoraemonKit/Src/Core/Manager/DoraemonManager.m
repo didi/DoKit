@@ -772,4 +772,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     return [[DoraemonCacheManager sharedInstance] startClass];
 }
 
+- (void)configEntryBtnBlingWithText:(NSString *)text backColor:(UIColor *)backColor {
+    [self.entryWindow configEntryBtnBlingWithText:text backColor:backColor];
+}
+
 @end

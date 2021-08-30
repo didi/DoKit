@@ -40,7 +40,7 @@ object DBManager {
         return if (sqliteDBs.containsKey(databasePath)) {
             sqliteDBs["databasePath"]
         } else {
-            sqliteDBs["databasePath"] = dbFactory.create(DoKit.APPLICATION!!.applicationContext, databasePath, password)
+            sqliteDBs["databasePath"] = dbFactory.create(DoKit.APPLICATION.applicationContext, databasePath, password)
             sqliteDBs["databasePath"]
         }
 

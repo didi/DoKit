@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
-def archivesType = rootProject.ext.publish_config["archives_type"]
 def dokitVersion = rootProject.ext.publish_config["version"]
 
 android {

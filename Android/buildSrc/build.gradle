@@ -46,19 +46,12 @@ compileKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
 
-def archives_type = rootProject.ext.publish_config["archives_type"]
-def gradlePluginVersion
-if (archives_type == 2) {
-    gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
-} else {
-    gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
-}
 
 dependencies {
     compileOnly localGroovy()
     compileOnly gradleApi()
 
-    implementation "com.android.tools.build:gradle:$gradlePluginVersion"
+    implementation "com.android.tools.build:gradle:${rootProject.ext.android["agp_plugin_verson"]}"
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
     api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"

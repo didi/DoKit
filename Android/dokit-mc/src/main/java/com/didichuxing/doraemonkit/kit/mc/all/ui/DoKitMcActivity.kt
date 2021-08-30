@@ -32,36 +32,34 @@ class DoKitMcActivity : BaseActivity() {
 
 
     fun changeFragment(wsMode: WSMode) {
-        mTitlebar.postDelayed({
-            val fragment: Fragment = when (wsMode) {
-                WSMode.RECORDING,
-                WSMode.UNKNOW -> {
-                    mTitlebar.setTitle("一机多控（主页）")
-                    DoKitMcMainFragment()
-                }
-                WSMode.HOST -> {
-                    mTitlebar.setTitle("一机多控（主机）")
-                    DoKitMcHostFragment()
-                }
-                WSMode.CLIENT -> {
-                    mTitlebar.setTitle("一机多控（从机）")
-                    DoKitMcClientFragment()
-                }
-
-                WSMode.MC_CASELIST -> {
-                    mTitlebar.setTitle("一机多控（用例列表）")
-                    DoKitMcDatasFragment()
-                }
-                else -> {
-                    mTitlebar.setTitle("一机多控（主页）")
-                    DoKitMcMainFragment()
-                }
+        val fragment: Fragment = when (wsMode) {
+            WSMode.RECORDING,
+            WSMode.UNKNOW -> {
+                mTitlebar.setTitle("一机多控（主页）")
+                DoKitMcMainFragment()
+            }
+            WSMode.HOST -> {
+                mTitlebar.setTitle("一机多控（主机）")
+                DoKitMcHostFragment()
+            }
+            WSMode.CLIENT -> {
+                mTitlebar.setTitle("一机多控（从机）")
+                DoKitMcClientFragment()
             }
 
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, fragment)
-                .commitNowAllowingStateLoss()
-        }, 100)
+            WSMode.MC_CASELIST -> {
+                mTitlebar.setTitle("一机多控（用例列表）")
+                DoKitMcDatasFragment()
+            }
+            else -> {
+                mTitlebar.setTitle("一机多控（主页）")
+                DoKitMcMainFragment()
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, fragment)
+            .commitNowAllowingStateLoss()
 
     }
 

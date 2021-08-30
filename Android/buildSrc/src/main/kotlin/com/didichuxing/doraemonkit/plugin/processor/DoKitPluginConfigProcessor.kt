@@ -3,10 +3,12 @@ package com.didichuxing.doraemonkit.plugin.processor
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
+import com.android.build.gradle.internal.pipeline.TransformTask
 import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid
+import com.didiglobal.booster.gradle.mergedManifests
 import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
 import com.didiglobal.booster.transform.ArtifactManager
@@ -131,30 +133,33 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
 //                )
 //            }
 
+            project.tasks.find {
+                //"===task Name is ${it.name}".println()
+                it.name == "processDebugManifest"
+            }?.let { transformTask ->
+                transformTask.doLast {
+                    "===processDebugManifest task has executed===".println()
+                    //查找AndroidManifest.xml 文件路径
+                    variant.mergedManifests.forEach { manifest ->
+                        val parser = SAXParserFactory.newInstance().newSAXParser()
+                        val handler = DoKitComponentHandler()
+                        "App Manifest path====>$manifest".println()
+                        parser.parse(manifest, handler)
+                        "App PackageName is====>${handler.appPackageName}".println()
+                        "App Application path====>${handler.applications}".println()
+                        DoKitExtUtil.setAppPackageName(handler.appPackageName)
+                        DoKitExtUtil.setApplications(handler.applications)
+                    }
 
-            //查找AndroidManifest.xml 文件路径
-            variant.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
-                val parser = SAXParserFactory.newInstance().newSAXParser()
-                val handler = DoKitComponentHandler()
-                "App Manifest path====>$manifest".println()
-                parser.parse(manifest, handler)
-                "App PackageName is====>${handler.appPackageName}".println()
-                "App Application path====>${handler.applications}".println()
-                DoKitExtUtil.setAppPackageName(handler.appPackageName)
-                DoKitExtUtil.setApplications(handler.applications)
+                    //读取插件配置
+                    variant.project.getAndroid<AppExtension>().let { appExt ->
+                        //查找Application路径
+                        val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
+                        DoKitExtUtil.init(doKitExt)
+                    }
+                }
             }
 
-            //读取插件配置
-            variant.project.getAndroid<AppExtension>().let { appExt ->
-                //查找Application路径
-                val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
-                DoKitExtUtil.init(doKitExt)
-//                "App ApplicationId is====>${appExt.defaultConfig.applicationId}".println()
-//                appExt.defaultConfig.applicationId?.let {
-//                    DoKitExtUtil.init(doKitExt)
-//                } ?: throw NullPointerException("applicationId is null，applicationId暂不支持动态配置的方式读取")
-
-            }
 
         } else {
             "${variant.project.name}-不建议在Library Module下引入dokit插件".println()

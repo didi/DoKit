@@ -1,6 +1,8 @@
 #!/bin/bash
 
+./gradlew checkUploadConfig4Maven || ! echo "执行当前打包上传任务必须修改config.gradle配置中的archives_type = 2" || exit
 ./gradlew copyPluginSource
+./gradlew clean
 ./gradlew :dokit-plugin:assemble
 ./gradlew assembleRelease
 ./gradlew :dokit:publishReleasePublicationToMavenCentralRepository
@@ -15,3 +17,4 @@
 ./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
+echo "打包上传到MavenCenter()仓库完成！！！"
