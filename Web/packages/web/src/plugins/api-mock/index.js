@@ -3,7 +3,7 @@ import {getGlobalData, RouterPlugin} from '@dokit/web-core'
 import { getPartUrlByParam } from "@dokit/web-utils";
 import { request } from './../../assets/util'
 
-const mockBaseUrl = "https://pre.dokit.cn";
+const mockBaseUrl = "https://www.dokit.cn";
 
 const getCheckedInterfaceList = function (interfaceList) {
   return interfaceList.filter(i => i.checked)
@@ -80,6 +80,7 @@ export default new RouterPlugin({
               })
             }
           })
+          sceneId && fetchArgs[1] && (fetchArgs[1].method = 'get')
           sceneId && (fetchArgs[0] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return fetchArgs;
         }
@@ -99,6 +100,7 @@ export default new RouterPlugin({
               })
             }
           })
+          sceneId && (args[0] = 'get')
           sceneId && (args[1] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return args;
         },
