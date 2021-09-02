@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
+import android.view.MotionEvent
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
@@ -7,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
+import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onTouchEventHook
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
@@ -66,6 +68,10 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         View.OnClickListener::class.java, View_onClickListenerEventHook()
                     )
 
+//                    DexposedBridge.findAndHookMethod(
+//                        View::class.java, "onTouchEvent", MotionEvent::class.java,
+//                        View_onTouchEventHook()
+//                    )
                 }
 
                 else -> {

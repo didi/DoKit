@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.*
  */
 //@Priority(0)
 //@AutoService(ClassTransformer::class)
-class CommTransformer : AbsClassTransformer() {
+class CommClassTransformer : AbsClassTransformer() {
 
 
     private val SHADOW_URL =

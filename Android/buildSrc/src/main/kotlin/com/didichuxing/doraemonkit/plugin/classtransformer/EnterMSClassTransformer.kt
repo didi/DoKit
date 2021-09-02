@@ -25,7 +25,7 @@ import org.objectweb.asm.tree.*
  */
 //@Priority(3)
 //@AutoService(ClassTransformer::class)
-class EnterMethodStackTransformer : AbsClassTransformer() {
+class EnterMSClassTransformer : AbsClassTransformer() {
 
     private val thresholdTime = DoKitExtUtil.slowMethodExt.stackMethod.thresholdTime
     private val level = 0

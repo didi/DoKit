@@ -116,7 +116,6 @@ public class SlideBar extends FrameLayout {
     }
 
     @Override
-    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
 
@@ -132,6 +131,7 @@ public class SlideBar extends FrameLayout {
                 mText.setAlpha(0);
                 setPressed(true);
             }
+            event.setAction(MotionEvent.ACTION_DOWN);
         } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             if (sliderPosition >= (getMeasuredWidth() - thumbWidth) * 0.7) {
                 //到70%就行
@@ -141,6 +141,7 @@ public class SlideBar extends FrameLayout {
             }
             sliding = false;
             setPressed(false);
+            event.setAction(MotionEvent.ACTION_UP);
         } else if (event.getAction() == MotionEvent.ACTION_MOVE && sliding) {
             sliderPosition = (int) (initialSliderPosition + (event.getX() - initialSlidingX));
             if (sliderPosition <= 0) sliderPosition = 0;
@@ -153,6 +154,7 @@ public class SlideBar extends FrameLayout {
                 mText.setAlpha(0);
             }
             setMarginLeftExtra(sliderPosition);
+            event.setAction(MotionEvent.ACTION_MOVE);
         }
         return true;
     }

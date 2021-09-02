@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode
  */
 //@Priority(1)
 //@AutoService(ClassTransformer::class)
-class BigImgTransformer : AbsClassTransformer() {
+class BigImgClassTransformer : AbsClassTransformer() {
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (onCommInterceptor(context, klass)) {

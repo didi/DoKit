@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.rpc;
+package com.didichuxing.doraemonkit;
 
 import android.view.View;
 
