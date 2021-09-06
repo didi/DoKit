@@ -19,29 +19,33 @@
 </script>
 <script>
   setTimeout(() => {
-    fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
-      // body: JSON.stringify({
-      //   a:1
-      // }),
-      method: 'post',
-    })
-      .then((response) => {
-        let weatherInfo = response.json();
-        return weatherInfo;
-      })
-      .then((info) => {
-        console.log('weatherInfo', info)
-      });
+    // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
+    //   // body: JSON.stringify({
+    //   //   a:1
+    //   // }),
+    //   headers: new Headers({
+    //     'Content-Type': 'text/html; charset=utf-8'
+    //   }),
+    //   method: 'post',
+    // })
+    //   .then((response) => {
+    //     let weatherInfo = response.json();
+    //     return weatherInfo;
+    //   })
+    //   .then((info) => {
+    //     console.log('weatherInfo', info)
+    //   });
 
-    // function reqListener () {
-    //   console.log('asasdasd', this.responseText);
-    // }
-    // var oReq = new XMLHttpRequest();
-    // oReq.addEventListener("load", reqListener);
-    // oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
-    // oReq.send(JSON.stringify({
-    //   a:1
-    // }));
+    function reqListener () {
+      console.log('asasdasd', this.responseText);
+    }
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
+    oReq.send(JSON.stringify({
+      a:1
+    }));
   }, 5000);
 </script>
 </html>

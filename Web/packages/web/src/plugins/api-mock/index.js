@@ -80,10 +80,11 @@ export default new RouterPlugin({
               })
             }
           })
-          sceneId && fetchArgs[1] && (fetchArgs[1].method = 'get')
+          sceneId && fetchArgs[1] && (fetchArgs[1].method = 'get') && (fetchArgs[1].headers && delete fetchArgs[1].headers)
           sceneId && (fetchArgs[0] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return fetchArgs;
-        }
+        },
+        
       });
       request.hookXhr({
         onBeforeOpen: (args) => {
@@ -104,6 +105,25 @@ export default new RouterPlugin({
           sceneId && (args[1] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return args;
         },
+        onBeforeSetRequestHeader: (args, config) => {
+          let checkedInterfaceList = getCheckedInterfaceList(state.interfaceList)
+          let url = config.originRequestInfo.url;
+          let path = `/`+getPartUrlByParam(url, 'path')
+          let sceneId = ''
+          checkedInterfaceList.forEach(i => {
+            if(i.path === path) {
+              i.sceneList.forEach(scene => {
+                if(scene.checked) {
+                  sceneId = scene._id
+                }
+              })
+            }
+          })
+          if (sceneId) {
+            return false
+          }
+          return args
+        }
       });
   },
   onUnload(){}
