@@ -16,12 +16,12 @@ import org.objectweb.asm.tree.*
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2020/5/14-18:07
- * 描    述：入口函数 慢函数调用栈 wiki:https://juejin.im/post/5e8d87c4f265da47ad218e6b
+ * 描    述：函数调用栈依赖 慢函数调用栈 wiki:https://juejin.im/post/5e8d87c4f265da47ad218e6b
  * 修订历史：不要指定自动注入 需要手动在DoKitAsmTransformer中通过配置创建
  * 原理:transform()方法的调用是无序的  原因:哪一个class会先被transformer执行是不确定的  但是每一个class被transformer执行顺序是遵循transformer的Priority规则的
  * ================================================
  */
-class MethodStackDepTransformer(private val level: Int = 1) : AbsClassTransformer() {
+class MSDClassTransformer(private val level: Int = 1) : AbsClassTransformer() {
 
     private val thresholdTime = DoKitExtUtil.slowMethodExt.stackMethod.thresholdTime
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {

@@ -29,10 +29,15 @@ public class DoKitMCHummerHelper {
         HMBase hmbase = searchHMView(context, view);
         if (hmbase != null) {
             context.getJsContext().callFunction("processMCClientEvent", hmbase.getJSValue(), eventType, params);
+        }else {
+            context.getJsContext().callFunction("processMCClientEvent", null, eventType, params);
         }
     }
 
     private static HMBase searchHMView(HummerContext context, View view) {
+        if(view == null){
+            return null;
+        }
         HMBase hmbase = null;
         try {
             ComponentPool pool = (ComponentPool) context.getObjectPool();

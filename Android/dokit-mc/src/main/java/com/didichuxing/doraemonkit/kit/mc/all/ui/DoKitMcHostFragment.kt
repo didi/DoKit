@@ -73,10 +73,10 @@ class DoKitMcHostFragment : BaseFragment() {
         ivCode.setImageBitmap(qCode)
         if (DoKitManager.WS_MODE != WSMode.HOST) {
             DoKitWsServer.start {
-                DoKitWindowManager.hookWindowManagerGlobal()
-                runTimeHook()
                 //启动悬浮窗
                 DoKit.launchFloating(HostDokitView::class)
+                DoKitWindowManager.hookWindowManagerGlobal()
+                runTimeHook()
             }
         }
     }

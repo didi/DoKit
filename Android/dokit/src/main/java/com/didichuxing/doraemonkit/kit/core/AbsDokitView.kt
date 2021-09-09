@@ -277,6 +277,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         if (mViewTreeObserver == null && mRootView != null) {
             mViewTreeObserver = mRootView!!.viewTreeObserver
             mViewTreeObserver?.addOnGlobalLayoutListener(mOnGlobalLayoutListener)
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
 import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,6 +61,14 @@ class RecordingDokitView : AbsDokitView() {
     }
 
     override fun onViewCreated(rootView: FrameLayout?) {
+        rootView?.setOnClickListener {
+            if (ActivityUtils.getTopActivity() is DoKitMcActivity) {
+                return@setOnClickListener
+            }
+            val intent = Intent(activity, DoKitMcActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            activity.startActivity(intent)
+        }
         mRedDot = findViewById(R.id.red_dot)
         mExtend = findViewById(R.id.tv_extend)
         doKitViewScope.launch {

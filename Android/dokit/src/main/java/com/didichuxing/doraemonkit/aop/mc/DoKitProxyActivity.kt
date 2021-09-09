@@ -114,5 +114,11 @@ public open class DoKitProxyActivity : Activity() {
 
     }
 
+    //真正可见
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+    }
+
+
 
 }

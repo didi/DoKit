@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.transform
 
 import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransformer
+import com.didichuxing.doraemonkit.plugin.classtransformer.MSDClassTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
@@ -13,7 +13,7 @@ import org.gradle.api.Project
 open class DoKitDependTransform(androidProject: Project, private val level: Int) :
     DoKitBaseTransform(androidProject) {
 
-    override val transformers = listOf<Transformer>(DoKitAsmTransformer(listOf(MethodStackDepTransformer(level))))
+    override val transformers = listOf<Transformer>(DoKitAsmTransformer(listOf(MSDClassTransformer(level))))
 
     override fun getName(): String {
         return "${this.javaClass.simpleName}_$level"

@@ -8,7 +8,7 @@ ext {
             //1:依赖dokit远程aar运行
             run_type     : 0,
             group_id     : 'io.github.didi.dokit',
-            version      : '3.4.3.107'
+            version      : '3.4.3.109'
     ]
 
     android = [compileSdkVersion         : 29,

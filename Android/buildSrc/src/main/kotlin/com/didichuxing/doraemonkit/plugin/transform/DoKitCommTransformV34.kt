@@ -1,11 +1,11 @@
 package com.didichuxing.doraemonkit.plugin.transform
 
 import com.android.build.api.variant.VariantInfo
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.BigImgClassTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.CommClassTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.EnterMSClassTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.GSMClassTransformer
+import com.didichuxing.doraemonkit.plugin.classtransformer.*
+import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
+import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 

@@ -594,6 +594,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         }
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+    }
+
     companion object {
         const val TAG = "MainDebugActivity"
 

@@ -245,9 +245,7 @@ object DoKitReal {
     private fun globalRunTimeHook() {
         try {
             val mcProcessor = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)
-            mcProcessor?.let {
-                it.proceed(mapOf("action" to "global_hook"))
-            }
+            mcProcessor?.proceed(mapOf("action" to "global_hook"))
         } catch (e: Exception) {
             e.printStackTrace()
         }

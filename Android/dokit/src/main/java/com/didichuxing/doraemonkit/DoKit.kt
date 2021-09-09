@@ -5,11 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.DoKitViewLaunchMode
-import com.didichuxing.doraemonkit.kit.core.McClientProcessor
+import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import kotlin.reflect.KClass
@@ -198,6 +196,14 @@ public class DoKit private constructor() {
             param: Map<String, String>? = null
         ) {
             DoKitReal.sendCustomEvent(eventType, view, param)
+        }
+
+        /**
+         * 获取一机多控类型
+         */
+        @JvmStatic
+        fun mcMode(): WSMode {
+            return DoKitManager.WS_MODE
         }
     }
 
