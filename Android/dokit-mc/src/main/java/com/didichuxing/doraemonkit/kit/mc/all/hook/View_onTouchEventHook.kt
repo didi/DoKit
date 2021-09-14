@@ -13,6 +13,7 @@ import de.robv.android.xposed.XC_MethodHook
  * 版    本：1.0
  * 创建日期：2020/11/30-19:55
  * 描    述：hook view#OnTouchListener#onTouch
+ * 控件必须手动调用super.onTouch 方法 并且控件必须显示设置onClickListener或者xml中设置clickable=true属性
  * ================================================
  */
 class View_onTouchEventHook : XC_MethodHook() {
@@ -34,7 +35,7 @@ class View_onTouchEventHook : XC_MethodHook() {
             val view = it.thisObject as View
             val motionEvent = it.args[0] as MotionEvent
             val result: Boolean = it.result as Boolean
-            if(result){
+            if (result) {
                 LogHelper.i(TAG, "view===>$view   motionEvent===>$motionEvent   result===>$result")
             }
         }

@@ -13,6 +13,7 @@
         android:layout_height="60dp"
         android:layout_margin="8dp"
         android:layout_marginTop="10dp"
+        android:clickable="true"
         app:label="右滑" />
 
     <RelativeLayout
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
+        <com.didichuxing.doraemondemo.mc.DoKitButton
             android:id="@+id/btn1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
