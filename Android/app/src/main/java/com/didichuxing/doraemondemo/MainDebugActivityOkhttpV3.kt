@@ -22,6 +22,8 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.imageLoader
+import coil.request.CachePolicy
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -399,6 +401,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F035%2F063%2F726%2F3ea4031f045945e1843ae5156749d64c.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=7150aaa2071d512cf2f6b556e126dd66"
                 val imageLoaderImageUrl =
                     "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F004%2F531%2F381%2F4339f96900344574a0c8ca272a7b8f27.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=b7e83ecc987c64cc31079469d292eb56"
+                val coilImageUrl = "https://cdn.nlark.com/yuque/0/2020/png/252337/1587091196083-assets/web-upload/62122ab5-986b-4662-be88-d3007a5e31c5.png"
                 Picasso.get().load(picassoImgUrl)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(R.mipmap.cat)
@@ -413,6 +416,16 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     .skipMemoryCache(true)
                     .transform(CircleCrop())
                     .into((findViewById<View>(R.id.iv_glide) as ImageView))
+
+                findViewById<ImageView>(R.id.iv_coil).apply {
+                    val request = coil.request.ImageRequest.Builder(this.context)
+                        .memoryCachePolicy(CachePolicy.DISABLED)
+                        .diskCachePolicy(CachePolicy.DISABLED)
+                        .data(coilImageUrl)
+                        .target(this)
+                        .build()
+                    imageLoader.enqueue(request)
+                }
                 val imageLoader = ImageLoader.getInstance()
                 imageLoader.displayImage(
                     imageLoaderImageUrl,

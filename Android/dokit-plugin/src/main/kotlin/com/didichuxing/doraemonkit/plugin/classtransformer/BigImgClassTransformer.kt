@@ -88,6 +88,19 @@ class BigImgClassTransformer : AbsClassTransformer() {
             }
         }
 
+        //Coil
+        if (className == "coil.request.ImageRequest") {
+            "hook Coil Start".println()
+            klass.methods.find { methodNode ->
+                methodNode.name == "<init>" && methodNode.desc != null
+            }.let { methodNode ->
+                //函数结束的地方插入
+                methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    "${context.projectDir.lastPath()}->hook Coil  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
+                    methodNode.instructions?.insertBefore(it, createCoilInsnList())
+                }
+            }
+        }
 
         return klass
     }
@@ -198,6 +211,21 @@ class BigImgClassTransformer : AbsClassTransformer() {
                 )
             )
             add(VarInsnNode(ASTORE, 6))
+            this
+        }
+    }
+    private fun createCoilInsnList(): InsnList {
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 0))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/bigimg/coil/CoilHook",
+                    "proxy",
+                    "(Ljava/lang/Object;)V",
+                    false
+                )
+            )
             this
         }
     }

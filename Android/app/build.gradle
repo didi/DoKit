@@ -162,6 +162,7 @@ dependencies {
     implementation rootProject.ext.dependencies["glide"]
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
     kapt rootProject.ext.dependencies["glide_compiler"]
+    implementation rootProject.ext.dependencies["coil"]
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
