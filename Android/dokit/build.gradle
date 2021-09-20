@@ -101,6 +101,7 @@ dependencies {
 
 
     //三大图片框架
+    compileOnly rootProject.ext.dependencies["coil"]
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
