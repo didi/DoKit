@@ -46,13 +46,15 @@
     NSURL *url = [NSURL URLWithString:@"http://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group"];
     NSURLSessionTask *task = [session dataTaskWithURL:url
                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError* error) {
-        NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]);
-        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-        weakSelf.dataArr = [[dataDic objectForKey:@"data"] objectForKey:@"group"];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.tableView reloadData];
-        });
+        if (error == nil) {
+//            NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]);
+            NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            weakSelf.dataArr = [[dataDic objectForKey:@"data"] objectForKey:@"group"];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadData];
+            });
+        }
     }];
 
     [task resume];
