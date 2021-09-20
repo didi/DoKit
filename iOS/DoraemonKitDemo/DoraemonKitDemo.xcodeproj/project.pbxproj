@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0977CCE0269F394100A6463E /* DoraemonDemoMultiControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */; };
+		097F6DA326D53E5D00841403 /* DoraemonDemoMultiSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 097F6DA226D53E5D00841403 /* DoraemonDemoMultiSlideView.m */; };
 		09B042C526A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042C426A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m */; };
 		09B042C926A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042C826A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m */; };
 		09B042CD26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042CC26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m */; };
@@ -57,6 +58,8 @@
 /* Begin PBXFileReference section */
 		0977CCDE269F394000A6463E /* DoraemonDemoMultiControlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiControlViewController.h; sourceTree = "<group>"; };
 		0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiControlViewController.m; sourceTree = "<group>"; };
+		097F6DA126D53E5D00841403 /* DoraemonDemoMultiSlideView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiSlideView.h; sourceTree = "<group>"; };
+		097F6DA226D53E5D00841403 /* DoraemonDemoMultiSlideView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiSlideView.m; sourceTree = "<group>"; };
 		09B042C326A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConLongPressGesture.h; sourceTree = "<group>"; };
 		09B042C426A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConLongPressGesture.m; sourceTree = "<group>"; };
 		09B042C726A860B400045D2A /* DoraemonDemoMultiConPinchGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConPinchGesture.h; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 				09B042D426A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m */,
 				09B042D726A8781A00045D2A /* DoraemonDemoMultiConTapGesture.h */,
 				09B042D826A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m */,
+				097F6DA126D53E5D00841403 /* DoraemonDemoMultiSlideView.h */,
+				097F6DA226D53E5D00841403 /* DoraemonDemoMultiSlideView.m */,
 			);
 			path = MultiControl;
 			sourceTree = "<group>";
@@ -449,7 +454,7 @@
 				DAC8A8741FDE2C3B00F03E6F /* Frameworks */,
 				DAC8A8751FDE2C3B00F03E6F /* Resources */,
 				4338E62332869AF074F6B38C /* [CP] Copy Pods Resources */,
-				7DA7F5DC663044EC1DED0891 /* [CP] Embed Pods Frameworks */,
+				2B04C1F39AB80A38611A9343 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -514,6 +519,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2B04C1F39AB80A38611A9343 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh",
+				"${PODS_ROOT}/../../DoraemonKit/Framework/DoraemonLoadAnalyze.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoraemonLoadAnalyze.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4338E62332869AF074F6B38C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -564,24 +587,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7DA7F5DC663044EC1DED0891 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh",
-				"${PODS_ROOT}/../../DoraemonKit/Framework/DoraemonLoadAnalyze.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoraemonLoadAnalyze.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -597,6 +602,7 @@
 				DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */,
 				DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */,
 				0977CCE0269F394100A6463E /* DoraemonDemoMultiControlViewController.m in Sources */,
+				097F6DA326D53E5D00841403 /* DoraemonDemoMultiSlideView.m in Sources */,
 				DAFE052D21BD4A4D00F97A59 /* DoraemonDemoMockGPSAnnotation.m in Sources */,
 				DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */,
 				DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */,
@@ -778,7 +784,7 @@
 				INFOPLIST_FILE = DoraemonKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo.test.a123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

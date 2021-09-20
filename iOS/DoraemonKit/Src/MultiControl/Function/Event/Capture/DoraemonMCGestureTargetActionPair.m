@@ -30,11 +30,14 @@
     if (![self valid]) {
         return;
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     if ([NSStringFromSelector(self.action) containsString:@":"]) {
         [self.target performSelector:self.action withObject:self.sender];
     }else {
         [self.target performSelector:self.action];
     }
+#pragma clang diagnostic pop
 }
 
 

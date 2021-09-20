@@ -119,7 +119,10 @@ static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
                 superV = superV.superview;
             }
             if (reuseViewInstance && [reuseViewInstance respondsToSelector:@selector(indexPathForCell:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 self.cellIndexPath = [reuseViewInstance performSelector:@selector(indexPathForCell:) withObject:cell];
+#pragma clang diagnostic pop
             }
             currentV = reuseViewInstance;
             self.pathNodeList = currentPathNodeList.copy;

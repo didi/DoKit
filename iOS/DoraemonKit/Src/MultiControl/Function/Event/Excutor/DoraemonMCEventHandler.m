@@ -92,11 +92,14 @@
         UIControl *ctl = (UIControl *)rootView;
         [[ctl allTargets] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
             if ([obj respondsToSelector:action]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                 if ([data[@"action"] containsString:@":"]) {
                     [obj performSelector:action withObject:rootView];
                 }else {
                     [obj performSelector:action];
                 }
+#pragma clang diagnostic pop
             }
         }];
     }
@@ -113,24 +116,54 @@
     NSDictionary *data = self.messageInfo.eventInfo;
 
     UIView *rootView = self.targetView;
-    
-    if ([rootView isKindOfClass:[UITableView class]]) {
-        UITableView *tableView =  (UITableView *)rootView ;
-        NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
-                                                          inSection:[data[@"section"] intValue]];
-        if ([tableView cellForRowAtIndexPath:targetIndexPath] != nil) {
-            [tableView.delegate tableView:tableView didSelectRowAtIndexPath:targetIndexPath];
-        }
-    }else if ([rootView isKindOfClass:[UICollectionView class]]) {
-        UICollectionView *collectionView =  (UICollectionView *)rootView ;
+    if (DoraemonMCMessageTypeDidSelectCell == eventInfo.type ) {
+        if ([rootView isKindOfClass:[UITableView class]]) {
+            UITableView *tableView =  (UITableView *)rootView ;
+            NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                              inSection:[data[@"section"] intValue]];
+            NSInteger rowCount = [tableView numberOfRowsInSection:targetIndexPath.section];
+            if (rowCount > targetIndexPath.row) {
+                [tableView.delegate tableView:tableView didSelectRowAtIndexPath:targetIndexPath];
+            }else {
+                [DoraemonMCClient showToast:@"一机多控：收到主机点选列表项手势消息，但并未在从机上找到对应列表项，因此未执行此手势"];
+            }
+        }else if ([rootView isKindOfClass:[UICollectionView class]]) {
+            UICollectionView *collectionView =  (UICollectionView *)rootView ;
 
-        NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
-                                                          inSection:[data[@"section"] intValue]];
-        if ([collectionView cellForItemAtIndexPath:targetIndexPath] != nil) {
-            [collectionView.delegate collectionView:collectionView didSelectItemAtIndexPath:targetIndexPath];
+            NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                              inSection:[data[@"section"] intValue]];
+            NSInteger rowCount = [collectionView numberOfItemsInSection:targetIndexPath.section];
+            if (rowCount > targetIndexPath.item) {
+                [collectionView.delegate collectionView:collectionView didSelectItemAtIndexPath:targetIndexPath];
+            }else {
+                [DoraemonMCClient showToast:@"一机多控：收到主机点选列表项手势消息，但并未在从机上找到对应列表项，因此未执行此手势"];
+            }
+        }
+    }else if (DoraemonMCMessageTypeDidScrollToCell == eventInfo.type ) {
+        if ([rootView isKindOfClass:[UITableView class]]) {
+            UITableView *tableView =  (UITableView *)rootView ;
+            NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                              inSection:[data[@"section"] intValue]];
+            NSInteger rowCount = [tableView numberOfRowsInSection:targetIndexPath.section];
+            if (rowCount > targetIndexPath.row) {
+                [tableView scrollToRowAtIndexPath:targetIndexPath
+                                 atScrollPosition:UITableViewScrollPositionBottom
+                                         animated:YES];
+            }
+        }else if ([rootView isKindOfClass:[UICollectionView class]]) {
+            UICollectionView *collectionView =  (UICollectionView *)rootView ;
+
+            NSIndexPath *targetIndexPath = [NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                              inSection:[data[@"section"] intValue]];
+            NSInteger rowCount = [collectionView numberOfItemsInSection:targetIndexPath.section];
+            if (rowCount > targetIndexPath.item) {
+                [collectionView scrollToItemAtIndexPath:targetIndexPath
+                                       atScrollPosition:UICollectionViewScrollPositionBottom
+                                               animated:YES];
+            }
         }
     }
-    
+
     return YES;
 }
 

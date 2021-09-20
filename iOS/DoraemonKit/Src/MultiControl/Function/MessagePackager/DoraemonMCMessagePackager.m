@@ -15,7 +15,7 @@ static NSString const *kVcClsNameKey = @"vcClsName";
 static NSString const *kEventInfoKey = @"eventInfo";
 static NSString const *kXpathKey = @"xPath";
 static NSString const *kTypeKey = @"type";
-
+static NSString const *kcustomTypeKey =@"customType";
 @implementation DoraemonMCMessagePackager
 
 /**
@@ -57,6 +57,7 @@ static NSString const *kTypeKey = @"type";
             break;
         }
         case DoraemonMCMessageTypeDidSelectCell:
+        case DoraemonMCMessageTypeDidScrollToCell:
         {
             messageInstance.eventInfo =  @{
                 @"section": @(indexPath.section),
@@ -99,6 +100,25 @@ static NSString const *kTypeKey = @"type";
 }
 
 
+/*
+ * 自定义事件
+ */
++ (DoraemonMCMessage *)packageCustomMessageWithView:(UIView *)view
+                                          eventInfo:(NSDictionary *)eventInfo
+                                        messageType:(NSString *)type {
+    DoraemonMCMessage *messageInstance = [[DoraemonMCMessage alloc] init];
+    messageInstance.customType = type;
+    messageInstance.xPath = [DoraemonMCXPathSerializer xPathStringWithView:view];
+    messageInstance.eventInfo = eventInfo;
+    messageInstance.isFirstResponder = view.isFirstResponder;
+    UIViewController *vc = [DoraemonMCXPathSerializer ownerVCWithView:view];
+    if (vc) {
+        messageInstance.currentVCClassName = NSStringFromClass(vc.class) ;
+    }
+    
+    return messageInstance;
+    
+}
 /***
  根据从网络上获取的消息字符串, 解析出消息对象
  */
@@ -106,10 +126,11 @@ static NSString const *kTypeKey = @"type";
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[messageString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL];
     DoraemonMCMessage *messageInstance = [[DoraemonMCMessage alloc] init];
     messageInstance.type = [dict[kTypeKey] integerValue];
+    messageInstance.customType = dict[kcustomTypeKey];
     messageInstance.xPath = dict[kXpathKey];
     messageInstance.eventInfo = dict[kEventInfoKey];
     messageInstance.currentVCClassName = dict[kVcClsNameKey];
-    messageInstance.isFirstResponder = dict[kIsFirstResponderKey];
+    messageInstance.isFirstResponder = [dict[kIsFirstResponderKey] boolValue];
     return messageInstance;
 }
 
@@ -118,6 +139,7 @@ static NSString const *kTypeKey = @"type";
 @implementation DoraemonMCMessage
 
 - (NSString *)toMessageString {
+    
     NSDictionary *dict = @{
         kTypeKey : @(self.type),
         kXpathKey : self.xPath?:@"",
@@ -125,6 +147,15 @@ static NSString const *kTypeKey = @"type";
         kVcClsNameKey: self.currentVCClassName?:@"",
         kIsFirstResponderKey : @(self.isFirstResponder)
     };
+    if (self.customType.length) {
+        dict = @{
+            kcustomTypeKey : self.customType,
+            kXpathKey : self.xPath?:@"",
+            kEventInfoKey : self.eventInfo?:@{},
+            kVcClsNameKey: self.currentVCClassName?:@"",
+            kIsFirstResponderKey : @(self.isFirstResponder)
+        };
+    }
     if ([NSJSONSerialization isValidJSONObject:dict]) {
         return [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:NULL] encoding:NSUTF8StringEncoding];
     }

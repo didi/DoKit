@@ -12,6 +12,7 @@ package com.didichuxing.doraemonkit.kit.mc.data
 data class HttpUploadInfo(
     val pId: String,
     val caseId: String,
+    val originKey: String,
     val key: String,
     val method: String = "GET",
     val path: String,

@@ -31,11 +31,17 @@ export class Request extends EventEmitter{
     const originOpen = winXhrProto.open;
     const originSetRequestHeader = winXhrProto.setRequestHeader;
     // XMLHttp
-    window.XMLHttpRequest.prototype.setRequestHeader = function(){
-
-      originSetRequestHeader.apply(this, arguments);
+    window.XMLHttpRequest.prototype.setRequestHeader = function(...args){
+      if(Req.hookXhrConfig.onBeforeSetRequestHeader) {
+        args = Req.hookXhrConfig.onBeforeSetRequestHeader(args, this.reqConf);
+        // 返回false则取消设置请求头 （api-mock拦截接口，会将post改为get 此时设置请求头Content-Type会报跨域错误）
+        args && originSetRequestHeader.apply(this, args);
+      } else {
+        originSetRequestHeader.apply(this, args);
+      }
     }
     window.XMLHttpRequest.prototype.open = function (...args) {
+      let originArgs = {...args}
       args = Req.hookXhrConfig.onBeforeOpen && Req.hookXhrConfig.onBeforeOpen(args) || args
       const xhr = this;
       this.reqConf = {
@@ -44,6 +50,10 @@ export class Request extends EventEmitter{
         requestInfo: {
           method: args[0].toUpperCase(),
           url: args[1]
+        },
+        originRequestInfo: {
+          method: originArgs[0].toUpperCase(),
+          url: originArgs[1]
         }
       }
 

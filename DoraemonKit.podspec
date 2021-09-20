@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.7'
+  s.version          = '3.1.0'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -34,6 +34,7 @@ Pod::Spec.new do |s|
     ss.dependency 'GCDWebServer/WebUploader'
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
+    ss.dependency 'AFNetworking'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -99,6 +100,7 @@ Pod::Spec.new do |s|
       ss.dependency 'DoraemonKit/Core'
       ss.dependency 'CocoaLumberjack'
       ss.dependency 'CocoaHTTPServer'
+      ss.dependency 'SocketRocket'
     end
 
 end

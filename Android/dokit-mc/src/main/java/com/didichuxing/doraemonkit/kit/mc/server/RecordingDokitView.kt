@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
 import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,13 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -29,7 +33,26 @@ import kotlinx.coroutines.launch
 class RecordingDokitView : AbsDokitView() {
     private var mRedDot: View? = null
     private var mExtend: TextView? = null
+    private lateinit var mDotFlow: Flow<Int>
+    private lateinit var mEllipsisFlow: Flow<Int>
     override fun onCreate(context: Context?) {
+        mDotFlow = flow {
+            while (true) {
+                emit(0)
+                delay(500)
+                emit(1)
+                delay(500)
+            }
+        }
+
+        mEllipsisFlow = flow {
+            while (true) {
+                (0..3).forEach {
+                    emit(it)
+                    delay(500)
+                }
+            }
+        }
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
@@ -38,17 +61,18 @@ class RecordingDokitView : AbsDokitView() {
     }
 
     override fun onViewCreated(rootView: FrameLayout?) {
+        rootView?.setOnClickListener {
+            if (ActivityUtils.getTopActivity() is DoKitMcActivity) {
+                return@setOnClickListener
+            }
+            val intent = Intent(activity, DoKitMcActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            activity.startActivity(intent)
+        }
         mRedDot = findViewById(R.id.red_dot)
         mExtend = findViewById(R.id.tv_extend)
         doKitViewScope.launch {
-            flow {
-                while (true) {
-                    emit(0)
-                    delay(500)
-                    emit(1)
-                    delay(500)
-                }
-            }.flowOn(Dispatchers.IO)
+            mDotFlow.flowOn(Dispatchers.IO)
                 .collect {
                     when (it) {
                         0 -> mRedDot?.visibility = View.VISIBLE
@@ -61,14 +85,7 @@ class RecordingDokitView : AbsDokitView() {
 
 
         doKitViewScope.launch {
-            flow {
-                while (true) {
-                    (0..3).forEach {
-                        emit(it)
-                        delay(500)
-                    }
-                }
-            }.flowOn(Dispatchers.IO)
+            mEllipsisFlow.flowOn(Dispatchers.IO)
                 .collect {
                     when (it) {
                         0 -> mExtend?.text = ""

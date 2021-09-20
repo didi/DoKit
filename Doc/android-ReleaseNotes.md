@@ -1,6 +1,36 @@
 DoraemonKit-Android releases
 ===
 
+## 3.5.0.1
+
+1、bug fixed
+
+2、DoKit For Android Kotlin 编译插件版本为1.3.72，支持Gradle 6.8及以下版本
+
+3、相关功能对应3.5.0
+
+## 3.5.0
+
+1、bug fixed
+
+2、DoKit For Android Kotlin 编译插件版本为1.4.32，支持Gradle 6.8及以上版本
+
+
+## 3.5.0.1-beta01
+
+1、Support AGP 7.0
+
+2、DoKit For Android Kotlin 编译插件版本为1.3.72，支持Gradle 6.8及以下版本
+
+3、相关功能对应3.5.0-beta01
+
+## 3.5.0-beta01
+
+1、Support AGP 7.0
+
+2、DoKit For Android Kotlin 编译插件版本为1.4.32，支持Gradle 6.8及以上版本
+
+
 ## 3.4.3.1
 
 1、DoKit For Android Kotlin 编译插件版本为1.3.72，支持Gradle 6.8及以下版本

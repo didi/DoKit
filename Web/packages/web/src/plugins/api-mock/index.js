@@ -3,7 +3,7 @@ import {getGlobalData, RouterPlugin} from '@dokit/web-core'
 import { getPartUrlByParam } from "@dokit/web-utils";
 import { request } from './../../assets/util'
 
-const mockBaseUrl = "https://pre.dokit.cn";
+const mockBaseUrl = "https://www.dokit.cn";
 
 const getCheckedInterfaceList = function (interfaceList) {
   return interfaceList.filter(i => i.checked)
@@ -80,9 +80,11 @@ export default new RouterPlugin({
               })
             }
           })
+          sceneId && fetchArgs[1] && (fetchArgs[1].method = 'get') && (fetchArgs[1].headers && delete fetchArgs[1].headers)
           sceneId && (fetchArgs[0] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return fetchArgs;
-        }
+        },
+        
       });
       request.hookXhr({
         onBeforeOpen: (args) => {
@@ -99,9 +101,29 @@ export default new RouterPlugin({
               })
             }
           })
+          sceneId && (args[0] = 'get')
           sceneId && (args[1] = `${mockBaseUrl}/api/app/scene/${sceneId}`)
           return args;
         },
+        onBeforeSetRequestHeader: (args, config) => {
+          let checkedInterfaceList = getCheckedInterfaceList(state.interfaceList)
+          let url = config.originRequestInfo.url;
+          let path = `/`+getPartUrlByParam(url, 'path')
+          let sceneId = ''
+          checkedInterfaceList.forEach(i => {
+            if(i.path === path) {
+              i.sceneList.forEach(scene => {
+                if(scene.checked) {
+                  sceneId = scene._id
+                }
+              })
+            }
+          })
+          if (sceneId) {
+            return false
+          }
+          return args
+        }
       });
   },
   onUnload(){}

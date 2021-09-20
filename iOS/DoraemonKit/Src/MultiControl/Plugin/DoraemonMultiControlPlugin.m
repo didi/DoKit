@@ -25,11 +25,11 @@
 
 
 + (void)UIApplicationDidFinishLaunchingNotificationDeal {
-  [[DoraemonManager shareInstance] addPluginWithTitle:@"一机多控"
+  [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonLocalizedString(@"一机多控")
                                                  icon:@"dk_icon_mc"
                                                  desc:@"一机多控入口"
                                            pluginName:@"一机多控"
-                                             atModule:@"平台工具"
+                                             atModule:DoraemonLocalizedString(@"平台工具")
                                                handle:^(NSDictionary * _Nonnull itemData) {
       DoraemonMCViewController *toolVC = [DoraemonMCViewController new];
       [DoraemonHomeWindow openPlugin:toolVC];

@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.EncodeUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.MainScope
@@ -158,7 +159,7 @@ fun String.toMap(): MutableMap<String, String> {
  * queryBody转成Map
  */
 fun RequestBody?.toMap(): MutableMap<String, String> {
-    val map = mutableMapOf<String, String>()
+    var map = mutableMapOf<String, String>()
     if (this == null || this.contentType() == null) {
         return map
     }
@@ -173,7 +174,11 @@ fun RequestBody?.toMap(): MutableMap<String, String> {
                 return strBody.toMap()
             }
             contentType.contains(DokitDbManager.MEDIA_TYPE_JSON) -> {
-                map["json"] = strBody
+                try {
+                    map = GsonUtils.fromJson<MutableMap<String, String>>(strBody, MutableMap::class.java)
+                } catch (e: Exception) {
+                    map["json"] = strBody
+                }
                 return map
             }
             contentType.contains(DokitDbManager.MEDIA_TYPE_PLAIN) -> {

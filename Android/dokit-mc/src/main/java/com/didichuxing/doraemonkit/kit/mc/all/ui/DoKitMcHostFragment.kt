@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
@@ -16,7 +17,9 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
+import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
+import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onTouchEventHook
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.util.CodeUtils
@@ -70,10 +73,10 @@ class DoKitMcHostFragment : BaseFragment() {
         ivCode.setImageBitmap(qCode)
         if (DoKitManager.WS_MODE != WSMode.HOST) {
             DoKitWsServer.start {
-                DoKitWindowManager.hookWindowManagerGlobal()
-                runTimeHook()
                 //启动悬浮窗
                 DoKit.launchFloating(HostDokitView::class)
+                DoKitWindowManager.hookWindowManagerGlobal()
+                runTimeHook()
             }
         }
     }
@@ -86,15 +89,6 @@ class DoKitMcHostFragment : BaseFragment() {
             //对于Android9.0以下的系统 需要反射将AccessibilityManager.mIsEnabled变量改成true
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 McHookUtil.hookAccessibilityManager(activity)
-//                val sendAccessibilityEventInternalMethod = XposedHelpers.findMethodExact(
-//                    View::class.java,
-//                    "sendAccessibilityEventInternal",
-//                    Int::class.java
-//                )
-//                DexposedBridge.hookMethod(
-//                    sendAccessibilityEventInternalMethod,
-//                    View_sendAccessibilityEventInternalHook()
-//                )
             }
 
             //绕过无障碍的权限
@@ -103,48 +97,36 @@ class DoKitMcHostFragment : BaseFragment() {
                 "isEnabled",
                 AccessibilityGetInstanceMethodHook()
             )
-            //hook sendAccessibilityEventUnchecked
-//            val sendAccessibilityEventUncheckedMethod = XposedHelpers.findMethodExact(
-//                View::class.java,
-//                "sendAccessibilityEventUnchecked",
-//                AccessibilityEvent::class.java
-//            )
-//            DexposedBridge.hookMethod(
-//                sendAccessibilityEventUncheckedMethod,
-//                View_sendAccessibilityEventUncheckedHook()
-//            )
 
-
-//            val sendAccessibilityEventUncheckedInternalMethod = XposedHelpers.findMethodExact(
-//                View::class.java,
-//                "sendAccessibilityEventUncheckedInternal",
-//                AccessibilityEvent::class.java
-//            )
-//            DexposedBridge.hookMethod(
-//                sendAccessibilityEventUncheckedInternalMethod,
-//                View_sendAccessibilityEventUncheckedInternalHook()
-//            )
 
             //hook onInitializeAccessibilityEvent
-            val onInitializeAccessibilityEventMethod = XposedHelpers.findMethodExact(
+//            val onInitializeAccessibilityEventMethod = XposedHelpers.findMethodExact(
+//                View::class.java,
+//                "onInitializeAccessibilityEvent",
+//                AccessibilityEvent::class.java
+//            )
+//            DexposedBridge.hookMethod(
+//                onInitializeAccessibilityEventMethod,
+//                View_onInitializeAccessibilityEventHook()
+//            )
+            DexposedBridge.findAndHookMethod(
                 View::class.java,
                 "onInitializeAccessibilityEvent",
-                AccessibilityEvent::class.java
-            )
-            DexposedBridge.hookMethod(
-                onInitializeAccessibilityEventMethod,
+                AccessibilityEvent::class.java,
                 View_onInitializeAccessibilityEventHook()
             )
 
-            //hook OnTouchListener#onTouch
-//            val onTouchEventMethod = XposedHelpers.findMethodExact(
+
+            //hook View#onTouchEvent
+//            val onTouchEventEventMethod = XposedHelpers.findMethodExact(
 //                View::class.java,
 //                "onTouchEvent",
 //                MotionEvent::class.java
 //            )
-//
-//            DexposedBridge.hookMethod(onTouchEventMethod, View_onTouchEventHook())
-
+//            DexposedBridge.hookMethod(
+//                onTouchEventEventMethod,
+//                View_onTouchEventHook()
+//            )
 
         } catch (e: Exception) {
             e.printStackTrace()

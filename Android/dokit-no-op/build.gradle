@@ -42,4 +42,5 @@ dependencies {
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
+    compileOnly rootProject.ext.dependencies["hummer"]
 }

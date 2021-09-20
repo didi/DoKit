@@ -52,7 +52,7 @@ public class StringUtil {
     }
 
     /*
-        * Replace all occurances of the searchString in the originalString with the replaceString.  Faster than the
+        * Replace all occurrences of the searchString in the originalString with the replaceString.  Faster than the
         * String.replace() method.  Does not use regexes.
         * <p/>
         * If your searchString is empty, this will spin forever.

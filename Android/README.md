@@ -3,8 +3,8 @@
 ## DoKit Android 最新版本
 **由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral()，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：**
 
-**lastversion:3.4.3；kotlin编译插件为1.4.32 ；支持Gradle 6.8及以上**
-**lastversion:3.4.3.1； kotlin编译插件为1.3.72； 支持Gradle 6.8及以下**
+**lastversion:3.5.0；kotlin编译插件为1.4.32 ；支持Gradle 6.8及以上**
+**lastversion:3.5.0.1； kotlin编译插件为1.3.72； 支持Gradle 6.8及以下**
 
 |DoKit|最新版本|描述|
 |-|-|-|
@@ -369,6 +369,13 @@ public class DoKit private constructor() {
             view: View? = null,
             param: Map<String, String>? = null
         ) {
+        }
+        /**
+         * 获取一机多控类型
+         */
+        @JvmStatic
+        fun mcMode(): WSMode {
+            return WSMode.UNKNOW
         }
     }
 

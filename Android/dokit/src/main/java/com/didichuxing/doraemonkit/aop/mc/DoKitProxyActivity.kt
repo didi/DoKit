@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.kit.core.DokitServiceEnum
@@ -60,9 +61,29 @@ public open class DoKitProxyActivity : Activity() {
     }
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+//    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (applicationInfo.targetSdkVersion < Build.VERSION_CODES.ECLAIR) {
+                DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+            }
+        }
+
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (applicationInfo.targetSdkVersion >= Build.VERSION_CODES.ECLAIR) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event!!.isTracking && !event.isCanceled) {
+                DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+            }
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun onPause() {
@@ -92,6 +113,12 @@ public open class DoKitProxyActivity : Activity() {
         //LogHelper.i(TAG, "===onAttachedToWindow===")
 
     }
+
+    //真正可见
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+    }
+
 
 
 }

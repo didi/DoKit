@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DoraemonMCMessagePackager.h"
-
+#import "DoraemonMCEventHandler.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMCCommandExcutor : NSObject
@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 + (void)excuteMessage:(DoraemonMCMessage *)message;
+
+
+//增加自定义事件
++ (void)addCustomMessage:(NSString *)type eventHandlerName:(DoraemonMCEventHandler *)eventHandler;
 
 @end
 

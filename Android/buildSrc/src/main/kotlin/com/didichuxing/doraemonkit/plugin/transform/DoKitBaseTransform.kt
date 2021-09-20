@@ -18,7 +18,7 @@ import org.gradle.api.Project
  * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
  * @author johnsonlee
  */
-open class DoKitBaseTransform(val project: Project) : Transform() {
+open class DoKitBaseTransform protected constructor(val project: Project) : Transform() {
 
     /*transformers
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
@@ -78,6 +78,7 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
             }
         }
     }
+
 
 
 }
