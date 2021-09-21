@@ -80,7 +80,8 @@ object DoKitReal {
         val strDokitMode = DoKitSPUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
         DoKitManager.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
-        installLeakCanary(app)
+        //建议业务自己接入
+        //installLeakCanary(app)
         checkLargeImgIsOpen()
         registerNetworkStatusChangedListener()
         startAppHealth()
