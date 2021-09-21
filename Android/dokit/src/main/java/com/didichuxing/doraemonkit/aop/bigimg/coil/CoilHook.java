@@ -6,9 +6,11 @@ import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import coil.request.ImageRequest;
 import coil.transform.Transformation;
+import okhttp3.Interceptor;
 
 /**
  * ================================================
@@ -20,9 +22,9 @@ import coil.transform.Transformation;
  * ================================================
  */
 public class CoilHook {
+
     /**
      * hook transformations
-     *
      */
 
     public static void proxy(Object request) {
@@ -30,20 +32,26 @@ public class CoilHook {
         try {
             if (request instanceof ImageRequest) {
                 ImageRequest requestObj = (ImageRequest) request;
-                List<Transformation> transformations = requestObj.getTransformations();
-                if (transformations.isEmpty()) {
-                    transformations = new ArrayList<>();
+                List<Transformation> transformations = new ArrayList<>(requestObj.getTransformations());
+                if (!hasDoKitTransformation(transformations)) {
                     transformations.add(new DokitCoilTransformation(requestObj.getData()));
-                } else {
-                    transformations.clear();
-                    transformations.add(new DokitCoilTransformation(requestObj.getData()));
+                    ReflectUtils.reflect(request).field("transformations", transformations);
                 }
-                ReflectUtils.reflect(request).field("transformations", transformations);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+
+    private static boolean hasDoKitTransformation(List<Transformation> transformations) {
+        for (Transformation transformation : transformations) {
+            if (transformation instanceof DokitCoilTransformation) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
