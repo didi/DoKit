@@ -228,7 +228,19 @@ class CommClassTransformer : AbsClassTransformer() {
                 }
             }
 
-
+//            // 插入滴滴地图相关字节码
+//            if (className == "com.didichuxing.bigdata.dp.locsdk.DIDILocationManager") {
+//                // 持续定位和单次定位
+//                klass.methods?.filter {
+//                    it.name == "requestLocationUpdateOnce" || it.name == "requestLocationUpdates"
+//                }?.forEach { methodNode ->
+//                    "${context.projectDir.lastPath()}->hook didi map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+//                    methodNode?.instructions?.insert(createDMapLocationListenerInsnList())
+//                }
+//
+//                // 反注册监听器
+//                // todo xueying
+//            }
         }
 
 
@@ -996,6 +1008,31 @@ class CommClassTransformer : AbsClassTransformer() {
 
     }
 
+    /**
+     * 创建滴滴地图代码指令
+     */
+    private fun createDMapLocationListenerInsnList(): InsnList {
+        return with(InsnList()) {
+            //在DIDILocationManager的requestLocationUpdateOnce方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/DMapLocationListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/map/DMapLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/didichuxing/bigdata/dp/locsdk/DIDILocationListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+            this
+        }
+
+    }
 
     /**
      * 创建OkhttpClient一个数构造函数指令

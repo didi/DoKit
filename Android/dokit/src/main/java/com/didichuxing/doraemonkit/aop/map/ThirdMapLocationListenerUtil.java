@@ -39,6 +39,10 @@ public class ThirdMapLocationListenerUtil {
         GpsMockProxyManager.INSTANCE.removeBDAbsLocationListener(locationListener);
     }
 
+    public static void unRegisterDMapLocationListener(DMapLocationListener locationListener){
+        GpsMockProxyManager.INSTANCE.removeDMapLocationListener(locationListener);
+    }
+
     public static void unRegisterLocationListener(LocationListener locationListener) {
         GpsMockProxyManager.INSTANCE.removeLocationListener(locationListener);
     }

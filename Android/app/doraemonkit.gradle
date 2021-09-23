@@ -8,9 +8,10 @@ if (runType == 0) {
         debugImplementation project(":dokit")
         debugImplementation project(":dokit-mc")
         debugImplementation project(":dokit-ft")
-        debugImplementation project(":dokit-weex")
+//        debugImplementation project(":dokit-weex")
 //        debugImplementation project(":dokit-rpc")
 //        debugImplementation project(":dokit-rpc-mc")
+        debugImplementation project(":dokit-dmap")  // todo xueying
         releaseImplementation project(":dokit-no-op")
     }
 } else if (runType == 1) {

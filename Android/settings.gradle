@@ -11,3 +11,4 @@ include ':dokit-no-op'
 include ':dokit-plugin'
 //include ':dokit-rpc'
 //include ':dokit-rpc-mc'
+include ':dokit-dmap'  // todo xueying

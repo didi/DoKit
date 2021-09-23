@@ -160,6 +160,8 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp_v3"]
     implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["dmap"]
+
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
     kapt rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["picasso"]
