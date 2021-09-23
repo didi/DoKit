@@ -12,18 +12,21 @@
   <h1>DoKit For Web</h1>
   <h2>Playground</h2>
 </body>
-<script src="https://unpkg.com/vue@next"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.1.5/vue.global.js"></script>
 <script src="../packages/web/dist/dokit.js"></script>
 <script>
   Dokit.setProductId('379cca45571436f86c31d687578541fc')
 </script>
 <script>
   setTimeout(() => {
-    // fetch('https://www.tianqiapi.com/free/day?appid=68852321&appsecret=BgGLDVc7', {
-    //   body: JSON.stringify({
-    //     a:1
+    // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
+    //   // body: JSON.stringify({
+    //   //   a:1
+    //   // }),
+    //   headers: new Headers({
+    //     'Content-Type': 'text/html; charset=utf-8'
     //   }),
-    //   method: 'get',
+    //   method: 'post',
     // })
     //   .then((response) => {
     //     let weatherInfo = response.json();
@@ -39,6 +42,7 @@
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
     oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
     oReq.send(JSON.stringify({
       a:1
     }));

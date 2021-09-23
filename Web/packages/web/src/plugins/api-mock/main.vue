@@ -13,8 +13,6 @@
 <script>
 import interfaceItem from "./interface-item";
 
-const mockBaseUrl = "https://pre.dokit.cn";
-
 export default {
   components: {
     interfaceItem,

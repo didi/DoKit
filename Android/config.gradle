@@ -95,6 +95,7 @@ ext {
                     "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"                 : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
                     "glide_compiler"                : "com.github.bumptech.glide:compiler:${android["glide_version"]}",
+                    "coil"                          : 'io.coil-kt:coil:1.3.2',
                     "picasso"                       : 'com.squareup.picasso:picasso:2.71828',
                     "fresco"                        : 'com.facebook.fresco:fresco:1.13.0',
                     "fresco-processors"             : "jp.wasabeef:fresco-processors:2.1.0",

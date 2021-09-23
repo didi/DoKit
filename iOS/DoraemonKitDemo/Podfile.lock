@@ -69,6 +69,7 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
+  - Masonry (0.6.3)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -95,6 +96,7 @@ DEPENDENCIES:
   - DoraemonKit/WithMultiControl (from `../../`)
   - DoraemonKit/WithWeex (from `../../`)
   - "FBRetainCycleDetector (from `git@github.com:facebook/FBRetainCycleDetector.git`, branch `master`)"
+  - Masonry (= 0.6.3)
   - SDWebImage (~> 5.11)
   - SDWebImageWebPCoder (~> 0.8)
   - SocketRocket (~> 0.5)
@@ -109,6 +111,7 @@ SPEC REPOS:
     - FMDB
     - GCDWebServer
     - libwebp
+    - Masonry
     - SDWebImage
     - SDWebImageWebPCoder
     - SocketRocket
@@ -138,6 +141,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f56ab499e3ea57dfeb6c3187dce183b10e160db0
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
@@ -145,6 +149,6 @@ SPEC CHECKSUMS:
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
   YYDebugDatabase: e684a7f79fca2e3673a23347cefb822f911f3124
 
-PODFILE CHECKSUM: 77940354fa7f70dcc3caa7084c50a8b8efe8e6ce
+PODFILE CHECKSUM: 932a68754b6bfe4325178d4c6d3639dcd2278eb5
 
 COCOAPODS: 1.10.1

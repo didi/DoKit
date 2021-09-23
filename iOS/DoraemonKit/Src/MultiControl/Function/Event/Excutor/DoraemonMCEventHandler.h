@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo;
 
+- (UIView *)fetchTargetView;
+
 @end
 
 @interface DoraemonMCGestureRecognizerEventHandler : DoraemonMCEventHandler
