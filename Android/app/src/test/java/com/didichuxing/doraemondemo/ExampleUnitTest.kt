@@ -1,5 +1,7 @@
 package com.didichuxing.doraemondemo
 
+import okio.ByteString
+import okio.ByteString.Companion.encodeUtf8
 import org.junit.Test
 import java.lang.reflect.Proxy
 import java.util.*
@@ -27,6 +29,22 @@ class ExampleUnitTest {
         //println("drive ${car.drive()}")
 
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun hex() {
+        val originKey =
+            "method=POST&path=/gateway&fragment=null&query={\"api\":\"lj.u.d.changeOnline\",\"appKey\":\"b4f945fe780140d8a0d19d1f2d021db7\"}&contentType=application/json; charset=utf-8&requestBody={\"type\":1.0}"
+        val replace = originKey.replace("\\","")
+        println("replace===>${replace}")
+        val encodeUtf8 = originKey.replace("\\","").encodeUtf8().toString()
+        println("encodeUtf8===>${encodeUtf8}")
+        val md5 = originKey.replace("\\","").encodeUtf8().md5().toString()
+        println("md5===>${md5}")
+        val hex = originKey.replace("\\","").encodeUtf8().md5().hex()
+        println("hex===>${hex}")
+    }
+
 
     @Test
     fun testMapSort() {

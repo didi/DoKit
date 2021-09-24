@@ -50,11 +50,18 @@ allprojects {
     }
 }
 
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(":dokit-util")
-    implementation rootProject.ext.dependencies["kotlin"]
-    implementation rootProject.ext.dependencies["coroutines-core"]
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+        implementation rootProject.ext.dependencies["coroutines-core_v14"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+        implementation rootProject.ext.dependencies["coroutines-core_v13"]
+    }
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]
     compileOnly rootProject.ext.dependencies["hummer"]

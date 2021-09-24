@@ -1,9 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
     apply from: "config.gradle"
     def runType = rootProject.ext.publish_config["run_type"]
     def dokitPluginVersion = rootProject.ext.publish_config["version"]
-    def kotlinVersion = rootProject.ext.android["kotlin_version"]
+
+    def kotlinVersion
+    if (needKotlinV14()) {
+        kotlinVersion = rootProject.ext.android["kotlin_version_v14"]
+    } else {
+        kotlinVersion = rootProject.ext.android["kotlin_version_v13"]
+    }
+
     def gradlePluginVersion = rootProject.ext.android["agp_module_verson"]
 
 
@@ -14,11 +22,11 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
-//        maven {
-//            //本地插件地址
-//            url uri('/Users/didi/project/dokit_repo')
-//        }
+        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven {
+            //本地插件地址
+            url uri('/Users/didi/project/dokit_repo')
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
@@ -44,11 +52,11 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
-//        maven {
-//            //本地插件地址
-//            url uri('/Users/didi/project/dokit_repo')
-//        }
+        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven {
+            //本地插件地址
+            url uri('/Users/didi/project/dokit_repo')
+        }
     }
 }
 
@@ -156,4 +164,6 @@ task checkUploadConfig4Didi() {
 
     }
 }
+
+
 

@@ -31,9 +31,16 @@ android {
 
 }
 
+
+
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation rootProject.ext.dependencies["kotlin"]
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+    }
     implementation rootProject.ext.dependencies["annotation"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["drawerlayout"]

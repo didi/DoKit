@@ -11,29 +11,29 @@ ext {
             version      : '3.4.3.110'
     ]
 
-    android = [compileSdkVersion         : 29,
-               suppotrSdkVersion         : "28.0.0",
-               applicationId             : "com.didichuxing.doraemondemo",
-               minSdkVersion_16          : 16,
-               minSdkVersion_21          : 21,
-               targetSdkVersion          : 29,
+    android = [compileSdkVersion             : 29,
+               suppotrSdkVersion             : "28.0.0",
+               applicationId                 : "com.didichuxing.doraemondemo",
+               minSdkVersion_16              : 16,
+               minSdkVersion_21              : 21,
+               targetSdkVersion              : 29,
                //app版本号
-               versionCode               : 1,
-               versionName               : "1.0.0",
-               glide_version             : "4.9.0",
-               kotlin_version            : "1.3.72",
-//           kotlin_version               : "1.4.20",
-//               kotlin_version               : "1.4.32",
-               kotlinx_coroutines_version: "1.3.7",
-//               kotlinx_coroutines_version   : "1.4.2",
-//               kotlinx_coroutines_version   : "1.4.3",
-               booster_version           : "4.0.0",
-               agp_module_verson         : "7.0.0",
-               agp_plugin_verson         : "4.2.2",
-               ktor                      : "1.5.4",
-               okhttp_v2                 : "2.7.5",
-               okhttp_v3                 : "3.14.7",
-               okhttp_v4                 : "4.7.0"
+               versionCode                   : 1,
+               versionName                   : "1.0.0",
+               glide_version                 : "4.9.0",
+               kotlin_version_v13            : "1.3.72",
+               kotlin_version_v14            : "1.4.32",
+               kotlinx_coroutines_version_v13: "1.3.7",
+               kotlinx_coroutines_version_v14: "1.4.3",
+               booster_version               : "4.0.0",
+               agp_module_verson             : "7.0.0",
+               agp_plugin_verson             : "4.2.2",
+               ktor                          : "1.5.4",
+               okhttp_v2                     : "2.7.5",
+               okhttp_v3                     : "3.14.7",
+               okhttp_v4                     : "4.7.0",
+               coil_v11                      : "1.1.0",
+               coil_v13                      : "1.3.2",
     ]
 
     dependencies = [// ###### android library  start ######
@@ -43,9 +43,12 @@ ext {
                     "recyclerview"                  : 'androidx.recyclerview:recyclerview:1.1.0',
                     "material"                      : 'com.google.android.material:material:1.1.0',
                     "annotation"                    : "androidx.annotation:annotation:1.1.0",
-                    "kotlin"                        : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version"]}",
-                    "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version"]}",
-                    "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version"]}",
+                    "kotlin_v13"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v13"]}",
+                    "kotlin_v14"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v14"]}",
+                    "coroutines-core_v13"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v13"]}",
+                    "coroutines-core_v14"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v14"]}",
+                    "coroutines-android_v13"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v13"]}",
+                    "coroutines-android_v14"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v14"]}",
                     "core-ktx"                      : "androidx.core:core-ktx:1.3.0",
                     "activity-ktx"                  : "androidx.activity:activity-ktx:1.2.3",
                     "webkit"                        : "androidx.webkit:webkit:1.3.0",
@@ -95,7 +98,8 @@ ext {
                     "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"                 : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
                     "glide_compiler"                : "com.github.bumptech.glide:compiler:${android["glide_version"]}",
-                    "coil"                          : 'io.coil-kt:coil:1.3.2',
+                    "coil_v11"                      : "io.coil-kt:coil:${android["coil_v11"]}",
+                    "coil_v13"                      : "io.coil-kt:coil:${android["coil_v13"]}",
                     "picasso"                       : 'com.squareup.picasso:picasso:2.71828',
                     "fresco"                        : 'com.facebook.fresco:fresco:1.13.0',
                     "fresco-processors"             : "jp.wasabeef:fresco-processors:2.1.0",
@@ -147,4 +151,11 @@ ext {
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
 
     ]
+    //定义全局方法
+    needKotlinV14 = {
+        String version = publish_config["version"]
+        //分割字符串
+        String[] vs = version.split("\\.")
+        return vs.length == 3
+    }
 }

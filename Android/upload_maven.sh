@@ -25,5 +25,4 @@ RES="\033[0m"
 ./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
-echo "打包上传到MavenCenter()仓库完成！！！"
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

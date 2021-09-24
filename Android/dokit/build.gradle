@@ -57,12 +57,15 @@ android {
 }
 
 dependencies {
-
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
-    implementation rootProject.ext.dependencies["kotlin"]
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+    }
     implementation rootProject.ext.dependencies["lifecycle-comm"]
 
     implementation rootProject.ext.dependencies["constraintLayout"]
@@ -101,14 +104,17 @@ dependencies {
 
 
     //三大图片框架
-    compileOnly rootProject.ext.dependencies["coil"]
+    if (needKotlinV14()) {
+        compileOnly rootProject.ext.dependencies["coil_v13"]
+    } else {
+        compileOnly rootProject.ext.dependencies["coil_v11"]
+    }
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
     compileOnly rootProject.ext.dependencies["image-loader"]
     //腾讯x5
     compileOnly rootProject.ext.dependencies["tbs"]
-
 
     //高德地图
 //    implementation rootProject.ext.dependencies["amap_map3d"]
