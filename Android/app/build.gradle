@@ -97,9 +97,12 @@ android {
         //dokit ktor pickFirst
 //        pickFirst 'META-INF/io.netty.versions.properties'
 //        pickFirst 'META-INF/INDEX.LIST'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
     }
-
-
 }
 
 
@@ -160,7 +163,6 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp_v3"]
     implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["glide"]
-    implementation rootProject.ext.dependencies["dmap"]
 
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
     kapt rootProject.ext.dependencies["glide_compiler"]
@@ -195,6 +197,8 @@ dependencies {
 //    implementation files('libs/BaiduLBS_Android.jar')
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
+    //新四地图
+    implementation rootProject.ext.dependencies["dmap"]
     debugImplementation rootProject.ext.dependencies["leakcanary_android"]
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

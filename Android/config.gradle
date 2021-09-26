@@ -8,7 +8,7 @@ ext {
             //1:依赖dokit远程aar运行
             run_type     : 0,
             group_id     : 'io.github.didi.dokit',
-            version      : '3.5.0'
+            version      : '3.5.0.100'
     ]
 
     android = [compileSdkVersion         : 29,
@@ -21,12 +21,12 @@ ext {
                versionCode               : 1,
                versionName               : "1.0.0",
                glide_version             : "4.9.0",
-//               kotlin_version            : "1.3.72",
+               kotlin_version            : "1.3.72",
 //           kotlin_version               : "1.4.20",
-               kotlin_version               : "1.4.32",
-//               kotlinx_coroutines_version: "1.3.7",
+//               kotlin_version               : "1.4.32",
+               kotlinx_coroutines_version: "1.3.7",
 //               kotlinx_coroutines_version   : "1.4.2",
-               kotlinx_coroutines_version   : "1.4.3",
+//               kotlinx_coroutines_version   : "1.4.3",
                booster_version           : "4.0.0",
                agp_module_verson         : "7.0.0",
                agp_plugin_verson         : "4.2.2",
@@ -130,7 +130,7 @@ ext {
                     "amap_search"                   : 'com.amap.api:search:latest.integration',
                     "amap_navi"                     : 'com.amap.api:navi-3dmap:latest.integration',
                     //新四地图
-                    "dmap"                          : 'com.didichuxing.bigdata.dp:didilocsdk:2.8.201',
+                    "dmap"                          : 'com.didi.nav.driving:sdk:0.0.2065',
                     //腾讯地图定位
                     "tencent_location"              : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
                     "tencent_map"                   : 'com.tencent.map:tencent-map-vector-sdk:4.4.0',

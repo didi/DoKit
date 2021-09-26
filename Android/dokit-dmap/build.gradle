@@ -1,6 +1,8 @@
-plugins {
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: '../upload.gradle'
+
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

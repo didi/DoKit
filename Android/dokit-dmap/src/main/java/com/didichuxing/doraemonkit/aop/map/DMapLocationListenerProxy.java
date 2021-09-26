@@ -45,9 +45,9 @@ public class DMapLocationListenerProxy implements DIDILocationListener, DMapLoca
 
     @Override
     public void onLocationChange(Location location) {
-        DIDILocation didiLocation = new DIDILocation();
-        DIDILocation.loadFromSystemLoc(location, ETraceSource.cache, 0);
-//        didiLocation.getLatitude();
-//        this.onLocationChanged();
+        DIDILocation didiLocation = DIDILocation.loadFromSystemLoc(location, ETraceSource.cache, 0);
+        if (didiLocationListener != null) {
+            didiLocationListener.onLocationChanged(didiLocation);
+        }
     }
 }
