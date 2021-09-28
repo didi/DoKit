@@ -1,5 +1,6 @@
 buildscript {
     apply from: "../config.gradle"
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,8 +10,11 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
-        //classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
+        if (needKotlinV14()) {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version_v14"]}"
+        } else {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version_v13"]}"
+        }
     }
 }
 //apply plugin: 'java-library'

@@ -116,17 +116,14 @@ class DoKitMcHostFragment : BaseFragment() {
                 View_onInitializeAccessibilityEventHook()
             )
 
-
             //hook View#onTouchEvent
-//            val onTouchEventEventMethod = XposedHelpers.findMethodExact(
+//            DexposedBridge.findAndHookMethod(
 //                View::class.java,
 //                "onTouchEvent",
-//                MotionEvent::class.java
-//            )
-//            DexposedBridge.hookMethod(
-//                onTouchEventEventMethod,
+//                MotionEvent::class.java,
 //                View_onTouchEventHook()
 //            )
+
 
         } catch (e: Exception) {
             e.printStackTrace()

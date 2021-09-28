@@ -2,6 +2,7 @@ package com.didichuxing.doraemondemo.mc
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatButton
 
 /**
@@ -70,4 +71,9 @@ class DoKitButton : AppCompatButton {
 //        this.parent?.requestSendAccessibilityEvent(this, event)
 //        LogHelper.i(TAG, "event3===>$event")
 //    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
+
+    }
 }

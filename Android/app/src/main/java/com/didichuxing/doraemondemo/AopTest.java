@@ -12,9 +12,6 @@ package com.didichuxing.doraemondemo;
 public class AopTest {
 
 
-
-
-
     public void getDoKit() {
 //        OkHttpHook.addDoKitIntercept(this);
     }

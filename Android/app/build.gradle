@@ -92,7 +92,6 @@ android {
     }
 
 
-
     packagingOptions {
         //dokit ktor pickFirst
 //        pickFirst 'META-INF/io.netty.versions.properties'
@@ -143,6 +142,7 @@ android {
 //    }
 //}
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
@@ -151,10 +151,19 @@ dependencies {
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["lifecycle-viewmodel-savedstate"]
     implementation rootProject.ext.dependencies["appcompat"]
-    implementation rootProject.ext.dependencies["coroutines-core"]
-    implementation rootProject.ext.dependencies["coroutines-android"]
+
     implementation rootProject.ext.dependencies["material"]
-    implementation rootProject.ext.dependencies["kotlin"]
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+        implementation rootProject.ext.dependencies["coroutines-core_v14"]
+        implementation rootProject.ext.dependencies["coroutines-android_v14"]
+        implementation rootProject.ext.dependencies["coil_v13"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+        implementation rootProject.ext.dependencies["coroutines-core_v13"]
+        implementation rootProject.ext.dependencies["coroutines-android_v13"]
+        implementation rootProject.ext.dependencies["coil_v11"]
+    }
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["retrofit2"]
@@ -166,6 +175,7 @@ dependencies {
 
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
     kapt rootProject.ext.dependencies["glide_compiler"]
+
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]

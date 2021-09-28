@@ -41,11 +41,16 @@ android {
 
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
-    implementation rootProject.ext.dependencies["kotlin"]
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+    }
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["appcompat"]
@@ -53,7 +58,6 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["zxing"]
-    implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["epic"]
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
