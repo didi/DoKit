@@ -24,4 +24,5 @@ RES="\033[0m"
 ./gradlew :dokit-rpc-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
+./gradlew :dokit-dmap:publish
 echo -e "${GREEN_COLOR}本地打包完成！！！${RES}"

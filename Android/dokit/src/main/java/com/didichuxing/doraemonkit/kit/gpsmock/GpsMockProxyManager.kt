@@ -10,7 +10,6 @@ import com.didichuxing.doraemonkit.aop.map.*
 import com.didichuxing.doraemonkit.kit.gpsmock.LocationHooker.LocationListenerProxy
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
-import java.util.*
 
 /**
  * 三方地图管理类
@@ -25,6 +24,7 @@ object GpsMockProxyManager {
     private val mBDLocationListenerProxies: MutableList<BDLocationListenerProxy?> = ArrayList()
     private val mTencentLocationListenerProxies: MutableList<TencentLocationListenerProxy?> =
         ArrayList()
+    private val mDMapLocationListenerProxies: MutableList<DMapLocationListener> = ArrayList()
     private val mLocationListenerProxies: MutableList<LocationListenerProxy> = ArrayList()
 
 
@@ -50,6 +50,10 @@ object GpsMockProxyManager {
 
     fun addTencentLocationListenerProxy(tencentLocationListenerProxy: TencentLocationListenerProxy) {
         mTencentLocationListenerProxies.add(tencentLocationListenerProxy)
+    }
+
+    fun addDMapLocationListenerProxy(locationListenerProxy: DMapLocationListener) {
+        mDMapLocationListenerProxies.add(locationListenerProxy)
     }
 
     fun addLocationListenerProxy(locationListenerProxy: LocationListenerProxy) {
@@ -116,6 +120,16 @@ object GpsMockProxyManager {
         }
     }
 
+    fun removeDMapLocationListener(listener: DMapLocationListener) {
+        val it = mDMapLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy.getDMapLocation() === listener) {
+                it.remove()
+            }
+        }
+    }
+
     fun clearProxy() {
         mAMapLocationListenerProxies.clear()
         mBDAbsLocationListenerProxies.clear()
@@ -126,7 +140,7 @@ object GpsMockProxyManager {
 
     fun mockLocationWithNotify(location: Location?) {
         if (location == null) return
-        
+
         try {
             notifyLocationListenerProxy(location)
         } catch (e: Exception) {
@@ -153,7 +167,11 @@ object GpsMockProxyManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
+        try {
+            notifyDMapLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun notifyAMapLocationListenerProxy(location: Location?) {
@@ -217,5 +235,11 @@ object GpsMockProxyManager {
         }
     }
 
-
+    private fun notifyDMapLocationListenerProxy(location: Location?) {
+        if (location != null) {
+            for (dMapLocationListener in mDMapLocationListenerProxies){
+                dMapLocationListener.onLocationChange(location)
+            }
+        }
+    }
 }

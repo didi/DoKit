@@ -25,4 +25,5 @@ RES="\033[0m"
 ./gradlew :dokit-rpc-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
+./gradlew :dokit-dmap:publish
 echo -e  "${GREEN_COLOR} 打包上传到滴滴内部仓库完成！！！${RES}"
