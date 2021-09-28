@@ -239,7 +239,6 @@ class CommClassTransformer : AbsClassTransformer() {
                 }
 
                 // 反注册监听器
-                // todo xueying
             }
         }
 
@@ -1031,8 +1030,8 @@ class CommClassTransformer : AbsClassTransformer() {
             add(VarInsnNode(ASTORE, 1))
             this
         }
-
     }
+
 
     /**
      * 创建OkhttpClient一个数构造函数指令

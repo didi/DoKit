@@ -11,7 +11,7 @@ if (runType == 0) {
 //        debugImplementation project(":dokit-weex")
 //        debugImplementation project(":dokit-rpc")
 //        debugImplementation project(":dokit-rpc-mc")
-        debugImplementation project(":dokit-dmap")  // todo xueying
+//        debugImplementation project(":dokit-dmap")
         releaseImplementation project(":dokit-no-op")
     }
 } else if (runType == 1) {

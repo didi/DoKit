@@ -102,6 +102,7 @@ class BigImgClassTransformer : AbsClassTransformer() {
             }
         }
 
+
         return klass
     }
 

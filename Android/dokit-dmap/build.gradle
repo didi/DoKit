@@ -35,7 +35,6 @@ android {
 }
 
 dependencies {
-//    compileOnly rootProject.ext.dependencies["dmap"]
+    compileOnly rootProject.ext.dependencies["dmap"]
     implementation project(path: ':dokit')
-    compileOnly 'com.didichuxing.bigdata.dp:didilocsdk:2.8.201'
 }

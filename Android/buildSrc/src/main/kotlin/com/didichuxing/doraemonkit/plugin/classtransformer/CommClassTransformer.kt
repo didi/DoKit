@@ -239,7 +239,6 @@ class CommClassTransformer : AbsClassTransformer() {
                 }
 
                 // 反注册监听器
-                // todo xueying
             }
         }
 
