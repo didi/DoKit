@@ -15,6 +15,7 @@ import android.view.Choreographer;
 import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
@@ -181,8 +182,8 @@ public class PerformanceDataManager {
     }
 
     public void init() {
-        mContext = DoKit.APPLICATION.getApplicationContext();
-        mActivityManager = (ActivityManager) DoKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
+        mContext = DoKitEnv.requireApp().getApplicationContext();
+        mActivityManager = (ActivityManager) DoKitEnv.requireApp().getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }

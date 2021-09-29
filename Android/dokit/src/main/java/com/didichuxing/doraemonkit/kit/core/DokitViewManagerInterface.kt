@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
-import kotlin.reflect.KClass
 
 /**
  * ================================================
@@ -27,7 +26,6 @@ interface DokitViewManagerInterface {
      */
     fun detach(dokitView: AbsDokitView)
 
-
     /**
      * 移除每个activity指定的dokitView tag
      *
@@ -35,9 +33,7 @@ interface DokitViewManagerInterface {
      */
     fun detach(tag: String)
 
-
     fun detach(doKitViewClass: Class<out AbsDokitView>)
-
 
     /**
      * 移除所有activity的所有dokitView
@@ -51,8 +47,7 @@ interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    fun <T:AbsDokitView> getDoKitView(activity: Activity?, clazz: Class<T>): AbsDokitView?
-
+    fun <T : AbsDokitView> getDoKitView(activity: Activity?, clazz: Class<T>): AbsDokitView?
 
     /**
      * 获取页面上所有的dokitView
@@ -92,10 +87,9 @@ interface DokitViewManagerInterface {
     fun onActivityStopped(activity: Activity?)
 
     /**
+     * Called on [Activity] resumed from activity lifecycle callbacks
      *
-     * @param activity
+     * @param activity resumed activity
      */
     fun dispatchOnActivityResumed(activity: Activity?)
-
-
 }

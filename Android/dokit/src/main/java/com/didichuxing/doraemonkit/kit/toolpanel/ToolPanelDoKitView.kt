@@ -124,7 +124,7 @@ class ToolPanelDoKitView : AbsDokitView() {
                         //常规模式下点击常用工具不隐藏工具面板
                         it.onClick(ActivityUtils.getTopActivity())
                         if (it.onClickWithReturn(ActivityUtils.getTopActivity())) {
-                            DokitViewManager.instance.detachToolPanel()
+                            DokitViewManager.INSTANCE.detachToolPanel()
                         }
 
                         //添加埋点

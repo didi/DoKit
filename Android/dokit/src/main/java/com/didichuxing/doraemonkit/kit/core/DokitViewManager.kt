@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
 import android.view.WindowManager
+import androidx.collection.ArrayMap
 import androidx.room.Room
-import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.DoKitEnv
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.ScreenUtils
-import kotlin.reflect.KClass
 
 /**
  * Created by jintai on 2018/10/23.
@@ -19,37 +19,35 @@ import kotlin.reflect.KClass
 internal class DokitViewManager : DokitViewManagerInterface {
 
     companion object {
-        @JvmStatic
-        val instance: DokitViewManager by lazy {
-            DokitViewManager()
-        }
         private const val TAG = "DokitViewManagerProxy"
+
+        @JvmStatic
+        val INSTANCE: DokitViewManager by lazy { DokitViewManager() }
 
         /**
          * 每个类型在页面中的位置 只保存marginLeft 和marginTop
          */
-        private val mDoKitViewPos: MutableMap<String, DoKitViewInfo> by lazy {
-            mutableMapOf<String, DoKitViewInfo>()
-        }
+        private val doKitViewPos: MutableMap<String, DoKitViewInfo> = ArrayMap<String, DoKitViewInfo>()
     }
 
-    private val mLastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> by lazy {
-        mutableMapOf<String, LastDokitViewPosInfo>()
-    }
-    private val mDoKitViewManager: AbsDokitViewManager by lazy {
-        if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
-            NormalDoKitViewManager()
-        } else {
-            SystemDoKitViewManager()
-        }
-    }
+    /**
+     * Retrieves app [WindowManager]
+     *
+     * @return WindowManager
+     */
+    val windowManager: WindowManager
+        get() = DoKitEnv.requireApp().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+    private val lastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> = ArrayMap<String, LastDokitViewPosInfo>()
+
+    private var _doKitViewManager: AbsDokitViewManager? = null
 
     //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
     //他可能造成主线程lock以及anr
     //所以我们的操作都是在新线程完成的
     val db: DokitDatabase by lazy {
         Room.databaseBuilder(
-            DoKit.APPLICATION,
+            DoKitEnv.requireApp(),
             DokitDatabase::class.java,
             "dokit-database"
         ) //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
@@ -59,7 +57,6 @@ internal class DokitViewManager : DokitViewManagerInterface {
             .build()
     }
 
-
     fun init() {
         //获取所有的intercept apis
         DokitDbManager.getInstance().getAllInterceptApis()
@@ -68,19 +65,18 @@ internal class DokitViewManager : DokitViewManagerInterface {
         DokitDbManager.getInstance().getAllTemplateApis()
     }
 
-
     /**
      * 当app进入后台时调用
      */
     override fun notifyBackground() {
-        mDoKitViewManager.notifyBackground()
+        ensureViewManager().notifyBackground()
     }
 
     /**
      * 当app进入前台时调用
      */
     override fun notifyForeground() {
-        mDoKitViewManager.notifyForeground()
+        ensureViewManager().notifyForeground()
     }
 
     /**
@@ -101,19 +97,18 @@ internal class DokitViewManager : DokitViewManagerInterface {
             landscapePoint.x = marginLeft
             landscapePoint.y = marginTop
         }
-        if (mDoKitViewPos[tag] == null) {
+        if (doKitViewPos[tag] == null) {
             val doKitViewInfo = DoKitViewInfo(orientation, portraitPoint, landscapePoint)
-            mDoKitViewPos[tag] =
+            doKitViewPos[tag] =
                 doKitViewInfo
         } else {
-            val doKitViewInfo = mDoKitViewPos[tag]
+            val doKitViewInfo = doKitViewPos[tag]
             if (doKitViewInfo != null) {
                 doKitViewInfo.orientation = orientation
                 doKitViewInfo.portraitPoint = portraitPoint
                 doKitViewInfo.landscapePoint = landscapePoint
             }
         }
-
     }
 
     /**
@@ -123,9 +118,7 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    fun getDoKitViewPos(tag: String): DoKitViewInfo? {
-        return mDoKitViewPos[tag]
-    }
+    fun getDoKitViewPos(tag: String): DoKitViewInfo? = doKitViewPos[tag]
 
     /**
      * 只有普通的浮标才需要调用
@@ -134,21 +127,15 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param activity
      */
     override fun dispatchOnActivityResumed(activity: Activity?) {
-        activity?.let {
-            mDoKitViewManager.dispatchOnActivityResumed(it)
-        }
+        activity?.also { ensureViewManager().dispatchOnActivityResumed(it) }
     }
 
     override fun onActivityPaused(activity: Activity?) {
-        activity?.let {
-            mDoKitViewManager.onActivityPaused(it)
-        }
+        activity?.also { ensureViewManager().onActivityPaused(it) }
     }
 
     override fun onActivityStopped(activity: Activity?) {
-        activity?.let {
-            mDoKitViewManager.onActivityStopped(it)
-        }
+        activity?.also { ensureViewManager().onActivityStopped(it) }
     }
 
     /**
@@ -157,63 +144,60 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param dokitIntent
      */
     override fun attach(dokitIntent: DokitIntent) {
-        mDoKitViewManager.attach(dokitIntent)
+        ensureViewManager().attach(dokitIntent)
     }
 
     /**
      * 隐藏工具列表dokitView
      */
     fun detachToolPanel() {
-        mDoKitViewManager.detachToolPanel()
+        ensureViewManager().detachToolPanel()
     }
 
     /**
      * 显示工具列表dokitView
      */
     fun attachToolPanel(activity: Activity) {
-        mDoKitViewManager.attachToolPanel(activity)
+        ensureViewManager().attachToolPanel(activity)
     }
 
     /**
      * 显示主图标 dokitView
      */
     fun attachMainIcon(activity: Activity) {
-        mDoKitViewManager.attachMainIcon(activity)
+        ensureViewManager().attachMainIcon(activity)
     }
 
     /**
      * 隐藏首页图标
      */
     fun detachMainIcon() {
-        mDoKitViewManager.detachMainIcon()
+        ensureViewManager().detachMainIcon()
     }
 
     /**
      * 移除每个activity指定的dokitView
      */
     override fun detach(tag: String) {
-        mDoKitViewManager.detach(tag)
+        ensureViewManager().detach(tag)
     }
-
 
     /**
      * 移除每个activity指定的dokitView
      */
     override fun detach(dokitView: AbsDokitView) {
-        mDoKitViewManager.detach(dokitView)
+        ensureViewManager().detach(dokitView)
     }
-
 
     override fun detach(doKitViewClass: Class<out AbsDokitView>) {
-        mDoKitViewManager.detach(doKitViewClass)
+        ensureViewManager().detach(doKitViewClass)
     }
-
 
     /**
      * 移除所有activity的所有dokitView
      */
     override fun detachAll() {
-        mDoKitViewManager.detachAll()
+        ensureViewManager().detachAll()
     }
 
     /**
@@ -223,38 +207,23 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    override fun <T : AbsDokitView> getDoKitView(
-        activity: Activity?,
-        clazz: Class<T>
-    ): AbsDokitView? {
-        return if (activity != null) {
-            mDoKitViewManager.getDoKitView(activity, clazz)
-        } else {
-            null
-        }
-
+    override fun <T : AbsDokitView> getDoKitView(activity: Activity?, clazz: Class<T>): AbsDokitView? {
+        return activity?.let { ensureViewManager().getDoKitView(it, clazz) }
     }
 
     /**
      * Activity销毁时调用
      */
     override fun onActivityDestroyed(activity: Activity?) {
-        activity?.let {
-            mDoKitViewManager.onActivityDestroyed(it)
-        }
+        activity?.also { ensureViewManager().onActivityDestroyed(it) }
     }
-
 
     /**
      * @param activity
      * @return
      */
     override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView>? {
-        return if (activity != null) {
-            mDoKitViewManager.getDoKitViews(activity)
-        } else {
-            null
-        }
+        return activity?.let { ensureViewManager().getDoKitViews(it) }
     }
 
     /**
@@ -270,10 +239,10 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param listener
      */
     fun addDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
-
-        if (!DoKitManager.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDoKitViewManager) {
-            (mDoKitViewManager as SystemDoKitViewManager).addListener(listener!!)
-        }
+        listener?.takeIf { !DoKitManager.IS_NORMAL_FLOAT_MODE && _doKitViewManager is SystemDoKitViewManager }
+            ?.also {
+                (_doKitViewManager as? SystemDoKitViewManager)?.addListener(it)
+            }
     }
 
     /**
@@ -282,32 +251,29 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param listener
      */
     fun removeDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
-
-        if (!DoKitManager.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDoKitViewManager) {
-            (mDoKitViewManager as SystemDoKitViewManager).removeListener(listener!!)
-        }
+        listener?.takeIf { !DoKitManager.IS_NORMAL_FLOAT_MODE && _doKitViewManager is SystemDoKitViewManager }
+            ?.also {
+                (_doKitViewManager as SystemDoKitViewManager).removeListener(it)
+            }
     }
-
-    /**
-     * 获取
-     *
-     * @return WindowManager
-     */
-    val windowManager: WindowManager
-        get() = DoKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
     fun saveLastDokitViewPosInfo(key: String, lastDokitViewPosInfo: LastDokitViewPosInfo) {
-        mLastDoKitViewPosInfoMaps[key] = lastDokitViewPosInfo
+        lastDoKitViewPosInfoMaps[key] = lastDokitViewPosInfo
     }
 
-    fun getLastDokitViewPosInfo(key: String): LastDokitViewPosInfo? {
-        return mLastDoKitViewPosInfoMaps[key]
-    }
+    fun getLastDokitViewPosInfo(key: String): LastDokitViewPosInfo? = lastDoKitViewPosInfoMaps[key]
 
     fun removeLastDokitViewPosInfo(key: String) {
-
-        mLastDoKitViewPosInfoMaps.remove(key)
+        lastDoKitViewPosInfoMaps.remove(key)
     }
 
-
+    @Synchronized
+    private fun ensureViewManager(): AbsDokitViewManager {
+        return _doKitViewManager
+            ?: run {
+                if (DoKitManager.IS_NORMAL_FLOAT_MODE) NormalDoKitViewManager() else SystemDoKitViewManager()
+            }.also {
+                _doKitViewManager = it
+            }
+    }
 }

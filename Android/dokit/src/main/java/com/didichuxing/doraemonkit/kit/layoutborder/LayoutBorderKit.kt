@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.layoutborder
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -19,7 +19,7 @@ class LayoutBorderKit : AbstractKit() {
         get() = R.mipmap.dk_view_border
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        launchFloating(LayoutLevelDokitView::class.java)
+        DoKit.launchFloating(LayoutLevelDokitView::class.java)
         LayoutBorderManager.getInstance().start()
         LayoutBorderConfig.setLayoutBorderOpen(true)
         LayoutBorderConfig.setLayoutLevelOpen(true)
@@ -34,7 +34,5 @@ class LayoutBorderKit : AbstractKit() {
     override val isInnerKit: Boolean
         get() = true
 
-    override fun innerKitId(): String {
-        return "dokit_sdk_ui_ck_border"
-    }
+    override fun innerKitId(): String = "dokit_sdk_ui_ck_border"
 }

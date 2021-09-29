@@ -18,7 +18,7 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -42,7 +42,7 @@ public class ImageCapture {
 
     public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
         this.mColorPickerDokitView = colorPickerDokitView;
-        PackageManager packageManager = DoKit.APPLICATION.getPackageManager();
+        PackageManager packageManager = DoKitEnv.requireApp().getPackageManager();
         ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);
         //适配Android Q
         if (applicationInfo.targetSdkVersion >= 29) {

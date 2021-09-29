@@ -150,7 +150,7 @@ object DoKitReal {
 
         //addSystemKitForTest(app)
         //初始化悬浮窗管理类
-        DokitViewManager.instance.init()
+        DokitViewManager.INSTANCE.init()
         //上传app基本信息便于统计
         if (DoKitManager.ENABLE_UPLOAD) {
             try {
@@ -425,7 +425,7 @@ object DoKitReal {
      * 显示系统悬浮窗icon
      */
     private fun showMainIcon() {
-        DokitViewManager.instance.attachMainIcon(ActivityUtils.getTopActivity())
+        DokitViewManager.INSTANCE.attachMainIcon(ActivityUtils.getTopActivity())
     }
 
     fun show() {
@@ -439,17 +439,17 @@ object DoKitReal {
      * 直接显示工具面板页面
      */
     fun showToolPanel() {
-        DokitViewManager.instance.attachToolPanel(ActivityUtils.getTopActivity())
+        DokitViewManager.INSTANCE.attachToolPanel(ActivityUtils.getTopActivity())
     }
 
     fun hideToolPanel() {
-        DokitViewManager.instance.detachToolPanel()
+        DokitViewManager.INSTANCE.detachToolPanel()
     }
 
     fun hide() {
         DoKitManager.MAIN_ICON_HAS_SHOW = false
         DoKitManager.ALWAYS_SHOW_MAIN_ICON = false
-        DokitViewManager.instance.detachMainIcon()
+        DokitViewManager.INSTANCE.detachMainIcon()
     }
 
     fun sendCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
@@ -575,12 +575,10 @@ object DoKitReal {
         activity: Activity?,
         clazz: Class<out T>
     ): T? {
-        return if (DokitViewManager.instance.getDoKitView(activity, clazz) == null) {
+        return if (DokitViewManager.INSTANCE.getDoKitView(activity, clazz) == null) {
             null
         } else {
-            DokitViewManager.instance.getDoKitView(activity, clazz) as T
+            DokitViewManager.INSTANCE.getDoKitView(activity, clazz) as T
         }
     }
-
-
 }

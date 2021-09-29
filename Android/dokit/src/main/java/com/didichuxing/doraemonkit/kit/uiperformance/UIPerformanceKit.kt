@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.uiperformance
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.google.auto.service.AutoService
@@ -18,10 +18,13 @@ class UIPerformanceKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_ui_performance
 
+    override val isInnerKit: Boolean
+        get() = true
+
     override fun onClickWithReturn(activity: Activity): Boolean {
         UIPerformanceManager.getInstance().start(activity)
-        launchFloating(UIPerformanceDisplayDokitView::class.java)
-        launchFloating(UIPerformanceInfoDokitView::class.java)
+        DoKit.launchFloating<UIPerformanceDisplayDokitView>()
+        DoKit.launchFloating<UIPerformanceInfoDokitView>()
 
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh()
@@ -29,10 +32,6 @@ class UIPerformanceKit : AbstractKit() {
     }
 
     override fun onAppInit(context: Context?) {}
-    override val isInnerKit: Boolean
-        get() = true
 
-    override fun innerKitId(): String {
-        return "dokit_sdk_performance_ck_hierarchy"
-    }
+    override fun innerKitId(): String = "dokit_sdk_performance_ck_hierarchy"
 }

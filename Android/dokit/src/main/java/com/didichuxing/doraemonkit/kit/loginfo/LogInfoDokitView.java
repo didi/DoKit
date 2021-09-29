@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
@@ -272,7 +272,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                     ToastUtils.showShort("文件保存在:" + logPath);
                     //分享
                     if (operateType == 101) {
-                        DoKitFileUtil.systemShare(DoKit.APPLICATION, logFile);
+                        DoKitFileUtil.systemShare(DoKitEnv.requireApp(), logFile);
                     }
                 }
             }
