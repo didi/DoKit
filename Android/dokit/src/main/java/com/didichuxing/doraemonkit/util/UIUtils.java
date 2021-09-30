@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.AnyRes;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.layoutborder.ViewBorderFrameLayout;
 
@@ -49,7 +49,7 @@ public class UIUtils {
 
     public static int getWidthPixels() {
         DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) DoKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoKitEnv.requireApp().getSystemService(Context.WINDOW_SERVICE);
         if (windowManager == null) {
             return 0;
         }
@@ -62,7 +62,7 @@ public class UIUtils {
     }
 
     public static int getRealHeightPixels() {
-        WindowManager windowManager = (WindowManager) DoKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoKitEnv.requireApp().getSystemService(Context.WINDOW_SERVICE);
         int height = 0;
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
@@ -79,7 +79,7 @@ public class UIUtils {
     }
 
     public static int getStatusBarHeight() {
-        Resources resources = DoKit.APPLICATION.getResources();
+        Resources resources = DoKitEnv.requireApp().getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
         return height;

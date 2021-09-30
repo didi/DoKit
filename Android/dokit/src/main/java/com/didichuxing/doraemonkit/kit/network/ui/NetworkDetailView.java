@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.loginfo.LogExportDialog;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
@@ -40,8 +42,6 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * @desc: 显示request和response的view
@@ -263,7 +263,7 @@ public class NetworkDetailView extends LinearLayout {
                     ToastUtils.showShort("文件保存在:" + logPath);
                     //分享
                     if (operateType == 101) {
-                        DoKitFileUtil.systemShare(DoKit.APPLICATION, logFile);
+                        DoKitFileUtil.systemShare(DoKitEnv.requireApp(), logFile);
                     }
                 }
             }

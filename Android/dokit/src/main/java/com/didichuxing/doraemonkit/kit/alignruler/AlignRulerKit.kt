@@ -2,8 +2,7 @@ package com.didichuxing.doraemonkit.kit.alignruler
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit.Companion.getDoKitView
-import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.config.AlignRulerConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -21,16 +20,15 @@ class AlignRulerKit : AbstractKit() {
         get() = R.mipmap.dk_align_ruler
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        launchFloating(AlignRulerMarkerDokitView::class.java)
-        launchFloating(AlignRulerLineDokitView::class.java)
-        launchFloating(AlignRulerInfoDokitView::class.java)
-        val alignRulerInfoDokitView =
-            getDoKitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView::class.java)!!
-        alignRulerInfoDokitView.setCheckBoxListener { isChecked ->
-            val alignRulerLineDokitView =
-                getDoKitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView::class.java)!!
-            alignRulerLineDokitView.alignInfoView.refreshInfo(isChecked)
-        }
+        DoKit.launchFloating<AlignRulerMarkerDokitView>()
+        DoKit.launchFloating<AlignRulerLineDokitView>()
+        DoKit.launchFloating<AlignRulerInfoDokitView>()
+        DoKit.getDoKitView<AlignRulerInfoDokitView>(ActivityUtils.getTopActivity())
+            ?.setCheckBoxListener { isChecked ->
+                DoKit.getDoKitView<AlignRulerLineDokitView>(ActivityUtils.getTopActivity())
+                    ?.alignInfoView
+                    ?.refreshInfo(isChecked)
+            }
         AlignRulerConfig.setAlignRulerOpen(true)
         return true
     }
@@ -42,7 +40,5 @@ class AlignRulerKit : AbstractKit() {
     override val isInnerKit: Boolean
         get() = true
 
-    override fun innerKitId(): String {
-        return "dokit_sdk_ui_ck_aligin_scaleplate"
-    }
+    override fun innerKitId(): String = "dokit_sdk_ui_ck_aligin_scaleplate"
 }

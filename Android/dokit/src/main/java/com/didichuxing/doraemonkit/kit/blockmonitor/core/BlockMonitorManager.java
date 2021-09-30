@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.blockmonitor.core;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +11,13 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -27,8 +29,6 @@ import com.didichuxing.doraemonkit.util.LogHelper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 /**
  * @desc: 卡顿检测管理类
@@ -65,7 +65,7 @@ public class BlockMonitorManager {
 
         // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
         TimeCounterManager.get().stop();
-        mContext = DoKit.APPLICATION.getApplicationContext();
+        mContext = DoKitEnv.requireApp().getApplicationContext();
         if (mMonitorCore == null) {
             mMonitorCore = new MonitorCore();
         }
