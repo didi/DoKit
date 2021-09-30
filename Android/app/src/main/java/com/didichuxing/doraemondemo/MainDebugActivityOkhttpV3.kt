@@ -40,6 +40,7 @@ import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.CachesKey
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager
+import com.didichuxing.doraemonkit.kit.mc.all.ui.McDialogDoKitView
 import com.didichuxing.doraemonkit.util.DoKitImageUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -154,36 +155,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         mAdapter.setOnItemClickListener { _, view, position ->
             when (datas[position]) {
                 "测试" -> {
-                    lifecycleScope
-//                    lifecycleScope.launch {
-//                        val helloworld = async {
-//                            "Hello world!!"
-//                        }.await()
-//
-//                        LogHelper.i(TAG, helloworld)
-//                    }
-//
-//                    flow<Int> {
-//                        List(5) {
-//                            emit(it)
-//                        }
-//                    }.map {
-//                        it * 2
-//                    }
-
-                    lifecycleScope.launch {
-                        //withContext(Dispatchers.IO) {
-                        val sleepDeferred = async {
-                            sleep2()
-                        }
-
-                        val string = sleepDeferred.await()
-
-                        Log.i(TAG, string)
-
-                        //}
-                    }
-
+                    DoKit.launchFloating<McDialogDoKitView>()
                 }
                 "显示/隐藏Dokit入口" -> {
                     if (DoKit.isMainIconShow) {
