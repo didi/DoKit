@@ -96,6 +96,11 @@ enum class WSEType {
      */
     WSE_CUSTOM_EVENT,
 
+    /**
+     * 从机执行指定事件失败
+     */
+    WSE_PERFORM_FAIL
+
 }
 
 

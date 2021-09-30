@@ -27,15 +27,21 @@ import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.dokit.BorderDoKitView
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.constant.CachesKey
+import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager
+import com.didichuxing.doraemonkit.util.DoKitImageUtil
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -97,6 +103,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         "显示/隐藏Dokit入口",
         "显示工具面板",
         "获取已安装的app",
+        "截屏",
         "跳转其他Activity",
         "一机多控",
         "NormalWebView",
@@ -113,6 +120,16 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         "上传文件",
         "下载文件"
     )
+
+
+    fun getCrashCacheDir(): File {
+        val dir: File =
+            File(cacheDir.toString() + File.separator + CachesKey.CRASH_HISTORY)
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        return dir
+    }
 
     suspend fun sleep() = suspendCancellableCoroutine<String> {
         Thread.sleep(5000)
@@ -134,7 +151,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         rv.layoutManager = LinearLayoutManager(this)
         mAdapter = MainAdapter(R.layout.item_main_rv, datas)
         rv.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
+        mAdapter.setOnItemClickListener { _, view, position ->
             when (datas[position]) {
                 "测试" -> {
                     lifecycleScope
@@ -181,6 +198,26 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                 }
                 "获取已安装的app" -> {
                     packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                }
+                "截屏" -> {
+                    lifecycleScope.launch {
+
+                        DoKit.launchFloating(BorderDoKitView::class.java)
+                        val borderDoKitView =
+                            DoKit.getDoKitView(
+                                this@MainDebugActivityOkhttpV3,
+                                BorderDoKitView::class.java
+                            ) as BorderDoKitView
+                        borderDoKitView.showBorder(view)
+                        withContext(Dispatchers.IO) {
+                            delay(200)
+                            val bitmap = ScreenUtils.screenShot(this@MainDebugActivityOkhttpV3)
+                            val output = File(getCrashCacheDir(), "test.png")
+                            DoKitImageUtil.bitmap2File(bitmap, 100, output)
+                        }
+
+                    }
+
                 }
                 "跳转其他Activity" -> {
                     startActivity(Intent(this, SecondActivity::class.java))

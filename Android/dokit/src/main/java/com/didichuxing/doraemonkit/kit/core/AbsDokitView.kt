@@ -705,6 +705,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             }
 
             resetBorderline(this, systemLayoutParams)
+            //更新根布局的位置
             mRootView?.layoutParams = this
         }
 

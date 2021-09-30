@@ -1,5 +1,9 @@
 package com.didichuxing.doraemonkit.kit.mc.client
 
+import android.view.View
+import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
+import java.lang.Exception
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -10,4 +14,5 @@ package com.didichuxing.doraemonkit.kit.mc.client
  * ================================================
  */
 interface ClientSyncFailedListener {
+    fun callBack(type: ClientSyncFailType, viewC12c: ViewC12c?, view: View?)
 }
