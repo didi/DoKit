@@ -65,7 +65,7 @@ object DoraemonKit {
         productId: String? = ""
     ) {
         APPLICATION = app
-        DoKit.APPLICATION = app
+        DoKitEnv.app = app
         try {
             DoKitReal.install(
                 app, mapKits ?: linkedMapOf(), listKits

@@ -7,7 +7,6 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.extension.tagName
-import kotlin.reflect.KClass
 
 /**
  * 悬浮窗和全屏启动器
@@ -25,19 +24,19 @@ internal object SimpleDoKitLauncher {
         val doKitIntent = DokitIntent(targetClass)
         doKitIntent.mode = mode
         doKitIntent.bundle = bundle
-        DokitViewManager.instance.attach(doKitIntent)
+        DokitViewManager.INSTANCE.attach(doKitIntent)
     }
 
     fun removeFloating(
         targetClass: Class<out AbsDokitView>
     ) {
-        DokitViewManager.instance.detach(targetClass.tagName)
+        DokitViewManager.INSTANCE.detach(targetClass.tagName)
     }
 
     fun removeFloating(
         dokitView:  AbsDokitView
     ) {
-        DokitViewManager.instance.detach(dokitView)
+        DokitViewManager.INSTANCE.detach(dokitView)
     }
 
 

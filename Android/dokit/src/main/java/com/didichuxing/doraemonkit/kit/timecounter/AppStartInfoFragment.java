@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
@@ -109,7 +109,7 @@ public class AppStartInfoFragment extends BaseFragment {
                 if (result) {
                     ToastUtils.showShort("启动信息文件保存在:" + logPath);
                     //分享
-                    DoKitFileUtil.systemShare(DoKit.APPLICATION, logFile);
+                    DoKitFileUtil.systemShare(DoKitEnv.requireApp(), logFile);
                 }
             }
 

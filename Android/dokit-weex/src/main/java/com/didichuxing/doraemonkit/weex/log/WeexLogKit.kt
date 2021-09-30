@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.weex.log
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager
 import com.didichuxing.doraemonkit.weex.R
@@ -20,7 +20,7 @@ class WeexLogKit : AbstractKit() {
         get() = R.mipmap.dk_log_info
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        launchFloating(WeexLogInfoDokitView::class.java)
+        DoKit.launchFloating<WeexLogInfoDokitView>()
 
         //开启日志服务
         LogInfoManager.getInstance().start()

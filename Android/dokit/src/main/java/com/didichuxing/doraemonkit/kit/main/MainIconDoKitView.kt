@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import com.didichuxing.doraemonkit.DoKit.Companion.showToolPanel
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.config.FloatIconConfig
 import com.didichuxing.doraemonkit.datapick.DataPickManager
@@ -19,13 +19,14 @@ class MainIconDoKitView : AbsDokitView() {
     //public static int FLOAT_SIZE = 174;
     //public static int FLOAT_SIZE = 58;
     override fun onCreate(context: Context) {}
+
     override fun onViewCreated(view: FrameLayout) {
         //设置id便于查找
         doKitView?.id = R.id.float_icon_id
         //设置icon 点击事件
         doKitView?.setOnClickListener { //统计入口
             DataPickManager.getInstance().addData("dokit_sdk_home_ck_entry")
-            showToolPanel()
+            DoKit.showToolPanel()
         }
     }
 

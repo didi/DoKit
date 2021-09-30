@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.loginfo
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.config.LogInfoConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -18,8 +18,11 @@ class LogInfoKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_log_info
 
+    override val isInnerKit: Boolean
+        get() = true
+
     override fun onClickWithReturn(activity: Activity): Boolean {
-        launchFloating(LogInfoDokitView::class.java)
+        DoKit.launchFloating<LogInfoDokitView>()
         //开启日志服务
         LogInfoManager.getInstance().start()
         return true
@@ -29,10 +32,5 @@ class LogInfoKit : AbstractKit() {
         LogInfoConfig.setLogInfoOpen(false)
     }
 
-    override val isInnerKit: Boolean
-        get() = true
-
-    override fun innerKitId(): String {
-        return "dokit_sdk_comm_ck_log"
-    }
+    override fun innerKitId(): String = "dokit_sdk_comm_ck_log"
 }

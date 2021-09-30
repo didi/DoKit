@@ -39,7 +39,6 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     fun attachMcRecodingDoKitView(activity: Activity) {
         val action: Map<String, String> = mapOf("action" to "launch_recoding_view")
         DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(action)
-
     }
 
     /**
@@ -61,7 +60,6 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
      * 移除toolPanel
      */
     abstract fun detachToolPanel()
-
 
     /**
      * main activity 创建时回调

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.picasso.DokitPicasso;
 import com.didichuxing.doraemonkit.picasso.MemoryPolicy;
@@ -80,7 +80,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
         public void bind(final LargeImageInfo largeImageInfo) {
             try {
                 int resourceUrl = Integer.parseInt(largeImageInfo.getUrl());
-                DokitPicasso.with(DoKit.APPLICATION)
+                DokitPicasso.with(DoKitEnv.requireApp())
                         .load(resourceUrl)
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
@@ -88,7 +88,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
                         .into(iv);
                 tvLink.setText("resource id:" + resourceUrl);
             } catch (Exception e) {
-                DokitPicasso.with(DoKit.APPLICATION)
+                DokitPicasso.with(DoKitEnv.requireApp())
                         .load(largeImageInfo.getUrl())
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
