@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.mc.R
+import java.lang.Exception
 
 /**
  * Created by jintai on 2019/09/26.
@@ -19,10 +20,10 @@ class McDialogDoKitView : AbsDokitView() {
 
     lateinit var mTvExceptionType: TextView
     lateinit var mTvOk: TextView
+    lateinit var exception: String
 
-    override fun onCreate(context: Context) {}
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onCreate(context: Context) {
+        exception = bundle?.getString("text", "未知同步异常类型")!!
     }
 
     override fun onCreateView(context: Context, view: FrameLayout): View {
@@ -38,18 +39,13 @@ class McDialogDoKitView : AbsDokitView() {
 
     override fun onViewCreated(view: FrameLayout) {
         mTvExceptionType = findViewById<TextView>(R.id.exception_type)!!
+        mTvExceptionType.text = exception
         mTvOk = findViewById<TextView>(R.id.tv_ok)!!
         mTvOk.setOnClickListener {
             DoKit.removeFloating(McDialogDoKitView::class.java)
         }
     }
 
-    /**
-     * 解决ViewCheckDrawDokitView的margin被改变的bug
-     */
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun canDrag(): Boolean {
         return false

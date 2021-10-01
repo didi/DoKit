@@ -1,13 +1,12 @@
 package com.didichuxing.doraemonkit.kit.mc.client
 
+import android.os.Bundle
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.CachesKey
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
-import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.ui.BorderDoKitView
+import com.didichuxing.doraemonkit.kit.mc.all.ui.McDialogDoKitView
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.DoKitImageUtil
@@ -17,7 +16,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.lang.Exception
 
 /**
  * ================================================
@@ -28,42 +26,39 @@ import java.lang.Exception
  * 修订历史：
  * ================================================
  */
-class ClientSyncFailedImpl : ClientSyncFailedListener {
-    override fun callBack(type: ClientSyncFailType, viewC12c: ViewC12c?, view: View?) {
-        when (type) {
-            //页面不一致
-            ClientSyncFailType.ACTIVITY -> {
+class ClientSyncFailedImpl : OnClientSyncFailedListener {
 
-            }
-            //找不到对应的控件
-            ClientSyncFailType.VIEW -> {
+    override fun onActivityNotSync() {
+        showFailDialog("当前页面与主机不一致")
+    }
 
-            }
-            //模拟点击失败
-            ClientSyncFailType.PERFORM_CLICK -> {
-                view?.let {
-                    doKitGlobalScope.launch {
-                        saveScreenShot(view)
-                    }
-                }
+    override fun onViewNotFound(viewC12c: ViewC12c) {
+        showFailDialog("当前页面无法找到与主机对应的view")
+    }
 
-            }
-            //模拟获取焦点失败
-            ClientSyncFailType.PERFORM_FOCUSED -> {
-                view?.let {
-                    doKitGlobalScope.launch {
-                        saveScreenShot(view)
-                    }
-                }
-
-            }
+    override fun onViewPerformClickFailed(viewC12c: ViewC12c, view: View) {
+        doKitGlobalScope.launch {
+            saveScreenShot(view,"当前页面与主机对应的view执行点击事件失败")
         }
     }
+
+    override fun onViewPerformLongClickFailed(viewC12c: ViewC12c, view: View) {
+        doKitGlobalScope.launch {
+            saveScreenShot(view,"当前页面与主机对应的view执行长按事件失败")
+        }
+    }
+
+    override fun onViewPerformFocusedFailed(viewC12c: ViewC12c, view: View) {
+        doKitGlobalScope.launch {
+            saveScreenShot(view,"当前页面与主机对应的view执行焦点获取失败")
+        }
+    }
+
 
     /**
      * 回传执行失败的通用事件
      */
-    private suspend fun saveScreenShot(view: View) {
+    private suspend fun saveScreenShot(view: View,exception: String) {
         DoKit.launchFloating(BorderDoKitView::class.java)
         val borderDoKitView =
             DoKit.getDoKitView(
@@ -78,10 +73,12 @@ class ClientSyncFailedImpl : ClientSyncFailedListener {
             DoKitImageUtil.bitmap2File(bitmap, 100, output)
         }
 
+        showFailDialog(exception)
+
     }
 
     /**
-     * 获取一机多控截图路径
+     * 获取一机多控截图文件夹路径
      */
     private fun getMcShotDir(): File {
         val dir =
@@ -93,7 +90,10 @@ class ClientSyncFailedImpl : ClientSyncFailedListener {
     }
 
 
-    private fun showFailDialog() {
-
+    private fun showFailDialog(exception: String) {
+        val bundle = Bundle()
+        bundle.putString("text", exception)
+        DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
     }
+
 }

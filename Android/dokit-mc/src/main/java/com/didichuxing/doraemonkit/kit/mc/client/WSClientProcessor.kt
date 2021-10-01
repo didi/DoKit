@@ -209,11 +209,7 @@ object WSClientProcessor {
             WSEType.WSE_COMM_EVENT -> {
                 wsEvent.commParams?.let {
                     if (it["activityName"] != ActivityUtils.getTopActivity()::class.tagName) {
-                        DoKitMcManager.syncFailedListener.callBack(
-                            ClientSyncFailType.ACTIVITY,
-                            wsEvent.viewC12c,
-                            null
-                        )
+                        DoKitMcManager.syncFailedListener.onActivityNotSync()
                         ToastUtils.showShort("当前测试和主机不处于同一个页面，请手动调整同步")
                         return
                     }
@@ -236,27 +232,14 @@ object WSClientProcessor {
                             ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
                         targetView?.let { target -> comm(viewC12c, target) }
                             ?: run {
-                                DoKitMcManager.syncFailedListener.callBack(
-                                    ClientSyncFailType.VIEW,
-                                    wsEvent.viewC12c,
-                                    null
-                                )
+                                DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
                                 ToastUtils.showShort("匹配控件失败，请手动操作")
                             }
                     } ?: run {
-                        DoKitMcManager.syncFailedListener.callBack(
-                            ClientSyncFailType.VIEW,
-                            wsEvent.viewC12c,
-                            null
-                        )
+                        DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
                         ToastUtils.showShort("无法确定当前控件所属窗口")
                     }
                 } ?: run {
-                    DoKitMcManager.syncFailedListener.callBack(
-                        ClientSyncFailType.VIEW,
-                        wsEvent.viewC12c,
-                        null
-                    )
                     ToastUtils.showShort("无法获取手势控件信息")
                 }
             }
@@ -280,11 +263,7 @@ object WSClientProcessor {
                 } else {
                     if (target.hasOnClickListeners()) {
                         target.performClick().isFalse {
-                            DoKitMcManager.syncFailedListener.callBack(
-                                ClientSyncFailType.PERFORM_CLICK,
-                                viewC12c,
-                                target
-                            )
+                            DoKitMcManager.syncFailedListener.onViewPerformClickFailed(viewC12c, target)
                             ToastUtils.showShort("模拟点击事件失败")
                         }
                     } else {
@@ -296,11 +275,6 @@ object WSClientProcessor {
                                 target.id.toLong()
                             )
                         } else {
-                            DoKitMcManager.syncFailedListener.callBack(
-                                ClientSyncFailType.PERFORM_CLICK,
-                                viewC12c,
-                                target
-                            )
                             ToastUtils.showShort("该控件没有设置点击事件")
                         }
 
@@ -315,11 +289,7 @@ object WSClientProcessor {
                     }
                     else -> {
                         target.performLongClick().isFalse {
-                            DoKitMcManager.syncFailedListener.callBack(
-                                ClientSyncFailType.PERFORM_CLICK,
-                                viewC12c,
-                                target
-                            )
+                            DoKitMcManager.syncFailedListener.onViewPerformLongClickFailed(viewC12c, target)
                             ToastUtils.showShort("模拟长按事件失败")
                         }
                     }
@@ -328,11 +298,7 @@ object WSClientProcessor {
             // view 获取焦点
             AccessibilityEvent.TYPE_VIEW_FOCUSED -> {
                 target.requestFocus().isFalse {
-                    DoKitMcManager.syncFailedListener.callBack(
-                        ClientSyncFailType.PERFORM_FOCUSED,
-                        viewC12c,
-                        target
-                    )
+                    DoKitMcManager.syncFailedListener.onViewPerformFocusedFailed(viewC12c, target)
                     ToastUtils.showShort("获取焦点失败")
                 }
             }

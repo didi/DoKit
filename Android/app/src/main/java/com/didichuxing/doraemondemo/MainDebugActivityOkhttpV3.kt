@@ -155,7 +155,9 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         mAdapter.setOnItemClickListener { _, view, position ->
             when (datas[position]) {
                 "测试" -> {
-                    DoKit.launchFloating<McDialogDoKitView>()
+                    val bundle = Bundle()
+                    bundle.putString("text", "测试同步异常")
+                    DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
                 }
                 "显示/隐藏Dokit入口" -> {
                     if (DoKit.isMainIconShow) {
