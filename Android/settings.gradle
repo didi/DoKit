@@ -1,4 +1,4 @@
-rootProject.name = "Dokit-Android"
+rootProject.name = "DoKit-Android"
 include ':app'
 include ':dokit-util'
 include ':dokit-ft'
@@ -10,6 +10,6 @@ include ':dokit-okhttp-api'
 include ':dokit-weex'
 include ':dokit-no-op'
 include ':dokit-plugin'
-//include ':dokit-rpc'
-//include ':dokit-rpc-mc'
-//include ':dokit-dmap'
+include ':dokit-rpc'
+include ':dokit-rpc-mc'
+include ':dokit-dmap'

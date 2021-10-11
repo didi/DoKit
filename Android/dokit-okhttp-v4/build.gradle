@@ -47,4 +47,7 @@ dependencies {
 //    compileOnly rootProject.ext.dependencies["okhttp_v4"]
     compileOnly rootProject.ext.dependencies["okhttp_v4"]
 }
+repositories {
+    mavenCentral()
+}
 

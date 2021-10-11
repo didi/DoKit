@@ -62,6 +62,9 @@ object DoKitWsServer {
     }
 
     fun send(wsEvent: WSEvent) {
+        //拦截相关手势信息 用来做录制回放
+        MCRecordManager.intercept(wsEvent)
+        //一机多控主机事件分发
         wsSessionMaps.forEach {
             CoroutineScope(it.value.coroutineContext).launch {
                 if (it.value.isActive) {

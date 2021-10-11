@@ -45,3 +45,6 @@ dependencies {
     //compileOnly rootProject.ext.dependencies["okio"]
     api rootProject.ext.dependencies["okhttp_v3"]
 }
+repositories {
+    mavenCentral()
+}

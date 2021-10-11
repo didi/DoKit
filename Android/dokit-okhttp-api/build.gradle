@@ -44,4 +44,7 @@ dependencies {
     implementation project(':dokit-okhttp-v4')
     compileOnly project(':dokit-util')
 }
+repositories {
+    mavenCentral()
+}
 

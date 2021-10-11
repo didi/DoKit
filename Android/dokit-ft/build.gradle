@@ -62,3 +62,6 @@ dependencies {
     implementation project(':dokit')
     compileOnly project(':dokit-util')
 }
+repositories {
+    mavenCentral()
+}

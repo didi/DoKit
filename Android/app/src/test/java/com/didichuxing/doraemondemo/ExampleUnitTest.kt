@@ -33,16 +33,21 @@ class ExampleUnitTest {
     @Test
     @Throws(Exception::class)
     fun hex() {
-        val originKey =
-            "method=POST&path=/gateway&fragment=null&query={\"api\":\"lj.u.d.changeOnline\",\"appKey\":\"b4f945fe780140d8a0d19d1f2d021db7\"}&contentType=application/json; charset=utf-8&requestBody={\"type\":1.0}"
-        val replace = originKey.replace("\\","")
-        println("replace===>${replace}")
-        val encodeUtf8 = originKey.replace("\\","").encodeUtf8().toString()
-        println("encodeUtf8===>${encodeUtf8}")
-        val md5 = originKey.replace("\\","").encodeUtf8().md5().toString()
-        println("md5===>${md5}")
-        val hex = originKey.replace("\\","").encodeUtf8().md5().hex()
+//        val originKey =
+//            "method=POST&path=/gateway&fragment=null&query={\"api\":\"lj.u.d.changeOnline\",\"appKey\":\"b4f945fe780140d8a0d19d1f2d021db7\"}&contentType=application/json; charset=utf-8&requestBody={\"type\":1.0}"
+
+            val originKey= "method=POST&path=/golden/stat&fragment=null&query={}&contentType=application/json;charset=utf-8&requestBody={\"attrs\":\"{\\\"module_id\\\":1602,\\\"static_version\\\":\\\"0.0.81\\\",\\\"module_version\\\":\\\"1.0.39\\\",\\\"app_id\\\":\\\"788119\\\",\\\"native_version\\\":\\\"6.8.2\\\",\\\"status\\\":0}\",\"e\":\"tech_mait_sdk_load\",\"ot\":\"android\",\"pn\":\"mait_tracker\",\"ua\":\"00000000-04a2-029e-ffff-ffffef05ac4a\",\"url\":\"hummer://user/dj_full_screen_page\"}"
+//        val replace = originKey.replace("\\","")
+//        println("replace===>${replace}")
+//        val encodeUtf8 = originKey.replace("\\","").encodeUtf8().toString()
+//        println("encodeUtf8===>${encodeUtf8}")
+//        val md5 = originKey.replace("\\","").encodeUtf8().md5().toString()
+//        println("md5===>${md5}")
+        val hex = originKey.encodeUtf8().md5().hex()
+
         println("hex===>${hex}")
+
+
     }
 
 

@@ -19,30 +19,21 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.amap.api.location.AMapLocationListener
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.ThreadUtils
+import com.blankj.utilcode.util.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
-import com.didichuxing.doraemondemo.dokit.BorderDoKitView
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.constant.CachesKey
-import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager
-import com.didichuxing.doraemonkit.kit.mc.all.ui.McDialogDoKitView
-import com.didichuxing.doraemonkit.util.DoKitImageUtil
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -100,9 +91,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
 
     val datas = mutableListOf(
-        "测试",
         "显示/隐藏Dokit入口",
         "显示工具面板",
+        "弹框测试",
+        "测试",
         "获取已安装的app",
         "截屏",
         "跳转其他Activity",
@@ -123,14 +115,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
     )
 
 
-    fun getCrashCacheDir(): File {
-        val dir: File =
-            File(cacheDir.toString() + File.separator + CachesKey.CRASH_HISTORY)
-        if (!dir.exists()) {
-            dir.mkdir()
-        }
-        return dir
-    }
+
 
     suspend fun sleep() = suspendCancellableCoroutine<String> {
         Thread.sleep(5000)
@@ -154,10 +139,19 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         rv.adapter = mAdapter
         mAdapter.setOnItemClickListener { _, view, position ->
             when (datas[position]) {
+                "弹框测试" -> {
+//                    val bundle = Bundle()
+//                    bundle.putString("text", "测试同步异常")
+//                    DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
+                }
                 "测试" -> {
-                    val bundle = Bundle()
-                    bundle.putString("text", "测试同步异常")
-                    DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
+//                    lifecycleScope.launch {
+//                        ActivityUtils.startHomeActivity()
+//                        withContext(Dispatchers.IO) {
+//                            delay(5000)
+//                            DoKitCommUtil.changeAppOnForeground(MainDebugActivityOkhttpV3::class.java)
+//                        }
+//                    }
                 }
                 "显示/隐藏Dokit入口" -> {
                     if (DoKit.isMainIconShow) {
@@ -174,23 +168,23 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
                 }
                 "截屏" -> {
-                    lifecycleScope.launch {
-
-                        DoKit.launchFloating(BorderDoKitView::class.java)
-                        val borderDoKitView =
-                            DoKit.getDoKitView(
-                                this@MainDebugActivityOkhttpV3,
-                                BorderDoKitView::class.java
-                            ) as BorderDoKitView
-                        borderDoKitView.showBorder(view)
-                        withContext(Dispatchers.IO) {
-                            delay(200)
-                            val bitmap = ScreenUtils.screenShot(this@MainDebugActivityOkhttpV3)
-                            val output = File(getCrashCacheDir(), "test.png")
-                            DoKitImageUtil.bitmap2File(bitmap, 100, output)
-                        }
-
-                    }
+//                    lifecycleScope.launch {
+//
+//                        DoKit.launchFloating(BorderDoKitView::class.java)
+//                        val borderDoKitView =
+//                            DoKit.getDoKitView(
+//                                this@MainDebugActivityOkhttpV3,
+//                                BorderDoKitView::class.java
+//                            ) as BorderDoKitView
+//                        borderDoKitView.showBorder(view)
+//                        withContext(Dispatchers.IO) {
+//                            delay(200)
+//                            val bitmap = ScreenUtils.screenShot(this@MainDebugActivityOkhttpV3)
+//                            val output = File(getCrashCacheDir(), "test.png")
+//                            DoKitImageUtil.bitmap2File(bitmap, 100, output)
+//                        }
+//
+//                    }
 
                 }
                 "跳转其他Activity" -> {

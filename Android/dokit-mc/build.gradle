@@ -80,3 +80,6 @@ dependencies {
     implementation rootProject.ext.dependencies["auto_service"]
     kapt rootProject.ext.dependencies["auto_service"]
 }
+repositories {
+    mavenCentral()
+}

@@ -157,6 +157,9 @@ configurations.all {
 //        }
     }
 }
+repositories {
+    mavenCentral()
+}
 
 
 
