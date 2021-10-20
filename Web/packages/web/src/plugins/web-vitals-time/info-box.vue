@@ -61,6 +61,7 @@ export default {
     text-align: right;
     width: 60px;
     margin-top: 4px;
+    font-size: 16px;
   }
   .important {
     color: red;

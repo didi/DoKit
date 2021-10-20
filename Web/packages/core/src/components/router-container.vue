@@ -23,7 +23,7 @@ export default {
       return this.$route.component
     },
     title(){
-      return this.$route.title || 'DoKit'
+      return this.$route.meta && this.$route.meta.title || 'DoKit'
     },
     canBack(){
       return this.$route.name !== 'home'
