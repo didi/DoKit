@@ -37,6 +37,7 @@
   border-left: 1px solid @border-color;
   display: flex;
   align-items: center;
+  font-size: 18px;
 }
 </style>
 <script>

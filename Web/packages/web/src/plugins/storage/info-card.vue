@@ -122,6 +122,7 @@ export default {
     }
   }
 .info-card-body {
+  font-size: 18px;
   .info-key {
     font-weight: bolder;
     overflow-x: scroll;
