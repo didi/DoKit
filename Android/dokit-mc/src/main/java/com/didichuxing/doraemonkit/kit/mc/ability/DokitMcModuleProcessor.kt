@@ -73,7 +73,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                                 View.OnClickListener::class.java, View_onClickListenerEventHook()
                             )
                         } else {
-                            LogHelper.e(TAG, "暂不支持针对Android 11进行hook")
+                            LogHelper.e(TAG, "暂不支持针对Android 11进行全局hook")
                         }
                     }
 

@@ -167,8 +167,10 @@ dependencies {
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["retrofit2"]
-    implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
     implementation rootProject.ext.dependencies["retrofit2_gson"]
+    implementation rootProject.ext.dependencies["retrofit2_scalars"]
+    implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
+    implementation rootProject.ext.dependencies["rxAndroid"]
     implementation rootProject.ext.dependencies["okhttp_v3"]
     implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["glide"]
@@ -208,7 +210,6 @@ dependencies {
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
     debugImplementation rootProject.ext.dependencies["leakcanary_android"]
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }
 repositories {
     mavenCentral()

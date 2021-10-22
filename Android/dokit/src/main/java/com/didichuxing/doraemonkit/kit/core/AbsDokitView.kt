@@ -72,7 +72,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      */
     var systemLayoutParams: WindowManager.LayoutParams? = null
 
-    private var mHandler: Handler? = Handler(Looper.myLooper())
+    private var mHandler: Handler? = Looper.myLooper()?.let { Handler(it) }
 
     private val mInnerReceiver = InnerReceiver()
 

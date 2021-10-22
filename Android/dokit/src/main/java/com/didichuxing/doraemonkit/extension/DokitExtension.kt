@@ -8,9 +8,7 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.EncodeUtils
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.plus
+import kotlinx.coroutines.*
 import okhttp3.RequestBody
 import okio.Buffer
 import org.checkerframework.common.returnsreceiver.qual.This
@@ -28,7 +26,15 @@ import kotlin.reflect.KClass
  */
 
 
-val doKitGlobalScope = MainScope() + CoroutineName("DoKit")
+val doKitGlobalScope: CoroutineScope by lazy {
+    MainScope() + CoroutineName("DoKit")
+}
+
+val doKitGlobalExceptionHandler: CoroutineExceptionHandler by lazy {
+    CoroutineExceptionHandler { coroutineContext, throwable ->
+        Log.e("DoKit", "${coroutineContext[CoroutineName]} ：$throwable")
+    }
+}
 
 
 val Activity.tagName: String

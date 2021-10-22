@@ -14,6 +14,7 @@ import com.didichuxing.doraemonkit.constant.DoKitModule
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
+import com.didichuxing.doraemonkit.extension.doKitGlobalExceptionHandler
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.*
@@ -31,6 +32,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.*
 import java.io.File
+import java.io.IOException
 import java.util.*
 
 /**
@@ -38,6 +40,7 @@ import java.util.*
  * DoKit 真正执行的类  不建议外部app调用
  */
 object DoKitReal {
+
 
     private lateinit var APPLICATION: Application
     var isInit = false
@@ -132,7 +135,7 @@ object DoKitReal {
         }
 
         //添加自定义的kit 需要读取配置文件
-        doKitGlobalScope.launch {
+        doKitGlobalScope.launch(CoroutineName("DoKit全局异常") + doKitGlobalExceptionHandler) {
             addInnerKit(app)
         }
 

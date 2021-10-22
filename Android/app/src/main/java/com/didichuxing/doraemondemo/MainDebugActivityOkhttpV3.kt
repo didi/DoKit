@@ -19,6 +19,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.imageLoader
@@ -43,15 +44,14 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.*
 import java.net.*
 import kotlin.coroutines.resume
@@ -68,7 +68,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.github.com/")
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -94,7 +94,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         "显示/隐藏Dokit入口",
         "显示工具面板",
         "弹框测试",
-        "测试",
+        "系统反射测试",
         "获取已安装的app",
         "截屏",
         "跳转其他Activity",
@@ -113,8 +113,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         "上传文件",
         "下载文件"
     )
-
-
 
 
     suspend fun sleep() = suspendCancellableCoroutine<String> {
@@ -143,15 +141,24 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 //                    val bundle = Bundle()
 //                    bundle.putString("text", "测试同步异常")
 //                    DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
+
+                    lifecycleScope.launch {
+                        delay(15000)
+                        Log.i(TAG, "===inner===")
+                    }
+                    Log.i(TAG, "===out===")
+
                 }
-                "测试" -> {
-//                    lifecycleScope.launch {
-//                        ActivityUtils.startHomeActivity()
-//                        withContext(Dispatchers.IO) {
-//                            delay(5000)
-//                            DoKitCommUtil.changeAppOnForeground(MainDebugActivityOkhttpV3::class.java)
-//                        }
-//                    }
+                "系统反射测试" -> {
+                    try {
+                        val activityClass = Class.forName("dalvik.system.VMRuntime")
+                        val field = activityClass.getDeclaredMethod("setHiddenApiExemptions", Array<String>::class.java)
+                        field.isAccessible = true
+                        Toast.makeText(this, "call success!!", Toast.LENGTH_SHORT).show()
+                    } catch (e: Throwable) {
+                        Log.e(TAG, "error:", e)
+                        Toast.makeText(this, "error: $e", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 "显示/隐藏Dokit入口" -> {
                     if (DoKit.isMainIconShow) {
@@ -260,23 +267,11 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     requestByGet("https://wanandroid.com/user_article/list/0/json")
                 }
                 "Retrofit Mock" -> {
-                    githubService?.githubUserInfo("jtsky")
-                        ?.subscribeOn(Schedulers.io())
-                        ?.subscribe(
-                            {
-                                Log.i(
-                                    MainDebugActivityOkhttpV3.TAG,
-                                    "githubUserInfo===>${it.login}"
-                                )
-                            },
-                            {
-                                Log.e(
-                                    MainDebugActivityOkhttpV3.TAG,
-                                    "Request failed by retrofit mock",
-                                    it
-                                )
-                            }
-                        )
+                    lifecycleScope.launch {
+                        val result = githubService?.githubUserInfo("jtsky")
+                        Log.i(TAG, "result===>${result}")
+                    }
+
                 }
                 "模拟Crash" -> {
                     testCrash()!!.length

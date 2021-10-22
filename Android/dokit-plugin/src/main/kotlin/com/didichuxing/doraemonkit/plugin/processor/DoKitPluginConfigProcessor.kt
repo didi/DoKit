@@ -120,19 +120,6 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
         //查找application module下的配置
         if (variant is ApplicationVariant) {
 
-
-//            if (DoKitExtUtil.OKHTTP_VERSION == "V3") {
-//                variant.project.dependencies.add(
-//                    "implementation",
-//                    "com.didichuxing.doraemonkit:dokit-okhttp_v3:3.2.0"
-//                )
-//            } else if (DoKitExtUtil.OKHTTP_VERSION == "V4") {
-//                variant.project.dependencies.add(
-//                    "implementation",
-//                    "com.didichuxing.doraemonkit:dokit-okhttp_v4:3.2.0"
-//                )
-//            }
-
             project.tasks.find {
                 //"===task Name is ${it.name}".println()
                 it.name == "processDebugManifest"

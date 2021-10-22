@@ -6,9 +6,6 @@ import android.os.Handler;
 import com.didichuxing.doraemonkit.reflection.Reflection;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 
 public class HandlerHooker {

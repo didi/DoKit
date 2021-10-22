@@ -51,9 +51,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
     if (needKotlinV14()) {
-        implementation rootProject.ext.dependencies["kotlin_v14"]
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
-        implementation rootProject.ext.dependencies["kotlin_v13"]
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
