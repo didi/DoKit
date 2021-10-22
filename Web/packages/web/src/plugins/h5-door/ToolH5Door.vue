@@ -15,7 +15,7 @@
     <div class="url-edit-container">
       <div class="url-edit-container-title">快捷编辑</div>
       <DoRow>
-        <DoCol :span=6>baseUrl</DoCol>
+        <DoCol :span=6 class="url-edit-key">baseUrl</DoCol>
         <DoCol :span=18>
           <textarea
             rows="3"
@@ -25,7 +25,7 @@
         </DoCol>
       </DoRow>
       <DoRow class="url-edit-container-query-item" v-for="(query, index) in editUrlInfo.queryList" :key="index">
-        <DoCol :span=6>query参数{{index+1}}</DoCol>
+        <DoCol :span=6 class="url-edit-key">query参数{{index+1}}</DoCol>
         <DoCol :span=7>
           <input type="text" v-model="editUrlInfo.queryList[index].key"/>
         </DoCol>
@@ -155,8 +155,12 @@ export default {
 <style lang="less" scoped>
 .h5-portal {
   padding: 5px;
+  textarea,input {
+    font-size: 13px;
+  }
   .portal-textarea-container{
     .portal-textarea{
+      font-size: 13px;
       border-radius: 5px;
       box-sizing: border-box;
       width: 100%;
@@ -184,6 +188,9 @@ export default {
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid #d6e4ef;
+    .url-edit-key{
+      font-size: 15px;
+    }
     .url-edit-container-title{
       text-align: center;
       font-size: 18px;
