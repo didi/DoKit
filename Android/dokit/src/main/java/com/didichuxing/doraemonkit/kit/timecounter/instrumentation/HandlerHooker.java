@@ -1,11 +1,11 @@
 package com.didichuxing.doraemonkit.kit.timecounter.instrumentation;
 
 import android.app.Application;
+import android.os.Build;
 import android.os.Handler;
 
 import com.didichuxing.doraemonkit.reflection.Reflection;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
-
 
 
 public class HandlerHooker {
@@ -18,8 +18,10 @@ public class HandlerHooker {
             if (isHookSucceed()) {
                 return;
             }
-            //解锁调用系统隐藏api的权限
-            Reflection.unseal(app);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                //解锁调用系统隐藏api的权限
+                Reflection.unseal(app);
+            }
             //hook ActivityThread的Instrumentation
             hookInstrumentation();
             isHookSucceed = true;

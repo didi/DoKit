@@ -28,8 +28,8 @@ public final class BootstrapClass {
                 Method getRuntime = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "getRuntime", null);
                 setHiddenApiExemptions = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "setHiddenApiExemptions", new Class[]{String[].class});
                 sVmRuntime = getRuntime.invoke(null);
-            } catch (Throwable e) {
-                Log.w(TAG, "reflect bootstrap failed:", e);
+            } catch (Exception e) {
+                //Log.w(TAG, "reflect bootstrap failed:", e);
             }
         }
     }

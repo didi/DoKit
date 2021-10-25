@@ -62,7 +62,10 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["zxing"]
-    implementation rootProject.ext.dependencies["epic"]
+
+    implementation rootProject.ext.dependencies["sandhook_hooklib"]
+    implementation rootProject.ext.dependencies["sandhook_nativehook"]
+    implementation rootProject.ext.dependencies["sandhook_xposedcompat"]
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
     implementation rootProject.ext.dependencies["ktor_client_websockets"]
