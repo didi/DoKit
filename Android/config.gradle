@@ -155,7 +155,6 @@ ext {
                     "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.0',
                     "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.0',
                     "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.0',
-                    "epic"                          : 'me.weishu:epic:0.11.1'
 
     ]
     //定义全局方法

@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
-import android.os.Build
-import android.view.MotionEvent
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKitEnv
@@ -10,11 +8,9 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
-import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onTouchEventHook
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
 import com.swift.sandhook.SandHook
 import com.swift.sandhook.SandHookConfig
@@ -92,14 +88,6 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                             View::class.java, "setOnClickListener",
                             View.OnClickListener::class.java, View_onClickListenerEventHook()
                         )
-//                        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-//                            XposedHelpers.findAndHookMethod(
-//                                View::class.java, "setOnClickListener",
-//                                View.OnClickListener::class.java, View_onClickListenerEventHook()
-//                            )
-//                        } else {
-//                            LogHelper.e(TAG, "暂不支持针对Android 11进行全局hook")
-//                        }
                     }
 
                     else -> {
