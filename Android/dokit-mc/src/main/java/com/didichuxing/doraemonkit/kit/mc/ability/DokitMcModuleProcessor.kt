@@ -1,21 +1,21 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
-import android.os.Build
-import android.view.MotionEvent
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.DoKitEnv
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
-import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onTouchEventHook
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
-import de.robv.android.xposed.DexposedBridge
+import com.swift.sandhook.SandHook
+import com.swift.sandhook.SandHookConfig
+import com.swift.sandhook.xposedcompat.XposedCompat
+import de.robv.android.xposed.XposedHelpers
 
 /**
  * ================================================
@@ -67,14 +67,27 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         )
                     }
                     "global_hook" -> {
-                        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                            DexposedBridge.findAndHookMethod(
-                                View::class.java, "setOnClickListener",
-                                View.OnClickListener::class.java, View_onClickListenerEventHook()
-                            )
-                        } else {
-                            LogHelper.e(TAG, "暂不支持针对Android 11进行全局hook")
-                        }
+                        //init SandHook
+                        SandHookConfig.DEBUG = true
+
+                        SandHook.disableVMInline()
+                        SandHook.tryDisableProfile(DoKitEnv.requireApp().packageName)
+                        SandHook.disableDex2oatInline(false)
+
+                        //for xposed compat(no need xposed comapt new)
+                        XposedCompat.cacheDir = DoKitEnv.requireApp().cacheDir
+
+
+                        //for load xp module(sandvxp)
+                        XposedCompat.context = DoKitEnv.requireApp()
+                        XposedCompat.classLoader = DoKitEnv.requireApp().classLoader
+                        XposedCompat.isFirstApplication = true
+
+                        //hook onClick事件
+                        XposedHelpers.findAndHookMethod(
+                            View::class.java, "setOnClickListener",
+                            View.OnClickListener::class.java, View_onClickListenerEventHook()
+                        )
                     }
 
                     else -> {

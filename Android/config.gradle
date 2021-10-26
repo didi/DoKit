@@ -8,7 +8,7 @@ ext {
         //1:依赖dokit远程aar运行
         run_type     : 0,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.5.0'
+        version      : '3.5.0.112'
     ]
 
     android = [compileSdkVersion             : 29,
@@ -72,7 +72,7 @@ ext {
                     "retrofit2_scalars"             : "com.squareup.retrofit2:converter-scalars:2.9.0",
                     "retrofit2_gson"                : "com.squareup.retrofit2:converter-gson:2.9.0",
                     "retrofit2_rxjava2"             : "com.squareup.retrofit2:adapter-rxjava2:2.9.0",
-                    "rxAndroid"             : "io.reactivex.rxjava2:rxandroid:2.1.1",
+                    "rxAndroid"                     : "io.reactivex.rxjava2:rxandroid:2.1.1",
                     //暂时不支持3.14.0以上的okhttp版本
                     "okhttp_v2"                     : "com.squareup.okhttp:okhttp:${android["okhttp_v2"]}",
                     "okhttp_v3"                     : "com.squareup.okhttp3:okhttp:${android["okhttp_v3"]}",
@@ -94,7 +94,6 @@ ext {
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     "okio"                          : "com.squareup.okio:okio:1.17.2",
-                    "epic"                          : 'me.weishu:epic:0.11.1',
                     "utilcode"                      : 'com.blankj:utilcodex:1.29.0',
                     "glide"                         : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
@@ -153,6 +152,9 @@ ext {
                     "flexbox"                       : 'com.google.android:flexbox:1.0.0',
                     "auto_service"                  : 'com.google.auto.service:auto-service:1.0',
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
+                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.0',
+                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.0',
+                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.0',
 
     ]
     //定义全局方法

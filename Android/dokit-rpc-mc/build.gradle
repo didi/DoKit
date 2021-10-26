@@ -60,11 +60,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(":dokit-util")
     if (needKotlinV14()) {
-        compileOnly rootProject.ext.dependencies["kotlin_v14"]
-        compileOnly rootProject.ext.dependencies["coroutines-core_v14"]
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+        implementation rootProject.ext.dependencies["coroutines-core_v14"]
     } else {
-        compileOnly rootProject.ext.dependencies["kotlin_v13"]
-        compileOnly rootProject.ext.dependencies["coroutines-core_v13"]
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+        implementation rootProject.ext.dependencies["coroutines-core_v13"]
     }
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]
