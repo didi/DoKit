@@ -23,17 +23,23 @@ public class DMapLocationListenerProxy implements DIDILocationListener, DMapLoca
 
     @Override
     public void onLocationChanged(DIDILocation didiLocation) {
-
+        if (didiLocationListener != null) {
+            didiLocationListener.onLocationChanged(didiLocation);
+        }
     }
 
     @Override
     public void onLocationError(int i, ErrInfo errInfo) {
-
+        if (didiLocationListener != null) {
+            didiLocationListener.onLocationError(i, errInfo);
+        }
     }
 
     @Override
     public void onStatusUpdate(String s, int i, String s1) {
-
+        if (didiLocationListener != null) {
+            didiLocationListener.onStatusUpdate(s, i, s1);
+        }
     }
 
     @NonNull
