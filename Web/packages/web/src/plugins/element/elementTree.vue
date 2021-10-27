@@ -6,21 +6,21 @@
   >
     <!-- <div @click="unfoldDetail" v-html="displayDetailValue"></div> -->
     <div
-      class="vcelm-l"
+      class="dkelm-l"
       v-if="node && node.nodeType === 1"
       :class="[
         isNullEndTag(node.tagName) || node.childNodes.length == 0
-          ? 'vcelm-noc'
+          ? 'dkelm-noc'
           : '',
-        unfold ? 'vc-toggle' : '',
+        unfold ? 'dk-toggle' : '',
       ]"
     >
-      <span class="vcelm-node" @click="unfoldDetail">
+      <span class="dkelm-node" @click="unfoldDetail">
         &lt;{{ node.tagName.toLowerCase() }}
-        <i class="vcelm-k" v-if="node.className || node.attributes.length">
+        <i class="dkelm-k" v-if="node.className || node.attributes.length">
           <span v-for="(item, index) in node.attributes" :key="index">
             <span v-if="item.value !== ''">
-              {{ " " + item.name }}=<i class="vcelm-v"> {{ item.value }} </i>
+              {{ " " + item.name }}=<i class="dkelm-v"> {{ item.value }} </i>
             </span>
             <span v-else>
               {{ " " + item.name }}
@@ -33,7 +33,7 @@
           <ElementTree :node="child" :parentIsUnfold="unfold"></ElementTree>
         </div>
       </template>
-      <span class="vcelm-node" v-if="!isNullEndTag(node.tagName)"
+      <span class="dkelm-node" v-if="!isNullEndTag(node.tagName)"
         >&lt;/{{ node.tagName.toLowerCase() }}&gt;</span
       >
     </div>
@@ -124,7 +124,7 @@ export default {
 .element-container {
   font-size: 16px;
   position: relative;
-  .vcelm-l {
+  .dkelm-l {
     padding-left: 8px;
     position: relative;
     word-wrap: break-word;
@@ -140,10 +140,10 @@ export default {
       border: 3px solid transparent;
       border-left-color: #000;
     }
-    &.vcelm-noc:before {
+    &.dkelm-noc:before {
       display: none;
     }
-    &.vc-toggle:before {
+    &.dk-toggle:before {
       display: block;
       top: 8px;
       left: 0;
@@ -151,13 +151,13 @@ export default {
       border-left-color: transparent;
     }
   }
-  .vcelm-node {
+  .dkelm-node {
     color: #183691;
   }
-  .vcelm-k {
+  .dkelm-k {
     color: #0086b3;
   }
-  .vcelm-v {
+  .dkelm-v {
     color: #905;
   }
 }
