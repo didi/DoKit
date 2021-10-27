@@ -42,7 +42,6 @@ export default {
       }
     });
     this.isRealTime = JSON.parse(localStorage.getItem("dokitElementRealTime")) ?? true;
-    console.log('fyq'+this.isRealTime);
   },
   destroyed() {
     this.observer.disconnect();
@@ -159,14 +158,12 @@ export default {
       }
     },
     onAttributesChange(mutation) {
-      console.log(mutation);
       let node = mutation.target.__dokitForWeb_node;
       if (!node) {
         return;
       }
       node = this.getNode(mutation.target);
       $bus.emit(node.key + "refresh");
-      console.log(this.node);
     },
     onCharacterDataChange(mutation) {
       let node = mutation.target.__dokitForWeb_node;
