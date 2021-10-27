@@ -31,7 +31,8 @@
   },
   "dependencies": {
     "@dokit/web-core": "^0.0.1-alpha.4",
-    "@dokit/web-utils": "^0.0.1-alpha.4"
+    "@dokit/web-utils": "^0.0.1-alpha.4",
+    "mutation-observer": "^1.0.3"
   },
   "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }
