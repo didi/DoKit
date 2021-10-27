@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18C7CAA526FB5F8D00A47F7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7CAA426FB5F8D00A47F7C /* AppDelegate.swift */; };
-		18C7CAA726FB5F8D00A47F7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7CAA626FB5F8D00A47F7C /* SceneDelegate.swift */; };
 		18C7CAA926FB5F8D00A47F7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7CAA826FB5F8D00A47F7C /* ViewController.swift */; };
 		18C7CAAC26FB5F8D00A47F7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C7CAAA26FB5F8D00A47F7C /* Main.storyboard */; };
 		18C7CAAE26FB5F8F00A47F7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18C7CAAD26FB5F8F00A47F7C /* Assets.xcassets */; };
@@ -20,7 +19,6 @@
 		175B450197F10CD038689527 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		18C7CAA126FB5F8D00A47F7C /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18C7CAA426FB5F8D00A47F7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		18C7CAA626FB5F8D00A47F7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		18C7CAA826FB5F8D00A47F7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		18C7CAAB26FB5F8D00A47F7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		18C7CAAD26FB5F8F00A47F7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -64,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				18C7CAA426FB5F8D00A47F7C /* AppDelegate.swift */,
-				18C7CAA626FB5F8D00A47F7C /* SceneDelegate.swift */,
 				18C7CAA826FB5F8D00A47F7C /* ViewController.swift */,
 				18C7CAAA26FB5F8D00A47F7C /* Main.storyboard */,
 				18C7CAAD26FB5F8F00A47F7C /* Assets.xcassets */,
@@ -88,7 +85,6 @@
 				EC6833A07F0818E63D44A2B9 /* Pods-Demo.debug.xcconfig */,
 				175B450197F10CD038689527 /* Pods-Demo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -209,7 +205,6 @@
 			files = (
 				18C7CAA926FB5F8D00A47F7C /* ViewController.swift in Sources */,
 				18C7CAA526FB5F8D00A47F7C /* AppDelegate.swift in Sources */,
-				18C7CAA726FB5F8D00A47F7C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +361,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,6 +390,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

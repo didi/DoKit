@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.6",
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -30,8 +30,9 @@
     "dev": "npx rollup -wc"
   },
   "dependencies": {
-    "@dokit/web-core": "^0.0.1-alpha.4",
-    "@dokit/web-utils": "^0.0.1-alpha.4"
+    "@dokit/web-core": "^0.0.1-alpha.6",
+    "@dokit/web-utils": "^0.0.1-alpha.5",
+    "web-vitals": "^2.1.2"
   },
   "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }
