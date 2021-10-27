@@ -16,8 +16,11 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
  * Created by jintai on 2019/09/26.
  */
 class MainIconDoKitView : AbsDokitView() {
-    //public static int FLOAT_SIZE = 174;
-    //public static int FLOAT_SIZE = 58;
+
+    init {
+        viewProps.edgePinned = true
+    }
+
     override fun onCreate(context: Context) {}
 
     override fun onViewCreated(view: FrameLayout) {
@@ -39,8 +42,6 @@ class MainIconDoKitView : AbsDokitView() {
         params.y = FloatIconConfig.getLastPosY()
         params.width = DokitViewLayoutParams.WRAP_CONTENT
         params.height = DokitViewLayoutParams.WRAP_CONTENT
-        //        params.width = ConvertUtils.dp2px(FLOAT_SIZE);
-//        params.height = ConvertUtils.dp2px(FLOAT_SIZE);
     }
 
     override fun onResume() {
