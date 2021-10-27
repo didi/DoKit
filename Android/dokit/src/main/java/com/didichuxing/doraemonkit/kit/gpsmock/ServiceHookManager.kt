@@ -25,7 +25,7 @@ object ServiceHookManager {
 
     private fun init() {
         //mHookers.add(new WifiHooker());
-        mHookers.add(LocationHooker())
+//        mHookers.add(LocationHooker())
 //        mHookers.add(ActivityMangerHooker())
 //        mHookers.add(ActivityTaskMangerHooker())
 //        mHookers.add(PackageManagerHooker())
