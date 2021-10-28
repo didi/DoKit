@@ -33,7 +33,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .container{
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top:100px;
