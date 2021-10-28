@@ -17,17 +17,17 @@ abstract class BaseServiceHooker : InvocationHandler {
 
     var TAG = this.javaClass.simpleName
 
-    var mHookMethods: Map<String, MethodHandler>
+    private lateinit var mHookMethods: Map<String, MethodHandler>
 
-    init {
+
+    fun init() {
         mHookMethods = registerMethodHandlers()
     }
-
 
     /**
      * 本地Binder对象(同进程)或远程Binder的代理对象(跨进程)
      */
-    private var mBinderStubProxy: IInterface? = null
+    var mBinderStubProxy: IInterface? = null
 
     abstract fun serviceName(): String
 
@@ -66,21 +66,21 @@ abstract class BaseServiceHooker : InvocationHandler {
         NoSuchMethodException::class
     )
     override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any? {
-        return if (mBinderStubProxy == null) {
-            null
+        if (mBinderStubProxy == null) {
+            return null
         } else try {
             //判断要拦截的方法是否实现已注册
             if (mHookMethods.containsKey(method.name) && mHookMethods[method.name] != null) {
-                mHookMethods[method.name]?.onInvoke(mBinderStubProxy!!, method, args)!!
+                return mHookMethods[method.name]?.onInvoke(mBinderStubProxy!!, method, args)
             } else {
-                if (args == null) {
+                return if (args == null) {
                     method.invoke(mBinderStubProxy, null)
                 } else {
                     method.invoke(mBinderStubProxy, *args)
                 }
             }
         } catch (e: Exception) {
-            null
+            return null
         }
     }
 
