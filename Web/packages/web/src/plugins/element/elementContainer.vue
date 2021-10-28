@@ -163,7 +163,7 @@ export default {
         return;
       }
       node = this.getNode(mutation.target);
-      $bus.emit(node.key + "refresh");
+      $bus.emit(node.key + "refreshMy");
     },
     onCharacterDataChange(mutation) {
       let node = mutation.target.__dokitForWeb_node;
@@ -171,7 +171,7 @@ export default {
         return;
       }
       node = this.getNode(mutation.target);
-      $bus.emit(node.key + "refresh");
+      $bus.emit(node.key + "refreshMy");
     },
     onChildAdd(mutation) {
       let $parent = mutation.target,
@@ -180,7 +180,7 @@ export default {
         return;
       }
       this.getNode($parent);
-      $bus.emit(parentNode.key);
+      $bus.emit(parentNode.key + "refreshChild");
     },
     onChildRemove(mutation) {
       let $parent = mutation.target,
@@ -197,7 +197,7 @@ export default {
         // remove view
         this.deleteNode(parentNode, key);
       }
-      $bus.emit(parentNode.key);
+      $bus.emit(parentNode.key + "refreshChild");
     },
     deleteNode(parentNode, nodeKey) {
       let deleteNodeIndex = parentNode.childNodes.findIndex(

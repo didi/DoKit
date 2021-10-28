@@ -64,16 +64,16 @@ export default {
   watch: {
     unfold(val) {
       if (val) {
-        $bus.on(this.node.key, this.refreshSon);
+        $bus.on(this.node.key + "refreshChild", this.refreshSon);
       } else {
-        $bus.off(this.node.key, this.refreshSon);
+        $bus.off(this.node.key + "refreshChild", this.refreshSon);
       }
     },
     parentIsUnfold(val) {
       if (val) {
-        $bus.on(this.node.key + "refresh", this.refresh);
+        $bus.on(this.node.key + "refreshMy", this.refresh);
       } else {
-        $bus.off(this.node.key + "refresh", this.refresh);
+        $bus.off(this.node.key + "refreshMy", this.refresh);
       }
     },
   },
