@@ -81,7 +81,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scope>
   .log-ltem{
     padding: 5px;
     padding-left: 20px;
