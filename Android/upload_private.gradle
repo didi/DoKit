@@ -21,9 +21,9 @@ def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_mo
 task packageSourcesJar(type: Jar) {
     classifier 'sources'
     if (project.ARTIFACT_ID == "dokitx-plugin") {
-        from project.kotlin.sourceSets.main.kotlin.source
+        from project.kotlin.sourceSets.main.kotlin.getSrcDirs()
     } else {
-        from project.android.sourceSets.main.java.source
+        from project.android.sourceSets.main.java.getSrcDirs()
     }
 
 }

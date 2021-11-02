@@ -1,4 +1,4 @@
-rootProject.name = "Dokit-Android"
+rootProject.name = "DoKit-Android"
 include ':app'
 include ':dokit-util'
 include ':dokit-ft'

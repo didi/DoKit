@@ -32,6 +32,10 @@ android {
         abortOnError false
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     /**
      * 支持ViewBinding
      */

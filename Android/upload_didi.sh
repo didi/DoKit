@@ -8,7 +8,7 @@ BLUE_COLOR="\033[1;34m"  #蓝
 PINK="\033[1;35m"    #粉红
 RES="\033[0m"
 
-./gradlew checkUploadConfig4Didi || ! echo -e "${RED_COLOR}执行当前打包上传任务必须修改config.gradle配置中的archives_type = 1 ${RES}" || exit
+./gradlew checkUploadConfig4Didi || ! echo -e "${RED_COLOR}未通过打包的配置检测！！！ ${RES}" || exit
 ./gradlew copyPluginSource
 ./gradlew clean
 ./gradlew :dokit-plugin:assemble
