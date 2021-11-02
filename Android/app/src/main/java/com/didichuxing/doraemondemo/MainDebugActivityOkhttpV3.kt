@@ -17,11 +17,9 @@ import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
@@ -29,15 +27,16 @@ import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.databinding.ActivityMainBinding
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
@@ -45,6 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import okhttp3.*
@@ -61,8 +61,8 @@ import kotlin.coroutines.resume
 /**
  * @author jintai
  */
-class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
-    CoroutineScope by MainScope() {
+class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, CoroutineScope by MainScope() {
+
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private val UPDATE_UI = 100
@@ -79,18 +79,19 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
      */
     private var githubService: GithubService? = null
 
+    private var _binding: ActivityMainBinding? = null
+
     @SuppressLint("HandlerLeak")
     private val mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
-                100 -> (findViewById<View>(R.id.iv_picasso) as ImageView).setImageBitmap(msg.obj as Bitmap)
+                100 -> _binding?.ivPicasso?.setImageBitmap(msg.obj as Bitmap)
                 else -> {
                 }
             }
         }
     }
-
 
     val datas = mutableListOf(
         "测试",
@@ -119,7 +120,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         it.resume("sleep 1000ms")
     }
 
-
     fun sleep2(): String {
         Thread.sleep(5000)
         return "sleep 1000ms"
@@ -127,17 +127,14 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val tvEnv = findViewById<TextView>(R.id.tv_env)
-        tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
-        val rv = findViewById<RecyclerView>(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(this)
-        mAdapter = MainAdapter(R.layout.item_main_rv, datas)
-        rv.adapter = mAdapter
+        _binding = ActivityMainBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+            mAdapter = MainAdapter(R.layout.item_main_rv, datas)
+            it.initView(this)
+        }
         mAdapter.setOnItemClickListener { _, _, position ->
             when (datas[position]) {
                 "测试" -> {
-                    lifecycleScope
 //                    lifecycleScope.launch {
 //                        val helloworld = async {
 //                            "Hello world!!"
@@ -180,7 +177,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     DoKit.showToolPanel()
                 }
                 "获取已安装的app" -> {
-                    packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                    packageManager.getInstalledApplications(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) PackageManager.MATCH_UNINSTALLED_PACKAGES
+                        else PackageManager.GET_UNINSTALLED_PACKAGES
+                    )
                 }
                 "跳转其他Activity" -> {
                     startActivity(Intent(this, SecondActivity::class.java))
@@ -274,7 +274,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                         )
                 }
                 "模拟Crash" -> {
-                    testCrash()!!.length
+                    checkNotNull(testCrash())
                 }
                 "创建数据库" -> {
                     val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)
@@ -291,7 +291,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                 }
             }
         }
-        findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
 
         okHttpClient = OkHttpClient().newBuilder().build()
         //获取定位服务
@@ -312,8 +311,13 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         ImageLoader.getInstance().init(config)
 
         githubService = retrofit.create(GithubService::class.java)
+    }
 
-
+    private fun ActivityMainBinding.initView(context: Context) {
+        tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
+        rv.layoutManager = LinearLayoutManager(context)
+        rv.adapter = mAdapter
+        btnLoadImg.setOnClickListener(this@MainDebugActivityOkhttpV3)
     }
 
     private fun test1() {
@@ -387,7 +391,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         )
     }
 
-
     @SuppressLint("MissingPermission")
     override fun onClick(v: View) {
         when (v.id) {
@@ -408,7 +411,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(R.mipmap.cat)
                     .error(R.mipmap.cat)
-                    .into(findViewById<View>(R.id.iv_picasso) as ImageView)
+                    .intoOrCancel(_binding?.ivPicasso)
                 Glide.with(this@MainDebugActivityOkhttpV3)
                     .asBitmap()
                     .load(glideImageUrl)
@@ -417,9 +420,9 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .transform(CircleCrop())
-                    .into((findViewById<View>(R.id.iv_glide) as ImageView))
+                    .intoOrCancel(_binding?.ivGlide)
                 //coil
-                findViewById<ImageView>(R.id.iv_coil).apply {
+                _binding?.ivCoil?.apply {
                     val request = coil.request.ImageRequest.Builder(this.context)
                         .memoryCachePolicy(CachePolicy.DISABLED)
                         .transformations(CircleCropTransformation())
@@ -431,13 +434,9 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                 }
                 //imageLoader
                 val imageLoader = ImageLoader.getInstance()
-                imageLoader.displayImage(
-                    imageLoaderImageUrl,
-                    findViewById<View>(R.id.iv_imageloader) as ImageView
-                )
+                imageLoader.displayImageOrNot(imageLoaderImageUrl, _binding?.ivImageloader)
                 //fresco
-                val frescoImageView = findViewById<SimpleDraweeView>(R.id.iv_fresco)
-                frescoImageView.setImageURI(Uri.parse(frescoImageUrl))
+                _binding?.ivFresco?.setImageURI(Uri.parse(frescoImageUrl))
                 val imagePipeline = Fresco.getImagePipeline()
                 // combines above two lines
                 imagePipeline.clearCaches()
@@ -567,18 +566,16 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
     }
 
     private fun inputStream2File(`is`: InputStream, saveFile: File) {
-        try {
-            var len: Int
-            val buf = ByteArray(2048)
-            val fos = FileOutputStream(saveFile)
-            while (`is`.read(buf).also { len = it } != -1) {
-                fos.write(buf, 0, len)
+        var len: Int
+        val buf = ByteArray(2048)
+        val fos = FileOutputStream(saveFile)
+        `is`.use { input ->
+            fos.use { output ->
+                while (input.read(buf).also { len = it } != -1) {
+                    output.write(buf, 0, len)
+                }
+                output.flush()
             }
-            fos.flush()
-            fos.close()
-            `is`.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
@@ -612,12 +609,19 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         }
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
+    private fun RequestCreator.intoOrCancel(target: ImageView?) {
+        target?.also { into(it) }
+    }
+
+    private fun RequestBuilder<*>.intoOrCancel(target: ImageView?) {
+        target?.also { into(it) }
+    }
+
+    private fun ImageLoader.displayImageOrNot(url: String, target: ImageView?) {
+        target?.also { displayImage(url, it) }
     }
 
     companion object {
         const val TAG = "MainDebugActivity"
-
     }
 }
