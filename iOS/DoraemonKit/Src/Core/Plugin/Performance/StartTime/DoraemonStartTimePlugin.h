@@ -1,6 +1,6 @@
 //
 //  DoraemonStartTimePlugin.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/7/17.
 //

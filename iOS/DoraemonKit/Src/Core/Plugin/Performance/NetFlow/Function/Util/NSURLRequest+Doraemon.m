@@ -1,6 +1,6 @@
 //
 //  NSURLRequest+Doraemon.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/4/11.
 //

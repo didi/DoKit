@@ -1,6 +1,6 @@
 //
 //  DoraemonFileSyncViewController.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by didi on 2020/6/10.
 //

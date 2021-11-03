@@ -1,6 +1,6 @@
 //
 //  UIViewController+DoraemonVCProfiler.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by didi on 2020/1/5.
 //

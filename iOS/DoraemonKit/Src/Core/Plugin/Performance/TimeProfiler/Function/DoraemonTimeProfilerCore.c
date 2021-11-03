@@ -1,6 +1,6 @@
 //
 //  DoraemonTimeProfilerCore.c
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/7/9.
 //

@@ -1,6 +1,6 @@
 //
 //  DoraemonHealthInstructionsCell.h
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by didi on 2020/1/2.
 //

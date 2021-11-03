@@ -1,6 +1,6 @@
 //
 //  DoraemonCopyLabel.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by didi on 2020/2/26.
 //

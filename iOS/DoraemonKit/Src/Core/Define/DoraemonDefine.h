@@ -1,6 +1,6 @@
 //
 //  DoraemonDefine.h
-//  DoraemonKitDemo
+//  DoraemonKit
 //
 //  Created by yixiang on 2017/12/11.
 //  Copyright © 2017年 yixiang. All rights reserved.
@@ -18,7 +18,7 @@
 #import "DoraemonAlertUtil.h"
 #import "DoraemonUtil.h"
 
-#define DoKitVersion @"3.0.7"
+#define DoKitVersion @"3.0.8"
 #define DoKitKbChange(x) x * 1000
 
 //#define DoKit_OpenLog

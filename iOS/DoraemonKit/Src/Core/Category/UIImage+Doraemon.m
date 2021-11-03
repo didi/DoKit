@@ -1,6 +1,6 @@
 //
-//  UIImage+DoraemonKit.m
-//  DoraemonKit-DoraemonKit
+//  UIImage+Doraemon.m
+//  DoraemonKit
 //
 //  Created by yixiang on 2017/12/11.
 //
