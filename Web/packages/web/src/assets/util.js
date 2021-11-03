@@ -66,3 +66,22 @@ export const guid = function () {
 }
 
 export const $bus = new EventEmitter()
+
+export const debounce = (fn, wait, time) => {
+  var previous = null
+  var timer = null
+  return function () {
+    var now = +new Date()
+    if (!previous) previous = now
+    if (now - previous > time) {
+      clearTimeout(timer)
+      fn()
+      previous = now
+    } else {
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        fn()
+      }, wait)
+    }
+  }
+}

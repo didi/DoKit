@@ -1,22 +1,33 @@
 <template>
   <div class="dokit-app">
-    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable="btnConfig" @click="toggleShowContainer"></div>
+    <div
+      class="dokit-entry-btn"
+      style="z-index: 10000"
+      v-dragable="btnConfig"
+      @click="toggleShowContainer"
+    ></div>
     <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
     <independ-container v-show="independPlugins.length"></independ-container>
+    <elements-highlight
+      v-if="showHighlightElement && highlightElement"
+      :element="highlightElement"
+    ></elements-highlight>
   </div>
 </template>
 
 <script>
-import { dragable } from '@dokit/web-utils';
-import RouterContainer from './router-container';
-import IndependContainer from './independ-container';
-import { toggleContainer } from '@store/index';
+import { dragable } from "@dokit/web-utils";
+import RouterContainer from "./router-container";
+import IndependContainer from "./independ-container";
+import ElementsHighlight from "./elements-highlight.vue";
+import { toggleContainer } from "@store/index";
 
 export default {
   components: {
     RouterContainer,
-    IndependContainer
+    IndependContainer,
+    ElementsHighlight,
   },
   directives: {
     dragable,
@@ -24,36 +35,52 @@ export default {
   data() {
     return {
       btnConfig: {
-        name: 'dokit_entry',
+        name: "dokit_entry",
         opacity: 0.5,
         left: window.innerWidth - 50,
         top: window.innerHeight - 100,
-        safeBottom: 50
-      }
+        safeBottom: 50,
+      },
     };
   },
   computed: {
-    state(){
-      return this.$store.state
+    highlightElement() {
+      return this.state.highlightElement;
     },
-    showContainer(){
-      return this.state.showContainer
+    showHighlightElement() {
+      return this.state.showHighlightElement;
     },
-    independPlugins(){
-      return this.$store.state.independPlugins
-    }
+    state() {
+      return this.$store.state;
+    },
+    showContainer() {
+      return this.state.showContainer;
+    },
+    independPlugins() {
+      return this.$store.state.independPlugins;
+    },
   },
   methods: {
     toggleShowContainer() {
-      toggleContainer()
-    }
-  }
+      toggleContainer();
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .dokit-app {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+  & > * {
+    pointer-events: all;
+  }
 }
 .dokit-entry-btn {
   width: 50px;
@@ -65,7 +92,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 }
-.mask{
+.mask {
   position: absolute;
   top: 0;
   left: 0;
