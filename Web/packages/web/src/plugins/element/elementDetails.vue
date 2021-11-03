@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import CssStore from "../../assets/CssStore";
-import ElementComputedStyle from "./components/ElementComputedStyle";
-import ElementStyles from "./components/ElementStyles";
-import ElementAttributes from "./components/ElementAttributes";
-import ElementBreadcrumb from "./components/ElementBreadcrumb";
+import CssStore from '../../assets/CssStore';
+import ElementComputedStyle from './components/ElementComputedStyle';
+import ElementStyles from './components/ElementStyles';
+import ElementAttributes from './components/ElementAttributes';
+import ElementBreadcrumb from './components/ElementBreadcrumb';
 export default {
   components: {
     ElementComputedStyle,

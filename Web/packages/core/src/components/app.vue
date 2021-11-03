@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import { dragable } from "@dokit/web-utils";
-import RouterContainer from "./router-container";
-import IndependContainer from "./independ-container";
-import ElementsHighlight from "./elements-highlight.vue";
-import { toggleContainer } from "@store/index";
+import { dragable } from '@dokit/web-utils';
+import RouterContainer from './router-container';
+import IndependContainer from './independ-container';
+import ElementsHighlight from './elements-highlight.vue';
+import { toggleContainer } from '@store/index';
 
 export default {
   components: {
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       btnConfig: {
-        name: "dokit_entry",
+        name: 'dokit_entry',
         opacity: 0.5,
         left: window.innerWidth - 50,
         top: window.innerHeight - 100,

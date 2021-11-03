@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import ElementTree from "./elementTree.vue";
-import ElementDetails from "./elementDetails.vue";
-import ElementSnippet from "./elementSnippet.vue";
-import MutationObserver from "mutation-observer";
-import { guid, $bus } from "../../assets/util";
-import { toggleElement } from "@dokit/web-core";
+import ElementTree from './elementTree.vue';
+import ElementDetails from './elementDetails.vue';
+import ElementSnippet from './elementSnippet.vue';
+import MutationObserver from 'mutation-observer';
+import { guid, $bus } from '../../assets/util';
+import { toggleElement } from '@dokit/web-core';
 export default {
   components: {
     ElementTree,
@@ -279,36 +279,36 @@ export default {
     },
     getBoxModelValue(elem) {
       return {
-        display: this.getStyle(elem, "display"),  
-        position: this.getStyle(elem, "position"),
-        top:this.getStyle(elem, "top"),
-        right:this.getStyle(elem, "right"),
-        bottom:this.getStyle(elem, "bottom"),
-        left:this.getStyle(elem, "left"),
-        marginTop: this.getStyle(elem, "marginTop"),
-        marginRight: this.getStyle(elem, "marginRight"),
-        marginBottom: this.getStyle(elem, "marginBottom"),
-        marginLeft: this.getStyle(elem, "marginLeft"),
-        borderTopWidth: this.getStyle(elem, "borderTopWidth"),
-        borderRightWidth: this.getStyle(elem, "borderRightWidth"),
-        borderBottomWidth: this.getStyle(elem, "borderBottomWidth"),
-        borderLeftWidth: this.getStyle(elem, "borderLeftWidth"),
-        paddingTop: this.getStyle(elem, "paddingTop"),
-        paddingRight: this.getStyle(elem, "paddingRight"),
-        paddingBottom: this.getStyle(elem, "paddingBottom"),
-        paddingLeft: this.getStyle(elem, "paddingLeft"),
+        display: this.getStyle(elem, 'display'),  
+        position: this.getStyle(elem, 'position'),
+        top:this.getStyle(elem, 'top'),
+        right:this.getStyle(elem, 'right'),
+        bottom:this.getStyle(elem, 'bottom'),
+        left:this.getStyle(elem, 'left'),
+        marginTop: this.getStyle(elem, 'marginTop'),
+        marginRight: this.getStyle(elem, 'marginRight'),
+        marginBottom: this.getStyle(elem, 'marginBottom'),
+        marginLeft: this.getStyle(elem, 'marginLeft'),
+        borderTopWidth: this.getStyle(elem, 'borderTopWidth'),
+        borderRightWidth: this.getStyle(elem, 'borderRightWidth'),
+        borderBottomWidth: this.getStyle(elem, 'borderBottomWidth'),
+        borderLeftWidth: this.getStyle(elem, 'borderLeftWidth'),
+        paddingTop: this.getStyle(elem, 'paddingTop'),
+        paddingRight: this.getStyle(elem, 'paddingRight'),
+        paddingBottom: this.getStyle(elem, 'paddingBottom'),
+        paddingLeft: this.getStyle(elem, 'paddingLeft'),
         contentWidth:
           (elem.offsetWidth -
-          parseInt(this.getStyle(elem, "paddingLeft")) -
-          parseInt(this.getStyle(elem, "paddingRight")) -
-          parseInt(this.getStyle(elem, "borderLeftWidth")) -
-          parseInt(this.getStyle(elem, "borderRightWidth"))),
+          parseInt(this.getStyle(elem, 'paddingLeft')) -
+          parseInt(this.getStyle(elem, 'paddingRight')) -
+          parseInt(this.getStyle(elem, 'borderLeftWidth')) -
+          parseInt(this.getStyle(elem, 'borderRightWidth'))),
         contentHeight:
           (elem.offsetHeight -
-          parseInt(this.getStyle(elem, "paddingTop")) -
-          parseInt(this.getStyle(elem, "paddingBottom")) -
-          parseInt(this.getStyle(elem, "borderTopWidth")) -
-          parseInt(this.getStyle(elem, "borderBottomWidth"))),
+          parseInt(this.getStyle(elem, 'paddingTop')) -
+          parseInt(this.getStyle(elem, 'paddingBottom')) -
+          parseInt(this.getStyle(elem, 'borderTopWidth')) -
+          parseInt(this.getStyle(elem, 'borderBottomWidth'))),
       };
     },
     getStyle(elem, attr) {
