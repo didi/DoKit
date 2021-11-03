@@ -1,6 +1,6 @@
 //
 //  DoraemonStatisticsUtil.h
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/12/10.
 //

@@ -1,6 +1,6 @@
 //
 //  DoraemonHierarchyFormatterTool.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by lijiahuan on 2019/11/2.
 //

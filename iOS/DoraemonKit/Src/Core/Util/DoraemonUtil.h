@@ -1,6 +1,6 @@
 //
 //  DoraemonUtil.h
-//  DoraemonKitDemo
+//  DoraemonKit
 //
 //  Created by yixiang on 2017/12/11.
 //  Copyright © 2017年 yixiang. All rights reserved.

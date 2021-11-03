@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -173,17 +174,21 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
      * @param activity
      */
     private fun dispatchOnActivityResumed(activity: Activity) {
+        activity.window.decorView.also {
+            it.post { DoKitEnv.windowSize.set(it.width, it.height) }
+        }
         if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
             //显示内置dokitView icon
             DokitViewManager.INSTANCE.dispatchOnActivityResumed(activity)
+            return
+        }
+        // FIXME: consider handle permission down to activity-layer, just dispatch resumed-event here
+        //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
+        if (DoKitPermissionUtil.canDrawOverlays(activity)) {
+            DokitViewManager.INSTANCE.dispatchOnActivityResumed(activity)
         } else {
-            //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
-            if (DoKitPermissionUtil.canDrawOverlays(activity)) {
-                DokitViewManager.INSTANCE.dispatchOnActivityResumed(activity)
-            } else {
-                //请求悬浮窗权限
-                requestPermission(activity)
-            }
+            //请求悬浮窗权限
+            requestPermission(activity)
         }
     }
 

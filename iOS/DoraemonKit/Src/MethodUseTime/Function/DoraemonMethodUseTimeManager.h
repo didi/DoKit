@@ -1,6 +1,6 @@
 //
 //  DoraemonMethodUseTimeManager.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/1/18.
 //

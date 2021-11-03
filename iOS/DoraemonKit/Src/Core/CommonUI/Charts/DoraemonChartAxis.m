@@ -1,6 +1,6 @@
 //
-//  Axis.m
-//  Chart
+//  DoraemonChartAxis.m
+//  DoraemonKit
 //
 //  Created by 0xd on 2019/9/4.
 //  Copyright © 2019 000. All rights reserved.

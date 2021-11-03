@@ -1,6 +1,6 @@
 //
 //  DoraemonH5ViewController.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/5/4.
 //
