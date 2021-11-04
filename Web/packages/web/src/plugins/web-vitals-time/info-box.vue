@@ -55,6 +55,9 @@ export default {
     text-align: left;
     margin-top: 20px;
     padding-left: 5%;
+    >div {
+      font-size: 16px;
+    }
   }
   .item {
     display: inline-block;

@@ -24,7 +24,7 @@ export class EventEmitter{
       return
     }
     let index = this._events[event].indexOf(listener);
-    if(index > 0){
+    if(index >= 0){
       this._events[event].splice(index, 1)
     }
   }
