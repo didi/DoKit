@@ -240,6 +240,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jellybean](https://github.com/excitedhaha)
 
 **贡献者榜单**
+[wangzhipeng](https://github.com/WangLao100)、
+[momoxiangbei](https://github.com/momoxiangbei)、
 [changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、 
