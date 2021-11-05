@@ -1,6 +1,6 @@
 <template>
   <div
-    class="element-container"
+    class="element-tree-container"
     :class="[canFold ? 'can-unfold' : '', unfold ? 'unfolded' : '']"
     v-if="isShow"
   >
@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.element-container {
+.element-tree-container {
   font-size: 16px;
   position: relative;
   .dkelm-l {
