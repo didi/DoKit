@@ -113,10 +113,19 @@
 /*
  * 获取测试用例列表
  */
-+ (void)getCaseApiInfoWithCaseID:(NSString *)caseID {
++ (void)getMultiCaseListWithSus:(void(^)(id responseObject))sus
+                           fail:(void(^)(NSError *error))fail  {
     
-    
-    
+    [DoraemonMultiNetWorkSerivce getCaseListWithSus:^(id  _Nonnull responseObject) {
+        if(sus){
+            sus(responseObject);
+        }
+    } fail:^(NSError * _Nonnull error) {
+        if(fail){
+            fail(error);
+        }
+    }];
+
 }
 
 

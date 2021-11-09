@@ -35,6 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
                            fail:(void (^) (NSError *_Nonnull error))fail;
 
 
+/*
+ * 获取测试用例列表
+ */
++ (void)getMultiCaseListWithSus:(void(^)(id responseObject))sus
+                           fail:(void(^)(NSError *error))fail;
+
 
 @end
 

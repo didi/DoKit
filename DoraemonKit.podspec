@@ -101,7 +101,7 @@ Pod::Spec.new do |s|
       ss.dependency 'CocoaLumberjack'
       ss.dependency 'CocoaHTTPServer'
       ss.dependency 'SocketRocket'
+      ss.dependency 'AFNetworking'
     end
 
 end
-

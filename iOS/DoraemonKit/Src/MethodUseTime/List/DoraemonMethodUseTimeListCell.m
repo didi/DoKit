@@ -27,7 +27,7 @@
         _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [self.contentView addSubview:_titleLabel];
         
-        _rightLabel = [[UILabel alloc] init];
+        _rightLabel = [[UILabel alloc] init]; 
         _rightLabel.textColor = [UIColor doraemon_blue];
         _rightLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [self.contentView addSubview:_rightLabel];
