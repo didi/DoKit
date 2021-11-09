@@ -36,6 +36,10 @@ void main() {
         print('ttt$obj');
       });
   // runApp(MyApp());
+
+  DoKit.i.isDoKitPageShow((bool isShow) {
+    print("isShow = $isShow");
+  });
 }
 
 class MyApp extends StatelessWidget {

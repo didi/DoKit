@@ -93,6 +93,24 @@ class DoKit {
       ),
     );
   }
+
+  /// 暴露出来的除[runApp]外的所有接口
+  static final i = _DoKitInterfaces._instance;
+}
+
+abstract class IDoKit {/* Just empty. */}
+
+class _DoKitInterfaces extends IDoKit {
+  _DoKitInterfaces._();
+
+  static final _DoKitInterfaces _instance = _DoKitInterfaces._();
+
+  late DoKitBtnClickedCallback callback;
+
+  /// doKit是否打开了页面（只要是通过doKit打开的页面）
+  void isDoKitPageShow(DoKitBtnClickedCallback callback) {
+    this.callback = callback;
+  }
 }
 
 // 如果在runApp之前执行了WidgetsFlutterBinding.ensureInitialized，会导致methodchannel功能不可用，可以在runApp前先调用一下ensureDoKitBinding
@@ -123,6 +141,7 @@ void addEntrance() {
   WidgetsBinding.instance?.addPostFrameCallback((_) {
     final DoKitBtn floatBtn = DoKitBtn();
     floatBtn.addToOverlay();
+    floatBtn.btnClickCallback = DoKit.i.callback;
     KitPageManager.instance.loadCache();
   });
 }
