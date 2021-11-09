@@ -23,6 +23,17 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
   s.default_subspec = 'Core'
+
+  s.subspec 'Hook' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/**/*.{h,c}'
+    ss.compiler_flags = [
+      '-Wall',
+      '-Wextra',
+      '-Wpedantic',
+      '-Werror',
+      '-Wno-zero-length-array'
+    ]
+  end
   
   s.subspec 'Core' do |ss| 
     ss.source_files = 'iOS/DoraemonKit/Src/Core/**/*{.h,.m,.c,.mm}'
