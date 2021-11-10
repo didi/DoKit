@@ -51,13 +51,13 @@ struct RebindingEntry {
 static SLIST_HEAD(, RebindingEntry) rebindingEntryHead = SLIST_HEAD_INITIALIZER();
 
 static bool appendRebinding(const struct DKRebinding rebinding[], size_t length) {
-    if (!rebinding || !length) {
+    if (__builtin_expect(!rebinding || !length, false)) {
         assert(false && "appendRebinding() parameter must be non-null.");
 
         return true;
     }
     struct RebindingEntry *rebindingEntry = malloc(sizeof(struct RebindingEntry) + length * sizeof(struct DKRebinding));
-    if (!rebindingEntry) {
+    if (__builtin_expect(!rebindingEntry, false)) {
         return false;
     }
     rebindingEntry->length = length;
@@ -69,7 +69,7 @@ static bool appendRebinding(const struct DKRebinding rebinding[], size_t length)
 
 static void performRebindingWithSection(const section_t *section, uintptr_t slide, const nlist_t *symbolTable, const char *stringTable, const uint32_t *indirectSymbolTable) {
     // section->size could be zero?
-    if (!section || !symbolTable || !stringTable || !indirectSymbolTable || !section->size) {
+    if (__builtin_expect(!section || !symbolTable || !stringTable || !indirectSymbolTable || !section->size, false)) {
         assert(false && "performRebindingWithSection() parameter error.");
 
         return;
@@ -92,7 +92,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
     kern_return_t kernReturn = vm_region(mach_task_self(), &vmAddress, &vmSize, VM_REGION_BASIC_INFO, (vm_region_info_t) &vmRegionBasicInfoData, &machMsgTypeNumber, &memoryObject);
 #endif
     assert(vmAddress <= (vm_address_t) got && vmSize >= section->size && "vmAddress <= got < got + size <= vmAddress + vmSize.");
-    if (kernReturn != KERN_SUCCESS) {
+    if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
         assert(false && "vm_region_64() error.");
 
         return;
@@ -107,7 +107,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
     if (newProtection != VM_PROT_NONE) {
         // got and section->size will be Page-Aligned
         kernReturn = vm_protect(mach_task_self(), (vm_address_t) got, section->size, false, newProtection);
-        if (kernReturn != KERN_SUCCESS) {
+        if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
             assert(false && VM_PROTECT_ERROR);
 
             return;
@@ -142,7 +142,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
 
     if (vmRegionBasicInfoData.protection == VM_PROT_READ) {
         kernReturn = vm_protect(mach_task_self(), (vm_address_t) got, section->size, false, vmRegionBasicInfoData.protection);
-        if (kernReturn != KERN_SUCCESS) {
+        if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
             assert(false && VM_PROTECT_ERROR);
 
             return;
@@ -173,7 +173,7 @@ static void dyldAddImageCallback(const struct mach_header *machHeader, intptr_t 
             dynamicSymbolTableCommand = (struct dysymtab_command *) currentSegmentCommand;
         }
     }
-    if (!symbolTableCommand || !dynamicSymbolTableCommand || !linkEditCommand) {
+    if (__builtin_expect(!symbolTableCommand || !dynamicSymbolTableCommand || !linkEditCommand, false)) {
         assert(false && "SYMBOL or DYNAMIC_SYMBOL or LINK_EDIT error.");
 
         return;
@@ -208,17 +208,17 @@ static void dyldAddImageCallback(const struct mach_header *machHeader, intptr_t 
 
 bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length) {
     bool retVal = appendRebinding(rebinding, length);
-    if (!retVal) {
+    if (__builtin_expect(!retVal, false)) {
         return false;
     }
-    // if this is the first call, register the callback for image addition (which is also invoked for existing images)
-    if (!SLIST_NEXT(SLIST_FIRST(&rebindingEntryHead), node)) {
-        _dyld_register_func_for_add_image(dyldAddImageCallback);
-    } else {
+    if (SLIST_NEXT(SLIST_FIRST(&rebindingEntryHead), node)) {
         uint32_t count = _dyld_image_count();
         for (uint32_t i = 0; i < count; ++i) {
             dyldAddImageCallback(_dyld_get_image_header(i), _dyld_get_image_vmaddr_slide(i));
         }
+    } else {
+        // if this is the first call, register the callback for image addition (which is also invoked for existing images)
+        _dyld_register_func_for_add_image(dyldAddImageCallback);
     }
 
     return retVal;

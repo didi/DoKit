@@ -38,7 +38,8 @@ iOS各式各样的工具集合
       '-Wextra',
       '-Wpedantic',
       '-Werror',
-      '-Wno-zero-length-array'
+      '-Wno-zero-length-array',
+      '-fvisibility=hidden'
     ]
   end
 
