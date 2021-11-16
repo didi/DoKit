@@ -28,7 +28,7 @@ class AMapRouterFragment : CommBaseFragment() {
     private var mDefaultNaviListener: DefaultNaviListener? = null
     private lateinit var mAmap: AMap
     private lateinit var mapView: MapView
-    private lateinit var mAMapNavi: AMapNavi
+    private var mAMapNavi: AMapNavi? = null
     private val mStartPoint = NaviLatLng(30.29659, 120.081127)
     private val mEndPoint = NaviLatLng(30.296793, 121.07527)
     override fun initActivityTitle(): String {
@@ -147,19 +147,27 @@ class AMapRouterFragment : CommBaseFragment() {
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAmap.isMyLocationEnabled = true
-        //规划路径
-        mAMapNavi = AMapNavi.getInstance(activity?.application)
+        //确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow、updatePrivacyAgree两个接口并且参数值都为true，若未正确设置有崩溃风险
+        //官方文档：https://lbs.amap.com/api/android-navi-sdk/guide/create-project/configuration-considerations#t3
+        NaviSetting.updatePrivacyShow(context, true, true)
+        NaviSetting.updatePrivacyAgree(context, true)
+        try {
+            //规划路径
+            mAMapNavi = AMapNavi.getInstance(activity?.application)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         val startList = mutableListOf<NaviLatLng>()
         startList.add(mStartPoint)
         val endList = mutableListOf<NaviLatLng>()
         endList.add(mEndPoint)
-        mAMapNavi.calculateDriveRoute(
+        mAMapNavi?.calculateDriveRoute(
             startList,
             endList,
             null,
             PathPlanningStrategy.DRIVING_MULTIPLE_ROUTES_DEFAULT
         )
-        mAMapNavi.addAMapNaviListener(activity?.application?.let {
+        mAMapNavi?.addAMapNaviListener(activity?.application?.let {
             mDefaultNaviListener = DefaultNaviListener(mAmap, mAMapNavi, it)
             mDefaultNaviListener
         })
