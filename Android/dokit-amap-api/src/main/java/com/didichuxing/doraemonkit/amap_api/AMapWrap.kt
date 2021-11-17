@@ -28,7 +28,7 @@ object AMapWrap {
         compareResult != -1
     }
 
-    fun createAMapNavi(application: Application): AMapNavi? {
+    fun createAMapNavi(application: Application): AMapNavi {
         return if (isAMapNaviVersionGreaterV810) {
             AMapWrapWithPrivacy.createAMapNavi(application)
         } else {

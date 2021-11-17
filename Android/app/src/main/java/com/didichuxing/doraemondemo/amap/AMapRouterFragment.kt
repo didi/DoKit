@@ -29,7 +29,7 @@ class AMapRouterFragment : CommBaseFragment() {
     private var mDefaultNaviListener: DefaultNaviListener? = null
     private lateinit var mAmap: AMap
     private lateinit var mapView: MapView
-    private var mAMapNavi: AMapNavi? = null
+    private lateinit var mAMapNavi: AMapNavi
     private val mStartPoint = NaviLatLng(30.29659, 120.081127)
     private val mEndPoint = NaviLatLng(30.296793, 121.07527)
     override fun initActivityTitle(): String {
@@ -149,18 +149,18 @@ class AMapRouterFragment : CommBaseFragment() {
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAmap.isMyLocationEnabled = true
         //AMapWrap 类用于适配高德地图隐私合规接口
-        mAMapNavi = activity?.application?.let { AMapWrap.createAMapNavi(it) }
+        mAMapNavi = AMapWrap.createAMapNavi(activity?.application!!)
         val startList = mutableListOf<NaviLatLng>()
         startList.add(mStartPoint)
         val endList = mutableListOf<NaviLatLng>()
         endList.add(mEndPoint)
-        mAMapNavi?.calculateDriveRoute(
+        mAMapNavi.calculateDriveRoute(
             startList,
             endList,
             null,
             PathPlanningStrategy.DRIVING_MULTIPLE_ROUTES_DEFAULT
         )
-        mAMapNavi?.addAMapNaviListener(activity?.application?.let {
+        mAMapNavi.addAMapNaviListener(activity?.application?.let {
             mDefaultNaviListener = DefaultNaviListener(mAmap, mAMapNavi, it)
             mDefaultNaviListener
         })

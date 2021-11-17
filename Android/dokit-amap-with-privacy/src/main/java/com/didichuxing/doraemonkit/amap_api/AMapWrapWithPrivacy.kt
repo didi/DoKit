@@ -16,17 +16,11 @@ import com.amap.api.navi.NaviSetting
  */
 object AMapWrapWithPrivacy {
 
-    fun createAMapNavi(application: Application): AMapNavi? {
-        var aMapNavi: AMapNavi? = null
+    fun createAMapNavi(application: Application): AMapNavi {
         //确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow、updatePrivacyAgree两个接口并且参数值都为true，若未正确设置有崩溃风险
         //官方文档：https://lbs.amap.com/api/android-navi-sdk/guide/create-project/configuration-considerations#t3
         NaviSetting.updatePrivacyShow(application, true, true)
         NaviSetting.updatePrivacyAgree(application, true)
-        try {
-            aMapNavi = AMapNavi.getInstance(application)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return aMapNavi
+        return AMapNavi.getInstance(application)
     }
 }

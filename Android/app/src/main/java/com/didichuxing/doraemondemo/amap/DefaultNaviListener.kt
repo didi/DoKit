@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable
  * 修订历史：
  * ================================================
  */
-class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi?, val context: Context) :
+class DefaultNaviListener(val mAMap: AMap, private val mAMapNavi: AMapNavi, val context: Context) :
     AMapNaviListener {
 //    private var mNaviRouteOverlay: NaviRouteOverlay? = null
 //
@@ -148,11 +148,11 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi?, val context
     override fun onCalculateRouteSuccess(result: AMapCalcRouteResult?) {
 //        LogHelper.i(TAG, "mAMapNavi.naviPath.coordList===>${mAMapNavi.naviPath.coordList.size}")
 //        RouterManager.mCoordList = mAMapNavi.naviPath.coordList
-        val naviRouteOverlay = NaviRouteOverlay(mAMap, mAMapNavi?.naviPath, context)
+        val naviRouteOverlay = NaviRouteOverlay(mAMap, mAMapNavi.naviPath, context)
         naviRouteOverlay.setShowDefaultLineArrow(true)
         naviRouteOverlay.addToMap()
 //        naviRouteOverlay.removeFromMap()
-        mAMapNavi?.setEmulatorNaviSpeed(10)
+        mAMapNavi.setEmulatorNaviSpeed(10)
         /**
          * 	CRUISE
         巡航模式（数值：3）
@@ -163,7 +163,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi?, val context
         NONE
         未开始导航（数值：-1）
          */
-        mAMapNavi?.startNavi(NaviType.GPS)
+        mAMapNavi.startNavi(NaviType.GPS)
 
 //        disp = MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
     }

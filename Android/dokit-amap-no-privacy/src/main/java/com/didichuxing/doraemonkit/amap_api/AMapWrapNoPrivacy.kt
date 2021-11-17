@@ -15,7 +15,7 @@ import com.amap.api.navi.AMapNavi
  */
 object AMapWrapNoPrivacy {
 
-    fun createAMapNavi(application: Application): AMapNavi? {
+    fun createAMapNavi(application: Application): AMapNavi {
         return AMapNavi.getInstance(application)
     }
 
