@@ -59,8 +59,8 @@ android {
 dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'junit:junit:4.12'
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["junit"]
     if (needKotlinV14()) {
         implementation rootProject.ext.dependencies["kotlin_v14"]
     } else {
@@ -122,6 +122,8 @@ dependencies {
     compileOnly rootProject.ext.dependencies["amap_location"]
     //高德导航
     compileOnly rootProject.ext.dependencies["amap_navi"]
+    //amap wrap
+    implementation project(':dokit-amap-api')
     //腾讯地图定位
     compileOnly rootProject.ext.dependencies["tencent_location"]
 //    compileOnly rootProject.ext.dependencies["tencent_map"]

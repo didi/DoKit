@@ -198,6 +198,9 @@ dependencies {
     //高德搜索
     implementation rootProject.ext.dependencies["amap_search"]
     implementation rootProject.ext.dependencies["amap_navi"]
+//    implementation rootProject.ext.dependencies["amap_navi_v810"]
+//    implementation rootProject.ext.dependencies["amap_navi_v801"]
+    implementation project(':dokit-amap-api')
     //腾讯地图定位
 //    implementation rootProject.ext.dependencies["tencent_location"]
 //    implementation rootProject.ext.dependencies["tencent_map"]

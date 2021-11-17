@@ -11,9 +11,9 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
-import com.amap.api.navi.NaviSetting
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.amap_api.AMapWrap
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
@@ -40,15 +40,8 @@ class AMapRealNavMockView : AbsDokitView() {
     private var mAMapNavi: AMapNavi? = null
 
     override fun onCreate(context: Context?) {
-        //确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow、updatePrivacyAgree两个接口并且参数值都为true，若未正确设置有崩溃风险
-        //官方文档：https://lbs.amap.com/api/android-navi-sdk/guide/create-project/configuration-considerations#t3
-        NaviSetting.updatePrivacyShow(context, true, true)
-        NaviSetting.updatePrivacyAgree(context, true)
-        try {
-            mAMapNavi = AMapNavi.getInstance(activity.application)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        //AMapWrap 类用于适配高德地图隐私合规接口
+        mAMapNavi = AMapWrap.createAMapNavi(activity.application)
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {

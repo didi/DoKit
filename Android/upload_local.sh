@@ -19,6 +19,9 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-api:publish
 ./gradlew :dokit-okhttp-v3:publish
 ./gradlew :dokit-okhttp-v4:publish
+./gradlew :dokit-amap-api:publish
+./gradlew :dokit-amap-no-privacy:publish
+./gradlew :dokit-amap-with-privacy:publish
 ./gradlew :dokit-plugin:publish
 ./gradlew :dokit-rpc:publish
 ./gradlew :dokit-rpc-mc:publish

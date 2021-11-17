@@ -14,6 +14,7 @@ import com.amap.api.navi.model.AMapNaviLocation
 import com.amap.api.navi.model.NaviLatLng
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemondemo.comm.CommBaseFragment
+import com.didichuxing.doraemonkit.amap_api.AMapWrap
 
 /**
  * ================================================
@@ -147,16 +148,8 @@ class AMapRouterFragment : CommBaseFragment() {
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAmap.isMyLocationEnabled = true
-        //确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow、updatePrivacyAgree两个接口并且参数值都为true，若未正确设置有崩溃风险
-        //官方文档：https://lbs.amap.com/api/android-navi-sdk/guide/create-project/configuration-considerations#t3
-        NaviSetting.updatePrivacyShow(context, true, true)
-        NaviSetting.updatePrivacyAgree(context, true)
-        try {
-            //规划路径
-            mAMapNavi = AMapNavi.getInstance(activity?.application)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        //AMapWrap 类用于适配高德地图隐私合规接口
+        mAMapNavi = activity?.application?.let { AMapWrap.createAMapNavi(it) }
         val startList = mutableListOf<NaviLatLng>()
         startList.add(mStartPoint)
         val endList = mutableListOf<NaviLatLng>()
