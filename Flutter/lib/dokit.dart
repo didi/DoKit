@@ -24,6 +24,7 @@ import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
 
 import 'kit/apm/vm/vm_service_wrapper.dart';
+import 'kit/biz/biz.dart';
 
 export 'package:dokit/ui/dokit_app.dart';
 
@@ -100,7 +101,7 @@ class DoKit {
 
 abstract class IDoKit {/* Just empty. */}
 
-class _DoKitInterfaces extends IDoKit {
+class _DoKitInterfaces extends IDoKit with _BizKitMixin {
   _DoKitInterfaces._();
 
   static final _DoKitInterfaces _instance = _DoKitInterfaces._();
@@ -110,6 +111,66 @@ class _DoKitInterfaces extends IDoKit {
   /// doKit是否打开了页面（只要是通过doKit打开的页面）
   void isDoKitPageShow(DoKitBtnClickedCallback callback) {
     this.callback = callback;
+  }
+}
+
+mixin _BizKitMixin on IDoKit {
+  /// 更新group信息，详见[addKitGroupTip]
+  void updateKitGroupTip(String name, String tip) {
+    BizKitManager.instance.updateBizKitGroupTip(name, tip);
+  }
+
+  /// 详见[addBizKit]
+  void addKit<S extends BizKit>({String? key, required S kit}) {
+    BizKitManager.instance.addBizKit<S>(key, kit);
+  }
+
+  /// 详见[addBizKits]
+  void addBizKits(List<BizKit> bizKits) {
+    BizKitManager.instance.addBizKits(bizKits);
+  }
+
+  /// 创建BizKit对象
+  T? newBizKit<T extends BizKit>(
+      {String? key,
+      required String name,
+      String? icon,
+      required String group,
+      String? desc,
+      KitPageBuilder? kitBuilder,
+      Function? action}) {
+    return BizKitManager.instance.createBizKit(
+        name: name,
+        group: group,
+        key: key,
+        icon: icon,
+        desc: desc,
+        action: action,
+        kitBuilder: kitBuilder);
+  }
+
+  /// [key] kit的唯一标识，全局不可重复，不传则默认使用[BizKit._defaultKey];
+  /// [name] kit显示的名字;
+  /// [icon] kit的显示的图标，不传则使用默认图标;
+  /// [group] kit归属的组，如果该组不存在，则会自动创建;
+  /// [desc] kit的描述信息，不会以任何形式显示出来;
+  /// [kitBuilder] kit对应的页面的WidgetBuilder，点击该kit的图标后跳转到的Widget页面，不要求有Navigator，详见[BizKit.tapAction].
+  void buildBizKit(
+      {String? key,
+      required String name,
+      String? icon,
+      required String group,
+      String? desc,
+      KitPageBuilder? kitBuilder,
+      Function? action}) {
+    BizKitManager.instance.buildBizKit(
+        key: key,
+        name: name,
+        icon: icon,
+        group: group,
+        desc: desc,
+        kitBuilder: kitBuilder,
+        action: action);
   }
 }
 
