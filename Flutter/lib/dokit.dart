@@ -106,7 +106,7 @@ class _DoKitInterfaces extends IDoKit with _BizKitMixin {
 
   static final _DoKitInterfaces _instance = _DoKitInterfaces._();
 
-  late DoKitBtnClickedCallback callback;
+  late DoKitBtnClickedCallback callback = (b)=>{};
 
   /// doKit是否打开了页面（只要是通过doKit打开的页面）
   void isDoKitPageShow(DoKitBtnClickedCallback callback) {
