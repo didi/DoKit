@@ -32,20 +32,19 @@ iOS各式各样的工具集合
   s.default_subspec = 'Core'
 
   s.subspec 'Hook' do |ss|
-    ss.source_files = 'iOS/DoKit/Classes/**/*.{h,c}'
-    ss.compiler_flags = [
-      '-Wall',
-      '-Wextra',
-      '-Wpedantic',
-      '-Werror',
-      '-Wno-zero-length-array',
-      '-fvisibility=hidden'
-    ]
+    ss.source_files = 'iOS/DoKit/Classes/Hook/*.{h,c}'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-zero-length-array', '-fvisibility=hidden'
+  end
+
+  s.subspec 'EventSynthesize' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/EventSynthesize/*.{h,m}'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand'
+    ss.framework = 'IOKit'
   end
 
   s.subspec 'Core' do |ss| 
     ss.source_files = 'iOS/DoraemonKit/Src/Core/**/*.{h,m,c,mm}'
-    ss.resource_bundles = {
+    ss.resource_bundle = {
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
     ss.dependency 'GCDWebServer'
@@ -78,6 +77,8 @@ iOS各式各样的工具集合
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithLoad'
     }
     ss.dependency 'DoraemonKit/Core'
+    # https://guides.cocoapods.org/syntax/podspec.html#vendored_frameworks
+    # TODO(ChasonTang): Should change to vendored_framework?
     ss.vendored_frameworks = 'iOS/DoraemonKit/Framework/*.framework'
   end
 
