@@ -29,6 +29,8 @@ class ThreadAdapter : BaseQuickAdapter<PThreadEntity, BaseViewHolder>(R.layout.r
             holder.itemView.findViewById<ViewGroup>(R.id.nativeStackLayout).gone()
         }
         holder.itemView.findViewById<TextView>(R.id.threadCountTv).text = item.count.toString()
+        holder.itemView.findViewById<TextView>(R.id.threadSampleTv).text = item.threads.firstOrNull()?.name ?: ""
+        holder.itemView.findViewById<TextView>(R.id.positionTv).text = "第${holder.adapterPosition + 1}项"
         //   holder.itemView.findViewById<TextView>(R.id.threadStackTv).text = item.traceElement()
     }
 }

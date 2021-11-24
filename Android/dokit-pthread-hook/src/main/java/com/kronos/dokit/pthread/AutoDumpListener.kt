@@ -75,14 +75,7 @@ class AutoDumpListener : Application.ActivityLifecycleCallbacks {
         if (getThreadCount() > Threshold) {
             DoKit.APPLICATION.dump {
                 forEach {
-                    /*  val map = hashMapOf<String, String>()
-                      map["threadCount"] = it.count.toString()
-                      map["javaStack"] = it.java
-                      map["nativeStack"] = it.native
-                      map["threadName"] = it.threads.firstOrNull()?.name ?: ""
-                      Neurons.trackT(false, EVENT_ID, map) {
-                          true
-                      }*/
+
                 }
 
             }
