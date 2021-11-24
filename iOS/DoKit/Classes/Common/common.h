@@ -14,34 +14,9 @@
  * limitations under the License.
  */
 
-#ifndef dokit_hook
-#define dokit_hook
+#ifndef dokit_common
+#define dokit_common
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <DoraemonKit/common.h>
-
-#ifdef __cplusplus
-#define EXTERN_C_START
-extern "C"
-{
-#define EXTERN_C_END }
-#else
-#define EXTERN_C_START
-#define EXTERN_C_END
-#endif
-
-EXTERN_C_START
-
-struct DKRebinding {
-    const char *name;
-    void *replacement;
-    uintptr_t *replaced;
-};
-
-DOKIT_EXPORT bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length);
-
-EXTERN_C_END
+#define DOKIT_EXPORT __attribute__((visibility("default")))
 
 #endif

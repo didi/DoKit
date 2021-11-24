@@ -32,9 +32,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)_setLocationInWindow:(CGPoint)locationInWindow resetPrevious:(BOOL)resetPrevious;
 
+- (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
+
+@end
+
+@interface UIEvent (APLPrivate)
+
+- (void)_setTimestamp:(NSTimeInterval)timestemp;
+
+@end
+
+@interface UITouchesEvent : UIEvent
+
+- (void)_clearTouches;
+
+- (void)_addTouch:(UITouch *)touch forDelayedDelivery:(BOOL)forDelayedDelivery;
+
+@end
+
+@interface UIApplication (APLPrivate)
+
+- (nullable UITouchesEvent *)_touchesEvent;
+
 @end
 
 NS_ASSUME_NONNULL_END
+
+UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
+    NSCAssert(touches.count > 0, @"touches have no element");
+    UITouchesEvent *touchesEvent = [UIApplication.sharedApplication _touchesEvent];
+    NSCAssert(touchesEvent, @"-[UIApplication _touchesEvent] return nil");
+    [touchesEvent _clearTouches];
+    [touches enumerateObjectsUsingBlock:^(UITouch * _Nonnull obj, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL * _Nonnull stop) {
+        [touchesEvent _addTouch:obj forDelayedDelivery:NO];
+    }];
+    
+    return touchesEvent;
+}
 
 @implementation UITouch (DKEventSynthesize)
 
@@ -50,19 +84,16 @@ NS_ASSUME_NONNULL_END
     // Then we use window as hitTestView
     self.view = [window hitTest:point withEvent:nil] ?: window;
     [self _setLocationInWindow:point resetPrevious:YES];
+    [self _setIsFirstTouchForView:YES];
     
     return self;
 }
 
-//- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase {
-//    if (__builtin_expect(self.phase != phase, NO)) {
-//        self.phase = phase;
-//    }
-//    self.timestamp = NSProcessInfo.processInfo.systemUptime;
-//}
-
-//- (void)dk_updateWithLocationInWindow:(CGPoint)locationInWindow {
-//    [self _setLocationInWindow:locationInWindow resetPrevious:NO];
-//}
+- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase {
+    if (self.phase != phase) {
+        self.phase = phase;
+        self.timestamp = NSProcessInfo.processInfo.systemUptime;
+    }
+}
 
 @end

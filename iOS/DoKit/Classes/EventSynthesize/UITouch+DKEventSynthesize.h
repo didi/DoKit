@@ -15,18 +15,18 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <DoraemonKit/common.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+DOKIT_EXPORT UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches);
 
 @interface UITouch (DKEventSynthesize)
 
 /// @brief need update timestamp
 - (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window;
 
-//- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase;
-
-/// @brief need use with `- dk_updateTimestampWithPhase:` to update timestamp
-//- (void)dk_updateWithLocationInWindow:(CGPoint)locationInWindow;
+- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase;
 
 @end
 
