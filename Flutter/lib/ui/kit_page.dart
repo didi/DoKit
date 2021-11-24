@@ -196,9 +196,6 @@ class _KitPage extends State<KitPage> {
           color: Colors.white));
     }
 
-    // 增加bottom占位
-    widgets.add(Container(width: width, height: 12, color: const Color(0xfff5f6f7)));
-    
     final wrap = Wrap(
       children: widgets,
     );
