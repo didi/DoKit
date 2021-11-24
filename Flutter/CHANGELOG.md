@@ -1,3 +1,4 @@
+## [0.8.1-nullsafety.0] - 支持在主面板添加自定义入口kit;增加悬浮按钮点击事件回调能力
 ## [0.8.0-nullsafety.0] - 支持Flutter2.0，支持nullsafety
 ## [0.6.0] - 增加widget层级、颜色拾取、查看页面源码、页面启动耗时以及对齐标尺等功能
 ## [0.2.15] - 引入Flutter 1.70.0版本的analysis_options.yaml代码规范
