@@ -81,7 +81,7 @@ class BizKitManager {
   }
 
   /// 创建BizKit对象
-  T? createBizKit<T extends BizKit>(
+  T createBizKit<T extends BizKit>(
       {String? key,
       required String name,
       String? icon,

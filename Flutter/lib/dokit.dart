@@ -131,7 +131,7 @@ mixin _BizKitMixin on IDoKit {
   }
 
   /// 创建BizKit对象
-  T? newBizKit<T extends BizKit>(
+  T newBizKit<T extends BizKit>(
       {String? key,
       required String name,
       String? icon,
