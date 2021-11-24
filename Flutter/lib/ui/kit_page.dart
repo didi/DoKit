@@ -146,6 +146,11 @@ class _KitPage extends State<KitPage> {
     final width = MediaQuery.of(context).size.width;
     var groupKeys = BizKitManager.instance.groupKeys();
     var counts = groupKeys.length;
+
+    if (counts == 0) {
+      return SizedBox();
+    }
+
     for (var i = 0; i < counts; i++) {
       var key = groupKeys[i];
       var tip = BizKitManager.instance.kitGroupTips[key];
@@ -184,10 +189,13 @@ class _KitPage extends State<KitPage> {
           ),
         ),
       ));
+
+      widgets.add(Container(
+          width: width,
+          height: 12,
+          color: Colors.white));
     }
     final wrap = Wrap(
-      spacing: 0,
-      runSpacing: 15,
       children: widgets,
     );
     return wrap;
