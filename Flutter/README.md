@@ -169,5 +169,10 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 **注：页面启动耗时信息只有在profile或release模式下才有意义**
 
+### 自定义入口
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/0b2jdWmxbK1637739570393.png" width="300px">
+
+业务方可以依照自己需要，依托自定义入口的功能（支持添加多组），在dokit中添加自己的功能启动入口。比如上图中的“业务专区”。
+
 
 

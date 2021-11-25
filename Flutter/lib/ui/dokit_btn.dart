@@ -4,6 +4,12 @@ import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
+// DoKitBtn 点击事件回调
+// 参数说明：
+// true : dokit面板展开
+// false: dokit面板收起
+typedef DoKitBtnClickedCallback = void Function(bool);
+
 // 入口btn
 // ignore: must_be_immutable
 class DoKitBtn extends StatefulWidget {
@@ -11,6 +17,7 @@ class DoKitBtn extends StatefulWidget {
 
   static GlobalKey<DoKitBtnState> doKitBtnKey = GlobalKey<DoKitBtnState>();
   OverlayEntry? overlayEntry;
+  DoKitBtnClickedCallback? btnClickCallback;
 
   @override
   DoKitBtnState createState() => DoKitBtnState(overlayEntry!);
@@ -106,6 +113,8 @@ class DoKitBtnState extends State<DoKitBtn> {
       doKitOverlayKey.currentState?.insert(debugPage!, below: owner);
       showDebugPage = true;
     }
+
+    widget.btnClickCallback!(showDebugPage);
   }
 
   void closeDebugPage() {
