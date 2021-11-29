@@ -30,6 +30,9 @@ iOS各式各样的工具集合
   s.ios.deployment_target = '9.0'
 
   s.default_subspec = 'Core'
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES'
+  }
   
   s.subspec 'Common' do |ss|
     ss.source_files = 'iOS/DoKit/Classes/Common/*.h'
@@ -43,7 +46,7 @@ iOS各式各样的工具集合
 
   s.subspec 'EventSynthesize' do |ss|
     ss.source_files = 'iOS/DoKit/Classes/EventSynthesize/*.{h,m}'
-    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand', '-Wno-pointer-arith'
     ss.framework = 'IOKit'
     ss.dependency 'DoraemonKit/Common'
   end

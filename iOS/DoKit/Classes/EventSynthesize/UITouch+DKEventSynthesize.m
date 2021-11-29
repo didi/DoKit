@@ -15,6 +15,7 @@
  */
 
 #import "UITouch+DKEventSynthesize.h"
+#import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,12 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)_setLocationInWindow:(CGPoint)locationInWindow resetPrevious:(BOOL)resetPrevious;
 
 - (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
-
-@end
-
-@interface UIEvent (APLPrivate)
-
-- (void)_setTimestamp:(NSTimeInterval)timestemp;
 
 @end
 
@@ -63,10 +58,10 @@ UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
     UITouchesEvent *touchesEvent = [UIApplication.sharedApplication _touchesEvent];
     NSCAssert(touchesEvent, @"-[UIApplication _touchesEvent] return nil");
     [touchesEvent _clearTouches];
-    [touches enumerateObjectsUsingBlock:^(UITouch * _Nonnull obj, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL * _Nonnull stop) {
+    [touches enumerateObjectsUsingBlock:^(UITouch *_Nonnull obj, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
         [touchesEvent _addTouch:obj forDelayedDelivery:NO];
     }];
-    
+
     return touchesEvent;
 }
 
@@ -74,7 +69,7 @@ UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
 
 - (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window {
     self = [self init];
-    
+
     self.timestamp = NSProcessInfo.processInfo.systemUptime;
     self.phase = UITouchPhaseBegan;
     self.tapCount = 1;
@@ -84,8 +79,17 @@ UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
     // Then we use window as hitTestView
     self.view = [window hitTest:point withEvent:nil] ?: window;
     [self _setLocationInWindow:point resetPrevious:YES];
-    [self _setIsFirstTouchForView:YES];
-    
+    if ([self respondsToSelector:@selector(_setIsFirstTouchForView:)]) {
+        [self _setIsFirstTouchForView:YES];
+    } else {
+        // We modify the touchFlags ivar struct directly.
+        // First entry is _firstTouchForView
+        Ivar flagsIvar = class_getInstanceVariable(UITouch.class, "_touchFlags");
+        ptrdiff_t touchFlagsOffset = ivar_getOffset(flagsIvar);
+        char *flags = (__bridge void *) self + touchFlagsOffset;
+        *flags = *flags | (char) 0x01;
+    }
+
     return self;
 }
 
