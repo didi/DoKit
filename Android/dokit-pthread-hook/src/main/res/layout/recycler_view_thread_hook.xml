@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/positionTv"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:textColor="#1482f0"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/javaStackLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="java 堆栈"
+            android:textColor="#1482f0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/javaStackTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:maxLines="3"
+            android:textColor="@color/dk_color_333333" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/nativeStackLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="native 堆栈"
+            android:textColor="#1482f0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/nativeStackTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:maxLines="3"
+            android:textColor="@color/dk_color_333333" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="thread 数量"
+            android:textColor="#1482f0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/threadCountTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/dk_color_333333" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="thread name 例子"
+            android:textColor="#1482f0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/threadSampleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/dk_color_333333" />
+    </LinearLayout>
+</LinearLayout>

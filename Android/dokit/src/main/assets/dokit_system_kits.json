@@ -21,7 +21,12 @@
         "allClassName": "com.didichuxing.doraemonkit.kit.mc.MultiControlKit",
         "checked": true,
         "innerKitId": "dokit_sdk_platform_ck_mc"
-      }
+      },
+        {
+            "allClassName": "com.kronos.dokit.pthread.PThreadKit",
+            "checked": true,
+            "innerKitId": "dokit_sdk_platform_thread_hook"
+        }
     ]
   },
   {
