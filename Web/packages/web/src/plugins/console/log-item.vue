@@ -148,7 +148,12 @@ export default {
       color: #aaa;
     }
     .data-structure{
+      display: inline-block;
+      max-width: 100%;
       font-style: italic;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow: hidden;
     }
   }
 </style>

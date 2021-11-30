@@ -6,11 +6,63 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokit For Web</title>
+  <style>
+    .asd4 .asd {
+      color: rgba(241, 9, 9, 0.3);
+      background: url(https://pt-starimg.didistatic.com/static/starimg/img/UioDkptMhY1635838350336.png);
+      box-shadow: 10px 10px 5px rgb(122, 222, 222, 0.7);
+    }
+
+    body {
+      top: 10px;
+    }
+
+    .asd1 {
+      position: relative;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>DoKit For Web</h1>
-  <h2>Playground</h2>
+  <div>DoKit For Web</div>
+  <div class="asd1">
+    <div class="asd2">
+      <div class="asd3">
+        <div class="asd4">
+          <span class="asd" id="qwe" style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="https://github.com/liriliri/eruda">GitHub</a>
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/UioDkptMhY1635838350336.png" />
+  <h2 class="asd" id="qwe" style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
 </body>
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.1.5/vue.global.js"></script>
 <script src="../packages/web/dist/dokit.js"></script>
@@ -35,17 +87,22 @@
     //   .then((info) => {
     //     console.log('weatherInfo', info)
     //   });
-
-    function reqListener () {
-      console.log('asasdasd', this.responseText);
+    var a={
+      b:1,
+      c:3,
+    }
+    console.log(a);
+    function reqListener() {
+      console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this.responseText);
     }
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
     oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
     oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
     oReq.send(JSON.stringify({
-      a:1
+      a: 1
     }));
   }, 5000);
 </script>
+
 </html>
