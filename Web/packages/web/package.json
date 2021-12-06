@@ -1,6 +1,10 @@
 {
   "name": "@dokit/web",
+<<<<<<< HEAD
   "version": "0.0.3",
+=======
+  "version": "0.0.3-alpha.3",
+>>>>>>> cc153ece (web_0.0.3-alpha.3)
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -30,11 +34,18 @@
     "dev": "npx rollup -wc"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@dokit/web-core": "file:../core",
     "@dokit/web-utils": "file:../utils",
     "jsqr": "^1.4.0",
     "web-vitals": "^2.1.2",
     "moment": "^2.29.1"
+=======
+    "@dokit/web-core": "^0.0.3-alpha.3",
+    "@dokit/web-utils": "^0.0.1",
+    "mutation-observer": "^1.0.3",
+    "web-vitals": "^2.1.2"
+>>>>>>> cc153ece (web_0.0.3-alpha.3)
   },
   "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }
