@@ -1,4 +1,10 @@
-55 error Error: Command failed with exit code 128: git push --follow-tags --no-verify --atomic origin master
-55 error fatal: unable to access 'https://github.com/didi/DoraemonKit.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
-55 error     at makeError (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/execa/lib/error.js:59:11)
-55 error     at handlePromise (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/execa/index.js:114:26)
+15 error Error: Command failed with exit code 1: git remote update
+15 error fatal: unable to access 'https://github.com/didi/DoraemonKit.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+15 error error: Could not fetch origin
+15 error Fetching origin
+15 error     at makeError (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/execa/lib/error.js:59:11)
+15 error     at Function.module.exports.sync (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/execa/index.js:186:17)
+15 error     at Object.execSync (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/@lerna/child-process/index.js:39:16)
+15 error     at updateRemote (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/@lerna/version/lib/is-behind-upstream.js:34:16)
+15 error     at isBehindUpstream (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/@lerna/version/lib/is-behind-upstream.js:16:3)
+15 error     at VersionCommand.initialize (/Users/didi/Desktop/DoKit/DoraemonKit/Web/node_modules/@lerna/version/index.js:153:9)
