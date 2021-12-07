@@ -45,6 +45,8 @@ ext {
                     "annotation"                    : "androidx.annotation:annotation:1.1.0",
                     "kotlin_v13"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v13"]}",
                     "kotlin_v14"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v14"]}",
+                    "kotlin_junit_v13"              : "org.jetbrains.kotlin:kotlin-test-junit:${android["kotlin_version_v13"]}",
+                    "kotlin_junit_v14"              : "org.jetbrains.kotlin:kotlin-test-junit:${android["kotlin_version_v14"]}",
                     "coroutines-core_v13"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v13"]}",
                     "coroutines-core_v14"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v14"]}",
                     "coroutines-android_v13"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v13"]}",
@@ -134,6 +136,8 @@ ext {
                     "amap_map3d"                    : 'com.amap.api:map3d:latest.integration',
                     "amap_search"                   : 'com.amap.api:search:latest.integration',
                     "amap_navi"                     : 'com.amap.api:navi-3dmap:latest.integration',
+                    "amap_navi_v810"                : 'com.amap.api:navi-3dmap:8.1.0_3dmap8.1.0',
+                    "amap_navi_v801"                : 'com.amap.api:navi-3dmap:8.0.1_3dmap8.0.1',
                     //新四地图
                     "dmap"                          : 'com.didi.nav.driving:sdk:0.0.2065',
                     //腾讯地图定位

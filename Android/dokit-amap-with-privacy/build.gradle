@@ -33,22 +33,15 @@ android {
 }
 
 
-
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation rootProject.ext.dependencies["junit"]
-    androidTestImplementation rootProject.ext.dependencies["junit"]
     if (needKotlinV14()) {
         implementation rootProject.ext.dependencies["kotlin_v14"]
-        testImplementation rootProject.ext.dependencies["kotlin_junit_v14"]
     } else {
         implementation rootProject.ext.dependencies["kotlin_v13"]
-        testImplementation rootProject.ext.dependencies["kotlin_junit_v13"]
     }
-    implementation rootProject.ext.dependencies["annotation"]
-    implementation rootProject.ext.dependencies["fragment"]
-    implementation rootProject.ext.dependencies["drawerlayout"]
-    implementation rootProject.ext.dependencies["material"]
-    implementation rootProject.ext.dependencies["gson"]
+    //高德导航
+    compileOnly rootProject.ext.dependencies["amap_navi_v810"]
+
 }
+

@@ -20,7 +20,7 @@ import io.reactivex.disposables.Disposable
  * 修订历史：
  * ================================================
  */
-class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) :
+class DefaultNaviListener(val mAMap: AMap, private val mAMapNavi: AMapNavi, val context: Context) :
     AMapNaviListener {
 //    private var mNaviRouteOverlay: NaviRouteOverlay? = null
 //

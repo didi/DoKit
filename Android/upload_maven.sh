@@ -20,6 +20,9 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-api:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-amap-api:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-amap-no-privacy:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-amap-with-privacy:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-rpc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository

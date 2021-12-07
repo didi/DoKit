@@ -13,9 +13,9 @@ import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.amap_api.AMapWrap
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -40,7 +40,8 @@ class AMapRealNavMockView : AbsDokitView() {
     private var mAMapNavi: AMapNavi? = null
 
     override fun onCreate(context: Context?) {
-        mAMapNavi = AMapNavi.getInstance(activity.application)
+        //AMapWrap 类用于适配高德地图隐私合规接口
+        mAMapNavi = AMapWrap.createAMapNavi(activity.application)
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
