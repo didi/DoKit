@@ -14,34 +14,16 @@
  * limitations under the License.
  */
 
-#ifndef dokit_hook
-#define dokit_hook
+#import <UIKit/UIKit.h>
 
-#include <DoraemonKit/common.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+NS_ASSUME_NONNULL_BEGIN
 
-#ifdef __cplusplus
-#define EXTERN_C_START
-extern "C"
-{
-#define EXTERN_C_END }
-#else
-#define EXTERN_C_START
-#define EXTERN_C_END
-#endif
+@interface UIView (EventSynthesize)
 
-EXTERN_C_START
+- (void)dk_tap;
 
-struct DKRebinding {
-    const char *name;
-    void *replacement;
-    uintptr_t *replaced;
-};
+- (void)dk_longPress;
 
-DOKIT_EXPORT bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length);
+@end
 
-EXTERN_C_END
-
-#endif
+NS_ASSUME_NONNULL_END

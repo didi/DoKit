@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
 #import <DoraemonKit/common.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-DOKIT_EXPORT UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches);
+DOKIT_EXPORT UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches);
 
 @interface UITouch (DKEventSynthesize)
 
@@ -27,6 +27,8 @@ DOKIT_EXPORT UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches);
 - (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window;
 
 - (void)dk_updateTimestampWithPhase:(UITouchPhase)phase;
+
+- (void)dk_updateWithPhase:(UITouchPhase)phase;
 
 @end
 

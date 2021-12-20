@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
+UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches) {
     NSCAssert(touches.count > 0, @"touches have no element");
     UITouchesEvent *touchesEvent = [UIApplication.sharedApplication _touchesEvent];
     NSCAssert(touchesEvent, @"-[UIApplication _touchesEvent] return nil");
@@ -98,6 +98,10 @@ UIEvent *_Nullable eventWithTouches(NSArray<UITouch *> *touches) {
         self.phase = phase;
         self.timestamp = NSProcessInfo.processInfo.systemUptime;
     }
+}
+
+- (void)dk_updateWithPhase:(UITouchPhase)phase {
+    self.phase = phase;
 }
 
 @end
