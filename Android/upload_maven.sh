@@ -21,8 +21,8 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-rpc:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository
+#./gradlew :dokit-rpc:publishReleasePublicationToMavenCentralRepository
+#./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

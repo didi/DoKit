@@ -13,5 +13,6 @@
   "dokit-hook": "dokitx-hook",
   "dokit-rpc": "dokitx-rpc",
   "dokit-rpc-mc": "dokitx-rpc-mc",
-  "dokit-dmap": "dokitx-dmap"
+  "dokit-dmap": "dokitx-dmap",
+  "dokit-pthread-hook": "dokitx-pthread-hook"
 }

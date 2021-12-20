@@ -22,10 +22,10 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
+//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
-            url uri('/Users/didi/project/dokit_repo')
+            url uri('/Users/bytedance/project/dokit_repo')
         }
     }
     dependencies {
@@ -52,10 +52,10 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
+//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
-            url uri('/Users/didi/project/dokit_repo')
+            url uri('/Users/bytedance/project/dokit_repo')
         }
     }
 }
@@ -116,9 +116,9 @@ task checkUploadConfig4Maven() {
             }
         }
 
-        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-            throw new RuntimeException("未引入didi内部仓库。。。")
-        }
+//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
+//            throw new RuntimeException("未引入didi内部仓库。。。")
+//        }
 
         //相关模块检查
         def modules = new ArrayList<String>()
@@ -127,21 +127,21 @@ task checkUploadConfig4Maven() {
             modules.add(it.name)
         }
 
-        if (!modules.contains("dokit-rpc")) {
-            throw new RuntimeException("未找到dokit-rpc module。。。")
-        }
-
-        if (!modules.contains("dokit-rpc-mc")) {
-            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
-        }
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
 
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
 
-        if (!modules.contains("dokit-dmap")) {
-            throw new RuntimeException("未找到dokit-dmap module。。。")
-        }
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
 
 
     }
@@ -162,13 +162,13 @@ task checkUploadConfig4Local() {
             }
         }
 
-        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-            throw new RuntimeException("未引入didi内部仓库。。。")
-        }
+//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
+//            throw new RuntimeException("未引入didi内部仓库。。。")
+//        }
 
-        if (!repositories.contains("file:/Users/didi/project/dokit_repo/")) {
-            throw new RuntimeException("未引入本地仓库。。。")
-        }
+//        if (!repositories.contains("file:/Users/bytedance/project/dokit_repo")) {
+//            throw new RuntimeException("未引入本地仓库。。。")
+//        }
 
         //相关模块检查
         def modules = new ArrayList<String>()
@@ -177,21 +177,21 @@ task checkUploadConfig4Local() {
             modules.add(it.name)
         }
 
-        if (!modules.contains("dokit-rpc")) {
-            throw new RuntimeException("未找到dokit-rpc module。。。")
-        }
-
-        if (!modules.contains("dokit-rpc-mc")) {
-            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
-        }
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
 
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
 
-        if (!modules.contains("dokit-dmap")) {
-            throw new RuntimeException("未找到dokit-dmap module。。。")
-        }
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
 
     }
 }
@@ -210,9 +210,9 @@ task checkUploadConfig4Didi() {
             }
         }
 
-        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-            throw new RuntimeException("未引入didi内部仓库。。。")
-        }
+//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
+//            throw new RuntimeException("未引入didi内部仓库。。。")
+//        }
 
 
         //相关模块检查
@@ -222,21 +222,21 @@ task checkUploadConfig4Didi() {
             modules.add(it.name)
         }
 
-        if (!modules.contains("dokit-rpc")) {
-            throw new RuntimeException("未找到dokit-rpc module。。。")
-        }
-
-        if (!modules.contains("dokit-rpc-mc")) {
-            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
-        }
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
 
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
 
-        if (!modules.contains("dokit-dmap")) {
-            throw new RuntimeException("未找到dokit-dmap module。。。")
-        }
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
 
     }
 }

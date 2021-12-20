@@ -71,7 +71,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["hummer"]
 
     //此处需要使用api的形式 向上暴露内部api
-    implementation project(':dokit-rpc')
+//    implementation project(':dokit-rpc')
     implementation project(':dokit-mc')
 
     compileOnly project(":dokit-okhttp-api")
