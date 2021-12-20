@@ -13,6 +13,7 @@
 #import "DoraemMultiMockLogic.h"
 #import "NSArray+JSON.h"
 #import "DoraemMultiCaseListModel.h"
+#import <Masonry/Masonry.h>
 @class DoraemonCaseListCell;
 @interface DoraemonMultiCaseListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -73,9 +74,14 @@
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return  [DoraemonCaseListCell cellHeight];
+}
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     
     
     
@@ -118,15 +124,15 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.leftLabelFirst =  [[UILabel alloc]init];
-        self.leftLabelFirst.textColor = [UIColor doraemon_black_1];
+        self.leftLabelFirst.textColor = [UIColor redColor];
         self.leftLabelFirst.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [self.contentView addSubview:self.leftLabelFirst];
         
         self.leftLabelSecond =  [[UILabel alloc]init];
-        self.leftLabelSecond.textColor = [UIColor doraemon_black_1];
+        self.leftLabelSecond.textColor = [UIColor redColor];
         self.leftLabelSecond.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [self.contentView addSubview:self.leftLabelSecond];
-        
+         
         self.leftLabelThird =  [[UILabel alloc]init];
         self.leftLabelThird.textColor = [UIColor doraemon_black_1];
         self.leftLabelThird.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
@@ -138,6 +144,34 @@
         [self.contentView addSubview:self.leftLabelFourth];
         
         // 布局
+        [self.leftLabelFirst mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.mas_top).offset(5);
+            make.left.equalTo(self.mas_left).offset(20);
+            make.width.equalTo(@(DoraemonScreenWidth - 50));
+            make.height.equalTo(@(20));
+        }];
+        
+        [self.leftLabelSecond mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.leftLabelFirst.mas_bottom).offset(5);
+            make.left.equalTo(self.mas_left).offset(20);
+            make.width.equalTo(@(DoraemonScreenWidth - 50));
+            make.height.equalTo(@(20));
+        }];
+        
+        [self.leftLabelThird mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.leftLabelSecond.mas_bottom).offset(5);
+            make.left.equalTo(self.mas_left).offset(20);
+            make.width.equalTo(@(DoraemonScreenWidth - 50));
+            make.height.equalTo(@(20));
+        }];
+        
+        [self.leftLabelFourth mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.leftLabelThird.mas_bottom).offset(5);
+            make.left.equalTo(self.mas_left).offset(20);
+            make.width.equalTo(@(DoraemonScreenWidth - 50));
+            make.height.equalTo(@(20));
+        }];
+
     }
     return self;
     
@@ -145,11 +179,15 @@
 
 - (void)renderUIWithData:(DoraemMultiCaseListModel *)model {
     
-    
+    self.leftLabelFirst.text =  [NSString stringWithFormat:@"用例名称:%@",model.caseName];
+    self.leftLabelSecond.text = model.caseId;
+    self.leftLabelThird.text = [NSString stringWithFormat:@"采集人:%@",model.personName];  ;   //采集人
+    self.leftLabelFourth.text = [NSString stringWithFormat:@"采集时间:%@",model.createTime];  //采集时间
+//
     
 }
 + (CGFloat)cellHeight{
-    return kDoraemonSizeFrom750_Landscape(104);
+    return kDoraemonSizeFrom750_Landscape(200);
 }
 
 @end

@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)renderUIWithData:(DoraemMultiCaseListModel *)data;
 
++ (CGFloat)cellHeight;
+
+
 @end
 
 NS_ASSUME_NONNULL_END
