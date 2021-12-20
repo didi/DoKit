@@ -1,6 +1,6 @@
 //
 //  DoraemonOscillogramWindowManager.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/5/16.
 //

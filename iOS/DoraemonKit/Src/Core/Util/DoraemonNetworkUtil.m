@@ -1,6 +1,6 @@
 //
 //  DoraemonNetworkUtil.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/2/28.
 //

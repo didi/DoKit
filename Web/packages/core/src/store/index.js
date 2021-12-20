@@ -3,6 +3,8 @@ import { Store } from "../common/js/store";
 const store = new Store({
   state: {
     showContainer: false,
+    showHighlightElement:false,
+    highlightElement:null,
     independPlugins: [],
     features: []
   }
@@ -24,6 +26,17 @@ export function toggleContainer(flag){
   }else{
     store.state.showContainer = !store.state.showContainer;
   }
+}
+
+export function toggleHighlight(flag){
+  if(flag){
+    store.state.showHighlightElement = flag;
+  }else{
+    store.state.showHighlightElement = !store.state.showHighlightElement;
+  }
+}
+export function toggleElement(element){
+    store.state.highlightElement = element;
 }
 
 export function addIndependPlugin(plugin){

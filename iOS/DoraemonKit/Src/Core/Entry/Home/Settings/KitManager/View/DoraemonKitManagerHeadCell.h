@@ -1,6 +1,6 @@
 //
 //  DoraemonKitManagerHeadCell.h
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by didi on 2020/4/28.
 //

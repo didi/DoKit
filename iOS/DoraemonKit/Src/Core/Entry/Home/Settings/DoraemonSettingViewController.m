@@ -1,6 +1,6 @@
 //
 //  DoraemonSettingViewController.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by didi on 2020/4/24.
 //
@@ -9,9 +9,9 @@
 #import "DoraemonDefine.h"
 #import "DoraemonCellButton.h"
 #import "DoraemonKitManagerViewController.h"
-#import <AFNetworking/AFNetworking.h>
 #import "DoraemonSettingCell.h"
 #import "DoraemonDefaultWebViewController.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonSettingViewController ()<DoraemonCellButtonDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -34,20 +34,30 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.tableView.frame = [self fullscreen];
+}
+
 - (void)loadData {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];// 请求
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
     
     WEAKSELF(weakSelf)
-    [manager GET:@"http://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group" parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
-        weakSelf.dataArr = [[dataDic objectForKey:@"data"] objectForKey:@"group"];
-        [weakSelf.tableView reloadData];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"failure");
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURL *url = [NSURL URLWithString:@"http://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group"];
+    NSURLSessionTask *task = [session dataTaskWithURL:url
+                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError* error) {
+        if (error == nil) {
+//            NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]);
+            NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            weakSelf.dataArr = [[dataDic objectForKey:@"data"] objectForKey:@"group"];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadData];
+            });
+        }
     }];
+
+    [task resume];
 }
 
 #pragma mark -- DoraemonCellButtonDelegate

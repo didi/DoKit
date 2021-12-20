@@ -1,6 +1,6 @@
 //
 //  UIColor+DoraemonHierarchy.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by lijiahuan on 2019/11/2.
 //

@@ -1,6 +1,6 @@
 //
 //  DoraemonDBManager.h
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/3/30.
 //

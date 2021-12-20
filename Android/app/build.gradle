@@ -210,10 +210,10 @@ dependencies {
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
     debugImplementation rootProject.ext.dependencies["leakcanary_android"]
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation project(":dokit-pthread-hook")
 }
-repositories {
-    mavenCentral()
-}
+
 
 
 //configurations.all {

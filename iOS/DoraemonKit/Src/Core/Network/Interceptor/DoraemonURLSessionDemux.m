@@ -1,6 +1,6 @@
 //
 //  DoraemonURLSessionDemux.m
-//  AFNetworking
+//  DoraemonKit
 //
 //  Created by yixiang on 2019/1/16.
 //

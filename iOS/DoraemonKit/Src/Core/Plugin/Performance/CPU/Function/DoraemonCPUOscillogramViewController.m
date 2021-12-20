@@ -1,6 +1,6 @@
 //
 //  DoraemonCPUOscillogramViewController.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonKit
 //
 //  Created by yixiang on 2018/1/12.
 //

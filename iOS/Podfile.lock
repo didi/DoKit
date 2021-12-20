@@ -14,9 +14,9 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - DoraemonKit (3.1.0):
-    - DoraemonKit/Core (= 3.1.0)
-  - DoraemonKit/Core (3.1.0):
+  - DoraemonKit (3.1.2):
+    - DoraemonKit/Core (= 3.1.2)
+  - DoraemonKit/Core (3.1.2):
     - AFNetworking
     - FMDB
     - GCDWebServer
@@ -48,7 +48,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  DoraemonKit: 6db7868ed839ad6752c2e4ac074f958aab211af2
+  DoraemonKit: 0a040ae24386654e2a2d2c8d029f5ff5837de3c3
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
 
