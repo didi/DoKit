@@ -63,8 +63,12 @@ static const double DELAY_TIME = 0.01;
 }
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint {
+    [self dk_dragWithStartPoint:startPoint endPoint:endPoint stepCount:3];
+}
+
+- (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint stepCount:(NSUInteger)stepCount {
     CGPoint displacement = CGPointMake(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
-    [self dk_dragWithStartPoint:startPoint displacement:displacement stepCount:3];
+    [self dk_dragWithStartPoint:startPoint displacement:displacement stepCount:stepCount];
 }
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount {
