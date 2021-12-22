@@ -71,6 +71,11 @@ static const double DELAY_TIME = 0.01;
     [self dk_dragWithStartPoint:startPoint displacement:displacement stepCount:stepCount];
 }
 
+//- (void)dk_pinchInWithCenterPoint:(CGPoint)centerPoint distance:(CGFloat)distance {
+//    // estimate the first finger to be on the left
+//
+//}
+
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount {
     if (stepCount < 3 || CGPointEqualToPoint(displacement, CGPointZero)) {
         NSAssert(NO, @"drag need start, move, end point at least. Or displacement equal to (0, 0)");
@@ -100,16 +105,43 @@ static const double DELAY_TIME = 0.01;
             [UIApplication.sharedApplication sendEvent:event];
         } else {
             // UIScrollView track mode!
+            // 如果不考虑延时（stepCount），可以注释下面的代码
             CFRunLoopMode runLoopMode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent());
             CFRunLoopRunResult runLoopRunResult = CFRunLoopRunInMode(runLoopMode, DELAY_TIME, false);
             CFRelease(runLoopMode);
             NSAssert(runLoopRunResult == kCFRunLoopRunTimedOut, @"CFRunLoopRunInMode() must be timeout");
+
             // Move event
             [touch dk_updateWithPointInWindow:point];
             [touch dk_updateWithPhase:i != stepCount - 1 ? UITouchPhaseMoved : UITouchPhaseEnded];
             [UIApplication.sharedApplication sendEvent:event];
         }
     }
+}
+
+- (void)dk_dragPointsAlongPaths:(nullable NSArray<NSArray<NSValue *> *> *)pathArray {
+    if (pathArray.firstObject.count < 2) {
+        NSAssert(NO, @"There must be at least one path with at least two point(begin and end)");
+
+        return;
+    }
+
+    // Note: point should be in view's coordinate!
+
+    NSUInteger pointCountInFirstPath = pathArray.firstObject.count;
+    __block BOOL pointCountIsError = NO;
+    [pathArray enumerateObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, pathArray.count - 1)] options:0 usingBlock:^(NSArray<NSValue *> *obj, NSUInteger idx, BOOL *stop) {
+        if (obj.count != pointCountInFirstPath) {
+            pointCountIsError = YES;
+            *stop = YES;
+        }
+    }];
+    if (pointCountIsError) {
+        NSAssert(NO, @"All paths must have the same number of points");
+
+        return;
+    }
+
 }
 
 @end
