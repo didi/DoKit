@@ -23,12 +23,11 @@ DOKIT_EXPORT UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches);
 
 @interface UITouch (DKEventSynthesize)
 
-/// @brief need update timestamp
 - (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window;
 
-- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase;
-
 - (void)dk_updateWithPhase:(UITouchPhase)phase;
+
+- (void)dk_updateWithPointInWindow:(CGPoint)pointInWindow;
 
 @end
 

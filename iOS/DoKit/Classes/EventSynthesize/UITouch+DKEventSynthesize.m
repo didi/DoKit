@@ -70,7 +70,8 @@ UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches) {
 - (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window {
     self = [self init];
 
-    self.timestamp = NSProcessInfo.processInfo.systemUptime;
+    self.timestamp = 0;
+//    self.timestamp = NSProcessInfo.processInfo.systemUptime;
     self.phase = UITouchPhaseBegan;
     self.tapCount = 1;
     self.window = window;
@@ -93,15 +94,12 @@ UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches) {
     return self;
 }
 
-- (void)dk_updateTimestampWithPhase:(UITouchPhase)phase {
-    if (self.phase != phase) {
-        self.phase = phase;
-        self.timestamp = NSProcessInfo.processInfo.systemUptime;
-    }
-}
-
 - (void)dk_updateWithPhase:(UITouchPhase)phase {
     self.phase = phase;
+}
+
+- (void)dk_updateWithPointInWindow:(CGPoint)pointInWindow {
+    [self _setLocationInWindow:pointInWindow resetPrevious:NO];
 }
 
 @end

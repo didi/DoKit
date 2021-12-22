@@ -17,10 +17,6 @@
 #ifndef dokit_common
 #define dokit_common
 
-#if !defined(DEBUG) && !defined(NDEBUG)
-#define NDEBUG 1
-#endif
-
 #define DOKIT_EXPORT __attribute__((visibility("default")))
 
 #endif

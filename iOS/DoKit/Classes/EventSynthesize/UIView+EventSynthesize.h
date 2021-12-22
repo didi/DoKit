@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dk_longPress;
 
+- (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint;
+
+- (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount;
+
 @end
 
 NS_ASSUME_NONNULL_END

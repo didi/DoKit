@@ -15,14 +15,14 @@
  */
 
 #import "UIView+EventSynthesize.h"
-#import <DoraemonKit/UITouch+DKEventSynthesize.h>
+#import "UITouch+DKEventSynthesize.h"
 
 @implementation UIView (EventSynthesize)
 
 - (void)dk_tap {
     if (__builtin_expect(!self.window, NO)) {
         NSAssert1(NO, @"%@ without window property", self);
-        
+
         return;
     }
     CGPoint point = [self.window convertPoint:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) fromView:self];
@@ -43,7 +43,7 @@ static const double DELAY_TIME = 0.01;
 - (void)dk_longPress {
     if (__builtin_expect(!self.window, NO)) {
         NSAssert1(NO, @"%@ without window property", self);
-        
+
         return;
     }
     CGPoint point = [self.window convertPoint:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) fromView:self];
@@ -60,6 +60,52 @@ static const double DELAY_TIME = 0.01;
     // UILongPressGestureRecognizer ignore the timestamp member of UITouch and UIEvent
     [touch dk_updateWithPhase:UITouchPhaseEnded];
     [UIApplication.sharedApplication sendEvent:event];
+}
+
+- (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint {
+    CGPoint displacement = CGPointMake(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+    [self dk_dragWithStartPoint:startPoint displacement:displacement stepCount:3];
+}
+
+- (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount {
+    if (stepCount < 3 || CGPointEqualToPoint(displacement, CGPointZero)) {
+        NSAssert(NO, @"drag need start, move, end point at least. Or displacement equal to (0, 0)");
+
+        return;
+    }
+    if (__builtin_expect(!self.window, NO)) {
+        NSAssert1(NO, @"%@ without window property", self);
+
+        return;
+    }
+    startPoint = [self.window convertPoint:startPoint fromView:self];
+    UITouch *touch = nil;
+    UIEvent *event = nil;
+    for (NSUInteger i = 0; i < stepCount; ++i) {
+        CGFloat progress = ((CGFloat) i) / (stepCount - 1);
+        CGPoint point = CGPointMake(startPoint.x + progress * displacement.x, startPoint.y + progress * displacement.y);
+        if (!i) {
+            // Start event
+            touch = [[UITouch alloc] initWithPoint:point window:self.window];
+            event = DKEventWithTouches(@[touch]);
+            if (__builtin_expect(!event, NO)) {
+                NSAssert(NO, @"DKEventWithTouches() return nil");
+
+                return;
+            }
+            [UIApplication.sharedApplication sendEvent:event];
+        } else {
+            // UIScrollView track mode!
+            CFRunLoopMode runLoopMode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent());
+            CFRunLoopRunResult runLoopRunResult = CFRunLoopRunInMode(runLoopMode, DELAY_TIME, false);
+            CFRelease(runLoopMode);
+            NSAssert(runLoopRunResult == kCFRunLoopRunTimedOut, @"CFRunLoopRunInMode() must be timeout");
+            // Move event
+            [touch dk_updateWithPointInWindow:point];
+            [touch dk_updateWithPhase:i != stepCount - 1 ? UITouchPhaseMoved : UITouchPhaseEnded];
+            [UIApplication.sharedApplication sendEvent:event];
+        }
+    }
 }
 
 @end
