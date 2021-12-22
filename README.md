@@ -235,13 +235,13 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jellybean](https://github.com/excitedhaha)
 
 **贡献者榜单**
+[BzCoder](https://github.com/BzCoder) 、 
 [wangzhipeng](https://github.com/WangLao100)、
 [momoxiangbei](https://github.com/momoxiangbei)、
 [changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、 
 [hiXgb](https://github.com/hiXgb) 、 
-[BzCoder](https://github.com/BzCoder) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、
 [wm219](https://github.com/wm219)、 
