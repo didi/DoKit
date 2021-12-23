@@ -46,6 +46,7 @@ class DoKit {
   // 初始化方法,app或者appCreator必须设置一个
   static Future<void> runApp(
       {DoKitApp? app,
+      bool useRunZoned = true,
       DoKitAppCreator? appCreator,
       bool useInRelease = false,
       LogCallback? logCallback,
@@ -71,6 +72,15 @@ class DoKit {
     }
     blackList = methodChannelBlackList;
 
+    if (useRunZoned != true) {
+      var f = () async => <void>{
+            _ensureDoKitBinding(useInRelease: useInRelease),
+            _runWrapperApp(app != null ? app : await appCreator!()),
+            _zone = Zone.current
+          };
+      await f();
+      return;
+    }
     await runZonedGuarded(
       () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
@@ -106,7 +116,7 @@ class _DoKitInterfaces extends IDoKit with _BizKitMixin {
 
   static final _DoKitInterfaces _instance = _DoKitInterfaces._();
 
-  late DoKitBtnClickedCallback callback = (b)=>{};
+  late DoKitBtnClickedCallback callback = (b) => {};
 
   /// doKit是否打开了页面（只要是通过doKit打开的页面）
   void isDoKitPageShow(DoKitBtnClickedCallback callback) {
