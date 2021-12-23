@@ -67,19 +67,22 @@ UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches) {
 
 @implementation UITouch (DKEventSynthesize)
 
-- (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window {
-    self = [self init];
+- (instancetype)initWithStartPoint:(CGPoint)startPoint view:(UIView *)view {
+    if (!view.window) {
+        NSAssert(NO, @"view.window is nil");
 
+        return nil;
+    }
+    self = [self init];
     self.timestamp = 0;
-//    self.timestamp = NSProcessInfo.processInfo.systemUptime;
     self.phase = UITouchPhaseBegan;
     self.tapCount = 1;
-    self.window = window;
+    self.window = view.window;
     // - hitTest:withEvent: can pass event with nil
     // and could return nil as hitTestView.
     // Then we use window as hitTestView
-    self.view = [window hitTest:point withEvent:nil] ?: window;
-    [self _setLocationInWindow:point resetPrevious:YES];
+    self.view = view;
+    [self _setLocationInWindow:[view.window convertPoint:startPoint fromView:view] resetPrevious:YES];
     if ([self respondsToSelector:@selector(_setIsFirstTouchForView:)]) {
         [self _setIsFirstTouchForView:YES];
     } else {

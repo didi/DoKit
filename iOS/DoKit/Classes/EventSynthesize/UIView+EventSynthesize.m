@@ -25,8 +25,8 @@
 
         return;
     }
-    CGPoint point = [self.window convertPoint:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) fromView:self];
-    UITouch *touch = [[UITouch alloc] initWithPoint:point window:self.window];
+    CGPoint point = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    UITouch *touch = [[UITouch alloc] initWithStartPoint:point view:self];
     UIEvent *event = DKEventWithTouches(@[touch]);
     if (__builtin_expect(!event, NO)) {
         NSAssert(NO, @"DKEventWithTouches() return nil");
@@ -46,8 +46,8 @@ static const double DELAY_TIME = 0.01;
 
         return;
     }
-    CGPoint point = [self.window convertPoint:CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2) fromView:self];
-    UITouch *touch = [[UITouch alloc] initWithPoint:point window:self.window];
+    CGPoint point = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    UITouch *touch = [[UITouch alloc] initWithStartPoint:point view:self];
     UIEvent *event = DKEventWithTouches(@[touch]);
     if (__builtin_expect(!event, NO)) {
         NSAssert(NO, @"DKEventWithTouches() return nil");
@@ -71,14 +71,51 @@ static const double DELAY_TIME = 0.01;
     [self dk_dragWithStartPoint:startPoint displacement:displacement stepCount:stepCount];
 }
 
-//- (void)dk_pinchInWithCenterPoint:(CGPoint)centerPoint distance:(CGFloat)distance {
-//    // estimate the first finger to be on the left
-//
-//}
+static const CGFloat kTwoFingerConstantWidth = 40;
+
+- (void)dk_pinchOutWithDistance:(CGFloat)distance {
+    CGPoint centerPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    // estimate the first finger to be on the left
+    CGPoint finger1Start = CGPointMake(centerPoint.x - kTwoFingerConstantWidth, centerPoint.y);
+    CGPoint finger1End = CGPointMake(centerPoint.x - kTwoFingerConstantWidth - distance, centerPoint.y);
+    // estimate the second finger to be on the right
+    CGPoint finger2Start = CGPointMake(centerPoint.x + kTwoFingerConstantWidth, centerPoint.y);
+    CGPoint finger2End = CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance, centerPoint.y);
+
+    // Began will call - viewForZoomingInScrollView:
+    // Consume *two* move event then clear view for gesture recognizer, then call - viewForZoomingInScrollView: again
+    // We should pass *another* move event to trigger UIGestureRecognizerStateChange
+    // The last is end event
+    // So we should pass 1 began, 3 move, 1 end event
+    [self dk_dragWithPointEventArray:@[@[[NSValue valueWithCGPoint:finger1Start], [NSValue valueWithCGPoint:finger2Start]],
+            @[[NSValue valueWithCGPoint:CGPointMake(centerPoint.x - kTwoFingerConstantWidth - 1, centerPoint.y)], [NSValue valueWithCGPoint:CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance + 1, centerPoint.y)]],
+            @[[NSValue valueWithCGPoint:CGPointMake(centerPoint.x - kTwoFingerConstantWidth - distance / 2, centerPoint.y)], [NSValue valueWithCGPoint:CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance / 2, centerPoint.y)]],
+            @[[NSValue valueWithCGPoint:finger1End], [NSValue valueWithCGPoint:finger2End]]]];
+}
+
+- (void)dk_pinchInWithDistance:(CGFloat)distance {
+    CGPoint centerPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    // estimate the first finger to be on the left
+    CGPoint finger1Start = CGPointMake(centerPoint.x - kTwoFingerConstantWidth - distance, centerPoint.y);
+    CGPoint finger1End = CGPointMake(centerPoint.x - kTwoFingerConstantWidth, centerPoint.y);
+    // estimate the second finger to be on the right
+    CGPoint finger2Start = CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance, centerPoint.y);
+    CGPoint finger2End = CGPointMake(centerPoint.x + kTwoFingerConstantWidth, centerPoint.y);
+
+    // Began will call - viewForZoomingInScrollView:
+    // Consume *two* move event then clear view for gesture recognizer, then call - viewForZoomingInScrollView: again
+    // We should pass *another* move event to trigger UIGestureRecognizerStateChange
+    // The last is end event
+    // So we should pass 1 began, 3 move, 1 end event
+    [self dk_dragWithPointEventArray:@[@[[NSValue valueWithCGPoint:finger1Start], [NSValue valueWithCGPoint:finger2Start]],
+            @[[NSValue valueWithCGPoint:CGPointMake(centerPoint.x - kTwoFingerConstantWidth - distance + 1, centerPoint.y)], [NSValue valueWithCGPoint:CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance - 1, centerPoint.y)]],
+            @[[NSValue valueWithCGPoint:CGPointMake(centerPoint.x - kTwoFingerConstantWidth - distance / 2, centerPoint.y)], [NSValue valueWithCGPoint:CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance / 2, centerPoint.y)]],
+            @[[NSValue valueWithCGPoint:finger1End], [NSValue valueWithCGPoint:finger2End]]]];
+}
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount {
-    if (stepCount < 3 || CGPointEqualToPoint(displacement, CGPointZero)) {
-        NSAssert(NO, @"drag need start, move, end point at least. Or displacement equal to (0, 0)");
+    if (stepCount < 2 || CGPointEqualToPoint(displacement, CGPointZero)) {
+        NSAssert(NO, @"drag need start, move at least(end will commit automatically). Or displacement equal to (0, 0)");
 
         return;
     }
@@ -87,7 +124,6 @@ static const double DELAY_TIME = 0.01;
 
         return;
     }
-    startPoint = [self.window convertPoint:startPoint fromView:self];
     UITouch *touch = nil;
     UIEvent *event = nil;
     for (NSUInteger i = 0; i < stepCount; ++i) {
@@ -95,7 +131,7 @@ static const double DELAY_TIME = 0.01;
         CGPoint point = CGPointMake(startPoint.x + progress * displacement.x, startPoint.y + progress * displacement.y);
         if (!i) {
             // Start event
-            touch = [[UITouch alloc] initWithPoint:point window:self.window];
+            touch = [[UITouch alloc] initWithStartPoint:point view:self];
             event = DKEventWithTouches(@[touch]);
             if (__builtin_expect(!event, NO)) {
                 NSAssert(NO, @"DKEventWithTouches() return nil");
@@ -106,32 +142,37 @@ static const double DELAY_TIME = 0.01;
         } else {
             // UIScrollView track mode!
             // 如果不考虑延时（stepCount），可以注释下面的代码
-            CFRunLoopMode runLoopMode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent());
-            CFRunLoopRunResult runLoopRunResult = CFRunLoopRunInMode(runLoopMode, DELAY_TIME, false);
-            CFRelease(runLoopMode);
-            NSAssert(runLoopRunResult == kCFRunLoopRunTimedOut, @"CFRunLoopRunInMode() must be timeout");
+//            CFRunLoopMode runLoopMode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent());
+//            CFRunLoopRunResult runLoopRunResult = CFRunLoopRunInMode(runLoopMode, DELAY_TIME, false);
+//            CFRelease(runLoopMode);
+//            NSAssert(runLoopRunResult == kCFRunLoopRunTimedOut, @"CFRunLoopRunInMode() must be timeout");
 
             // Move event
-            [touch dk_updateWithPointInWindow:point];
-            [touch dk_updateWithPhase:i != stepCount - 1 ? UITouchPhaseMoved : UITouchPhaseEnded];
+            [touch dk_updateWithPointInWindow:[self.window convertPoint:point fromView:self]];
+            [touch dk_updateWithPhase:UITouchPhaseMoved];
             [UIApplication.sharedApplication sendEvent:event];
+
+            if (i == stepCount - 1) {
+                [touch dk_updateWithPhase:UITouchPhaseEnded];
+                [UIApplication.sharedApplication sendEvent:event];
+            }
         }
     }
 }
 
-- (void)dk_dragPointsAlongPaths:(nullable NSArray<NSArray<NSValue *> *> *)pathArray {
-    if (pathArray.firstObject.count < 2) {
-        NSAssert(NO, @"There must be at least one path with at least two point(begin and end)");
+- (void)dk_dragWithPointEventArray:(nullable NSArray<NSArray<NSValue *> *> *)pointEventArray {
+    if (pointEventArray.count < 2) {
+        NSAssert(NO, @"drag must have one event at least");
 
         return;
     }
-
+    NSUInteger pointCountInFirstEvent = pointEventArray.firstObject.count;
     // Note: point should be in view's coordinate!
 
-    NSUInteger pointCountInFirstPath = pathArray.firstObject.count;
     __block BOOL pointCountIsError = NO;
-    [pathArray enumerateObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, pathArray.count - 1)] options:0 usingBlock:^(NSArray<NSValue *> *obj, NSUInteger idx, BOOL *stop) {
-        if (obj.count != pointCountInFirstPath) {
+    // -[NSArray enumerateObjectsAtIndexes:options:usingBlock:] can accept NSIndexSet init with (1, 0), then the block will not be invoked
+    [pointEventArray enumerateObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, pointEventArray.count - 1)] options:0 usingBlock:^(NSArray<NSValue *> *obj, __attribute__((unused)) NSUInteger idx, BOOL *stop) {
+        if (obj.count != pointCountInFirstEvent) {
             pointCountIsError = YES;
             *stop = YES;
         }
@@ -141,7 +182,43 @@ static const double DELAY_TIME = 0.01;
 
         return;
     }
+    NSMutableArray<UITouch *> *touchArray = [NSMutableArray arrayWithCapacity:pointCountInFirstEvent];
+    __block UIEvent *event = nil;
+    [pointEventArray enumerateObjectsUsingBlock:^(NSArray<NSValue *> *obj, NSUInteger idx, BOOL *__attribute__((unused)) stop) {
+        if (!idx) {
+            // Start event
+            [obj enumerateObjectsUsingBlock:^(NSValue *obj, __attribute__((unused)) NSUInteger idx, BOOL *__attribute__((unused)) stop) {
+                UITouch *touch = [[UITouch alloc] initWithStartPoint:obj.CGPointValue view:self];
+                [touchArray addObject:touch];
+            }];
+            event = DKEventWithTouches(touchArray.copy);
+            if (__builtin_expect(!event, NO)) {
+                NSAssert(NO, @"DKEventWithTouches() return nil");
 
+                return;
+            }
+            [UIApplication.sharedApplication sendEvent:event];
+        } else {
+//            CFRunLoopMode runLoopMode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent());
+//            CFRunLoopRunResult runLoopRunResult = CFRunLoopRunInMode(runLoopMode, DELAY_TIME, false);
+//            CFRelease(runLoopMode);
+//            NSAssert(runLoopRunResult == kCFRunLoopRunTimedOut, @"CFRunLoopRunInMode() must be timeout");
+            // Move event
+            [obj enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *__attribute__((unused)) stop) {
+                // TODO(ChasonTang): If CGPoint not change, UITouchPhase should be UITouchPhaseStationary instead of UITouchPhaseMoved
+                [touchArray[idx] dk_updateWithPointInWindow:[self.window convertPoint:obj.CGPointValue fromView:self]];
+                [touchArray[idx] dk_updateWithPhase:UITouchPhaseMoved];
+            }];
+            [UIApplication.sharedApplication sendEvent:event];
+
+            if (idx == pointEventArray.count - 1) {
+                [touchArray enumerateObjectsUsingBlock:^(UITouch *__attribute((unused)) obj, __attribute((unused)) NSUInteger idx, BOOL *__attribute((unused)) stop) {
+                    [touchArray[idx] dk_updateWithPhase:UITouchPhaseEnded];
+                }];
+                [UIApplication.sharedApplication sendEvent:event];
+            }
+        }
+    }];
 }
 
 @end

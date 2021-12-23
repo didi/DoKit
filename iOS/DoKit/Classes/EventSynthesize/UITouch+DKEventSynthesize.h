@@ -23,7 +23,7 @@ DOKIT_EXPORT UIEvent *_Nullable DKEventWithTouches(NSArray<UITouch *> *touches);
 
 @interface UITouch (DKEventSynthesize)
 
-- (instancetype)initWithPoint:(CGPoint)point window:(UIWindow *)window;
+- (instancetype)initWithStartPoint:(CGPoint)startPoint view:(UIView *)view;
 
 - (void)dk_updateWithPhase:(UITouchPhase)phase;
 

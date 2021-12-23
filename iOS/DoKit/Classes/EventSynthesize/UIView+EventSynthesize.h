@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint displacement:(CGPoint)displacement stepCount:(NSUInteger)stepCount;
 
+- (void)dk_pinchInWithDistance:(CGFloat)distance;
+
+- (void)dk_pinchOutWithDistance:(CGFloat)distance;
+
+- (void)dk_dragWithPointEventArray:(nullable NSArray<NSArray<NSValue *> *> *)pointEventArray;
+
 @end
 
 NS_ASSUME_NONNULL_END
