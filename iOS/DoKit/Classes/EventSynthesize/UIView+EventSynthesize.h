@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dk_dragWithPointEventArray:(nullable NSArray<NSArray<NSValue *> *> *)pointEventArray;
 
+- (void)dk_swipeWithDirection:(UISwipeGestureRecognizerDirection)swipeGestureRecognizerDirection;
+
 @end
 
 NS_ASSUME_NONNULL_END

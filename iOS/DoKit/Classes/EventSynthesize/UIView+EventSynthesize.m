@@ -63,7 +63,7 @@ static const double DELAY_TIME = 0.01;
 }
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint {
-    [self dk_dragWithStartPoint:startPoint endPoint:endPoint stepCount:3];
+    [self dk_dragWithStartPoint:startPoint endPoint:endPoint stepCount:2];
 }
 
 - (void)dk_dragWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint stepCount:(NSUInteger)stepCount {
@@ -219,6 +219,46 @@ static const CGFloat kTwoFingerConstantWidth = 40;
             }
         }
     }];
+}
+
+- (void)dk_swipeWithDirection:(UISwipeGestureRecognizerDirection)swipeGestureRecognizerDirection {
+    if (__builtin_expect(!self.window, NO)) {
+        NSAssert1(NO, @"%@ without window property", self);
+
+        return;
+    }
+    if ((swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionDown && swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionUp) || (swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionLeft && swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionRight)) {
+        NSAssert(NO, @"swipeGestureRecognizerDirection cannot be left and right or up and down in the meantime");
+
+        return;
+    }
+    CGPoint point = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    CGPoint endPoint = point;
+    if (swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionRight) {
+        endPoint.x += point.x;
+    }
+    if (swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionLeft) {
+        endPoint.x -= point.x;
+    }
+    if (swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionUp) {
+        endPoint.y -= point.y;
+    }
+    if (swipeGestureRecognizerDirection & UISwipeGestureRecognizerDirectionDown) {
+        endPoint.y += point.y;
+    }
+    UITouch *touch = [[UITouch alloc] initWithStartPoint:point view:self];
+    UIEvent *event = DKEventWithTouches(@[touch]);
+    if (__builtin_expect(!event, NO)) {
+        NSAssert(NO, @"DKEventWithTouches() return nil");
+
+        return;
+    }
+    [UIApplication.sharedApplication sendEvent:event];
+    [touch dk_updateWithPhase:UITouchPhaseMoved];
+    [touch dk_updateWithPointInWindow:[self.window convertPoint:endPoint fromView:self]];
+    [UIApplication.sharedApplication sendEvent:event];
+    [touch dk_updateWithPhase:UITouchPhaseEnded];
+    [UIApplication.sharedApplication sendEvent:event];
 }
 
 @end
