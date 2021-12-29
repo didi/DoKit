@@ -140,14 +140,14 @@ export default {
     border: none;
   }
   .log-preview{
-    .data-type{
+    & >>> .data-type{
       margin-left: 5px;
       margin-right: 5px;
       font-style: italic;
       font-weight: bold;
       color: #aaa;
     }
-    .data-structure{
+    & >>> .data-structure{
       display: inline-block;
       max-width: 100%;
       font-style: italic;
