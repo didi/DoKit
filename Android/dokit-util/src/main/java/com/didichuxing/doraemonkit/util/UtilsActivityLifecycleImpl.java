@@ -320,7 +320,6 @@ final class UtilsActivityLifecycleImpl implements Application.ActivityLifecycleC
                 final WindowManager.LayoutParams attrs = window.getAttributes();
                 final int softInputMode = attrs.softInputMode;
                 window.getDecorView().setTag(-123, softInputMode);
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             } else {
                 final Object tag = activity.getWindow().getDecorView().getTag(-123);
                 if (!(tag instanceof Integer)) return;
