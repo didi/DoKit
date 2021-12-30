@@ -23,7 +23,7 @@ buildscript {
             url "https://oss.sonatype.org/content/groups/public"
         }
         maven {
-            //本地插件地址
+            //本地插件地址：需替换成你自己的本地地址
             url uri('/Users/name/project/dokit_repo')
         }
     }
@@ -52,7 +52,7 @@ allprojects {
             url "https://oss.sonatype.org/content/groups/public"
         }
         maven {
-            //本地插件地址
+            //本地插件地址：需替换成你自己的本地地址
             url uri('/Users/name/project/dokit_repo')
         }
     }
