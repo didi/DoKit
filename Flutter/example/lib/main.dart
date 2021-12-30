@@ -13,6 +13,7 @@ import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/biz/biz.dart';
+import 'package:dokit/kit/leaks/leaks_doctor_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -143,7 +144,13 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorObservers: [],
+      navigatorObservers: [
+        LeaksDoctorObserver(
+          shouldCheck: (route) {
+            return route.settings.name != '/';
+          },
+        ),
+      ],
       home: DoKitTestPage(),
     );
   }
@@ -167,6 +174,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   @override
   void initState() {
     super.initState();
+
+    // 内存泄漏检测初始化
+    DoKit.i.initLeaks(() => context, maxRetainingPathLimit: 300);
+    DoKit.i.listenLeaksEvent((event) {
+      print(event);
+    });
   }
 
   @override
@@ -313,6 +326,23 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                 onPressed: stopAll,
               ),
             ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
+                child: Text('打开新页面',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: openPage,
+              ),
+            ),
           ],
         ),
       ),
@@ -359,6 +389,15 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
       final Map<String, dynamic>? map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
+  }
+
+  void openPage() {
+    Navigator.of(context, rootNavigator: false).push<void>(MaterialPageRoute(
+        builder: (context) {
+          //指定跳转的页面
+          return TestPage2();
+        },
+        settings: RouteSettings(name: 'page1', arguments: ['test', '111'])));
   }
 
   void stopAll() {
