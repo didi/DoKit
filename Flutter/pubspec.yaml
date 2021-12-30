@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   date_format: ^2.0.2
-  vm_service: ^6.2.0
+  vm_service:  ^7.5.0
   package_info: ^2.0.0
   shared_preferences: ^2.0.5
   image: ^3.0.2
