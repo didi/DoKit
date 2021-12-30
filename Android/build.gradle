@@ -22,10 +22,9 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
-            //本地插件地址
-            url uri('/Users/bytedance/project/dokit_repo')
+            //本地插件地址：需替换成你自己的本地地址
+            url uri('/Users/name/project/dokit_repo')
         }
     }
     dependencies {
@@ -36,7 +35,7 @@ buildscript {
         if (runType == 1) {
             classpath "io.github.didi.dokit:dokitx-plugin:$dokitPluginVersion"
         }
-        //classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
+//        classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
 //        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
@@ -52,10 +51,9 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
-            //本地插件地址
-            url uri('/Users/bytedance/project/dokit_repo')
+            //本地插件地址：需替换成你自己的本地地址
+            url uri('/Users/name/project/dokit_repo')
         }
     }
 }
@@ -116,10 +114,6 @@ task checkUploadConfig4Maven() {
             }
         }
 
-//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-//            throw new RuntimeException("未引入didi内部仓库。。。")
-//        }
-
         //相关模块检查
         def modules = new ArrayList<String>()
 
@@ -162,14 +156,6 @@ task checkUploadConfig4Local() {
             }
         }
 
-//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-//            throw new RuntimeException("未引入didi内部仓库。。。")
-//        }
-
-//        if (!repositories.contains("file:/Users/bytedance/project/dokit_repo")) {
-//            throw new RuntimeException("未引入本地仓库。。。")
-//        }
-
         //相关模块检查
         def modules = new ArrayList<String>()
 
@@ -209,11 +195,6 @@ task checkUploadConfig4Didi() {
                 repositories.add((it as MavenArtifactRepository).url.toString())
             }
         }
-
-//        if (!repositories.contains("https://artifactory.intra.xiaojukeji.com/artifactory/public")) {
-//            throw new RuntimeException("未引入didi内部仓库。。。")
-//        }
-
 
         //相关模块检查
         def modules = new ArrayList<String>()
