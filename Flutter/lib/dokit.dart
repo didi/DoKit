@@ -11,6 +11,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
@@ -25,6 +26,8 @@ import 'package:package_info/package_info.dart';
 
 import 'kit/apm/vm/vm_service_wrapper.dart';
 import 'kit/biz/biz.dart';
+import 'kit/leaks/leaks_doctor.dart';
+import 'kit/leaks/leaks_doctor_data.dart';
 
 export 'package:dokit/ui/dokit_app.dart';
 
@@ -111,7 +114,7 @@ class DoKit {
 
 abstract class IDoKit {/* Just empty. */}
 
-class _DoKitInterfaces extends IDoKit with _BizKitMixin {
+class _DoKitInterfaces extends IDoKit with _BizKitMixin, _LeaksDoctorMixin {
   _DoKitInterfaces._();
 
   static final _DoKitInterfaces _instance = _DoKitInterfaces._();
@@ -181,6 +184,35 @@ mixin _BizKitMixin on IDoKit {
         desc: desc,
         kitBuilder: kitBuilder,
         action: action);
+  }
+}
+
+mixin _LeaksDoctorMixin on IDoKit {
+  // 初始化内存泄漏检测功能
+  void initLeaks(BuildContext Function() func,
+      {int maxRetainingPathLimit = 300}) {
+    LeaksDoctor().init(func, maxRetainingPathLimit: 300);
+  }
+
+  // 监听内存泄漏结果数据
+  void listenLeaksData(Function(LeaksMsgInfo? info)? callback) {
+    LeaksDoctor().onLeakedStream.listen((LeaksMsgInfo? info) {
+      print((info?.toString()) ?? '暂未发现泄漏');
+      print('发现泄漏对象实例个数 = ${(info?.leaksInstanceCounts) ?? "0"}');
+      if (callback != null) {
+        callback(info);
+      }
+    });
+  }
+
+  // 监听内存泄漏节点事件
+  void listenLeaksEvent(Function(LeaksDoctorEvent event)? callback) {
+    LeaksDoctor().onEventStream.listen((LeaksDoctorEvent event) {
+      print(event);
+      if (callback != null) {
+        callback(event);
+      }
+    });
   }
 }
 
