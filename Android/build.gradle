@@ -22,10 +22,22 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven {
-            //本地插件地址：需替换成你自己的本地地址
-            url uri('/Users/name/project/dokit_repo')
+
+        println("[dokit build] add buildscript private repositories")
+        println("[dokit build] usePrivateEnv=" + usePrivateEnv() +",privateRepository="+ privateRepository())
+        println("[dokit build] useLocalRepository="+useLocalRepository()+",localRepository="+localRepository() )
+
+        if (usePrivateEnv()){
+            maven {
+                url privateRepository()
+            }
         }
+        if (useLocalRepository()){
+            maven {
+                url uri(localRepository())
+            }
+        }
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
@@ -43,7 +55,10 @@ buildscript {
 
 }
 
+apply from: "./config.gradle"
+
 allprojects {
+    def isRootProject = "Dokit-Android".equals(project.name)
     repositories {
         google()
         mavenCentral()
@@ -51,9 +66,21 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        maven {
-            //本地插件地址：需替换成你自己的本地地址
-            url uri('/Users/name/project/dokit_repo')
+
+        println("[dokit build] add allprojects repositories config project=" + project.name)
+        println("[dokit build] usePrivateEnv=" + usePrivateEnv() + ",privateRepository=" + privateRepository())
+        println("[dokit build] useLocalRepository=" + useLocalRepository() + ",localRepository=" + localRepository())
+
+        if (usePrivateEnv()) {
+            maven {
+                url privateRepository()
+            }
+        }
+
+        if (useLocalRepository()){
+            maven {
+                url uri(localRepository())
+            }
         }
     }
 }
