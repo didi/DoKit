@@ -214,6 +214,18 @@ mixin _LeaksDoctorMixin on IDoKit {
       }
     });
   }
+
+  // 添加要观察的对象
+  void addObserved(Object obj,
+      {String group = 'manual', int? expectedTotalCount}) {
+    LeaksDoctor()
+        .addObserved(obj, group: group, expectedTotalCount: expectedTotalCount);
+  }
+
+  // 触发内存泄漏扫描
+  void scanLeaks({String? group, int delay = 500}) {
+    LeaksDoctor().memoryLeakScan(group: group, delay: delay);
+  }
 }
 
 // 如果在runApp之前执行了WidgetsFlutterBinding.ensureInitialized，会导致methodchannel功能不可用，可以在runApp前先调用一下ensureDoKitBinding
