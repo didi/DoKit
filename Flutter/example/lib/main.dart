@@ -64,6 +64,15 @@ void main() {
       action: () => {print('isShow = 业务专区 toB')});
 
   DoKit.i.buildBizKit(
+      name: '内存检测',
+      group: '业务专区4',
+      desc: '[提供触发内存泄漏扫描能力]',
+      action: () {
+        print('提供触发内存泄漏扫描能力');
+        DoKit.i.scanLeaks();
+      });
+
+  DoKit.i.buildBizKit(
       name: 'toC2',
       group: '业务专区1',
       desc: '[提供自动化测试能力1]',
@@ -395,7 +404,9 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     Navigator.of(context, rootNavigator: false).push<void>(MaterialPageRoute(
         builder: (context) {
           //指定跳转的页面
-          return TestPage2();
+          var page = TestPage2();
+          DoKit.i.addObserved(page);
+          return page;
         },
         settings: RouteSettings(name: 'page1', arguments: ['test', '111'])));
   }
