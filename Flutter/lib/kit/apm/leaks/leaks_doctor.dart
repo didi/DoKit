@@ -110,33 +110,46 @@ class LeaksDoctor {
   }
 
   // 开始检测是否存在内存泄漏
-  void memoryLeakScan(String? group, {int delay = 0}) async {
-    Expando? expando = _dynamicWatchGroup[group];
-    _dynamicWatchGroup.remove(group);
-    if (expando != null) {
-      // 延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
-      // 比如runZone就会延时释放
+  // 使用Timer是为了延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
+  // 比如runZone就会延时释放
+  void memoryLeakScan({String? group, int delay = 0}) async {
+    if (group == null && _dynamicWatchGroup.isNotEmpty) {
       Timer(Duration(milliseconds: delay), () async {
-        _checkTaskQueue.add(
-          LeaksDoctorTask(expando,
-              sink: _onEventStreamCtrl.sink,
-              onCompleted: () {
-                _currentTask = null;
-                _initTask();
-              },
-              searchPolicy: (clsName) => searchePolicy(clsName),
-              onLeaked: (leakInfo) {
-                if (leakInfo != null) {
-                  LeaksDoctor.add(leakInfo);
-                }
-                _onLeakedStreamCtrl.add(leakInfo);
-              },
-              maxRetainingPathLimit: maxRetainingPathLimit),
-        );
-
+        _dynamicWatchGroup.forEach((key, expando) {
+          _addTask(expando);
+        });
         _initTask();
       });
+    } else {
+      Expando? expando = _dynamicWatchGroup[group];
+      _dynamicWatchGroup.remove(group);
+      if (expando != null) {
+        Timer(Duration(milliseconds: delay), () async {
+          _addTask(expando);
+          _initTask();
+        });
+      }
     }
+  }
+
+  // 添加任务
+  void _addTask(Expando expando) {
+    _checkTaskQueue.add(
+      LeaksDoctorTask(expando,
+          sink: _onEventStreamCtrl.sink,
+          onCompleted: () {
+            _currentTask = null;
+            _initTask();
+          },
+          searchPolicy: (clsName) => searchePolicy(clsName),
+          onLeaked: (leakInfo) {
+            if (leakInfo != null) {
+              LeaksDoctor.add(leakInfo);
+            }
+            _onLeakedStreamCtrl.add(leakInfo);
+          },
+          maxRetainingPathLimit: maxRetainingPathLimit),
+    );
   }
 
   // 初始化task

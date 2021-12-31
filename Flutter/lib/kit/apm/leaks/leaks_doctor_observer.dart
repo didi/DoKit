@@ -79,7 +79,8 @@ class LeaksDoctorObserver extends NavigatorObserver {
 
         final key = _getRouteKey(route, element.widget.toStringShort());
         if (element is StatefulElement || element is StatelessElement) {
-          LeaksDoctor().memoryLeakScan(key, delay: _defaultCheckLeakDelay);
+          LeaksDoctor()
+              .memoryLeakScan(group: key, delay: _defaultCheckLeakDelay);
         }
       }
 
