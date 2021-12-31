@@ -24,10 +24,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
 
+import 'kit/apm/leaks/leaks_doctor.dart';
+import 'kit/apm/leaks/leaks_doctor_data.dart';
 import 'kit/apm/vm/vm_service_wrapper.dart';
 import 'kit/biz/biz.dart';
-import 'kit/leaks/leaks_doctor.dart';
-import 'kit/leaks/leaks_doctor_data.dart';
 
 export 'package:dokit/ui/dokit_app.dart';
 

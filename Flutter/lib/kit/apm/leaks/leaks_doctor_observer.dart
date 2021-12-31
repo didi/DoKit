@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import 'leaks_doctor.dart';
 
-const int _defaultCheckLeakDelay = 1000;
+const int _defaultCheckLeakDelay = 500;
 typedef ShouldAddedRoute = bool Function(Route route);
 
 class LeaksDoctorObserver extends NavigatorObserver {

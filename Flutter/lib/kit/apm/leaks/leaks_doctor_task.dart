@@ -2,7 +2,7 @@
 
 import 'dart:async';
 
-import 'package:dokit/kit/vm/vm_service_toolset.dart';
+import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 import 'package:vm_service/vm_service.dart';
 
 import 'leaks_doctor.dart';
@@ -56,6 +56,7 @@ class LeaksDoctorTask extends _Task {
         return _afterGC();
       }
     }
+    sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd));
     return null;
   }
 

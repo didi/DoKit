@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:ffi';
 
-import 'package:dokit/kit/vm/vm_service_toolset.dart';
+import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 import 'package:flutter/material.dart';
 
 import 'leaks_doctor_data.dart';

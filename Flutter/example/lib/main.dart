@@ -11,9 +11,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/leaks/leaks_doctor_observer.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/biz/biz.dart';
-import 'package:dokit/kit/leaks/leaks_doctor_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
