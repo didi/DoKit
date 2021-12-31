@@ -314,30 +314,31 @@ final class UtilsActivityLifecycleImpl implements Application.ActivityLifecycleC
      * the keyboard from closing when curActivity onDestroy.
      */
     private void processHideSoftInputOnActivityDestroy(final Activity activity, boolean isSave) {
-        try {
-            if (isSave) {
-                Window window = activity.getWindow();
-                final WindowManager.LayoutParams attrs = window.getAttributes();
-                final int softInputMode = attrs.softInputMode;
-                window.getDecorView().setTag(-123, softInputMode);
-            } else {
-                final Object tag = activity.getWindow().getDecorView().getTag(-123);
-                if (!(tag instanceof Integer)) return;
-                UtilsBridge.runOnUiThreadDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Window window = activity.getWindow();
-                            if (window != null) {
-                                window.setSoftInputMode(((Integer) tag));
-                            }
-                        } catch (Exception ignore) {
-                        }
-                    }
-                }, 100);
-            }
-        } catch (Exception ignore) {
-        }
+//        try {
+//            if (isSave) {
+//                Window window = activity.getWindow();
+//                final WindowManager.LayoutParams attrs = window.getAttributes();
+//                final int softInputMode = attrs.softInputMode;
+//                window.getDecorView().setTag(-123, softInputMode);
+//                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//            } else {
+//                final Object tag = activity.getWindow().getDecorView().getTag(-123);
+//                if (!(tag instanceof Integer)) return;
+//                UtilsBridge.runOnUiThreadDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Window window = activity.getWindow();
+//                            if (window != null) {
+//                                window.setSoftInputMode(((Integer) tag));
+//                            }
+//                        } catch (Exception ignore) {
+//                        }
+//                    }
+//                }, 100);
+//            }
+//        } catch (Exception ignore) {
+//        }
     }
 
     private void postStatus(final Activity activity, final boolean isForeground) {
