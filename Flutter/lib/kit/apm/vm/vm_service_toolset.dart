@@ -6,7 +6,8 @@ import 'package:vm_service/utils.dart';
 import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
 
-const String _vmToolsetLibrary = 'package:dokit/kit/vm/vm_service_toolset.dart';
+const String _vmToolsetLibrary =
+    'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 
 class VmserviceToolset {
   static VmserviceToolset? _instance;
