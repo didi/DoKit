@@ -97,12 +97,6 @@ class _LeaksDoctorDetailPageState extends State<LeaksDoctorDetailPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    if (_scrollController.hasClients) _scrollController.jumpTo(50.0);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final retainingPath = widget.leaksMsgInfo.retainingPathList;
     final gcRootType = widget.leaksMsgInfo.gcRootType;
@@ -147,21 +141,19 @@ class _LeaksDoctorDetailPageState extends State<LeaksDoctorDetailPage> {
                 ),
               ),
               Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.all(0),
-                    controller: _scrollController,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _retainingPathNode(
-                        retainingPath[index],
-                        index == 0,
-                        index == count - 1,
-                        RandomColor.randomColor(),
-                      );
-                    },
-                    itemCount: count,
-                  ),
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.all(0),
+                  controller: _scrollController,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _retainingPathNode(
+                      retainingPath[index],
+                      index == 0,
+                      index == count - 1,
+                      RandomColor.randomColor(),
+                    );
+                  },
+                  itemCount: count,
                 ),
               )
             ],
