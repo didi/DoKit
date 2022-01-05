@@ -98,7 +98,7 @@ class LeaksDoctor {
   void savePolicy(String clsName, int expectedTotalCount) =>
       _policyCachePool[clsName] = expectedTotalCount;
 
-  void init(BuildContext Function() func, {int maxRetainingPathLimit = 300}) {
+  void init(BuildContext Function()? func, {int maxRetainingPathLimit = 300}) {
     LeaksDoctor.maxRetainingPathLimit = maxRetainingPathLimit;
     getBuildContext = func;
 
