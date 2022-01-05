@@ -90,11 +90,6 @@ class CodeLocation {
     uri = json['uri'];
   }
 
-  @override
-  String toString() {
-    return '$code($lineNum:$columnNum) $uri#$className';
-  }
-
   Map<String, dynamic> toJson() {
     return {
       'code': code,
@@ -103,6 +98,11 @@ class CodeLocation {
       'className': className,
       'uri': uri,
     };
+  }
+
+  @override
+  String toString() {
+    return 'CodeLocation - className:$className\n$uri#$lineNum:$columnNum\n';
   }
 }
 
@@ -133,7 +133,7 @@ class LeaksMsgNode {
 
   @override
   String toString() {
-    return jsonEncode(toJson());
+    return 'LeaksMsgNode - name:$name\nleakedNodeType:$leakedNodeType\nlibraries:$libraries\nfieldOwnerNode:${fieldOwnerNode.toString()}\ncodeLocation:${codeLocation.toString()}\nclosureNode:${closureNode.toString()}';
   }
 
   Map<String, dynamic> toJson() {
@@ -176,7 +176,7 @@ class LeaksMsgInfo {
 
   @override
   String toString() {
-    return 'Memory Leak： {\n filePath: `${this.retainingPathList}`, gcRootType: ${this.gcRootType} }';
+    return 'Memory Leak: {\n filePath: `${this.retainingPathList}`, gcRootType: ${this.gcRootType} \n}';
   }
 }
 
