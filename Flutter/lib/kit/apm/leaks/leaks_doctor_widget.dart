@@ -52,10 +52,12 @@ class _LeaksDoctorPageState extends State<LeaksDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: buildListView(context));
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Container(child: buildListView(context)),
+      backgroundColor: Colors.white,
+    );
   }
 
   Widget buildListView(BuildContext context) {
@@ -107,6 +109,7 @@ class _LeaksDoctorDetailPageState extends State<LeaksDoctorDetailPage> {
         appBar: AppBar(
           title: Text('详情'),
         ),
+        backgroundColor: Colors.white,
         body: Container(
           height: MediaQuery.of(context).size.height * 6 / 7,
           child: Column(
