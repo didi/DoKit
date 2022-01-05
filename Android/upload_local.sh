@@ -10,19 +10,21 @@ RES="\033[0m"
 
 ./gradlew checkUploadConfig4Local || ! echo -e  "${RED_COLOR}未通过打包的配置检测！！！ ${RES}" || exit
 ./gradlew copyPluginSource
-./gradlew :dokit-plugin:assemble --stacktrace
 #./gradlew assembleRelease --stacktrace
+./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
-./gradlew :dokit-plugin:assembleRelease --stacktrace
 ./gradlew :dokit-util:assembleRelease --stacktrace
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
+#./gradlew :dokit-rpc:assembleRelease --stacktrace
+#./gradlew :dokit-rpc-mc:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
+#publish
 ./gradlew :dokit:publish --stacktrace
 ./gradlew :dokit-no-op:publish --stacktrace
 ./gradlew :dokit-okhttp-api:publish --stacktrace

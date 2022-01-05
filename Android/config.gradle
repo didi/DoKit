@@ -7,6 +7,11 @@ ext {
         //0:依赖dokit本地module运行
         //1:依赖dokit远程aar运行
         run_type     : 0,
+        //0:外部公共环境
+        //1:内部私有环境，使用私有仓库构建，仓库地址在 local.properties 中添加 PRIVATE_REPOSITORY_URL
+        run_env      : 0,
+        //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
+        use_local    : false,
         group_id     : 'io.github.didi.dokit',
         version      : '3.6.0'
     ]
@@ -22,7 +27,7 @@ ext {
                glide_version                 : "4.9.0",
                kotlin_version_v13            : "1.3.72",
                kotlin_version_v14            : "1.4.32",
-//               kotlin_version_v15            : "1.5.31",
+               kotlin_version_v15            : "1.5.31",
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
                booster_version               : "4.0.0",
@@ -164,4 +169,30 @@ ext {
         String[] vs = version.split("\\.")
         return vs.length == 3
     }
+
+    usePrivateEnv = {
+        def runEnv = publish_config["run_env"]
+        return runEnv == 1
+    }
+
+    useLocalRepository = {
+        def useLocal = publish_config["use_local"]
+        return useLocal
+    }
+
+    privateRepository = {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def url = properties.getProperty('PRIVATE_REPOSITORY_URL', "")
+        return url
+    }
+
+    localRepository = {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def url = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+        return url
+    }
+
+
 }

@@ -8,11 +8,24 @@ BLUE_COLOR="\033[1;34m"  #蓝
 PINK="\033[1;35m"    #粉红
 RES="\033[0m"
 
-./gradlew checkUploadConfig4Didi || ! echo -e "${RED_COLOR}未通过打包的配置检测！！！ ${RES}" || exit
+#./gradlew checkUploadConfig4Didi || ! echo -e "${RED_COLOR}未通过打包的配置检测！！！ ${RES}" || exit
 ./gradlew copyPluginSource
 ./gradlew clean
-./gradlew :dokit-plugin:assemble
-./gradlew assembleRelease
+#./gradlew assembleRelease
+./gradlew :dokit-plugin:assemble --stacktrace
+./gradlew :dokit:assembleRelease --stacktrace
+./gradlew :dokit-no-op:assembleRelease --stacktrace
+./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
+./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
+./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
+./gradlew :dokit-util:assembleRelease --stacktrace
+./gradlew :dokit-weex:assembleRelease --stacktrace
+./gradlew :dokit-ft:assembleRelease --stacktrace
+./gradlew :dokit-mc:assembleRelease --stacktrace
+./gradlew :dokit-rpc:assembleRelease --stacktrace
+./gradlew :dokit-rpc-mc:assembleRelease --stacktrace
+./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
+#publish
 ./gradlew :dokit:publish
 ./gradlew :dokit-ft:publish
 ./gradlew :dokit-mc:publish
