@@ -1,73 +1,96 @@
 <template>
-  <div class="detail-container" :class="[canFold ? 'can-unfold':'', unfold ? 'unfolded' : '']" >
+  <div
+    class="detail-container"
+    :class="[canFold ? 'can-unfold' : '', unfold ? 'unfolded' : '']"
+  >
     <div @click="unfoldDetail" v-html="displayDetailValue"></div>
     <template v-if="canFold">
-      <div v-show="unfold" v-for="(key, index) in detailValue" :key="index">
+      <div v-show="unfold" v-for="(key, index) in newDetailValue" :key="index">
         <Detail :detailValue="key" :detailIndex="index"></Detail>
       </div>
     </template>
   </div>
 </template>
 <script>
-import Detail from './log-detail'
+import Detail from "./log-detail";
+import { clone } from '../../assets/deepClone'
 import { getDataType } from '../../assets/util'
-
-const TYPE_CAN_FOLD = ['Object', 'Array']
 export default {
   name: "Detail",
   components: {
-    Detail
+    Detail,
   },
   props: {
     detailValue: [String, Number, Object],
-    detailIndex: [String, Number]
+    detailIndex: [String, Number],
   },
-  data () {
+  data() {
     return {
-      unfold: false
-    }
+      unfold: false,
+      newDetailValue:null,
+    };
   },
   computed: {
     dataType () {
-     return getDataType(this.detailValue)
+     return getDataType(this.newDetailValue)
     },
-    canFold () {
-      if (TYPE_CAN_FOLD.indexOf(this.dataType) > -1) {
-        return true
+    canFold() {
+      if ((this.isObject(this.newDetailValue)) || this.isArray(this.newDetailValue)) {
+        return true;
       }
-      return false
+      return false;
     },
-    displayDetailValue () {
-      let value = ''
+    displayDetailValue() {
+      let value = "";
       if (this.canFold) {
-        if (this.dataType === 'Object') {
-          value = 'Object'
+        if (this.isObject(this.newDetailValue)) {
+          if(this.dataType !== 'Function'){
+            value = "Object";
+          } else{
+            value = "Function";
+          }
         }
-        if (this.dataType === 'Array') {
-          value = `Array(${this.detailValue.length})`
+        if (this.isArray(this.newDetailValue)) {
+          value = `Array(${this.newDetailValue.length})`;
         }
       } else {
-        value = `<span style="color:#1802C7;">${this.detailValue}</span>`
+        value = `<span style="color:#1802C7;">${this.newDetailValue}</span>`;
       }
-      return `<span style="color:#7D208C;">${this.detailIndex}</span>: ${value}`
-    }
+      return `<span style="color:#7D208C;">${this.detailIndex}</span>: ${value}`;
+    },
+  },
+  watch: {
+    detailValue: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        this.newDetailValue = clone(newVal)
+      },
+    },
   },
   methods: {
     unfoldDetail() {
-      this.unfold = !this.unfold
-    }
-  }
-}
+      this.unfold = !this.unfold;
+    },
+    isObject(val) {
+      return Object.prototype.isPrototypeOf(val);
+    },
+    isArray(val) {
+      return Array.prototype.isPrototypeOf(val);
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
-.detail-container{
+.detail-container {
   font-size: 12px;
   margin-left: 24px;
   position: relative;
-  
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 .can-unfold {
-  &::before{
+  &::before {
     content: "";
     width: 0;
     height: 0;
@@ -80,13 +103,12 @@ export default {
 }
 
 .unfolded {
-  &::before{
+  &::before {
     border: 4px solid transparent;
     border-top-color: #333;
     top: 6px;
   }
 }
-
 </style>
 
 
