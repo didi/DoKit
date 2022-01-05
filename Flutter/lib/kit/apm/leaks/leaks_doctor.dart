@@ -113,14 +113,16 @@ class LeaksDoctor {
   // 使用Timer是为了延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
   // 比如runZone就会延时释放
   void memoryLeakScan({String? group, int delay = 0}) async {
-    if (group == null && _dynamicWatchGroup.isNotEmpty) {
+    bool isNotEmpty = _dynamicWatchGroup.isNotEmpty;
+    if (group == null && isNotEmpty) {
       Timer(Duration(milliseconds: delay), () async {
         _dynamicWatchGroup.forEach((key, expando) {
           _addTask(expando);
+          _dynamicWatchGroup.remove(key);
         });
         _initTask();
       });
-    } else {
+    } else if (isNotEmpty) {
       Expando? expando = _dynamicWatchGroup[group];
       _dynamicWatchGroup.remove(group);
       if (expando != null) {
