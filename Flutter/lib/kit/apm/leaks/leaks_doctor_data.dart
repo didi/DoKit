@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:vm_service/vm_service.dart';
 
 class FieldOwnerNode {
@@ -24,7 +22,7 @@ class FieldOwnerNode {
 
   @override
   String toString() {
-    return '$FieldOwnerNode\nownerName:$ownerName\nownerType:$ownerType\nlibraries:$libraries';
+    return '{\nownerName:$ownerName\nownerType:$ownerType\nlibraries:"$libraries"\n}';
   }
 }
 
@@ -68,7 +66,7 @@ class ClosureNode {
 
   @override
   String toString() {
-    return '$libraries\nclosureFunName:$functionName($funLine:$funColumn)\nowner:$closureOwner\nownerClass:$ownerClass';
+    return '{\nlibraries:"$libraries"\nclosureFunName:$functionName($funLine:$funColumn)\nowner:$closureOwner\nownerClass:$ownerClass\n}';
   }
 }
 
@@ -100,9 +98,18 @@ class CodeLocation {
     };
   }
 
+  String _subStr(String str) {
+    final maxLen = 200;
+    if (str.length > maxLen) {
+      return str.substring(0, maxLen) + '...';
+    }
+    return str;
+  }
+
   @override
   String toString() {
-    return 'CodeLocation - className:$className\n$uri#$lineNum:$columnNum\n';
+    var codeStr = _subStr(code ?? '');
+    return '{\nsourceCode:"$codeStr"\nuri:"$uri#$lineNum:$columnNum"\n}';
   }
 }
 
@@ -133,7 +140,7 @@ class LeaksMsgNode {
 
   @override
   String toString() {
-    return 'LeaksMsgNode - name:$name\nleakedNodeType:$leakedNodeType\nlibraries:$libraries\nfieldOwnerNode:${fieldOwnerNode.toString()}\ncodeLocation:${codeLocation.toString()}\nclosureNode:${closureNode.toString()}';
+    return '{\nname:$name\nleakedNodeType:$leakedNodeType\nlibraries:"$libraries"\nfieldOwnerNode:${fieldOwnerNode.toString()}\ncodeLocation:${codeLocation.toString()}\nclosureNode:${closureNode.toString()}\n}';
   }
 
   Map<String, dynamic> toJson() {
@@ -176,7 +183,7 @@ class LeaksMsgInfo {
 
   @override
   String toString() {
-    return 'Memory Leak: {\n filePath: `${this.retainingPathList}`, gcRootType: ${this.gcRootType} \n}';
+    return 'Memory Leak: {\nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
   }
 }
 
