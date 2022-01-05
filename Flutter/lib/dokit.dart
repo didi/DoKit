@@ -208,7 +208,6 @@ mixin _LeaksDoctorMixin on IDoKit {
   // 监听内存泄漏节点事件
   void listenLeaksEvent(Function(LeaksDoctorEvent event)? callback) {
     LeaksDoctor().onEventStream.listen((LeaksDoctorEvent event) {
-      print(event);
       if (callback != null) {
         callback(event);
       }
