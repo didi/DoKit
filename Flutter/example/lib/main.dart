@@ -29,6 +29,7 @@ void main() {
   DoKit.runApp(
       app: DoKitApp(MyApp()),
       useInRelease: true,
+      useRunZoned: false,
       logCallback: (log) {
 //        String i = log;
       },
