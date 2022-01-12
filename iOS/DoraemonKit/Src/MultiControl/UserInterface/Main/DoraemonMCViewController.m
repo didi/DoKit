@@ -16,6 +16,7 @@
 #import "DoraemonMultiNetWorkSerivce.h"
 #import "DoraemMultiMockLogic.h"
 #import "DoraemonMultiCaseListViewController.h"
+#import <AFNetworking/AFNetworking.h>
 @interface DoraemonMCViewController ()<DoraemonQRScanDelegate>
 
 
@@ -33,6 +34,9 @@
 @property (nonatomic , strong) UIButton *caseUpLoadBtn;
 /// 用例列表
 @property (nonatomic , strong) UIButton *caseListBtn;
+
+///网络请求
+@property (nonatomic , strong) UIButton *netRequestBtn;
 
 
 @property (nonatomic , strong) UILabel *asssisTip;
@@ -216,7 +220,26 @@
         [self.view addSubview:_caseListBtn];
         [_caseListBtn addTarget:self action:@selector(caseListBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _caseUpLoadBtn;
+    return _caseListBtn;
+}
+
+- (UIButton *)netRequestBtn {
+    if (!_netRequestBtn) {
+        _netRequestBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.caseListBtn.frame) + 30, 100, 30)];
+        _netRequestBtn.clipsToBounds = YES;
+        _netRequestBtn.layer.cornerRadius = 5 ;
+        _netRequestBtn.backgroundColor = [UIColor doraemon_blue];
+        [_netRequestBtn setTitle:@"请求接口" forState:UIControlStateNormal];
+        [_netRequestBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _netRequestBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_netRequestBtn];
+        [_netRequestBtn addTarget:self action:@selector(netRequestBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    
+    return _netRequestBtn;
+    
+    
 }
 
 - (void)masterDeviceBtnClick {
@@ -267,10 +290,8 @@
 
 // 开始录制
 - (void)startRecordBtnClick {
-    //打开网络mock
-    [DoraemMultiMockLogic openMultiWorkINterceptor];
     [self showStartRecordMessage];
-    [DoraemMultiMockLogic startRecord];
+
 }
 // 结束录制
 - (void)caseUpLoadBtnClick {
@@ -285,6 +306,49 @@
     [self.navigationController pushViewController:caseListViewController animated:YES];
     
 }
+
+//请求网络
+- (void)netRequestBtnClick{
+    //请求网络
+    [self netForAFNetworking];
+    
+}
+
+- (void)netForAFNetworking{
+
+    
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.requestSerializer.timeoutInterval = 10;
+    session.requestSerializer = [AFJSONRequestSerializer serializer];// 请求
+    session.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
+    NSMutableDictionary *param = [NSMutableDictionary new];
+    [param setValue:@"value1" forKey:@"key1"];
+    [param setValue:@"value2" forKey:@"key2"];
+    [param setValue:@"value3" forKey:@"key3"];
+    
+    
+    
+    [session POST:@"http://getman.cn/echo" parameters:param headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"success %@",string);
+        
+        //把请求和返回显示出来
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure");
+    }];
+    
+    [session GET:@"http://getman.cn/echo" parameters:param headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"success %@",string);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure");
+    }];
+    
+}
+
 
 - (void)endRecordWithPersonName:(NSString *)personName caseName:(NSString *)caseName {
     
@@ -303,7 +367,9 @@
     }];
     
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"开启" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    
+        //打开网络mock
+        [DoraemMultiMockLogic openMultiWorkINterceptor];
+        [DoraemMultiMockLogic startRecord];
     }];
     [alertController addAction:cancelAction];
     [alertController addAction:sureAction];
@@ -441,6 +507,7 @@
             self.caseCollectionBtn.hidden = NO;
             self.caseUpLoadBtn.hidden = NO;
             self.caseListBtn.hidden = NO;
+            self.netRequestBtn.hidden = NO;
             self.assisDisConnectBtn.hidden = YES;
             self.qrCodeImage.hidden = YES;
             self.bottomTip.hidden = YES;

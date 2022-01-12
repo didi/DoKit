@@ -13,6 +13,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonAppInfoUtil.h"
 #import "DoraemonManager.h"
+#import "DoraemMultiMockManger.h"
 @interface MultiNetworking : NSObject
 
 @end
@@ -138,6 +139,39 @@
     }];
 }
 
+
+/*
+ * 接口信息上传
+ * /app/multiControl/uploadApiInfo
+ */
++ (void)uploadApiInfoWithItem:(DoraemMultiItem *)item
+                           sus:(void(^)(id responseObject))sus
+                          fail:(void(^)(NSError *error))fail {
+    
+    NSMutableDictionary *param =  [NSMutableDictionary new];
+    [param setValue:item.pId forKey:@"pId"];
+    [param setValue:item.caseId forKey:@"caseId"];
+    [param setValue:item.key forKey:@"key"];
+    [param setValue:item.contentType forKey:@"contentType"];
+    [param setValue:item.method forKey:@"method"];
+    [param setValue:item.path forKey:@"path"];
+    [param setValue:item.requestBody forKey:@"requestBody"];
+    [param setValue:item.responseBody forKey:@"responseBody"];
+    [param setValue:item.query forKey:@"query"];
+    
+    [MultiNetworking requestPostWithApi:@"app/multiControl/uploadApiInfo" params:param sus:^(id responseObject) {
+        NSLog(@"responseObject == %@",responseObject);
+        if(sus){
+            sus(responseObject);
+        }
+    } fail:^(NSError *error) {
+        NSLog(@"error == %@",error);
+        if(fail){
+            fail(error);
+        }
+    }];
+}
+
 /*
  * 接口信息上传
  * /app/multiControl/uploadApiInfo
@@ -150,7 +184,7 @@
     
     NSMutableDictionary *param =  [NSMutableDictionary new];
     [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
-    [param setValue:caseID forKey:@"caseID"];
+    [param setValue:caseID forKey:@"caseId"];
     [param setValue:key forKey:@"key"];
     [param setValue:path forKey:@"path"];
     
@@ -179,7 +213,7 @@
     
     NSMutableDictionary *param =  [NSMutableDictionary new];
     [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
-    [param setValue:caseID forKey:@"caseID"];
+    [param setValue:caseID forKey:@"caseId"];
     [param setValue:personName forKey:@"personName"];
     [param setValue:caseName forKey:@"caseName"];
     
@@ -223,20 +257,54 @@
 
 /*
  * 获取用例接口列表
- * /app/multiControl/getCaseApiInfo
+ * /app/multiControl/getCaseApiList
  */
-+ (void)getCaseApiInfoWithCaseID:(NSString *)caseID key:(NSString *)key {
++ (void)getCaseApiListWithCaseId:(NSString *)caseId
+                             sus:(void(^)(id responseObject))sus
+                            fail:(void(^)(NSError *error))fail {
     
     NSMutableDictionary *param =  [NSMutableDictionary new];
-    [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
+//    [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
+    [param setValue:caseId forKey:@"caseId"];
+    
+    [MultiNetworking requestGETWithApi:@"multiControl/getCaseApiList" params:param sus:^(id responseObject) {
+        NSLog(@"responseObject == %@",responseObject);
+        if(sus){
+            sus(responseObject);
+        }
+    } fail:^(NSError *error) {
+        NSLog(@"error == %@",error);
+        if(fail){
+            fail(error);
+        }
+    }];
+}
+
+
+
+/*
+ * 获取用例接口列表
+ * /app/multiControl/getCaseApiInfo
+ */
++ (void)getCaseApiInfoWithCaseID:(NSString *)caseID key:(NSString *)key sus:(void(^)(id responseObject))sus fail:(void(^)(NSError *error))fail{
+    
+    NSMutableDictionary *param =  [NSMutableDictionary new];
+//    [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
     [param setValue:caseID forKey:@"caseID"];
-    [param setValue:key forKey:@"key"];
+//    [param setValue:key forKey:@"key"];
     
     
     [MultiNetworking requestGETWithApi:@"app/multiControl/getCaseApiInfo" params:param sus:^(id responseObject) {
         NSLog(@"responseObject == %@",responseObject);
+        if(sus){
+            sus(responseObject);
+        }
+
     } fail:^(NSError *error) {
         NSLog(@"error == %@",error);
+        if(fail){
+            fail(error);
+        }
     }];
     
 }

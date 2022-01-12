@@ -42,6 +42,20 @@ NS_ASSUME_NONNULL_BEGIN
                            fail:(void(^)(NSError *error))fail;
 
 
+/*
+ * 获取用例接口列表
+ */
++ (void)getCaseApiListWithCaseId:(NSString *)caseId
+                             sus:(void(^)(id responseObject))sus
+                            fail:(void(^)(NSError *error))fail;
+
+/*
+ * 获取用例接口列表
+ */
++ (void)getMultiCaseListWithCaseID:(NSString *)caseID key:(NSString *)key;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

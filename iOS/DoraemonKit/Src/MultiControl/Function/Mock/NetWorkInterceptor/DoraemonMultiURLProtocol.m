@@ -147,6 +147,9 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
     assert(self.clientThread != nil);
     assert([NSThread currentThread] == self.clientThread);
     
+    
+    //请求返回的数据是self.data
+    //response 请求  request返回
     [[DoraemonMultiNetworkInterceptor shareInstance] handleResultWithData:self.data
                                                                  response:self.response
                                                                   request:self.request
@@ -210,12 +213,16 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
             break;
         }
     }
+    //发送请求的body
     NSString *bodyString = [[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding];
-    NSLog(@"body ==  %@",bodyString);
+    NSLog(@"bodyString ==  %@",bodyString);
     
+    //返回的内容
+    NSString *requeseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"requeseString ==  %@",requeseString);
     
-    //发送请求
-    
+    //TODO 可以在这边修改内容
+  
     
     [self.data appendData:data];
     [self.client URLProtocol:self didLoadData:data];

@@ -13,6 +13,8 @@
 #import "DoraemMultiMockLogic.h"
 #import "NSArray+JSON.h"
 #import "DoraemMultiCaseListModel.h"
+#import "DoraemMultiMockManger.h"
+
 #import <Masonry/Masonry.h>
 @class DoraemonCaseListCell;
 @interface DoraemonMultiCaseListViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -81,9 +83,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    //弹窗
+    DoraemMultiCaseListModel *model = [self.loadModelArray objectAtIndex:[indexPath row]];
     
+    [DoraemMultiMockManger sharedInstance].selectCaseModel = model;
     
+    NSString *message = [NSString stringWithFormat:@"选中该测试用例%@",model.caseName];
     
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [alertController addAction:sureAction];
+    
+    [self.navigationController presentViewController:alertController animated:YES completion:nil];
     
 }
 

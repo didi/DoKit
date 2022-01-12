@@ -14,8 +14,7 @@
  *  一机多控逻辑层 单例
  */
 
-
-@interface DoraemMultiMockLogic() 
+ @interface DoraemMultiMockLogic()
 
 @end
 
@@ -128,11 +127,71 @@
 
 }
 
+/*
+ * 获取用例接口列表
+ */
++ (void)getMultiCaseListWithCaseID:(NSString *)caseID key:(NSString *)key sus:(void(^)(id responseObject))sus fail:(void(^)(NSError *error))fail {
+    
+    [DoraemonMultiNetWorkSerivce getCaseApiInfoWithCaseID:caseID key:key sus:^(id  _Nonnull responseObject) {
+        
+        // 成功处理
+        NSLog(@"responseObject === %@",responseObject);
+        
+        
+        
+    } fail:^(NSError * _Nonnull error) {
+        
+        // 失败处理
+    }];
+    
+}
+
 
 
 
 /*
- *
+ * 获取用例接口列表
+ */
++ (void)getCaseApiListWithCaseId:(NSString *)caseId
+                             sus:(void(^)(id responseObject))sus
+                            fail:(void(^)(NSError *error))fail {
+    
+    
+    [DoraemonMultiNetWorkSerivce getCaseApiListWithCaseId:caseId sus:^(id  _Nonnull responseObject) {
+        // 成功处理
+        NSLog(@"responseObject === %@",responseObject);
+        
+        
+    } fail:^(NSError * _Nonnull error) {
+        
+    }];
+
+}
+
+
+
+/*
+ * 获取用例接口列表
+ */
++ (void)getMultiCaseListWithCaseID:(NSString *)caseID key:(NSString *)key {
+    
+    [DoraemonMultiNetWorkSerivce getCaseApiInfoWithCaseID:caseID key:key sus:^(id  _Nonnull responseObject) {
+        
+        // 成功处理
+        NSLog(@"responseObject === %@",responseObject);
+        
+        
+        
+    } fail:^(NSError * _Nonnull error) {
+        
+        // 失败处理
+    }];
+    
+}
+
+
+/*
+ *  Md5 计算
  */
 + (NSString *)encodMd5:(NSString *)input {
     
@@ -140,7 +199,6 @@
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5(cStr, (CC_LONG)strlen(cStr), digest);
     NSMutableString *output =  [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
-//    NSMutableString* ret = [NSMutableString stringWithCapacity: CC_MD5_DIGEST_LENGTH];
     for (int i = 0; i <CC_MD5_DIGEST_LENGTH; i++) {
         [output appendFormat:@"%02x",digest[i]];
     }

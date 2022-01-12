@@ -6,10 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class DoraemMultiItem;
+@class DoraemMultiCaseListModel;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMultiNetWorkSerivce : NSObject
+
 
 /*
  * 获取全局配置
@@ -48,11 +50,43 @@ NS_ASSUME_NONNULL_BEGIN
                            fail:(void(^)(NSError *error))fail;
 
 /*
+ * 接口信息上传
+ * /app/multiControl/uploadApiInfo
+ */
++ (void)uploadApiInfoWithItem:(DoraemMultiItem *)item
+                          sus:(void(^)(id responseObject))sus
+                         fail:(void(^)(NSError *error))fail;
+
+
+
+/*
  * 获取测试用例列表
  * /app/multiControl/caseList
  */
 + (void)getCaseListWithSus:(void(^)(id responseObject))sus
-                      fail:(void(^)(NSError *error))fail ;
+                      fail:(void(^)(NSError *error))fail;
+
+
+/*
+ * 获取用例接口列表
+ * /app/multiControl/getCaseApiList
+ */
++ (void)getCaseApiListWithCaseId:(NSString *)caseId
+                             sus:(void(^)(id responseObject))sus
+                            fail:(void(^)(NSError *error))fail;
+
+
+/*
+ * 获取用例接口列表
+ * /app/multiControl/getCaseApiInfo
+ */
++ (void)getCaseApiInfoWithCaseID:(NSString *)caseID
+                             key:(NSString *)key
+                             sus:(void(^)(id responseObject))sus
+                            fail:(void(^)(NSError *error))fail;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -33,8 +33,11 @@ static DoraemonMultiNetworkInterceptor *instance = nil;
 }
 
 - (void)addDelegate:(id<DoraemonMultiNetworkInterceptorDelegate>) delegate {
-    [self.delegates addObject:delegate];
-    [self updateURLProtocolInterceptStatus];
+    if (![self.delegates containsObject:delegate]) {
+        [self.delegates addObject:delegate];
+        [self updateURLProtocolInterceptStatus];
+    }
+
 }
 
 - (void)removeDelegate:(id<DoraemonMultiNetworkWeakDelegate>)delegate {
