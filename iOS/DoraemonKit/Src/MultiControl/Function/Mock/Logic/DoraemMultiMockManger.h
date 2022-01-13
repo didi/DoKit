@@ -23,7 +23,7 @@
 @property (nonatomic, strong)NSString  *contentType;
 @property (nonatomic, strong)NSString  *method;
 @property (nonatomic, strong)NSString  *path;
-@property (nonatomic, strong)NSString  *query;
+@property (nonatomic, strong)NSDictionary  *query;
 
 @end
 

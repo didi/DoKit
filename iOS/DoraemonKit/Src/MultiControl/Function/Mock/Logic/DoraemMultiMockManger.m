@@ -87,6 +87,7 @@
      strRequestBody"
      */
     NSString *key = [NSString stringWithFormat:@"method=%@&path=%@&requestBody=%@ ",request.HTTPMethod,request.URL.path,requestBody];
+    NSString  *query = [request.URL query];
     
     DoraemMultiItem  *item = [DoraemMultiItem new];
     item.pId = [DoraemonManager shareInstance].pId;
@@ -97,6 +98,7 @@
     item.requestBody = requestBody;
     item.responseBody = responseBody;
     item.key = [self encodMd5:key];
+    item.query = [self excludeQuery:query];
     [[DoraemMultiMockManger sharedInstance].uploadApiArray addObject:item];
     
     [DoraemonMultiNetWorkSerivce uploadApiInfoWithItem:item sus:^(id  _Nonnull responseObject) {
@@ -106,6 +108,26 @@
     }];
 
     
+}
+
+/*
+ * 在 query 里面去除  exclude
+ */
+- (NSDictionary *)excludeQuery:(NSString *)query {
+    NSMutableDictionary * queryDict = [NSMutableDictionary new];
+    
+    NSArray *queryArray = [query componentsSeparatedByString:@"&"];
+    for (NSString *queryItem in queryArray) {
+        
+        NSArray*array =  [queryItem componentsSeparatedByString:@"="];
+        NSString *key = [array firstObject];
+        NSString *vaule = [array lastObject];
+        if (![[DoraemMultiMockManger sharedInstance].excludeArray containsObject:key] ) {
+            [queryDict setValue:vaule forKey:key];
+        }
+        
+    }
+    return queryDict;
 }
 
 
