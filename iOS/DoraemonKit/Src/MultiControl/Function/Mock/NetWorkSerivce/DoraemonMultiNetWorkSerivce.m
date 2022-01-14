@@ -37,7 +37,7 @@
     NSString *url = @"http://www.dokit.cn/";
     url = [NSString stringWithFormat:@"%@%@",url, api];
     
-    [manager POST:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (sus) {
             sus(responseObject);
         }
@@ -46,6 +46,16 @@
             fail(error);
         }
     }];
+    
+//    [manager POST:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        if (sus) {
+//            sus(responseObject);
+//        }
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (fail) {
+//            fail(error);
+//        }
+//    }];
     
 }
 
@@ -65,9 +75,9 @@
     }
     NSString *url = @"http://www.dokit.cn/";
     url = [NSString stringWithFormat:@"%@%@",url, api];
+
     
-    
-    [manager GET:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (sus) {
             sus(responseObject);
         }
@@ -76,6 +86,17 @@
             fail(error);
         }
     }];
+    
+    
+//    [manager GET:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        if (sus) {
+//            sus(responseObject);
+//        }
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (fail) {
+//            fail(error);
+//        }
+//    }];
     
 }
  
@@ -158,6 +179,10 @@
     [param setValue:item.requestBody forKey:@"requestBody"];
     [param setValue:item.responseBody forKey:@"responseBody"];
     [param setValue:item.query forKey:@"query"];
+    [param setValue:item.originKey forKey:@"originKey"];
+    [param setValue:item.fragment forKey:@"fragment"];
+    
+    
     
     [MultiNetworking requestPostWithApi:@"app/multiControl/uploadApiInfo" params:param sus:^(id responseObject) {
         NSLog(@"responseObject == %@",responseObject);

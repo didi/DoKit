@@ -10,6 +10,7 @@
 #import "DoraemonManager.h"
 #import<CommonCrypto/CommonDigest.h>
 #import "DoraemonMultiNetWorkSerivce.h"
+#import "DoraemonUrlUtil.h"
 // 单例
 
 
@@ -61,7 +62,7 @@
     
     //收集所有的数据
     NSString *responseBody = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-
+    
     uint8_t sub[1024] = {0};
     NSInputStream *inputStream = request.HTTPBodyStream;
     NSMutableData *body = [[NSMutableData alloc] init];
@@ -75,18 +76,9 @@
         }
     }
     //发送请求的body
-    NSString *requestBody = [[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding];
-    
-    /*
-     val k = "method=method&path=
-     method&path=
-     path&fragment=fragment&query=
-     fragment&query=
-     strQuery&contentType=requestContentType&requestBody=
-     requestContentType&requestBody=
-     strRequestBody"
-     */
-    NSString *key = [NSString stringWithFormat:@"method=%@&path=%@&requestBody=%@ ",request.HTTPMethod,request.URL.path,requestBody];
+    NSDictionary *requestBody = [DoraemonUrlUtil convertDicFromData:body];
+
+
     NSString  *query = [request.URL query];
     
     DoraemMultiItem  *item = [DoraemMultiItem new];
@@ -95,10 +87,13 @@
     item.contentType = [NSString stringWithFormat:@"%@;%@",response.MIMEType,response.textEncodingName];
     item.method = request.HTTPMethod;
     item.path = [request.URL path];
-    item.requestBody = requestBody;
+    item.fragment = [request.URL fragment];
     item.responseBody = responseBody;
-    item.key = [self encodMd5:key];
+    item.requestBody = requestBody;
     item.query = [self excludeQuery:query];
+    
+    item.originKey = [NSString stringWithFormat:@"method=%@&path=%@&fragment=%@&query=%@&contentType=%@&requestBody=%@ ",request.HTTPMethod,request.URL.path,item.fragment,item.query,item.contentType,requestBody];
+    item.key = [self encodMd5:item.originKey];
     [[DoraemMultiMockManger sharedInstance].uploadApiArray addObject:item];
     
     [DoraemonMultiNetWorkSerivce uploadApiInfoWithItem:item sus:^(id  _Nonnull responseObject) {

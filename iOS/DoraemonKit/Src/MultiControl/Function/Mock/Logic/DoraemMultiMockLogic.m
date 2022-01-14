@@ -10,6 +10,7 @@
 #import "DoraemMultiMockManger.h"
 #import "DoraemonMultiNetworkInterceptor.h"
 #import<CommonCrypto/CommonDigest.h>
+
 /*
  *  一机多控逻辑层 单例
  */
@@ -48,6 +49,7 @@
         NSDictionary *dict = (NSDictionary *)responseObject[@"data"];
         NSDictionary * multiControl = [dict objectForKey:@"multiControl"];
         [DoraemMultiMockManger sharedInstance].excludeArray = [multiControl objectForKey:@"exclude"];
+        
     } fail:^(NSError * _Nonnull error) {
 
     }];
@@ -65,8 +67,11 @@
         [DoraemMultiMockManger sharedInstance].caseId = [dict objectForKey:@"caseId"];
         NSLog(@"[DoraemMultiMockManger sharedInstance].caseId = %@",[DoraemMultiMockManger sharedInstance].caseId);
         
-        //开始录制 更新界面的提示的情况
-        // add windows 上面的
+        if ([DoraemMultiMockManger sharedInstance].caseId == nil || [DoraemMultiMockManger sharedInstance].caseId.length == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"caseId为空的？" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+            [alert show];
+        }
         
     } fail:^(NSError * _Nonnull error) {
         
