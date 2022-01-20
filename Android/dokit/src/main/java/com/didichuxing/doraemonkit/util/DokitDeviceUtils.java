@@ -32,17 +32,12 @@ import java.util.regex.Pattern;
 
 public class DokitDeviceUtils {
     private static final String TAG = "DeviceUtils";
-    private static final String PREF_DEVICE = "com.kuaidi.daijia.driver.device_pref";
-    private static final String KEY_UUID = "key_uuid";
     private static final String BRAND_HUAWEI = "huawei";
     private static final String BRAND_HONOR = "honor";
     private static final String BRAND_SAMSUNG = "samsung";
     private static final String BRAND_XIAOMI = "xiaomi";
     private static final String BRAND_HONGMI = "hongmi";
 
-    private static String IMEI = "";
-    private static String IMSI = "";
-    private static String PHONE_NUMBER = null;
     private static Boolean ROOTED = null;
 
     /**
