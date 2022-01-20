@@ -8,9 +8,7 @@ import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.mc.all.ui.BorderDoKitView
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McDialogDoKitView
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
-import com.didichuxing.doraemonkit.util.ActivityUtils
-import com.didichuxing.doraemonkit.util.DoKitImageUtil
-import com.didichuxing.doraemonkit.util.ScreenUtils
+import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -91,9 +89,12 @@ class ClientSyncFailedImpl : OnClientSyncFailedListener {
 
 
     private fun showFailDialog(exception: String) {
-        val bundle = Bundle()
-        bundle.putString("text", exception)
-        DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
+//        val bundle = Bundle()
+//        bundle.putString("text", exception)
+//        DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
+
+        LogHelper.e("ERROR","showFailDialog() text=$exception")
+        ToastUtils.showShort(exception)
     }
 
 }

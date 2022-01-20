@@ -33,12 +33,14 @@ object DoKitWsServer {
         embeddedServer(CIO, port = DoKitManager.MC_WS_PORT, module = WSRouter)
     }
     //val engine
+    var shotDown:Boolean = true
 
     fun start(callBack: () -> Unit) {
         try {
             server.start()
             DoKitManager.WS_MODE = WSMode.HOST
             callBack()
+            shotDown = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -47,6 +49,7 @@ object DoKitWsServer {
 
     suspend fun stop(callBack: () -> Unit) {
         try {
+            shotDown = true
             send(WSEvent(WSMode.HOST, WSEType.WSE_HOST_CLOSE))
             delay(1000)
             wsSessionMaps.forEach {
@@ -72,5 +75,9 @@ object DoKitWsServer {
                 }
             }
         }
+    }
+
+    fun shotDown(): Boolean {
+        return shotDown
     }
 }

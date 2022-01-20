@@ -112,18 +112,19 @@ object DoKitWsClient {
                                     WSEventProcessor.process(wsEvent)
                                 } catch (e: Exception) {
                                     e.printStackTrace()
+                                    LogHelper.e(TAG, "client handle error===>${e.message}")
                                 }
 
                             }
                             else -> {
-
+                                LogHelper.e(TAG, "client type error===>${it}")
                             }
                         }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                //LogHelper.i(TAG, "client connect error===>${e.message}")
+                LogHelper.e(TAG, "client connect error===>${e.message}")
                 callBack(CONNECT_FAIL, e.message)
 
             }
@@ -159,6 +160,10 @@ object DoKitWsClient {
                 }
             }
         }
+    }
+
+    fun session(): DefaultClientWebSocketSession? {
+        return clientWebSocketSession;
     }
 
 

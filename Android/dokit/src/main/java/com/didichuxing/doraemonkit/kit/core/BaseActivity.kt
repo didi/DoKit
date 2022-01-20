@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.core
 
 import android.R
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
@@ -14,22 +15,41 @@ abstract class BaseActivity : AppCompatActivity() {
     @JvmOverloads
     fun showContent(target: Class<out BaseFragment>, bundle: Bundle? = null) {
         try {
-
             val fragment = target.newInstance()
             if (bundle != null) {
                 fragment.arguments = bundle
             }
-            val fm = supportFragmentManager
-            val fragmentTransaction = fm.beginTransaction()
-            fragmentTransaction.add(R.id.content, fragment)
-            mFragments.push(fragment)
-            fragmentTransaction.addToBackStack("")
-            fragmentTransaction.commit()
+            showContent(R.id.content, fragment)
         } catch (e: InstantiationException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
+    }
+
+    @JvmOverloads
+    fun showContent(@IdRes contentId: Int, fragment: BaseFragment) {
+        try {
+            val fm = supportFragmentManager
+            val fragmentTransaction = fm.beginTransaction()
+            fragmentTransaction.add(contentId, fragment)
+            mFragments.push(fragment)
+            fragmentTransaction.addToBackStack("")
+            fragmentTransaction.commitAllowingStateLoss()
+        } catch (e: InstantiationException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+    }
+
+    @JvmOverloads
+    fun replaceContent(@IdRes contentId: Int, fragment: BaseFragment) {
+        mFragments.clear()
+        mFragments.push(fragment)
+        supportFragmentManager.beginTransaction()
+            .replace(contentId, fragment)
+            .commitNowAllowingStateLoss()
     }
 
     override fun onBackPressed() {
