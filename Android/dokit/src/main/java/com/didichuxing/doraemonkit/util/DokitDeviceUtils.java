@@ -16,12 +16,14 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.webkit.WebView;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -30,17 +32,12 @@ import java.util.regex.Pattern;
 
 public class DokitDeviceUtils {
     private static final String TAG = "DeviceUtils";
-    private static final String PREF_DEVICE = "com.kuaidi.daijia.driver.device_pref";
-    private static final String KEY_UUID = "key_uuid";
     private static final String BRAND_HUAWEI = "huawei";
     private static final String BRAND_HONOR = "honor";
     private static final String BRAND_SAMSUNG = "samsung";
     private static final String BRAND_XIAOMI = "xiaomi";
     private static final String BRAND_HONGMI = "hongmi";
 
-    private static String IMEI = "";
-    private static String IMSI = "";
-    private static String PHONE_NUMBER = null;
     private static Boolean ROOTED = null;
 
     /**
@@ -410,6 +407,18 @@ public class DokitDeviceUtils {
             return free + "/" + total;
         } catch (Exception e) {
             return "-/-";
+        }
+    }
+
+    public static String getWebViewChromeVersion(Context context) {
+        WebView webView = new WebView(context);
+        String userAgentString = webView.getSettings().getUserAgentString();
+        webView.destroy();
+        List<String> matches = RegexUtils.getMatches("(?<=Chrome/)[.0-9]* (?=Mobile)", userAgentString);
+        if (matches.isEmpty()) {
+            return null;
+        } else {
+            return matches.get(0);
         }
     }
 }
