@@ -414,7 +414,7 @@ public class DokitDeviceUtils {
         WebView webView = new WebView(context);
         String userAgentString = webView.getSettings().getUserAgentString();
         webView.destroy();
-        List<String> matches = RegexUtils.getMatches("(?<=Chrome/)[.0-9]* (?=Mobile)", userAgentString);
+        List<String> matches = RegexUtils.getMatches("(?<=Chrome/)[.0-9]*(?= Mobile)", userAgentString);
         if (matches.isEmpty()) {
             return null;
         } else {
