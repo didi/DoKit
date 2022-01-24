@@ -5,12 +5,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.TextView
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.mc.util.McPageUtils
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ConvertUtils
-import com.didichuxing.doraemonkit.util.ToastUtils
 
 /**
  * ================================================
@@ -27,13 +27,13 @@ class HostDokitView : AbsDokitView() {
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
         val view = LayoutInflater.from(context).inflate(R.layout.dk_dokitview_host, rootView, false)
-//        view.findViewById<TextView>(R.id.tv_name).setOnClickListener {
-//            ToastUtils.showShort("点击主机")
-//        }
         return view
     }
 
     override fun onViewCreated(rootView: FrameLayout?) {
+        rootView?.setOnClickListener {
+            McPageUtils.startFragment(WSMode.HOST)
+        }
     }
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {

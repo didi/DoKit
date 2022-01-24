@@ -34,4 +34,11 @@
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="..." />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dk_dp_10"
+        android:src="@mipmap/dk_close_icon" />
 </LinearLayout>

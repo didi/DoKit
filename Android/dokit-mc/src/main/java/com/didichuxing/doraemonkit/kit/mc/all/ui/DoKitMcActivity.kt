@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
+import android.text.TextUtils
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
@@ -27,7 +28,15 @@ class DoKitMcActivity : BaseActivity() {
             onBackPressed()
         }
 
-        newHomeFragment()
+        val mode: String? = intent?.getStringExtra("WS_MODE_ORDINAL")
+        if (TextUtils.isEmpty(mode)) {
+            newHomeFragment()
+        } else {
+            mode?.let {
+                val vs: WSMode = WSMode.valueOf(it)
+                changeFragment(vs)
+            }
+        }
     }
 
     fun newHomeFragment() {

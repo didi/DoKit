@@ -6,13 +6,20 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
+import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.SPUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -69,6 +76,15 @@ class RecordingDokitView : AbsDokitView() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             activity.startActivity(intent)
         }
+        rootView?.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
+            //TODO 需要补充取消录制接口
+            DoKit.removeFloating(RecordingDokitView::class)
+            SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
+            DoKitManager.WS_MODE = WSMode.UNKNOW
+            DoKitMcManager.IS_MC_RECODING = false
+            ToastUtils.showShort("用例取消录制")
+        }
+
         mRedDot = findViewById(R.id.red_dot)
         mExtend = findViewById(R.id.tv_extend)
         doKitViewScope.launch {

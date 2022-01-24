@@ -154,7 +154,9 @@ object McHttpManager {
 
             val dataJson = json.optJSONObject("data")
             val type = GsonUtils.getType(T::class.java)
-            mcInfo.data = GsonUtils.fromJson(dataJson.toString(), type)
+            if (dataJson != null){
+                mcInfo.data = GsonUtils.fromJson(dataJson.toString(), type)
+            }
             mcInfo
         } catch (e: Exception) {
             McResInfo(
