@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
 import com.didichuxing.doraemonkit.kit.mc.util.McHookUtil
+import de.robv.android.xposed.DexposedBridge
 import de.robv.android.xposed.XposedHelpers
 
 /**
@@ -44,7 +45,7 @@ object DoKitWindowManager {
             }
 
             //绕过无障碍的权限
-            XposedHelpers.findAndHookMethod(
+            DexposedBridge.findAndHookMethod(
                 AccessibilityManager::class.java,
                 "isEnabled",
                 AccessibilityGetInstanceMethodHook()
@@ -61,7 +62,7 @@ object DoKitWindowManager {
 //                View_onInitializeAccessibilityEventHook()
 //            )
 
-            XposedHelpers.findAndHookMethod(
+            DexposedBridge.findAndHookMethod(
                 View::class.java,
                 "onInitializeAccessibilityEvent",
                 AccessibilityEvent::class.java,

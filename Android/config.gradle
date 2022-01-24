@@ -9,11 +9,12 @@ ext {
         run_type     : 0,
         //0:外部公共环境
         //1:内部私有环境，使用私有仓库构建，仓库地址在 local.properties 中添加 PRIVATE_REPOSITORY_URL
-        run_env      : 0,
+        run_env      : 1,
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : false,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.6.0'
+        version      : '3.5.3.112'
+
     ]
 
     android = [compileSdkVersion             : 29,
@@ -157,9 +158,10 @@ ext {
                     "flexbox"                       : 'com.google.android:flexbox:1.0.0',
                     "auto_service"                  : 'com.google.auto.service:auto-service:1.0',
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
-                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.0',
-                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.0',
-                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.0',
+                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.1',
+                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.1',
+                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.1',
+                    "epic"                          : 'me.weishu:epic:0.11.1',
 
     ]
     //定义全局方法

@@ -2,13 +2,11 @@ package com.didichuxing.doraemonkit.kit.mc.all
 
 import android.app.Activity
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.client.ClientSyncFailedImpl
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
@@ -59,6 +57,8 @@ object DoKitMcManager {
     var HOST_INFO: HostInfo? = null
 
     var MC_CASE_ID: String = ""
+
+    var mcNetMockInterceptor: McNetMockInterceptor? = null
 
     /**
      * 发送自定义事件

@@ -17,15 +17,12 @@ class AccessibilityGetInstanceMethodHook : XC_MethodHook() {
     }
 
     override fun afterHookedMethod(param: MethodHookParam?) {
-        param?.let {
-            if (it.result != null && it.result is Boolean) {
-                if (!(it.result as Boolean)) {
-                    it.result = true
-                }
+        if (param != null) {
+            if (param.result != null && param.result is Boolean) {
+                param.result = true
             }
         }
         super.afterHookedMethod(param)
-
     }
 
 

@@ -6,8 +6,10 @@ import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.sortedByKey
 import com.didichuxing.doraemonkit.extension.toMap
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.all.McNetMockInterceptor
 import com.didichuxing.doraemonkit.kit.mc.data.HttpMatchedInfo
 import com.didichuxing.doraemonkit.kit.mc.data.HttpUploadInfo
+import com.didichuxing.doraemonkit.kit.mc.data.McMockKey
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
@@ -84,8 +86,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
 //            LogHelper.i(TAG, "========业务接口 Start url:$url ========")
 //            LogHelper.json(TAG, strResponseBody)
 //            LogHelper.i(TAG, "========业务接口 End url:$url ========")
-            val k =
-                "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
+            val k = "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
             LogHelper.i(TAG, "originKey===>$k")
             val key = ByteString.encodeUtf8(k).md5().hex()
             when (DoKitManager.WS_MODE) {
@@ -119,7 +120,14 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                         //将挂起函数转为阻塞调用 等待协程返回值
                         return runBlocking(mExceptionHandler) {
                             try {
-                                val result = McHttpManager.httpMatch<HttpMatchedInfo>(key)
+                                var result = McHttpManager.httpMatch<HttpMatchedInfo>(key)
+
+                                val interceptor: McNetMockInterceptor? = DoKitMcManager.mcNetMockInterceptor
+                                if (interceptor != null) {
+                                    result = interceptor.intercept(McMockKey(key,k,strQuery,strRequestBody), result)
+
+                                }
+                                LogHelper.i(TAG, "MCMCOKLOG OK key=$key,code=${result.code} originKey===>$k data=${result.data}")
                                 if (result.code == McHttpManager.RESPONSE_OK && result.data != null) {
                                     val responseBody =
                                         ResponseBody.create(
@@ -135,10 +143,11 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                                         .body(responseBody)
                                         .build()
                                 } else {
+                                    LogHelper.i(TAG, "MCMCOKLOG  key=$key,code=${result.code} originKey===>$k data=${result.data}")
                                     return@runBlocking response
                                 }
                             } catch (e: Exception) {
-                                LogHelper.e(TAG, "e===>${e.message}")
+                                LogHelper.e(TAG, "IXP:mock error2 all url:$url,msg=${e.message}")
                                 return@runBlocking response
                             }
 
@@ -146,10 +155,10 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                     }
                 }
                 else -> {
+                    LogHelper.e(TAG, "MCMCOKLOG: mock error3 all url:$url")
                     return response
                 }
             }
-
             return response
         } catch (e: Exception) {
             return response
