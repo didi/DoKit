@@ -15,7 +15,7 @@
  */
 
 #import "UIView+EventSynthesize.h"
-#import "UITouch+DKEventSynthesize.h"
+#import <DoraemonKit/UITouch+DKEventSynthesize.h>
 
 @implementation UIView (EventSynthesize)
 
