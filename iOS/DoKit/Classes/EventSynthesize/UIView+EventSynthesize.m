@@ -261,4 +261,18 @@ static const CGFloat kTwoFingerConstantWidth = 40;
     [UIApplication.sharedApplication sendEvent:event];
 }
 
+- (void)dk_rotateWithRadian:(CGFloat)radian {
+    CGPoint centerPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    // estimate the first finger to be on the left
+    CGPoint finger1Start = CGPointMake(centerPoint.x - kTwoFingerConstantWidth, centerPoint.y);
+    CGPoint finger1End = CGPointMake(centerPoint.x - kTwoFingerConstantWidth * cos(radian), centerPoint.y - kTwoFingerConstantWidth * sin(radian));
+    
+    // estimate the second finger to be on the right
+    CGPoint finger2Start = CGPointMake(centerPoint.x + kTwoFingerConstantWidth, centerPoint.y);
+    CGPoint finger2End = CGPointMake(centerPoint.x + kTwoFingerConstantWidth * cos(radian), centerPoint.y + kTwoFingerConstantWidth * sin(radian));
+
+    [self dk_dragWithPointEventArray:@[@[[NSValue valueWithCGPoint:finger1Start], [NSValue valueWithCGPoint:finger2Start]],
+            @[[NSValue valueWithCGPoint:finger1End], [NSValue valueWithCGPoint:finger2End]]]];
+}
+
 @end

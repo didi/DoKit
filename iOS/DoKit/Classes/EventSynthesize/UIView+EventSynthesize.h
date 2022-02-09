@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dk_swipeWithDirection:(UISwipeGestureRecognizerDirection)swipeGestureRecognizerDirection;
 
+- (void)dk_rotateWithRadian:(CGFloat)radian;
+
 @end
 
 NS_ASSUME_NONNULL_END
