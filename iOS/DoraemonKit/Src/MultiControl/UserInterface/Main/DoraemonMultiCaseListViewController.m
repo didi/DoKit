@@ -86,13 +86,18 @@
     //弹窗
     DoraemMultiCaseListModel *model = [self.loadModelArray objectAtIndex:[indexPath row]];
     
-    [DoraemMultiMockManger sharedInstance].selectCaseModel = model;
+//    [DoraemMultiMockManger sharedInstance].selectCaseModel = model;
     
     NSString *message = [NSString stringWithFormat:@"选中该测试用例%@",model.caseName];
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popViewControllerAnimated:YES];
+        // 打开拦截器
+        // 不对请求拦截，只对请求返回修改
+        [DoraemMultiMockManger sharedInstance].selectCaseModel = model;
+        [DoraemMultiMockManger sharedInstance].selectCaseId = model.caseId;
+        [DoraemMultiMockLogic openMultiResponseModifiy];
     }];
     [alertController addAction:sureAction];
     

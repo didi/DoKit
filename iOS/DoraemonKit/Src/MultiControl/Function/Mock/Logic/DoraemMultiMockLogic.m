@@ -22,9 +22,31 @@
 @implementation DoraemMultiMockLogic
 
 /*
+ * 关闭网络修改mock
+ */
++ (void)closeMultiResponseModifiy{
+    [DoraemMultiMockManger sharedInstance].isResponseModifiy = NO;
+    [DoraemonMultiNetworkInterceptor shareInstance].shouldIntercept = NO;
+    [[DoraemonMultiNetworkInterceptor shareInstance] removeDelegate:[DoraemMultiMockManger sharedInstance]];
+}
+
+
+/*
+ * 打开网络修改mock
+ */
++ (void)openMultiResponseModifiy{
+    [self closeMultiWorkINterceptor];
+    [DoraemMultiMockManger sharedInstance].isResponseModifiy = YES;
+    [DoraemonMultiNetworkInterceptor shareInstance].shouldIntercept = YES;
+    [[DoraemonMultiNetworkInterceptor shareInstance] addDelegate:[DoraemMultiMockManger sharedInstance]];
+}
+
+/*
  * 打开网络mock
  */
 + (void)openMultiWorkINterceptor {
+    [self closeMultiResponseModifiy];
+    [DoraemMultiMockManger sharedInstance].isResponseModifiy = NO;
     [DoraemonMultiNetworkInterceptor shareInstance].shouldIntercept = YES;
     [[DoraemonMultiNetworkInterceptor shareInstance] addDelegate:[DoraemMultiMockManger sharedInstance]];
 }
@@ -33,7 +55,7 @@
  * 关闭网络mock
  */
 + (void)closeMultiWorkINterceptor {
-    
+    [DoraemonMultiNetworkInterceptor shareInstance].shouldIntercept = NO;
     [[DoraemonMultiNetworkInterceptor shareInstance] removeDelegate:[DoraemMultiMockManger sharedInstance]];
 }
 

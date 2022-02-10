@@ -93,4 +93,28 @@ static DoraemonMultiNetworkInterceptor *instance = nil;
     });
 }
 
+
+//重新去请求 dokit
+- (void)handleResultWithRequest: (NSURLRequest *)request
+                       response: (NSURLResponse *)response
+                            sus:(void(^)(id  _Nonnull responseObject))sus
+                           fail:(void(^)(NSError *error))fail
+                       
+{
+
+    for (id<DoraemonMultiNetworkInterceptorDelegate> delegate in self.delegates) {
+        [delegate doraemonNetworkResponseModifiyRequest:request response:response sus:^(id  _Nonnull responseObject){
+            if(sus){
+                sus(responseObject);
+            }
+        } fail:^(NSError * _Nonnull error){
+            if(fail){
+                fail(error);
+            }
+        }];
+        
+    }
+}
+
+
 @end

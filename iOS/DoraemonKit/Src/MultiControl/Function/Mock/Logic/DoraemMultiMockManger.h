@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *caseId;
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) DoraemMultiCaseListModel  *selectCaseModel;
-
+@property (nonatomic, strong) NSString *selectCaseId;
+@property (nonatomic, assign) BOOL isResponseModifiy; //是否修改返回数据
 
 + (DoraemMultiMockManger *)sharedInstance;
 

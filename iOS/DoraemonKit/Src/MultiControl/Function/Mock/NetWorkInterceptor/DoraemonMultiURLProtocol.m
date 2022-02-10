@@ -8,6 +8,7 @@
 #import "DoraemonMultiURLProtocol.h"
 #import "DoraemonMultiNetworkInterceptor.h"
 #import "DoraemonMultiURLSession.h"
+#import "DoraemMultiMockManger.h"
 //NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_key";
@@ -18,6 +19,7 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, strong) NSURLResponse *response;
 @property (nonatomic, strong) NSMutableData *data;
+@property (nonatomic, strong) NSMutableData *mockData;
 @property (nonatomic, strong) NSError *error;
 
 @property (atomic, strong, readwrite) NSThread *clientThread;
@@ -58,6 +60,10 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
         return NO;
     }
     
+    if([request.URL.host isEqualToString:@"www.dokit.cn"]) {
+        return NO;
+    }
+    
     if (![request.URL.scheme isEqualToString:@"http"] &&
         ![request.URL.scheme isEqualToString:@"https"]) {
         return NO;
@@ -92,6 +98,43 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
  */
 - (void)startLoading {
     
+    if ([DoraemMultiMockManger sharedInstance].isResponseModifiy) {
+        //去dokit 服务端 去请求数据
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
+        
+        [[DoraemonMultiNetworkInterceptor shareInstance]handleResultWithRequest:[self request]
+                                         response: nil sus:^(id  responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *dataDict = [responseObject objectForKey:@"data"];
+                if ([dataDict isKindOfClass:[NSDictionary class]]) {
+                    NSString * responseBody = [dataDict objectForKey:@"responseBody"];
+                    if(responseBody && responseBody.length > 0) {
+                        self.mockData = [responseBody dataUsingEncoding:NSUTF8StringEncoding];
+                    }else {
+                        self.mockData  = nil;
+                    }
+                }else {
+                    self.mockData  = nil;
+                }
+            }else{
+                self.mockData  = nil;
+            }
+            
+            dispatch_semaphore_signal(semaphore);
+            
+        } fail:^(NSError * _Nonnull error) {
+            self.mockData  = nil;
+            dispatch_semaphore_signal(semaphore);
+        }];
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    }else {
+        self.mockData =  nil;
+    }
+    
     NSMutableURLRequest *   mutableRequest;
     NSMutableArray *        calculatedModes;
     NSString *              currentMode;
@@ -116,24 +159,8 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
     self.data = [NSMutableData data];
     self.startTime = [[NSDate date]timeIntervalSince1970];
     
-    //打印 请求体
-    uint8_t sub[1024] = {0};
-    NSInputStream *inputStream = mutableRequest.HTTPBodyStream;
-    NSMutableData *body = [[NSMutableData alloc] init];
-    [inputStream open];
-    while ([inputStream hasBytesAvailable]) {
-        NSInteger len = [inputStream read:sub maxLength:1024];
-        if (len > 0 && inputStream.streamError == nil) {
-            [body appendBytes:(void *)sub length:len];
-        }else{
-            break;
-        }
-    }
-    NSString *bodyString = [[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding];
-    NSLog(@"body ==  %@",bodyString);
-    
-    //把这个请求获取它的key
     self.task = [[[self class] shareSession] dataTaskWithRequest:mutableRequest delegate:self modes:self.modes];
+   
     assert(self.task != nil);
     [self.task resume];
     
@@ -150,11 +177,22 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
     
     //请求返回的数据是self.data
     //response 请求  request返回
-    [[DoraemonMultiNetworkInterceptor shareInstance] handleResultWithData:self.data
-                                                                 response:self.response
-                                                                  request:self.request
-                                                                    error:self.error
-                                                                startTime:self.startTime];
+    if ([DoraemMultiMockManger sharedInstance].isResponseModifiy) {
+        //重新请求
+        
+        
+
+    }else{
+        
+        [[DoraemonMultiNetworkInterceptor shareInstance] handleResultWithData:self.data
+                                                                     response:self.response
+                                                                      request:self.request
+                                                                        error:self.error
+                                                                    startTime:self.startTime];
+        
+        
+        
+    }
     
     if (self.task != nil) {
         [self.task cancel];
@@ -200,32 +238,25 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
             [[DoraemonMultiNetworkInterceptor shareInstance].weakDelegate handleWeak:data isDown:YES];
         }
     }
-    DoraemonMultiURLSessionTaskInfo * sessionTaskInfo = [[[self class] shareSession]taskInfoForTask:dataTask];
-    uint8_t sub[1024] = {0};
-    NSInputStream *inputStream = sessionTaskInfo.request.HTTPBodyStream;
-    NSMutableData *body = [[NSMutableData alloc] init];
-    [inputStream open];
-    while ([inputStream hasBytesAvailable]) {
-        NSInteger len = [inputStream read:sub maxLength:1024];
-        if (len > 0 && inputStream.streamError == nil) {
-            [body appendBytes:(void *)sub length:len];
+
+    
+    if ([DoraemMultiMockManger sharedInstance].isResponseModifiy) {
+        if(self.mockData && self.mockData.length > 5){
+            [self.data appendData:self.mockData];
+            [self.client URLProtocol:self didLoadData:self.mockData];
         }else{
-            break;
+            [self.data appendData:data];
+            [self.client URLProtocol:self didLoadData:data];
         }
+        
+    }else{
+        [self.data appendData:data];
+        [self.client URLProtocol:self didLoadData:data];
     }
-    //发送请求的body
-    NSString *bodyString = [[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding];
-    NSLog(@"bodyString ==  %@",bodyString);
-    
-    //返回的内容
-    NSString *requeseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"requeseString ==  %@",requeseString);
-    
-    //TODO 可以在这边修改内容
-  
-    
-    [self.data appendData:data];
-    [self.client URLProtocol:self didLoadData:data];
+
+    return;
+
+
 }
 
 

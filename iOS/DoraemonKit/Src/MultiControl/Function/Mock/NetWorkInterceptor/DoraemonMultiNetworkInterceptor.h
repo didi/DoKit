@@ -19,6 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
                                          request:(NSURLRequest *)request
                                            error:(NSError *)error
                                        startTime:(NSTimeInterval)startTime;
+
+
+- (void)doraemonNetworkResponseModifiyRequest:(NSURLRequest *)request
+                                     response:(NSURLResponse *)response
+                                          sus:(void(^)(id  _Nonnull responseObject))sus
+                                         fail:(void(^)(NSError *error))fail;
+
 @end
 
 // 网络比较差的协议
@@ -64,6 +71,11 @@ typedef NS_ENUM(NSUInteger, DoraemonMultiWeakNetType) {
                      request: (NSURLRequest *)request
                        error: (NSError *)error
                    startTime: (NSTimeInterval)startTime;
+
+- (void)handleResultWithRequest: (NSURLRequest *)request
+                       response: (NSURLResponse *)response
+                            sus:(void(^)(id  _Nonnull responseObject))sus
+                           fail:(void(^)(NSError *error))fail;
 @end
 
 NS_ASSUME_NONNULL_END

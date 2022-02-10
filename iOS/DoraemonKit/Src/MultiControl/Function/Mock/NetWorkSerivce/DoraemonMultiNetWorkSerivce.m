@@ -314,10 +314,9 @@
 + (void)getCaseApiInfoWithCaseID:(NSString *)caseID key:(NSString *)key sus:(void(^)(id responseObject))sus fail:(void(^)(NSError *error))fail{
     
     NSMutableDictionary *param =  [NSMutableDictionary new];
-//    [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
-    [param setValue:caseID forKey:@"caseID"];
-//    [param setValue:key forKey:@"key"];
-    
+    [param setValue:[DoraemonManager shareInstance].pId forKey:@"pId"];
+    [param setValue:caseID forKey:@"caseId"];
+    [param setValue:key forKey:@"key"];
     
     [MultiNetworking requestGETWithApi:@"app/multiControl/getCaseApiInfo" params:param sus:^(id responseObject) {
         NSLog(@"responseObject == %@",responseObject);
@@ -332,8 +331,9 @@
         }
     }];
     
-}
+    return;
 
+}
 
 
 @end

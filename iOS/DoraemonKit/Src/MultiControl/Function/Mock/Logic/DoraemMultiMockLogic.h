@@ -11,6 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemMultiMockLogic : NSObject
 
+
+
+/*
+ * 关闭网络修改mock
+ */
++ (void)closeMultiResponseModifiy;
+/*
+ * 返回网络修改的
+ */
++ (void)openMultiResponseModifiy;
 /*
  * 打开网络mock
  */
