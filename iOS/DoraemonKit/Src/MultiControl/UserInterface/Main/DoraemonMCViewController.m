@@ -13,6 +13,10 @@
 #import "DoraemonAppInfoUtil.h"
 #import "DoraemonManager.h"
 #import "UIColor+Doraemon.h"
+#import "DoraemonMultiNetWorkSerivce.h"
+#import "DoraemMultiMockLogic.h"
+#import "DoraemonMultiCaseListViewController.h"
+#import <AFNetworking/AFNetworking.h>
 @interface DoraemonMCViewController ()<DoraemonQRScanDelegate>
 
 
@@ -24,6 +28,14 @@
 
 /// 从机按钮
 @property (nonatomic , strong) UIButton *assisDeviceBtn;
+/// 用例采集
+@property (nonatomic , strong) UIButton *caseCollectionBtn;
+/// 用例上传
+@property (nonatomic , strong) UIButton *caseUpLoadBtn;
+/// 用例列表
+@property (nonatomic , strong) UIButton *caseListBtn;
+
+
 
 @property (nonatomic , strong) UILabel *asssisTip;
 
@@ -59,6 +71,8 @@
     [super viewDidLoad];
     [self refreshUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:DoraemonMCClientStatusChanged object:nil];
+    //请求 获取全局配置
+    [DoraemMultiMockLogic multiControlGetConfigRequest];
 
 }
 
@@ -161,6 +175,52 @@
     return _assisDeviceBtn;
 }
 
+- (UIButton *)caseCollectionBtn {
+    if (!_caseCollectionBtn) {
+        _caseCollectionBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.assisDeviceBtn.frame) + 30, 100, 30)];
+        _caseCollectionBtn.clipsToBounds = YES;
+        _caseCollectionBtn.layer.cornerRadius = 5 ;
+        _caseCollectionBtn.backgroundColor = [UIColor doraemon_blue];
+        [_caseCollectionBtn setTitle:@"用例采集" forState:UIControlStateNormal];
+        [_caseCollectionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _caseCollectionBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_caseCollectionBtn];
+        [_caseCollectionBtn addTarget:self action:@selector(startRecordBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _caseCollectionBtn;
+}
+
+- (UIButton *)caseUpLoadBtn {
+    if (!_caseUpLoadBtn) {
+        _caseUpLoadBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.caseCollectionBtn.frame) + 30, 100, 30)];
+        _caseUpLoadBtn.clipsToBounds = YES;
+        _caseUpLoadBtn.layer.cornerRadius = 5 ;
+        _caseUpLoadBtn.backgroundColor = [UIColor doraemon_blue];
+        [_caseUpLoadBtn setTitle:@"用例上传" forState:UIControlStateNormal];
+        [_caseUpLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _caseUpLoadBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_caseUpLoadBtn];
+        [_caseUpLoadBtn addTarget:self action:@selector(caseUpLoadBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _caseUpLoadBtn;
+}
+
+
+- (UIButton *)caseListBtn {
+    if (!_caseListBtn) {
+        _caseListBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.caseUpLoadBtn.frame) + 30, 100, 30)];
+        _caseListBtn.clipsToBounds = YES;
+        _caseListBtn.layer.cornerRadius = 5 ;
+        _caseListBtn.backgroundColor = [UIColor doraemon_blue];
+        [_caseListBtn setTitle:@"用例列表" forState:UIControlStateNormal];
+        [_caseListBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _caseListBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+        [self.view addSubview:_caseListBtn];
+        [_caseListBtn addTarget:self action:@selector(caseListBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _caseListBtn;
+}
+
 
 
 - (void)masterDeviceBtnClick {
@@ -209,6 +269,82 @@
     [self refreshUI];
 }
 
+// 开始录制
+- (void)startRecordBtnClick {
+    [self showStartRecordMessage];
+
+}
+// 结束录制
+- (void)caseUpLoadBtnClick {
+    //告警弹窗
+    [self showEndRecordMessage];
+    
+}
+
+//用例列表
+- (void)caseListBtnClick{
+    DoraemonMultiCaseListViewController  *caseListViewController = [[DoraemonMultiCaseListViewController alloc]init];
+    [self.navigationController pushViewController:caseListViewController animated:YES];
+    
+}
+
+
+
+
+
+
+- (void)endRecordWithPersonName:(NSString *)personName caseName:(NSString *)caseName {
+    
+    [DoraemMultiMockLogic endRecordWithPersonName:personName caseName:caseName sus:^(id  _Nonnull responseObject) {
+        
+    } fail:^(NSError * _Nonnull error) {
+        
+    }];
+}
+
+- (void)showStartRecordMessage {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"隐私提醒" message:[NSString stringWithFormat:@"1.用例采集会实时录制并上传接口数据到dokit.cn平台,请确认是否要开启、\n 2. 请确认已在dokit.cn平台一机多控模块添加诸如token、sign等无法确认接口唯一性的exclude字段(字段作用于全部录制接口)。"] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    
+    }];
+    
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"开启" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //打开网络mock
+        [DoraemMultiMockLogic openMultiWorkINterceptor];
+        [DoraemMultiMockLogic startRecord];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:sureAction];
+    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)showEndRecordMessage{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"结束前请完善以下信息" message:@"请输入主机Ip地址,点击确定,连接主机" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *caseName = [alert textFields].firstObject.text;
+        NSString *personName = [alert textFields].lastObject.text;
+
+        [self endRecordWithPersonName:personName caseName:caseName];
+        
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:action];
+    [alert addAction:cancelAction];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入用例名称";
+    }];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入用例采集人";
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
+
 - (UIImageView *)banner {
     if (!_banner) {
         CGFloat marginTop = 100 ;
@@ -241,6 +377,9 @@
             self.clientCountLabel.hidden = YES;
             self.masterCloseBtn.hidden = YES;
             self.assisDeviceBtn.hidden = YES;
+            self.caseCollectionBtn.hidden = YES;
+            self.caseUpLoadBtn.hidden = YES;
+            self.caseListBtn.hidden = YES;
             if (self.asssisTip == nil) {
                 self.asssisTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.banner.frame) + 20, self.view.bounds.size.width - 60, 100)];
                 self.asssisTip.font = [UIFont systemFontOfSize:15];
@@ -290,6 +429,9 @@
             self.bottomTip.text = [NSString stringWithFormat: @"请用其他手机的一机多控功能扫描以上二维码,连接该机器\n连接地址:%@",url];
             self.masterDeviceBtn.hidden = YES;
             self.assisDeviceBtn.hidden = YES;
+            self.caseCollectionBtn.hidden = YES;
+            self.caseUpLoadBtn.hidden = YES;
+            self.caseListBtn.hidden = YES;
             self.qrCodeImage.hidden = NO;
             self.bottomTip.hidden = NO;
             self.errorLabel.hidden = YES;
@@ -305,6 +447,9 @@
         {
             self.masterDeviceBtn.hidden = NO;
             self.assisDeviceBtn.hidden = NO;
+            self.caseCollectionBtn.hidden = NO;
+            self.caseUpLoadBtn.hidden = NO;
+            self.caseListBtn.hidden = NO;
             self.assisDisConnectBtn.hidden = YES;
             self.qrCodeImage.hidden = YES;
             self.bottomTip.hidden = YES;
