@@ -151,7 +151,7 @@ public class BlockMonitorManager {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
         intent.putExtra(BlockMonitorFragment.KEY_JUMP_TO_LIST, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         DoKitNotificationUtils.setInfoNotification(mContext, DoKitNotificationUtils.ID_SHOW_BLOCK_NOTIFICATION,
                 contentTitle, contentText, contentText, pendingIntent);
     }

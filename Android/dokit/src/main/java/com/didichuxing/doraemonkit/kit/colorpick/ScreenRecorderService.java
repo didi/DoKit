@@ -53,7 +53,7 @@ public class ScreenRecorderService extends Service {
         Notification.Builder builder = new Notification.Builder(this.getApplicationContext()); //获取一个Notification构造器
         Intent nfIntent = new Intent(this, UniversalActivity.class); //点击后跳转的界面，可以设置跳转数据
 
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0 | PendingIntent.FLAG_IMMUTABLE)) // 设置PendingIntent
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.dk_doraemon)) // 设置下拉列表中的图标(大图标)
                 //.setContentTitle("SMI InstantView") // 设置下拉列表里的标题
                 .setSmallIcon(R.mipmap.dk_doraemon) // 设置状态栏内的小图标

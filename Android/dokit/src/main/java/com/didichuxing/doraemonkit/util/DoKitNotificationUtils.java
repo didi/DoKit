@@ -84,7 +84,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         }
         NotificationManager manager = createNotificationManager(context);
         manager.notify(notifyId, builder.build());
@@ -117,7 +117,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         }
         NotificationManager manager = createNotificationManager(context);
         manager.notify(notifyId, builder.build());
@@ -171,7 +171,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
         }
         if (!TextUtils.isEmpty(ticker)) {
             builder.setTicker(ticker);

@@ -84,7 +84,7 @@ public final class DisplayLeakActivity extends Activity {
     Intent intent = new Intent(context, DisplayLeakActivity.class);
     intent.putExtra(SHOW_LEAK_EXTRA, referenceKey);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);
+    return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
   }
 
   // null until it's been first loaded.
