@@ -21,10 +21,18 @@ enum class WSMode {
     UNKNOW,
 
     /**
+     * 联网
+     */
+    CONNECT,
+    /**
+     * 联网
+     */
+    CONNECT_HISTORY,
+
+    /**
      * 主机
      */
     HOST,
-
 
     /**
      * 从机

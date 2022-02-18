@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
+import com.didichuxing.doraemonkit.kit.mc.connect.DokitMcConnectManager
 import com.didichuxing.doraemonkit.mc.R
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
  * ================================================
  */
 class DoKitMcClientFragment : BaseFragment() {
+    private var history: McClientHistory? = null
 
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_client
@@ -30,8 +32,11 @@ class DoKitMcClientFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        history = DokitMcConnectManager.itemHistory
+
         findViewById<TextView>(R.id.tv_host_info).text =
-            "当前设备已连接主机:【${DoKitMcManager.HOST_INFO?.deviceName}】"
+            "当前设备已连接主机:ws://${history?.host}:${history?.port}/${history?.path}"
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
                 DoKit.removeFloating(ClientDokitView::class)
@@ -49,8 +54,7 @@ class DoKitMcClientFragment : BaseFragment() {
                 }
             }
         }
-        //启动悬浮窗
-        DoKit.launchFloating(ClientDokitView::class)
+
     }
 
 

@@ -58,6 +58,14 @@ class DoKitMcActivity : BaseActivity() {
                 mTitlebar.setTitle("一机多控（主页）")
                 DoKitMcMainFragment()
             }
+            WSMode.CONNECT -> {
+                mTitlebar.setTitle("一机多控（联网）")
+                DoKitMcConnectFragment()
+            }
+            WSMode.CONNECT_HISTORY -> {
+                mTitlebar.setTitle("一机多控（联网历史）")
+                DoKitMcConnectHistoryFragment()
+            }
             WSMode.HOST -> {
                 mTitlebar.setTitle("一机多控（主机）")
                 DoKitMcHostFragment()
@@ -68,7 +76,7 @@ class DoKitMcActivity : BaseActivity() {
             }
 
             WSMode.CLIENT_HISTORY -> {
-                mTitlebar.setTitle("一机多控（从机）")
+                mTitlebar.setTitle("一机多控（从机历史）")
                 DoKitMcClientHistoryFragment()
             }
 

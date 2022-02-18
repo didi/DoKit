@@ -15,28 +15,27 @@ RES="\033[0m"
 ./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
+./gradlew :dokit-util:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
-./gradlew :dokit-util:assembleRelease --stacktrace
-./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
 ./gradlew :dokit-rpc:assembleRelease --stacktrace
 ./gradlew :dokit-rpc-mc:assembleRelease --stacktrace
-./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
+./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 #publish
+./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-ft:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-no-op:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-api:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-ft:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-rpc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-rpc-mc:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

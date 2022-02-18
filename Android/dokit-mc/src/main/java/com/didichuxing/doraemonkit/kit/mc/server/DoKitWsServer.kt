@@ -4,6 +4,10 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
+import com.didichuxing.doraemonkit.kit.mc.connect.ConnectMode
+import com.didichuxing.doraemonkit.kit.mc.connect.DoKitWsConnectServer
+import com.didichuxing.doraemonkit.kit.mc.connect.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.GsonUtils
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.cio.*
@@ -32,8 +36,9 @@ object DoKitWsServer {
     private val server: CIOApplicationEngine by lazy {
         embeddedServer(CIO, port = DoKitManager.MC_WS_PORT, module = WSRouter)
     }
+
     //val engine
-    var shotDown:Boolean = true
+    var shotDown: Boolean = true
 
     fun start(callBack: () -> Unit) {
         try {
@@ -67,11 +72,17 @@ object DoKitWsServer {
     fun send(wsEvent: WSEvent) {
         //拦截相关手势信息 用来做录制回放
         MCRecordManager.intercept(wsEvent)
-        //一机多控主机事件分发
-        wsSessionMaps.forEach {
-            CoroutineScope(it.value.coroutineContext).launch {
-                if (it.value.isActive) {
-                    it.value.outgoing.send(Frame.Text(GsonUtils.toJson(wsEvent)))
+
+        if (DokitMcConnectManager.connectMode == ConnectMode.CONNECT) {
+            DoKitWsConnectServer.send(wsEvent)
+        } else {
+            //一机多控主机事件分发
+            val wsPackage = WSPackageUtils.toPackageJson(wsEvent)
+            wsSessionMaps.forEach {
+                CoroutineScope(it.value.coroutineContext).launch {
+                    if (it.value.isActive) {
+                        it.value.outgoing.send(Frame.Text(wsPackage))
+                    }
                 }
             }
         }

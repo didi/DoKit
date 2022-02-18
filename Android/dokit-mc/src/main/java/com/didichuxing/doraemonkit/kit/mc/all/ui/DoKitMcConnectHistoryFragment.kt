@@ -13,15 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
+import com.didichuxing.doraemonkit.kit.mc.connect.ConnectDokitView
 import com.didichuxing.doraemonkit.kit.mc.connect.ConnectHistoryUtils
+import com.didichuxing.doraemonkit.kit.mc.connect.DoKitWsConnectServer
 import com.didichuxing.doraemonkit.kit.mc.connect.DokitMcConnectManager
-import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.mc.R
-import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.TimeUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
@@ -41,16 +38,16 @@ import java.util.*
  * 修订历史：
  * ================================================
  */
-class DoKitMcClientHistoryFragment : BaseFragment() {
+class DoKitMcConnectHistoryFragment : BaseFragment() {
 
-    private val REQUEST_CODE_SCAN = 0x101
+    private val REQUEST_CODE_SCAN = 0x108
 
     private lateinit var mRv: RecyclerView
     private lateinit var mAdapter: McClientHistoryAdapter
     private lateinit var histories: MutableList<McClientHistory>
 
     override fun onRequestLayout(): Int {
-        return R.layout.dk_fragment_mc_client_history
+        return R.layout.dk_fragment_mc_connect_history
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,11 +65,12 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
         }
 
         mAdapter.setOnItemClickListener { adapter, view, pos ->
+
             val data = histories[pos]
             DokitMcConnectManager.itemHistory = data
 
             if (activity is DoKitMcActivity) {
-                (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT)
+                (activity as DoKitMcActivity).pushFragment(WSMode.CONNECT)
             }
         }
 
@@ -88,15 +86,20 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         updateHistoryView()
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
+
     private fun updateHistoryView() {
         lifecycleScope.launch {
-            val clients = ClientHistoryUtils.loadClientHistory()
-            val current = DokitMcConnectManager.currentClientHistory
+            val clients = ConnectHistoryUtils.loadClientHistory()
+            val current = DokitMcConnectManager.currentConnectHistory
             for (history in clients) {
                 history.enable = TextUtils.equals(history.host, current?.host)
             }
@@ -107,6 +110,7 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
             }
         }
     }
+
 
     /**
      * 开始扫描
@@ -128,7 +132,7 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            ClientHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
+                            ConnectHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
                             handleConnect(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
                         }
 
@@ -158,21 +162,28 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
     }
 
     private fun handleConnect(clientHistory: McClientHistory) {
-        DoKitWsClient.connect(clientHistory.host!!, clientHistory.port, clientHistory.path!!) { code, message ->
+        DoKitWsConnectServer.connect(clientHistory.host!!, clientHistory.port, clientHistory.path!!) { code, message ->
             withContext(Dispatchers.Main) {
                 when (code) {
-                    DoKitWsClient.CONNECT_SUCCEED -> {
+                    DoKitWsConnectServer.CONNECT_SUCCEED -> {
                         DoKitWindowManager.hookWindowManagerGlobal()
-                        DoKitMcManager.HOST_INFO = GsonUtils.fromJson<HostInfo>(message, HostInfo::class.java)
-                        DokitMcConnectManager.currentClientHistory = clientHistory
+                        DokitMcConnectManager.currentConnectHistory = clientHistory
                         updateHistoryView()
+
+                        //TODO 连接成功后的处理
+//                        val info = GsonUtils.fromJson<HostInfo>(message, HostInfo::class.java)
+//                        if (activity is DoKitMcActivity) {
+//                            (activity as DoKitMcActivity).changeFragment(WSMode.CLIENT)
+//                        }
+
                         //启动悬浮窗
-                        DoKit.launchFloating(ClientDokitView::class)
+                        DoKit.launchFloating(ConnectDokitView::class)
                     }
-                    DoKitWsClient.CONNECT_FAIL -> {
+                    DoKitWsConnectServer.CONNECT_FAILED -> {
+                        DokitMcConnectManager.currentConnectHistory = null
+                        updateHistoryView()
                         LogHelper.e(TAG, "message===>$message")
                         ToastUtils.showShort(message)
-                        DokitMcConnectManager.currentClientHistory = null
                     }
                     else -> {
                         LogHelper.e(TAG, "code=$code, message===>$message")
@@ -180,7 +191,6 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                 }
             }
         }
-
     }
 
 

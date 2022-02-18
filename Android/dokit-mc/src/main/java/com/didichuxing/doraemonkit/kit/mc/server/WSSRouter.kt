@@ -6,6 +6,9 @@ import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.WSEventProcessor
+import com.didichuxing.doraemonkit.kit.mc.connect.PackageType
+import com.didichuxing.doraemonkit.kit.mc.connect.WSPackage
+import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.application.*
 import io.ktor.features.*
@@ -60,7 +63,8 @@ val WSRouter: Application.() -> Unit = {
                 ),
                 null
             )
-            outgoing.send(Frame.Text(GsonUtils.toJson(wsEvent)))
+
+            outgoing.send(Frame.Text(WSPackageUtils.toPackageJson(wsEvent)))
             /**
              * 避免ws在收到第一条消息以后 通道自动关闭的问题
              * https://github.com/ktorio/ktor/issues/402
@@ -68,23 +72,26 @@ val WSRouter: Application.() -> Unit = {
             incoming.consumeEach {
                 when (it) {
                     is Frame.Text -> {
-                        val wsEvent =
-                            GsonUtils.fromJson<WSEvent>(it.readText(), WSEvent::class.java)
-                        if (wsEvent.eventType == WSEType.WSE_CLOSE) {
-                            DoKitWsServer.send(
-                                WSEvent(
-                                    WSMode.HOST,
-                                    WSEType.WSE_CLOSE,
-                                    mutableMapOf(
-                                        "command" to "confirmed bye"
-                                    ),
-                                    null
+                        try {
+                            val wsEvent = WSPackageUtils.jsonToEvent(it.readText())
+                            if (wsEvent.eventType == WSEType.WSE_CLOSE) {
+                                DoKitWsServer.send(
+                                    WSEvent(
+                                        WSMode.HOST,
+                                        WSEType.WSE_CLOSE,
+                                        mutableMapOf(
+                                            "command" to "confirmed bye"
+                                        ),
+                                        null
+                                    )
                                 )
-                            )
-                            close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
-                            ToastUtils.showShort("从机【$deviceModels】已断开连接")
-                        } else {
-                            WSEventProcessor.process(wsEvent)
+                                close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
+                                ToastUtils.showShort("从机【$deviceModels】已断开连接")
+                            } else {
+                                WSEventProcessor.process(wsEvent)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                     else -> {

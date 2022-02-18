@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="dk_kit_multi_control">一机多控</string>
+    <string name="dk_kit_multi_control_connect">联网</string>
     <string name="dk_kit_multi_control_host">主机</string>
     <string name="dk_kit_multi_control_client">从机</string>
     <string name="dk_kit_multi_control_record">用例采集</string>

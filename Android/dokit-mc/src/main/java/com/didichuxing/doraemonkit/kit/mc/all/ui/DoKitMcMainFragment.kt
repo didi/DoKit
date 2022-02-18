@@ -1,13 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
-import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -16,28 +9,21 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
-import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
-import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.data.McCaseInfo
-import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.kit.mc.data.McConfigInfo
-import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
-import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -52,8 +38,6 @@ import kotlin.coroutines.suspendCoroutine
  */
 class DoKitMcMainFragment : BaseFragment() {
 
-    private val REQUEST_CODE_CAMERA = 0x100
-    private val REQUEST_CODE_SCAN = 0x101
     private val mExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         LogHelper.e(TAG, "error message: ${throwable.message}")
     }
@@ -69,53 +53,34 @@ class DoKitMcMainFragment : BaseFragment() {
         if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
             DoKitMcManager.MC_CASE_ID = McCaseUtils.loadCaseId()
         }
+        val connect = findViewById<Button>(R.id.tv_connect)
 
-        val server = findViewById<Button>(R.id.tv_host)
-        server.setOnClickListener {
-            if (DoKitManager.WS_MODE == WSMode.RECORDING) {
-                ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
-                return@setOnClickListener
-            }
-            if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
-                lifecycleScope.launch(mExceptionHandler) {
-                    privacyInterceptDialog(
-                        "操作提醒",
-                        "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
-                    ).isTrueWithCor {
-                        if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).pushFragment(WSMode.HOST)
-                        }
-                    }
+        connect.setOnClickListener {
+            checkMcPreparedState {
+                if (activity is DoKitMcActivity) {
+                    (activity as DoKitMcActivity).pushFragment(WSMode.CONNECT_HISTORY)
                 }
-            } else {
+            }
+        }
+
+        val host = findViewById<Button>(R.id.tv_host)
+        host.setOnClickListener {
+            checkMcPreparedState {
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).pushFragment(WSMode.HOST)
                 }
             }
-
         }
         val client = findViewById<Button>(R.id.tv_client)
         client.setOnClickListener {
-
-            if (DoKitManager.WS_MODE == WSMode.RECORDING) {
-                ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
-                return@setOnClickListener
-            }
-
-            if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
-                lifecycleScope.launch(mExceptionHandler) {
-                    privacyInterceptDialog(
-                        "操作提醒",
-                        "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
-                    ).isTrueWithCor {
-                        performScan()
-                    }
+            checkMcPreparedState {
+                if (activity is DoKitMcActivity) {
+                    (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT_HISTORY)
                 }
-            } else {
-                performScan()
             }
 
         }
+
         val record = findViewById<Button>(R.id.tv_record)
         record.setOnClickListener {
             if (DoKitManager.PRODUCT_ID.isEmpty()) {
@@ -206,8 +171,27 @@ class DoKitMcMainFragment : BaseFragment() {
             }
         }
 
-
     }
+
+    private fun checkMcPreparedState(callback: () -> Unit) {
+        if (DoKitManager.WS_MODE == WSMode.RECORDING) {
+            ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
+            return
+        }
+        if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
+            lifecycleScope.launch(mExceptionHandler) {
+                privacyInterceptDialog(
+                    "操作提醒",
+                    "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
+                ).isTrueWithCor {
+                    callback()
+                }
+            }
+        } else {
+            callback()
+        }
+    }
+
 
     /**
      * 持久化录制状态 方便重启继续录制
@@ -220,132 +204,6 @@ class DoKitMcMainFragment : BaseFragment() {
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, DoKitMcManager.MC_CASE_ID)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, true)
             ToastUtils.showShort("开始用例采集")
-        }
-
-    }
-
-
-    /**
-     * 执行扫描
-     */
-    private fun performScan() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (activity?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                val permissions = arrayOf(Manifest.permission.CAMERA)
-                requestPermissions(permissions, REQUEST_CODE_CAMERA)
-            } else {
-                goClient()
-            }
-        } else {
-            goClient()
-        }
-    }
-
-    private fun goClient() {
-        if (DoKitManager.WS_MODE == WSMode.CLIENT) {
-            if (activity is DoKitMcActivity) {
-                (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT)
-            }
-            return
-        }
-        if (ClientHistoryUtils.loadClientHistory().size == 0) {
-            startScan()
-            return
-        }
-
-        if (activity is DoKitMcActivity) {
-            (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT_HISTORY)
-        }
-    }
-
-    /**
-     * 开始扫描
-     */
-    private fun startScan() {
-        val intent = Intent(activity, DoKitMcScanActivity::class.java)
-        startActivityForResult(intent, REQUEST_CODE_SCAN)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_CAMERA) {
-            if (permissions.isNotEmpty()) {
-                for (i in permissions.indices) {
-                    if (Manifest.permission.CAMERA == permissions[i] &&
-                        grantResults[i] == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        startScan()
-                        return
-                    }
-                }
-            }
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK) {
-            if (data != null && data.hasExtra(CaptureActivity.INTENT_EXTRA_KEY_QR_SCAN)) {
-                val code = data.getStringExtra(CaptureActivity.INTENT_EXTRA_KEY_QR_SCAN)
-                if (!TextUtils.isEmpty(code)) {
-                    try {
-                        val uri = Uri.parse(code)
-                        handleScanResult(uri)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        finish()
-                    }
-                } else {
-                    handleNoResult()
-                }
-            } else {
-                handleNoResult()
-            }
-        } else {
-            handleNoResult()
-        }
-    }
-
-    /**
-     * 没有返回结果
-     */
-    private fun handleNoResult() {
-        ToastUtils.showShort("没有扫描到任何内容 >_< .")
-    }
-
-    /**
-     * 处理返回结果
-     */
-    private fun handleScanResult(uri: Uri) {
-
-        ClientHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, "", ""))
-
-        DoKitWsClient.connect(uri.host!!, uri.port, uri.path!!) { code, message ->
-            withContext(Dispatchers.Main) {
-                when (code) {
-                    DoKitWsClient.CONNECT_SUCCEED -> {
-                        DoKitWindowManager.hookWindowManagerGlobal()
-                        DoKitMcManager.HOST_INFO =
-                            GsonUtils.fromJson<HostInfo>(message, HostInfo::class.java)
-                        if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT)
-                        }
-                    }
-                    DoKitWsClient.CONNECT_FAIL -> {
-                        LogHelper.e(TAG, "message===>$message")
-                        ToastUtils.showShort(message)
-                    }
-                    else -> {
-                        LogHelper.e(TAG, "code=$code, message===>$message")
-                    }
-                }
-            }
         }
 
     }

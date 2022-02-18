@@ -22,10 +22,8 @@ import com.google.auto.service.AutoService
  */
 @AutoService(AbstractKit::class)
 class MultiControlKit : AbstractKit() {
-    override val name: Int
-        get() = R.string.dk_kit_multi_control
-    override val icon: Int
-        get() = R.mipmap.dk_icon_mc
+    override val name: Int get() = R.string.dk_kit_multi_control
+    override val icon: Int get() = R.mipmap.dk_icon_mc
 
     override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
@@ -40,10 +38,10 @@ class MultiControlKit : AbstractKit() {
     }
 
     override fun onAppInit(context: Context?) {
+
     }
 
-    override val isInnerKit: Boolean
-        get() = true
+    override val isInnerKit: Boolean get() = true
 
     override fun innerKitId(): String {
         return "dokit_sdk_platform_ck_mc"

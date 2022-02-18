@@ -23,6 +23,26 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="ws://10.10.0.66:9000/mc"
+            android:textColor="@color/dk_color_666666"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="正常"
+            android:textColor="@color/dk_color_79DE79"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/btn_close"
             android:layout_width="150dp"
@@ -35,18 +55,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_history"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/dk_btn_mc_bg"
-            android:text="连接历史"
-            android:textAllCaps="false"
-            android:textColor="@color/dk_color_FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
     </LinearLayout>
-
 
 </RelativeLayout>

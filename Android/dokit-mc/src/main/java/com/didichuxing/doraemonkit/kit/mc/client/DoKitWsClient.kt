@@ -4,6 +4,8 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.*
+import com.didichuxing.doraemonkit.kit.mc.connect.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -35,10 +37,6 @@ object DoKitWsClient {
     const val CONNECT_FAIL = 0
 
     private val client: HttpClient by lazy {
-
-//        if (hasThirdLib("io.ktor", "ktor-client-okhttp")) {
-//          这里没有用显示判断的原因是因为需要插件的支持
-//        }
 
         try {
             Class.forName("io.ktor.client.engine.okhttp.OkHttp")
@@ -84,11 +82,7 @@ object DoKitWsClient {
                                 val serverInfo = it.readText()
                                 LogHelper.json(TAG, serverInfo)
                                 try {
-                                    val wsEvent =
-                                        GsonUtils.fromJson<WSEvent>(
-                                            serverInfo,
-                                            WSEvent::class.java
-                                        )
+                                    val wsEvent = WSPackageUtils.jsonToEvent(it.readText())
                                     //连接成功的返回信息
                                     if (wsEvent.eventType == WSEType.WSE_CONNECTED) {
                                         callBack(
@@ -143,8 +137,8 @@ object DoKitWsClient {
                 )
             )
             clientWebSocketSession?.close()
-//            client.close()
             DoKitManager.WS_MODE = WSMode.UNKNOW
+            DokitMcConnectManager.currentClientHistory = null
         } catch (e: Exception) {
             e.printStackTrace()
         }
