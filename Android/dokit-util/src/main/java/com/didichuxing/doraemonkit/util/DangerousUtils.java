@@ -337,7 +337,12 @@ public class DangerousUtils {
     @RequiresPermission(SEND_SMS)
     public static void sendSmsSilent(final String phoneNumber, final String content) {
         if (TextUtils.isEmpty(content)) return;
-        PendingIntent sentIntent = PendingIntent.getBroadcast(Utils.getApp(), 0, new Intent("send"), 0);
+        PendingIntent sentIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            sentIntent = PendingIntent.getBroadcast(Utils.getApp(), 0, new Intent("send"), 0 | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            sentIntent = PendingIntent.getBroadcast(Utils.getApp(), 0, new Intent("send"), 0);
+        }
         SmsManager smsManager = SmsManager.getDefault();
         if (content.length() >= 70) {
             List<String> ms = smsManager.divideMessage(content);
