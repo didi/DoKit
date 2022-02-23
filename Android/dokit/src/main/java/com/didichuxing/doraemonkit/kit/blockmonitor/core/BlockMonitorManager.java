@@ -5,6 +5,7 @@ import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Debug;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -151,7 +152,12 @@ public class BlockMonitorManager {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
         intent.putExtra(BlockMonitorFragment.KEY_JUMP_TO_LIST, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT);
+        }
         DoKitNotificationUtils.setInfoNotification(mContext, DoKitNotificationUtils.ID_SHOW_BLOCK_NOTIFICATION,
                 contentTitle, contentText, contentText, pendingIntent);
     }

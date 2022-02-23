@@ -41,7 +41,7 @@ public class RequestStoragePermissionActivity extends Activity {
     setEnabledBlocking(context, RequestStoragePermissionActivity.class, true);
     Intent intent = new Intent(context, RequestStoragePermissionActivity.class);
     intent.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-    return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);
+    return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE);
   }
 
   @Override
