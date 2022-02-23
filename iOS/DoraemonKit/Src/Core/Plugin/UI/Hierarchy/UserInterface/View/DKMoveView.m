@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_END
     center.y += point.y;
     if (self.isOverflow) {
         center.x = MAX(MIN(center.x, self.superview.bounds.size.width), 0);
-        center.y = MAX(MIN(center.y, self.superview.bounds.size.width), 0);
+        center.y = MAX(MIN(center.y, self.superview.bounds.size.height), 0);
     } else {
         if (center.x < self.frame.size.width / 2) {
             center.x = self.frame.size.width / 2;

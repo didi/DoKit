@@ -1,57 +1,21 @@
 PODS:
-  - AFNetworking (4.0.1):
-    - AFNetworking/NSURLSession (= 4.0.1)
-    - AFNetworking/Reachability (= 4.0.1)
-    - AFNetworking/Security (= 4.0.1)
-    - AFNetworking/Serialization (= 4.0.1)
-    - AFNetworking/UIKit (= 4.0.1)
-  - AFNetworking/NSURLSession (4.0.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (4.0.1)
-  - AFNetworking/Security (4.0.1)
-  - AFNetworking/Serialization (4.0.1)
-  - AFNetworking/UIKit (4.0.1):
-    - AFNetworking/NSURLSession
-  - DoraemonKit (3.1.2):
-    - DoraemonKit/Core (= 3.1.2)
-  - DoraemonKit/Core (3.1.2):
-    - AFNetworking
-    - FMDB
-    - GCDWebServer
-    - GCDWebServer/WebDAV
-    - GCDWebServer/WebUploader
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
-  - GCDWebServer (3.5.4):
-    - GCDWebServer/Core (= 3.5.4)
-  - GCDWebServer/Core (3.5.4)
-  - GCDWebServer/WebDAV (3.5.4):
-    - GCDWebServer/Core
-  - GCDWebServer/WebUploader (3.5.4):
-    - GCDWebServer/Core
+  - DoraemonKit/Common (3.1.2)
+  - DoraemonKit/EventSynthesize (3.1.2):
+    - DoraemonKit/Common
+  - DoraemonKit/Hook (3.1.2):
+    - DoraemonKit/Common
 
 DEPENDENCIES:
-  - DoraemonKit (from `..`)
-
-SPEC REPOS:
-  trunk:
-    - AFNetworking
-    - FMDB
-    - GCDWebServer
+  - DoraemonKit/EventSynthesize (from `..`)
+  - DoraemonKit/Hook (from `..`)
 
 EXTERNAL SOURCES:
   DoraemonKit:
     :path: ".."
 
 SPEC CHECKSUMS:
-  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  DoraemonKit: 0a040ae24386654e2a2d2c8d029f5ff5837de3c3
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
+  DoraemonKit: 1a8e6c8406213a887fd96705c9cd397b177887e2
 
-PODFILE CHECKSUM: d9e74b1ce89f51ced3aa3a1bed46a82bf18d06ba
+PODFILE CHECKSUM: c3fb81830bea0d193ce89ec021d6016a61ac10b1
 
 COCOAPODS: 1.11.2

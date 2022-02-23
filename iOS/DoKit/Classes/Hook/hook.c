@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+#if !defined(DEBUG) && !defined(NDEBUG)
+#define NDEBUG 1
+#endif
+
 #include "hook.h"
 #include <sys/queue.h>
 #include <stdlib.h>

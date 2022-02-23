@@ -18,4 +18,5 @@ target 'DoraemonKitDemo' do
   # pod 'fishhook', '~> 0.2'
   pod 'YYDebugDatabase', '~> 2.1'
   pod 'Masonry', '0.6.3'
+  pod 'JSONModel','~>1.4'
 end
