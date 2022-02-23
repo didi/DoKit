@@ -5,6 +5,12 @@ import android.text.TextUtils
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.client.DoKitMcClientFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.client.DoKitMcClientHistoryFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.connect.DoKitMcConnectFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.connect.DoKitMcConnectHistoryFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.host.DoKitMcHostFragment
+import com.didichuxing.doraemonkit.kit.mc.all.ui.record.DoKitMcDatasFragment
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 

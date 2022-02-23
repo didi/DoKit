@@ -38,7 +38,7 @@ class MultiControlKit : AbstractKit() {
     }
 
     override fun onAppInit(context: Context?) {
-
+//        DexposedBridge.hookAllConstructors(AccessibilityManager::class.java, AllMethodHook())
     }
 
     override val isInnerKit: Boolean get() = true

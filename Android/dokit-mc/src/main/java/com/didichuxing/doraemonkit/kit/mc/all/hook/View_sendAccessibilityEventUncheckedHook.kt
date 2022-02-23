@@ -5,19 +5,18 @@ import android.os.Build
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
-import android.widget.TextView
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
-import com.didichuxing.doraemonkit.kit.mc.all.*
-import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
+import com.didichuxing.doraemonkit.kit.mc.ability.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
-import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
+import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
 
@@ -33,6 +32,7 @@ import de.robv.android.xposed.XC_MethodHook
  * 修订历史：
  * ================================================
  */
+@Deprecated("", ReplaceWith("View_onInitializeAccessibilityEventHook"), DeprecationLevel.HIDDEN)
 class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
 
     companion object {
@@ -76,7 +76,7 @@ class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
                         LogHelper.json(
                             TAG, wsEvent
                         )
-                        DoKitWsServer.send(wsEvent)
+                        DoKitMcEventDispatcher.send(wsEvent)
                     }
 
                 }
@@ -110,7 +110,7 @@ class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
         acc: AccessibilityEvent
     ): ViewC12c {
         var viewRootImplIndex: Int = -1
-        DoKitWindowManager.ROOT_VIEWS?.let {
+        McXposedHookUtils.ROOT_VIEWS?.let {
             if (view.rootView.parent == null) {
 //                val decorView =
 //                    ActivityUtils.getTopActivity().window.decorView as ViewParent

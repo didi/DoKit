@@ -5,13 +5,15 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
+import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McLifecycleMonitor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
-import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
-import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.mc.mock.http.DokitMcInterceptor
+import com.didichuxing.doraemonkit.kit.mc.all.ui.host.HostDokitView
+import com.didichuxing.doraemonkit.kit.mc.all.ui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
-import de.robv.android.xposed.DexposedBridge
 
 /**
  * ================================================
@@ -27,7 +29,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
     override fun values(): Map<String, Any> {
         return mapOf(
             "okhttp_interceptor" to DokitMcInterceptor(),
-            "lifecycle" to McDokitLifecycleImpl()
+            "lifecycle" to McLifecycleMonitor()
         )
     }
 
@@ -63,31 +65,11 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         )
                     }
                     "global_hook" -> {
-                        //init SandHook
-//                        SandHookConfig.DEBUG = true
-//
-//                        SandHook.disableVMInline()
-//                        SandHook.tryDisableProfile(DoKitEnv.requireApp().packageName)
-//                        SandHook.disableDex2oatInline(false)
-//
-//                        //for xposed compat(no need xposed comapt new)
-//                        XposedCompat.cacheDir = DoKitEnv.requireApp().cacheDir
-//
-//
-//                        //for load xp module(sandvxp)
-//                        XposedCompat.context = DoKitEnv.requireApp()
-//                        XposedCompat.classLoader = DoKitEnv.requireApp().classLoader
-//                        XposedCompat.isFirstApplication = true
-
-                        //hook onClick事件
-                        DexposedBridge.findAndHookMethod(
-                            View::class.java, "setOnClickListener",
-                            View.OnClickListener::class.java, View_onClickListenerEventHook()
-                        )
+                        McXposedHookUtils.globalHook()
                     }
 
                     else -> {
-
+                        LogHelper.e("DokitMcModuleProcessor", "not action ${actions["action"]}")
                     }
                 }
             }

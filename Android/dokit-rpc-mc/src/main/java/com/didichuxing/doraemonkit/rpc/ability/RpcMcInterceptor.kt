@@ -3,12 +3,12 @@ package com.didichuxing.doraemonkit.rpc.ability
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
-import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
+import com.didichuxing.doraemonkit.kit.mc.mock.http.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.McNetMockInterceptor
-import com.didichuxing.doraemonkit.kit.mc.data.HttpMatchedInfo
-import com.didichuxing.doraemonkit.kit.mc.data.HttpUploadInfo
-import com.didichuxing.doraemonkit.kit.mc.data.McMockKey
+import com.didichuxing.doraemonkit.kit.mc.mock.HttpMatchedInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.HttpUploadInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.McMockKey
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
 import com.didichuxing.doraemonkit.kit.network.rpc.AbsDoKitRpcInterceptor

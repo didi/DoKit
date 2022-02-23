@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.mc.util
 
-import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
-import com.didichuxing.doraemonkit.kit.mc.connect.PackageType
-import com.didichuxing.doraemonkit.kit.mc.connect.WSPackage
+import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
+import com.didichuxing.doraemonkit.kit.mc.net.PackageType
+import com.didichuxing.doraemonkit.kit.mc.net.WSPackage
 import com.didichuxing.doraemonkit.util.GsonUtils
 
 

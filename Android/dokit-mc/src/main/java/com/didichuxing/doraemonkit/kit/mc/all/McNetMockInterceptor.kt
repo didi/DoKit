@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
-import com.didichuxing.doraemonkit.kit.mc.data.HttpMatchedInfo
-import com.didichuxing.doraemonkit.kit.mc.data.McMockKey
-import com.didichuxing.doraemonkit.kit.mc.data.McResInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.HttpMatchedInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.McMockKey
+import com.didichuxing.doraemonkit.kit.mc.mock.McResInfo
 
 
 /**

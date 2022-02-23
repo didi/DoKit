@@ -16,6 +16,7 @@ import de.robv.android.xposed.XC_MethodHook
  * 控件必须手动调用super.onTouch 方法 并且控件必须显示设置onClickListener或者xml中设置clickable=true属性
  * ================================================
  */
+@Deprecated("",ReplaceWith("View_onInitializeAccessibilityEventHook"),DeprecationLevel.HIDDEN)
 class View_onTouchEventHook : XC_MethodHook() {
 
     companion object {

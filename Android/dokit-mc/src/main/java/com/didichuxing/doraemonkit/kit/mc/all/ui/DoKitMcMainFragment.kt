@@ -11,12 +11,13 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
-import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
+import com.didichuxing.doraemonkit.kit.mc.mock.http.McHttpManager
+import com.didichuxing.doraemonkit.kit.mc.mock.http.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.mc.data.McCaseInfo
-import com.didichuxing.doraemonkit.kit.mc.data.McConfigInfo
-import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.all.data.McCaseInfo
+import com.didichuxing.doraemonkit.kit.mc.all.data.McConfigInfo
+import com.didichuxing.doraemonkit.kit.mc.all.ui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.util.McCaseUtils
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
@@ -56,6 +57,12 @@ class DoKitMcMainFragment : BaseFragment() {
         val connect = findViewById<Button>(R.id.tv_connect)
 
         connect.setOnClickListener {
+
+            if (DoKitMcManager.WS_MODE != WSMode.UNKNOW) {
+                ToastUtils.showShort("当前处于客户端主机模式，请先关闭！")
+                return@setOnClickListener
+            }
+
             checkMcPreparedState {
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).pushFragment(WSMode.CONNECT_HISTORY)
@@ -65,6 +72,10 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val host = findViewById<Button>(R.id.tv_host)
         host.setOnClickListener {
+            if (DoKitMcManager.CONNECT_MODE != WSMode.UNKNOW) {
+                ToastUtils.showShort("当前处于联网模式，请先关闭！")
+                return@setOnClickListener
+            }
             checkMcPreparedState {
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).pushFragment(WSMode.HOST)
@@ -73,6 +84,10 @@ class DoKitMcMainFragment : BaseFragment() {
         }
         val client = findViewById<Button>(R.id.tv_client)
         client.setOnClickListener {
+            if (DoKitMcManager.CONNECT_MODE != WSMode.UNKNOW) {
+                ToastUtils.showShort("当前处于联网模式，请先关闭！")
+                return@setOnClickListener
+            }
             checkMcPreparedState {
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT_HISTORY)
