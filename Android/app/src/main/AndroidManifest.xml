@@ -48,14 +48,14 @@
         <activity android:name=".WebViewX5Activity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
-        <activity android:name=".MapActivity" />
         <activity android:name=".mc.MCActivity" />
         <activity android:name="com.amap.api.navi.AmapRouteActivity" />
         <activity
             android:name=".comm.CommFragmentActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--高德定位服务-->
-        <service android:name="com.amap.api.location.APSService" />
+        <service android:name="com.amap.api.location.APSService"  android:exported="false" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -73,12 +73,14 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
+            android:exported="false"
             android:process=":remote" />
 
         <!-- Dokit targetApi为 29 Android Q时截屏的前台服务-->
         <service
             android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
             android:enabled="true"
+            android:exported="false"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
     </application>

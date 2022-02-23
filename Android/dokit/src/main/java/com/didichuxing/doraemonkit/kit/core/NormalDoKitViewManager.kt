@@ -326,7 +326,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                     //操作DecorRootView
                     doKitView.dealDecorRootView(getDoKitRootContentView(doKitIntent.activity))
                 }, MC_DELAY.toLong())
-                DokitViewManager.INSTANCE.notifyDokitViewAdd(dokitView)
+                DokitViewManager.INSTANCE.notifyDokitViewAdd(doKitView)
             }
             currentActivityDoKitViews[doKitView.tag] = doKitView
         } catch (e: Exception) {
