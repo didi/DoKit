@@ -40,6 +40,8 @@ internal class DokitViewManager : DokitViewManagerInterface {
 
     private val lastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> = ArrayMap<String, LastDokitViewPosInfo>()
 
+    private val listeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf<DokitViewManager.DokitViewAttachedListener>() }
+
     private var _doKitViewManager: AbsDokitViewManager? = null
 
     //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
@@ -227,7 +229,7 @@ internal class DokitViewManager : DokitViewManagerInterface {
     }
 
     /**
-     * 系统悬浮窗需要调用
+     * DokitView浮窗添加后的回调
      */
     interface DokitViewAttachedListener {
         fun onDokitViewAdd(dokitView: AbsDokitView?)
@@ -239,10 +241,9 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param listener
      */
     fun addDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
-        listener?.takeIf { !DoKitManager.IS_NORMAL_FLOAT_MODE && _doKitViewManager is SystemDoKitViewManager }
-            ?.also {
-                (_doKitViewManager as? SystemDoKitViewManager)?.addListener(it)
-            }
+        listener?.let{
+            listeners.add(listener)
+        }
     }
 
     /**
@@ -251,10 +252,9 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param listener
      */
     fun removeDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
-        listener?.takeIf { !DoKitManager.IS_NORMAL_FLOAT_MODE && _doKitViewManager is SystemDoKitViewManager }
-            ?.also {
-                (_doKitViewManager as SystemDoKitViewManager).removeListener(it)
-            }
+        listener?.let{
+            listeners.remove(listener)
+        }
     }
 
     fun saveLastDokitViewPosInfo(key: String, lastDokitViewPosInfo: LastDokitViewPosInfo) {
@@ -275,5 +275,11 @@ internal class DokitViewManager : DokitViewManagerInterface {
             }.also {
                 _doKitViewManager = it
             }
+    }
+
+    internal fun notifyDokitViewAdd(dokitView: AbsDokitView?) {
+        for (listener in listeners) {
+            listener.onDokitViewAdd(dokitView)
+        }
     }
 }

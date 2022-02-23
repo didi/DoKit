@@ -26,7 +26,6 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      */
     private val windowManager = DokitViewManager.INSTANCE.windowManager
     private val doKitViews: MutableList<AbsDokitView> by lazy { mutableListOf<AbsDokitView>() }
-    private val listeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf<DokitViewManager.DokitViewAttachedListener>() }
 
     /**
      * 获取页面上所有的dokitViews
@@ -226,11 +225,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
                 dokitView.systemLayoutParams
             )
             dokitView.onResume()
-            if (!DoKitManager.IS_NORMAL_FLOAT_MODE) {
-                for (listener in listeners) {
-                    listener.onDokitViewAdd(dokitView)
-                }
-            }
+            DokitViewManager.INSTANCE.notifyDokitViewAdd(dokitView)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -291,19 +286,6 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      * Activity销毁时调用 不需要实现 为了统一api
      */
     override fun onActivityDestroyed(activity: Activity?) {}
-
-    /**
-     * 在每一个float page创建时 添加监听器
-     *
-     * @param listener
-     */
-    fun addListener(listener: DokitViewManager.DokitViewAttachedListener) {
-        listeners.add(listener)
-    }
-
-    fun removeListener(listener: DokitViewManager.DokitViewAttachedListener) {
-        listeners.remove(listener)
-    }
 
 
 }
