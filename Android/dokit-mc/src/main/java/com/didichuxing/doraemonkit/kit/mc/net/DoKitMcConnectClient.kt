@@ -77,9 +77,61 @@ object DoKitMcConnectClient {
                     DoKitManager.WS_MODE = WSMode.CLIENT
 
                     clientWebSocketSession?.let {
-//                        CoroutineScope(coroutineContext).launch {
-                            onHandle(it, callBack)
-//                        }
+
+                        CoroutineScope(it.coroutineContext).launch {
+
+                        }
+
+//                        onHandle(it, callBack)
+
+                    }
+
+                    incoming.consumeEach {
+                        when (it) {
+                            is Frame.Text -> {
+                                val packageText = it.readText()
+                                LogHelper.json(TAG, packageText)
+                                val text = GsonUtils.fromJson<WSPackage>(
+                                    packageText,
+                                    WSPackage::class.java
+                                )
+                                if (text != null && text.type != null) {
+                                    when (text.type) {
+                                        PackageType.LOGIN -> {
+                                            DokitMcConnectManager.connectMode = ConnectMode.CONNECT
+                                        }
+                                        PackageType.NOTIFY -> {
+
+                                        }
+                                        PackageType.BROADCAST -> {
+                                            val serverInfo = text.data
+                                            try {
+                                                process(serverInfo)
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                                LogHelper.e(TAG, "client handle error===>${e.message}")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            is Frame.Binary -> {
+                                LogHelper.i(TAG, "Binary data=${it}")
+                            }
+                            is Frame.Close -> {
+                                LogHelper.i(TAG, "Close data=${it}")
+                            }
+                            is Frame.Ping -> {
+                                LogHelper.i(TAG, "Ping data=${it}")
+                            }
+                            is Frame.Pong -> {
+                                LogHelper.i(TAG, "Pong data=${it}")
+                            }
+                            else -> {
+                                LogHelper.e(TAG, "type error===>${it}")
+                            }
+                        }
                     }
 
                 }
@@ -98,58 +150,7 @@ object DoKitMcConnectClient {
     }
 
     private suspend fun onHandle(session: DefaultClientWebSocketSession, callBack: suspend (Int, String?) -> Unit) {
-        /**
-         * 避免ws在收到第一条消息以后 通道自动关闭的问题
-         * https://github.com/ktorio/ktor/issues/402
-         */
 
-        session.incoming.consumeEach {
-            when (it) {
-                is Frame.Text -> {
-                    val packageText = it.readText()
-                    LogHelper.json(TAG, packageText)
-                    val text = GsonUtils.fromJson<WSPackage>(
-                        packageText,
-                        WSPackage::class.java
-                    )
-                    if (text != null && text.type != null) {
-                        when (text.type) {
-                            PackageType.LOGIN -> {
-                                DokitMcConnectManager.connectMode = ConnectMode.CONNECT
-                            }
-                            PackageType.NOTIFY -> {
-
-                            }
-                            PackageType.BROADCAST -> {
-                                val serverInfo = text.data
-                                try {
-                                    process(serverInfo)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                    LogHelper.e(TAG, "client handle error===>${e.message}")
-                                }
-                            }
-                        }
-                    }
-                }
-
-                is Frame.Binary -> {
-                    LogHelper.i(TAG, "Binary data=${it}")
-                }
-                is Frame.Close -> {
-                    LogHelper.i(TAG, "Close data=${it}")
-                }
-                is Frame.Ping -> {
-                    LogHelper.i(TAG, "Ping data=${it}")
-                }
-                is Frame.Pong -> {
-                    LogHelper.i(TAG, "Pong data=${it}")
-                }
-                else -> {
-                    LogHelper.e(TAG, "type error===>${it}")
-                }
-            }
-        }
     }
 
     private suspend fun process(serverInfo: String) {
