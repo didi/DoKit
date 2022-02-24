@@ -13,7 +13,7 @@ ext {
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : false,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.6.1'
+        version      : '3.6.2'
     ]
 
     android = [compileSdkVersion             : 29,
