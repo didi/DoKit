@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.all
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.all.ui.connect.ConnectDokitView
+import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
 import com.didichuxing.doraemonkit.util.ToastUtils
 
 object DokitMcConnectManager {
@@ -21,6 +22,8 @@ object DokitMcConnectManager {
         DoKitMcManager.CONNECT_MODE = WSMode.HOST
         DoKitMcManager.startHostMode()
         updateConnectModeDokitView()
+
+        DoKitMcConnectClient.sendChangeHostMode()
         ToastUtils.showShort("主机模式")
     }
 

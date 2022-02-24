@@ -8,11 +8,14 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.Switch
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.isFalseWithCor
+import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
@@ -22,7 +25,9 @@ import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistoryAdapter
 import com.didichuxing.doraemonkit.kit.mc.util.ConnectHistoryUtils
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
+import com.didichuxing.doraemonkit.kit.mc.net.LoginData
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.TimeUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
@@ -32,6 +37,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * ================================================
@@ -57,7 +64,7 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val switch: Switch = findViewById(R.id.switch_btn)
+        val switch: Switch = findViewById(R.id.dokit_mode_switch_btn)
 
         switch.isChecked = DoKitMcManager.CONNECT_MODE == WSMode.HOST
         switch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -88,6 +95,17 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
                 (activity as DoKitMcActivity).pushFragment(WSMode.CONNECT)
             }
         }
+        mAdapter.setOnItemLongClickListener { adapter, view, pos ->
+            val data = histories[pos]
+            lifecycleScope.launch {
+                privacyInterceptDialog("提示", "是否删除连接历史记录").isTrueWithCor {
+                    ConnectHistoryUtils.removeClientHistory(data)
+                    ToastUtils.showShort("已删除记录")
+                    updateHistoryView()
+                }
+            }
+            return@setOnItemLongClickListener false
+        }
 
         mRv.apply {
             adapter = mAdapter
@@ -100,6 +118,28 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
         updateHistoryView()
 
     }
+
+
+    /**
+     * 处理dialog返回值
+     */
+    private suspend fun privacyInterceptDialog(title: String, content: String): Boolean =
+        suspendCoroutine {
+            AlertDialog.Builder(requireActivity())
+                .setTitle(title)
+                .setMessage(content)
+                .setCancelable(false)
+                .setPositiveButton("确认") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(true)
+                }
+                .setNegativeButton("取消") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(false)
+                }
+                .show()
+
+        }
 
 
     override fun onResume() {
@@ -116,7 +156,11 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
             val clients = ConnectHistoryUtils.loadClientHistory()
             val current = DokitMcConnectManager.currentConnectHistory
             for (history in clients) {
-                history.enable = TextUtils.equals(history.host, current?.host)
+                if (current != null) {
+                    history.enable = TextUtils.equals(history.url, current.url)
+                } else {
+                    history.enable = false
+                }
             }
 
             histories = clients
@@ -147,16 +191,18 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            ConnectHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
-                            handleConnect(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
+                            val url = "ws://${uri.host}:${uri.port}/${uri.path}"
+                            val history = McClientHistory(uri.host!!, uri.port, uri.path!!, name, time, url)
+                            ConnectHistoryUtils.saveClientHistory(history)
+                            handleConnect(history)
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     } finally {
-                        if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).onBackPressed()
-                        }
+//                        if (activity is DoKitMcActivity) {
+//                            (activity as DoKitMcActivity).onBackPressed()
+//                        }
                     }
                 } else {
                     handleNoResult()
@@ -177,10 +223,21 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
     }
 
     private fun handleConnect(clientHistory: McClientHistory) {
-        DoKitMcConnectClient.connect(clientHistory.host!!, clientHistory.port, clientHistory.path!!) { code, message ->
+        if ( DoKitMcManager.CONNECT_MODE != WSMode.UNKNOW){
+            DoKitMcConnectClient.close()
+        }
+        DoKitMcConnectClient.connect(
+            clientHistory.host!!,
+            clientHistory.port,
+            clientHistory.path!!,
+            if (clientHistory.connectSerial == null) "" else clientHistory.connectSerial
+        ) { code, message ->
             withContext(Dispatchers.Main) {
                 when (code) {
                     DoKitMcConnectClient.CONNECT_SUCCEED -> {
+                        val loginData = GsonUtils.fromJson<LoginData>(message, LoginData::class.java)
+                        clientHistory.connectSerial = loginData.connectSerial
+                        ConnectHistoryUtils.saveClientHistory(clientHistory)
                         DokitMcConnectManager.currentConnectHistory = clientHistory
                         updateHistoryView()
                         DoKitMcManager.startClientMode()

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
+import android.text.TextUtils
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
@@ -50,7 +51,7 @@ object DoKitMcConnectClient {
         }
     }
 
-    fun connect(host: String, port: Int, path: String, callBack: suspend (Int, String?) -> Unit) {
+    fun connect(host: String, port: Int, path: String, connectSerial: String, callBack: suspend (Int, String?) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 client.ws(
@@ -71,66 +72,21 @@ object DoKitMcConnectClient {
                     DokitMcConnectManager.connectMode = ConnectMode.LOGIN
                     clientWebSocketSession = this
 
-                    onConnectSuccess()
-                    callBack(CONNECT_SUCCEED, "连接成功")
+                    onConnectSuccess(connectSerial)
                     DokitMcConnectManager.connectMode = ConnectMode.CONNECT
                     DoKitManager.WS_MODE = WSMode.CLIENT
 
                     clientWebSocketSession?.let {
-
                         CoroutineScope(it.coroutineContext).launch {
 
                         }
-
-//                        onHandle(it, callBack)
-
                     }
 
                     incoming.consumeEach {
-                        when (it) {
-                            is Frame.Text -> {
-                                val packageText = it.readText()
-                                LogHelper.json(TAG, packageText)
-                                val text = GsonUtils.fromJson<WSPackage>(
-                                    packageText,
-                                    WSPackage::class.java
-                                )
-                                if (text != null && text.type != null) {
-                                    when (text.type) {
-                                        PackageType.LOGIN -> {
-                                            DokitMcConnectManager.connectMode = ConnectMode.CONNECT
-                                        }
-                                        PackageType.NOTIFY -> {
-
-                                        }
-                                        PackageType.BROADCAST -> {
-                                            val serverInfo = text.data
-                                            try {
-                                                process(serverInfo)
-                                            } catch (e: Exception) {
-                                                e.printStackTrace()
-                                                LogHelper.e(TAG, "client handle error===>${e.message}")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            is Frame.Binary -> {
-                                LogHelper.i(TAG, "Binary data=${it}")
-                            }
-                            is Frame.Close -> {
-                                LogHelper.i(TAG, "Close data=${it}")
-                            }
-                            is Frame.Ping -> {
-                                LogHelper.i(TAG, "Ping data=${it}")
-                            }
-                            is Frame.Pong -> {
-                                LogHelper.i(TAG, "Pong data=${it}")
-                            }
-                            else -> {
-                                LogHelper.e(TAG, "type error===>${it}")
-                            }
+                        try {
+                            onHandleMessage(it, this, callBack)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
 
@@ -145,12 +101,67 @@ object DoKitMcConnectClient {
         }
     }
 
-    private fun onConnectSuccess() {
-        login()
+    private fun onConnectSuccess(connectSerial: String) {
+        login(connectSerial)
     }
 
-    private suspend fun onHandle(session: DefaultClientWebSocketSession, callBack: suspend (Int, String?) -> Unit) {
+    private suspend fun onHandleMessage(it: Frame, session: DefaultClientWebSocketSession, callBack: suspend (Int, String?) -> Unit) {
+        when (it) {
+            is Frame.Text -> {
+                val packageText = it.readText()
+                LogHelper.json(TAG, packageText)
+                val text = GsonUtils.fromJson<WSPackage>(
+                    packageText,
+                    WSPackage::class.java
+                )
+                if (text?.type != null) {
+                    when (text.type) {
+                        PackageType.LOGIN -> {
+                            DokitMcConnectManager.connectMode = ConnectMode.CONNECT
+                            val loginData = text.data
+                            try {
+                                callBack(CONNECT_SUCCEED, loginData)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                LogHelper.e(TAG, "client handle error===>${e.message}")
+                            }
+                        }
+                        PackageType.NOTIFY -> {
+                            LogHelper.e(TAG, "client handle notify===>${text.data}")
+                        }
+                        PackageType.BROADCAST -> {
+                            if (TextUtils.equals(text.pid, "001")) {
+                                DokitMcConnectManager.changeClientMode()
+                            } else {
+                                val serverInfo = text.data
+                                try {
+                                    process(serverInfo)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    LogHelper.e(TAG, "client handle error===>${e.message}")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            is Frame.Binary -> {
+                LogHelper.i(TAG, "Binary data=${it}")
+            }
+            is Frame.Close -> {
+                LogHelper.i(TAG, "Close data=${it}")
+            }
+            is Frame.Ping -> {
+                LogHelper.i(TAG, "Ping data=${it}")
+            }
+            is Frame.Pong -> {
+                LogHelper.i(TAG, "Pong data=${it}")
+            }
+            else -> {
+                LogHelper.e(TAG, "type error===>${it}")
+            }
+        }
     }
 
     private suspend fun process(serverInfo: String) {
@@ -172,9 +183,13 @@ object DoKitMcConnectClient {
         WSEventProcessor.process(wsEvent)
     }
 
-    suspend fun close() {
+    fun close() {
         try {
-            clientWebSocketSession?.close()
+            clientWebSocketSession?.let {
+                CoroutineScope(it.coroutineContext).launch {
+                    clientWebSocketSession?.close()
+                }
+            }
             DokitMcConnectManager.connectMode = ConnectMode.CLOSE
         } catch (e: Exception) {
             e.printStackTrace()
@@ -194,24 +209,36 @@ object DoKitMcConnectClient {
         }
     }
 
-    private fun login() {
+    fun sendChangeHostMode() {
+        clientWebSocketSession?.let {
+            CoroutineScope(it.coroutineContext).launch {
+                if (it.isActive) {
+                    val wsPackage = WSPackageUtils.toPackageJson("001", PackageType.BROADCAST, "")
+                    it.outgoing.send(Frame.Text(wsPackage))
+                }
+            }
+        }
+    }
+
+    private fun login(connectSerial: String) {
         clientWebSocketSession?.let {
             CoroutineScope(it.coroutineContext).launch {
                 if (it.isActive) {
                     val pi = DokitDeviceUtils.getPackageInfo(Utils.getApp())
+                    val name = "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}(${DeviceUtils.getSDKVersionName()})"
                     val loginData = LoginData(
-                        "",
+                        name,
                         "android",
                         "${DeviceUtils.getSDKVersionName()}",
                         "${UIUtils.getWidthPixels()} x ${UIUtils.getRealHeightPixels()}",
                         "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}",
                         "${DoKitManager.IP_ADDRESS_BY_WIFI}",
-                        "",
+                        connectSerial,
                         "${pi.packageName}",
                         "${pi.versionName}"
                     )
                     val data = GsonUtils.toJson(loginData)
-                    it.outgoing.send(Frame.Text(WSPackageUtils.toPackageJson("222", PackageType.LOGIN, data)))
+                    it.outgoing.send(Frame.Text(WSPackageUtils.toPackageJson("000", PackageType.LOGIN, data)))
                 }
             }
         }

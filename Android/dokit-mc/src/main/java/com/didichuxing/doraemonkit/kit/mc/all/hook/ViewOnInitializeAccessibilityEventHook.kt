@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McAccessibilityEventMonitor
+import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
 
@@ -43,6 +44,9 @@ class ViewOnInitializeAccessibilityEventHook : XC_MethodHook() {
             LogHelper.i(TAG, "view==>$view  accessibilityEvent.eventType===${accessibilityEvent.eventType}")
 
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
+                return
+            }
+            if (view.id == R.id.dokit_mode_switch_btn) {
                 return
             }
             McAccessibilityEventMonitor.onAccessibilityEvent(view, accessibilityEvent)

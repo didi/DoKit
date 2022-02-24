@@ -36,10 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_name"
         android:layout_marginTop="@dimen/dk_dp_10"
+        android:layout_marginRight="@dimen/dk_dp_98"
         android:textColor="@color/dk_color_333333"
         android:textSize="12sp"
         android:textStyle="bold"
-        tools:text="地址:" />
+        tools:text="地址:2222222222222222222222222222222222222222222222222" />
 
 
     <TextView

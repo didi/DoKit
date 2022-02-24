@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcClient
@@ -39,6 +40,7 @@ class DoKitMcClientFragment : BaseFragment() {
             "当前设备已连接主机:ws://${history?.host}:${history?.port}/${history?.path}"
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
+                DoKitMcManager.WS_MODE = WSMode.UNKNOW
                 DoKit.removeFloating(ClientDokitView::class)
                 DoKitMcClient.close()
                 if (activity is DoKitMcActivity) {

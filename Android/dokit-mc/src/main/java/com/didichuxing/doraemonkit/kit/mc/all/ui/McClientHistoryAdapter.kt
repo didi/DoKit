@@ -43,5 +43,7 @@ data class McClientHistory(
     val path: String,
     val name: String,
     val time: String,
-    var enable: Boolean = false
+    val url: String = "",
+    var enable: Boolean = false,
+    var connectSerial: String = ""
 )

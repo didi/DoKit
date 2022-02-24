@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
 
-
 data class LoginData(
 
     /**
@@ -15,13 +14,13 @@ data class LoginData(
      *   "appName": "滴滴代驾司机端"，//应用名称
      *   "appVersion": "3.6.0"，//应用版本
      */
-    val deviceName :String,
-    val deviceType :String,
-    val osVersion :String,
-    val screen :String,
-    val manufacturer :String,
-    val ip :String,
-    val connectSerial :String,
-    val appName :String,
-    val appVersion :String
+    val deviceName: String,
+    val deviceType: String,
+    val osVersion: String,
+    val screen: String,
+    val manufacturer: String,
+    val ip: String,
+    val connectSerial: String = "",
+    val appName: String,
+    val appVersion: String
 )

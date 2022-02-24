@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.util
 
+import android.text.TextUtils
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistory
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.SPUtils
@@ -32,7 +33,19 @@ object ClientHistoryUtils {
 
 
     fun saveClientHistory(clientHistory: McClientHistory) {
+        val list = mutableListOf<McClientHistory>()
+        list.addAll(ConnectHistoryUtils.data)
+        list.forEach {
+            if (!TextUtils.isEmpty(it.url) && TextUtils.equals(it.url, clientHistory.url)) {
+                ConnectHistoryUtils.data.remove(it)
+            }
+        }
         data.add(clientHistory)
+        saveClientHistoryAll(data.toMutableList())
+    }
+
+    fun removeClientHistory(clientHistory: McClientHistory) {
+        data.remove(clientHistory)
         saveClientHistoryAll(data.toMutableList())
     }
 

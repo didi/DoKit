@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
@@ -23,6 +25,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistoryAdapter
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcClient
 import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.util.ClientHistoryUtils
+import com.didichuxing.doraemonkit.kit.mc.util.ConnectHistoryUtils
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
@@ -31,6 +34,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * ================================================
@@ -76,6 +81,18 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
             }
         }
 
+        mAdapter.setOnItemLongClickListener { adapter, view, pos ->
+            val data = histories[pos]
+            lifecycleScope.launch {
+                privacyInterceptDialog("提示", "是否删除连接历史记录").isTrueWithCor {
+                    ClientHistoryUtils.removeClientHistory(data)
+                    ToastUtils.showShort("已删除记录")
+                    updateHistoryView()
+                }
+            }
+            return@setOnItemLongClickListener false
+        }
+
         mRv.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(requireActivity())
@@ -98,7 +115,12 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
             val clients = ClientHistoryUtils.loadClientHistory()
             val current = DokitMcConnectManager.currentClientHistory
             for (history in clients) {
-                history.enable = TextUtils.equals(history.host, current?.host)
+                if (current != null) {
+                    history.enable = TextUtils.equals(history.url, current.url)
+                } else {
+                    history.enable = false
+                }
+
             }
 
             histories = clients
@@ -107,6 +129,27 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
             }
         }
     }
+
+    /**
+     * 处理dialog返回值
+     */
+    private suspend fun privacyInterceptDialog(title: String, content: String): Boolean =
+        suspendCoroutine {
+            AlertDialog.Builder(requireActivity())
+                .setTitle(title)
+                .setMessage(content)
+                .setCancelable(false)
+                .setPositiveButton("确认") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(true)
+                }
+                .setNegativeButton("取消") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(false)
+                }
+                .show()
+
+        }
 
     /**
      * 开始扫描
@@ -128,16 +171,18 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            ClientHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
-                            handleConnect(McClientHistory(uri.host!!, uri.port, uri.path!!, name, time))
+                            val url = "ws://${uri.host}:${uri.port}/${uri.path}"
+                            val history = McClientHistory(uri.host!!, uri.port, uri.path!!, name, time, url)
+                            ClientHistoryUtils.saveClientHistory(history)
+                            handleConnect(history)
                         }
 
                     } catch (e: Exception) {
                         e.printStackTrace()
                     } finally {
-                        if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).onBackPressed()
-                        }
+//                        if (activity is DoKitMcActivity) {
+//                            (activity as DoKitMcActivity).onBackPressed()
+//                        }
                     }
                 } else {
                     handleNoResult()

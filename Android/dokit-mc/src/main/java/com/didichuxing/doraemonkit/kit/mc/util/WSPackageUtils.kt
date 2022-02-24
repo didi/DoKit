@@ -5,11 +5,13 @@ import com.didichuxing.doraemonkit.kit.mc.net.PackageType
 import com.didichuxing.doraemonkit.kit.mc.net.WSPackage
 import com.didichuxing.doraemonkit.util.GsonUtils
 
-
+/**
+ * 通信数据包处理
+ */
 object WSPackageUtils {
 
     fun toPackageJson(event: WSEvent): String {
-        return toPackageJson("0", PackageType.BROADCAST, event)
+        return toPackageJson("000", PackageType.BROADCAST, event)
     }
 
     fun toPackageJson(id: String, type: PackageType, event: WSEvent): String {

@@ -4,10 +4,7 @@ import android.app.Activity
 import android.os.Build
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.TextView
+import android.widget.*
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName

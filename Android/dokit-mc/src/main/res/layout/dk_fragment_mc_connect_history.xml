@@ -22,11 +22,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="主机模式"
+                android:textStyle="bold"
                 android:textColor="@color/dk_color_333333"
-                android:textSize="@dimen/dk_dp_16" />
+                android:textSize="@dimen/dk_dp_18" />
 
             <Switch
-                android:id="@+id/switch_btn"
+                android:id="@+id/dokit_mode_switch_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dk_dp_40"
