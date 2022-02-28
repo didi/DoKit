@@ -8,6 +8,7 @@ import 'package:dokit/kit/kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_test/src/deprecated.dart';
 
 List<String> blackList = <String>[];
 
@@ -37,9 +38,9 @@ extension _BinaryMessengerExt on BinaryMessenger {
   }
 
   // ignore: unused_element
-  bool checkMockMessageHandler(String channel, MessageHandler handler) {
-    return this.checkMockMessageHandler(channel, handler);
-  }
+  // bool checkMockMessageHandler(String channel, MessageHandler handler) {
+  //   return this.checkMockMessageHandler(channel, handler);
+  // }
 }
 
 class DoKitBinaryMessenger extends BinaryMessenger {
