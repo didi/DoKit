@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo.mc
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -25,11 +26,6 @@ class MCActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mc)
 
-
-//        btn_webview.setOnClickListener {
-//            startActivity(Intent(this@MCActivity, WebViewActivity::class.java))
-//        }
-
         findViewById<SlideBar>(R.id.unlock_bar).setOnUnlockListener(object :
             SlideBar.OnUnlockListener {
             override fun onUnlock(view: View?) {
@@ -50,6 +46,24 @@ class MCActivity : AppCompatActivity() {
 
         })
 
+        val spinner = findViewById<Spinner>(R.id.spinner)
+
+        val citis = resources.getStringArray(R.array.city);
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, citis)
+        //第三步：设置下拉列表下拉时的菜单样式
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.setAdapter(adapter)
+        spinner.prompt = "测试"
+
+        spinner.setOnItemSelectedListener(object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+                ToastUtils.showShort("选择：" + citis[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                ToastUtils.showShort("没有选择")
+            }
+        })
 
 
         findViewById<View>(R.id.btn1).setOnClickListener {

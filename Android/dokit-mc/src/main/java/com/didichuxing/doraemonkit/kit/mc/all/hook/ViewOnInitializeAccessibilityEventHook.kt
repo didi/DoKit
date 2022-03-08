@@ -40,8 +40,7 @@ class ViewOnInitializeAccessibilityEventHook : XC_MethodHook() {
         param?.let {
             val view = it.thisObject as View
             val accessibilityEvent = it.args[0] as AccessibilityEvent
-
-            LogHelper.i(TAG, "view==>$view  accessibilityEvent.eventType===${accessibilityEvent.eventType}")
+            LogHelper.i(TAG, "view==>${view},accessibilityEvent=${accessibilityEvent},eventType===${Integer.toHexString(accessibilityEvent.eventType)}")
 
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return

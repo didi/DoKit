@@ -127,7 +127,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                                     result = interceptor.intercept(McMockKey(key,k,strQuery,strRequestBody), result)
 
                                 }
-                                LogHelper.i(TAG, "MCMCOKLOG OK key=$key,code=${result.code} originKey===>$k data=${result.data}")
+                                LogHelper.i(TAG, "MCMOCKLOG OK key=$key,code=${result.code} originKey===>$k data=${result.data}")
                                 if (result.code == McHttpManager.RESPONSE_OK && result.data != null) {
                                     val responseBody =
                                         ResponseBody.create(
