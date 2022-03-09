@@ -57,7 +57,11 @@ class DoKit {
       List<String> methodChannelBlackList = const <String>[],
       Function? releaseAction}) async {
     // 统计用户信息，便于了解该开源产品的使用量 (请大家放心，我们不用于任何恶意行为)
-    upLoadUserInfo();
+    try {
+      upLoadUserInfo();
+    } catch (e) {
+      print('真机可能报异常(可忽略) : upLoadUserInfo ${e.toString()}');
+    }
 
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -224,6 +228,11 @@ mixin _LeaksDoctorMixin on IDoKit {
   // 触发内存泄漏扫描
   void scanLeaks({String? group, int delay = 500}) {
     LeaksDoctor().memoryLeakScan(group: group, delay: delay);
+  }
+
+  // 显示泄漏信息汇总页面
+  void showLeaksInfoPage() {
+    LeaksDoctor().showLeaksPageWhenClick();
   }
 }
 
