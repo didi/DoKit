@@ -183,7 +183,7 @@ class LeaksMsgInfo {
 
   @override
   String toString() {
-    return 'Memory Leak: {\nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
+    return '$leaksClsName : {\nleaksInstanceCounts: $leaksInstanceCounts, \nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
   }
 }
 
