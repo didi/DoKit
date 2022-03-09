@@ -44,6 +44,8 @@ class LeaksDoctor {
 
   Stream<LeaksDoctorEvent> get onEventStream => _onEventStreamCtrl.stream;
 
+  bool isRunning = false;
+
   factory LeaksDoctor() {
     _instance ??= LeaksDoctor._();
     return _instance!;
@@ -57,16 +59,30 @@ class LeaksDoctor {
   void showLeaksPage(LeaksDoctorEvent event) {
     if (event.type == LeaksDoctorEventType.AllEnd) {
       if (getBuildContext != null) {
-        BuildContext context = getBuildContext!();
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => LeaksDoctorPage(
-                    title: '泄漏结果',
-                  )),
-        );
+        // BuildContext context = getBuildContext!();
+        // TODO 暂时关掉，这块需要优化
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => LeaksDoctorPage(
+        //             title: '泄漏结果',
+        //           )),
+        // );
       }
+    }
+  }
+
+  void showLeaksPageWhenClick() {
+    if (getBuildContext != null) {
+      BuildContext context = getBuildContext!();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LeaksDoctorPage(
+                  title: '泄漏结果',
+                )),
+      );
     }
   }
 
@@ -103,6 +119,11 @@ class LeaksDoctor {
     getBuildContext = func;
 
     onEventStream.listen((LeaksDoctorEvent event) {
+      if (event.type == LeaksDoctorEventType.AddObject || event.type == LeaksDoctorEventType.AllEnd) {
+        isRunning = false;
+      } else {
+        isRunning = true;
+      }
       if (!isEmpty()) {
         showLeaksPage(event);
       }
@@ -113,12 +134,17 @@ class LeaksDoctor {
   // 使用Timer是为了延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
   // 比如runZone就会延时释放
   void memoryLeakScan({String? group, int delay = 0}) async {
+    if (isRunning == true) {
+      print('LeaksDoctor is running');
+      return;
+    }
     bool isNotEmpty = _dynamicWatchGroup.isNotEmpty;
     if (group == null && isNotEmpty) {
+      Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
+      _dynamicWatchGroup.clear();
       Timer(Duration(milliseconds: delay), () async {
-        _dynamicWatchGroup.forEach((key, expando) {
+        tmpMap.forEach((key, expando) {
           _addTask(expando);
-          _dynamicWatchGroup.remove(key);
         });
         _initTask();
       });
@@ -168,6 +194,7 @@ class LeaksDoctor {
   void addObserved(Object obj,
       {String group = 'manual', int? expectedTotalCount}) {
     if (LeaksDoctor.maxRetainingPathLimit == null) return;
+    if (objHasAdded(group, obj) == true) return ;
 
     // 存储策略
     if (expectedTotalCount != null) {
@@ -196,6 +223,17 @@ class LeaksDoctor {
     expando ??= Expando('LeakDoctor-$key');
     expando[obj] = true;
     _dynamicWatchGroup[key] = expando;
+  }
+
+  bool objHasAdded(String key, Object obj) {
+    Expando? expando = _dynamicWatchGroup[key];
+    if (expando != null) {
+      final ret = expando[obj];
+      if (ret != null && ret==true) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
