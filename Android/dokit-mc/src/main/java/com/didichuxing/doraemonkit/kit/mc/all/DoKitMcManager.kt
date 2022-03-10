@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McCustomEventMonitor
 import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientSyncFailedImpl
 import com.didichuxing.doraemonkit.kit.mc.all.data.HostInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.proxy.IdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.util.ActivityUtils
 
@@ -57,6 +58,10 @@ object DoKitMcManager {
 
     var CONNECT_MODE: WSMode = WSMode.UNKNOW
 
+    var PROXY_MODE: WSMode = WSMode.CONNECT
+
+    var currentActionId = IdentityUtils.createAid()
+
     /**
      * 发送自定义事件
      * @return view
@@ -74,6 +79,13 @@ object DoKitMcManager {
         McCustomEventMonitor.onCustomEvent(eventType, view, param)
     }
 
+    fun updateActionId(id:String){
+        if (id.isNullOrEmpty()){
+            currentActionId=IdentityUtils.createAid()
+        }else{
+            currentActionId = id
+        }
+    }
 
     fun startHostMode() {
         DoKitManager.WS_MODE = WSMode.HOST

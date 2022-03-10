@@ -11,7 +11,6 @@ import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.*
 import okhttp3.RequestBody
 import okio.Buffer
-import org.checkerframework.common.returnsreceiver.qual.This
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -160,6 +159,20 @@ fun String.toMap(): MutableMap<String, String> {
     }
     return map
 }
+
+/**
+ * RequestBody 转为字符串
+ */
+fun RequestBody?.string(): String {
+    if (this != null && this.contentLength() > 0) {
+        val buffer = Buffer()
+        this.writeTo(buffer)
+        val stringBody = EncodeUtils.urlDecode(buffer.readUtf8())
+        return stringBody
+    }
+    return ""
+}
+
 
 /**
  * queryBody转成Map

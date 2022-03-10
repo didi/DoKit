@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.ability.WSEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.mock.proxy.McProxyManager
 import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
@@ -142,6 +143,9 @@ object DoKitMcConnectClient {
                                 }
                             }
                         }
+                        PackageType.DATA -> {
+                            McProxyManager.dispatch(packageText)
+                        }
                     }
                 }
             }
@@ -204,6 +208,16 @@ object DoKitMcConnectClient {
                 if (it.isActive) {
                     val wsPackage = WSPackageUtils.toPackageJson(wsEvent)
                     it.outgoing.send(Frame.Text(wsPackage))
+                }
+            }
+        }
+    }
+
+    fun sendDataProxy(proxyPackage: String) {
+        clientWebSocketSession?.let {
+            CoroutineScope(it.coroutineContext).launch {
+                if (it.isActive) {
+                    it.outgoing.send(Frame.Text(proxyPackage))
                 }
             }
         }

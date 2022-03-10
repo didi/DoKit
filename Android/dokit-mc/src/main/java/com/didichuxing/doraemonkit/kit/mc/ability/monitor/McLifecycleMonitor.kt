@@ -7,6 +7,8 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitLifecycleInterface
 import com.didichuxing.doraemonkit.kit.mc.ability.DoKitMcEventDispatcher
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.mock.proxy.IdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 
 /**
@@ -27,6 +29,7 @@ class McLifecycleMonitor : DokitLifecycleInterface {
 
     override fun onBackPressed(activity: Activity) {
         if (DoKitManager.WS_MODE == WSMode.HOST) {
+            val actionId = IdentityUtils.createAid()
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.ACTIVITY_BACK_PRESSED,
@@ -34,8 +37,9 @@ class McLifecycleMonitor : DokitLifecycleInterface {
                     "activityName" to activity::class.tagName,
                     "command" to "onBackPressed"
                 ),
-                null
+                null, actionId
             )
+            DoKitMcManager.updateActionId(actionId)
             DoKitMcEventDispatcher.send(wsEvent)
         }
     }
@@ -43,6 +47,7 @@ class McLifecycleMonitor : DokitLifecycleInterface {
 
     override fun onForeground(className: String) {
         if (DoKitManager.WS_MODE == WSMode.HOST) {
+            val actionId = IdentityUtils.createAid()
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_FOREGROUND,
@@ -50,22 +55,25 @@ class McLifecycleMonitor : DokitLifecycleInterface {
                     "command" to "onForeground",
                     "activityName" to className
                 ),
-                null
+                null, actionId
             )
+            DoKitMcManager.updateActionId(actionId)
             DoKitMcEventDispatcher.send(wsEvent)
         }
     }
 
     override fun onBackground() {
         if (DoKitManager.WS_MODE == WSMode.HOST) {
+            val actionId = IdentityUtils.createAid()
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_BACKGROUND,
                 mutableMapOf(
                     "command" to "onBackground"
                 ),
-                null
+                null, actionId
             )
+            DoKitMcManager.updateActionId(actionId)
             DoKitMcEventDispatcher.send(wsEvent)
         }
     }

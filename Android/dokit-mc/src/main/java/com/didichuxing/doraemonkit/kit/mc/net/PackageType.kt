@@ -29,7 +29,14 @@ enum class PackageType(name: String, ordinal: Int) {
      * 通知
      * 用于PC服务端通知客户端
      */
-    NOTIFY("notify", 3), ;
+    NOTIFY("notify", 3),
+
+    /**
+     * 数据代理
+     */
+    DATA("data", 4),
+    ;
+
 
     override fun toString(): String {
         super.toString()

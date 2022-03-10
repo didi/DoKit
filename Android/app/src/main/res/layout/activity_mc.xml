@@ -23,15 +23,21 @@
         android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEXT PAGE" />
+
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dropDownVerticalOffset="35dp"
-            android:spinnerMode="dropdown"
-            android:popupBackground="@color/dk_color_79DE79"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp"
+            android:dropDownVerticalOffset="35dp"
+            android:popupBackground="@color/dk_color_79DE79"
+            android:spinnerMode="dropdown" />
 
     </LinearLayout>
 

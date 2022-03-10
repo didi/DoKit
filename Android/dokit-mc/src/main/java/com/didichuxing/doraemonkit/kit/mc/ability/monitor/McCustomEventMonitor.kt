@@ -9,6 +9,8 @@ import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.ability.DoKitMcEventDispatcher
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.mock.proxy.IdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -24,6 +26,7 @@ object McCustomEventMonitor {
      */
     fun onCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
         val viewC12c = createViewC12c(view, eventType, param)
+        val actionId = IdentityUtils.createAid()
         val wsEvent = WSEvent(
             WSMode.HOST,
             WSEType.WSE_CUSTOM_EVENT,
@@ -34,8 +37,10 @@ object McCustomEventMonitor {
                     ActivityUtils.getTopActivity()::class.tagName
                 }
             ),
-            viewC12c
+            viewC12c,
+            actionId
         )
+        DoKitMcManager.updateActionId(actionId)
         DoKitMcEventDispatcher.send(wsEvent)
     }
 

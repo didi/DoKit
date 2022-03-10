@@ -17,5 +17,6 @@ data class WSEvent(
     val from: WSMode,
     val eventType: WSEType,
     val commParams: Map<String, String>? = null,
-    val viewC12c: ViewC12c? = null
+    val viewC12c: ViewC12c? = null,
+    var actionId: String = ""
 )

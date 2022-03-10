@@ -16,6 +16,8 @@ import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.ability.DoKitMcEventDispatcher
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.mock.proxy.IdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.kit.mc.util.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -82,6 +84,7 @@ object McAccessibilityEventMonitor {
         if (DoKitManager.WS_MODE != WSMode.HOST) {
             return null
         }
+        val actionId = IdentityUtils.createAid()
         val viewC12c: ViewC12c = createViewC12c(view, accessibilityEvent)
         val wsEvent = WSEvent(
             WSMode.HOST,
@@ -93,8 +96,10 @@ object McAccessibilityEventMonitor {
                     ActivityUtils.getTopActivity()::class.tagName
                 }
             ),
-            viewC12c
+            viewC12c,
+            actionId
         )
+        DoKitMcManager.updateActionId(actionId)
         DoKitMcEventDispatcher.send(wsEvent)
         return viewC12c
     }

@@ -4,6 +4,7 @@ import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McAccessibilityEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McCustomEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McLifecycleEventMonitor
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 import com.didichuxing.doraemonkit.util.*
 
@@ -26,6 +27,8 @@ object WSClientProcessor {
      */
     fun process(wsEvent: WSEvent) {
         LogHelper.i(TAG, "process() wsEvent===>$wsEvent")
+        DoKitMcManager.updateActionId(wsEvent.actionId)
+
         when (wsEvent.eventType) {
             /**
              * 通用事件处理

@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.mock.http.DokitMcInterceptor
 import com.didichuxing.doraemonkit.kit.mc.all.ui.host.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.all.ui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.mock.http.DokitMcProxyInterceptor
 import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
@@ -28,7 +29,8 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
-            "okhttp_interceptor" to DokitMcInterceptor(),
+//            "okhttp_interceptor" to DokitMcInterceptor(),
+            "okhttp_interceptor" to DokitMcProxyInterceptor(),
             "lifecycle" to McLifecycleMonitor()
         )
     }
