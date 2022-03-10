@@ -154,8 +154,8 @@ class LeaksDoctorTask extends _Task {
         if (searchPolicy != null && clzName != null) {
           final ret = searchPolicy!(clzName) ?? 0;
           if (ret > 0 && leaksInstanceCounts != null) {
-            // 如果期望的对象数和实际对象数相同，符号预期，不认为是一次泄漏
-            if (ret == leaksInstanceCounts) {
+            // 如果期望的对象数和实际对象数相同或者期望对象数大于实际对象数，符号预期，不认为是一次泄漏
+            if (ret >= leaksInstanceCounts) {
               return null;
             }
           }
