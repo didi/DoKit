@@ -8,11 +8,11 @@
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|3.3.5及以后的Androidx|debugImplementation "io.github.didi.dokit:${aarNme}: ${lastversion}"|(1)dokitx的library和plugin的groupId及版本号需要保持一致;(2)AGP最低版本要求3.3.0+|
-|3.3.5及以前的Androidx版本|debugImplementation "com.didichuxing.doraemonkit:${aarNme}:3.3.5"|（1）dokitx的library和plugin的groupId及版本号需要保持一致； (2)AGP最低版本要求3.3.0+|
-|支持android support|debugImplementation "com.didichuxing.doraemonkit:${aarNme}:3.3.5"|support放弃更新，请大家尽快升级和适配Androidx|
+|3.3.5及以后的Androidx|debugImplementation "io.github.didi.dokit:${aarName}: ${lastversion}"|(1)dokitx的library和plugin的groupId及版本号需要保持一致;(2)AGP最低版本要求3.3.0+|
+|3.3.5及以前的Androidx版本|debugImplementation "com.didichuxing.doraemonkit:${aarName}:3.3.5"|（1）dokitx的library和plugin的groupId及版本号需要保持一致； (2)AGP最低版本要求3.3.0+|
+|支持android support|debugImplementation "com.didichuxing.doraemonkit:${aarName}:3.3.5"|support放弃更新，请大家尽快升级和适配Androidx|
 
-**${aarNmae}需要改为指定的名称，参考如下:**
+**${aarName}需要改为指定的名称，参考如下:**
 ```
 //核心模块
 

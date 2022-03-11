@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,9 @@ import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.util.BarUtils;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
+import com.didichuxing.doraemonkit.util.ScreenUtils;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.ArrayList;
@@ -132,10 +135,18 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
         int x, y;
         if (isNormalMode()) {
             x = getNormalLayoutParams().leftMargin + getDoKitView().getWidth() / 2;
-            y = getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2;
+            if (BarUtils.isStatusBarVisible(getActivity())) {
+                y = getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2 + BarUtils.getStatusBarHeight();
+            } else {
+                y = getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2;
+            }
         } else {
             x = getSystemLayoutParams().x + getDoKitView().getWidth() / 2;
-            y = getSystemLayoutParams().y + getDoKitView().getHeight() / 2;
+            if (BarUtils.isStatusBarVisible(getActivity())) {
+                y = getSystemLayoutParams().y + getDoKitView().getHeight() / 2 + BarUtils.getStatusBarHeight();
+            } else {
+                y = getSystemLayoutParams().y + getDoKitView().getHeight() / 2;
+            }
         }
 
         mTraverHandler.removeCallbacks(mFindCheckViewRunnable);
@@ -150,6 +161,7 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
         }
 
         int[] location = new int[2];
+        //相对window的x y
         view.getLocationInWindow(location);
         int left = location[0];
         int top = location[1];

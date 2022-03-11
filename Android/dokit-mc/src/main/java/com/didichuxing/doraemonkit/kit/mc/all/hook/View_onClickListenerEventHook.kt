@@ -1,10 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.all.hook
 
-import android.view.MotionEvent
 import android.view.View
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
 
 /**

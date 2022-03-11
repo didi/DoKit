@@ -12,6 +12,8 @@ import androidx.collection.ArrayMap
 import com.didichuxing.doraemonkit.DoKitEnv
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.extension.tagName
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerDokitView
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerInfoDokitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
@@ -195,7 +197,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                 if (activity is UniversalActivity && gDoKitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
                     continue
                 }
-                //是否过滤掉 入口icon
+                //取色器特殊处理
+                if (gDoKitViewInfo.absDokitViewClass == ColorPickerDokitView::class.java || gDoKitViewInfo.absDokitViewClass == ColorPickerInfoDokitView::class.java) {
+                    continue
+                }
+                //是否过滤掉入口icon
                 if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
                     DoKitManager.MAIN_ICON_HAS_SHOW = false
                     continue

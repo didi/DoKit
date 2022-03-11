@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
+import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 
@@ -24,15 +24,26 @@ class DoKitMcActivity : BaseActivity() {
 
         mTitlebar = findViewById(R.id.title_bar)
         mTitlebar.setListener {
-            finish()
+            onBackPressed()
         }
 
+        newHomeFragment()
+    }
+
+    fun newHomeFragment() {
         changeFragment(WSMode.UNKNOW)
     }
 
-
     fun changeFragment(wsMode: WSMode) {
-        val fragment: Fragment = when (wsMode) {
+        changeFragment(wsMode, false)
+    }
+
+    fun pushFragment(wsMode: WSMode) {
+        changeFragment(wsMode, true)
+    }
+
+    fun changeFragment(wsMode: WSMode, push: Boolean) {
+        val fragment: BaseFragment = when (wsMode) {
             WSMode.RECORDING,
             WSMode.UNKNOW -> {
                 mTitlebar.setTitle("一机多控（主页）")
@@ -47,6 +58,11 @@ class DoKitMcActivity : BaseActivity() {
                 DoKitMcClientFragment()
             }
 
+            WSMode.CLIENT_HISTORY -> {
+                mTitlebar.setTitle("一机多控（从机）")
+                DoKitMcClientHistoryFragment()
+            }
+
             WSMode.MC_CASELIST -> {
                 mTitlebar.setTitle("一机多控（用例列表）")
                 DoKitMcDatasFragment()
@@ -57,9 +73,11 @@ class DoKitMcActivity : BaseActivity() {
             }
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, fragment)
-            .commitNowAllowingStateLoss()
+        if (push) {
+            showContent(R.id.fragment_container_view, fragment)
+        } else {
+            replaceContent(R.id.fragment_container_view, fragment)
+        }
 
     }
 

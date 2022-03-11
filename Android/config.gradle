@@ -1,28 +1,33 @@
 ext {
     publish_config = [
-            //0:发布到到本地localRepoURL仓库
-            //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
-            //2:发布到maven_central远程仓库
-            archives_type: 0,
-            //0:依赖dokit本地module运行
-            //1:依赖dokit远程aar运行
-            run_type     : 0,
-            group_id     : 'io.github.didi.dokit',
-            version      : '3.5.0.100'
+        //0:发布到到本地localRepoURL仓库
+        //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
+        //2:发布到maven_central远程仓库
+        archives_type: 0,
+        //0:依赖dokit本地module运行
+        //1:依赖dokit远程aar运行
+        run_type     : 0,
+        //0:外部公共环境
+        //1:内部私有环境，使用私有仓库构建，仓库地址在 local.properties 中添加 PRIVATE_REPOSITORY_URL
+        run_env      : 0,
+        //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
+        use_local    : false,
+        group_id     : 'io.github.didi.dokit',
+        version      : '3.6.0'
     ]
 
     android = [compileSdkVersion             : 29,
-               suppotrSdkVersion             : "28.0.0",
                applicationId                 : "com.didichuxing.doraemondemo",
                minSdkVersion_16              : 16,
                minSdkVersion_21              : 21,
-               targetSdkVersion              : 29,
+               targetSdkVersion              : 30,
                //app版本号
                versionCode                   : 1,
                versionName                   : "1.0.0",
                glide_version                 : "4.9.0",
                kotlin_version_v13            : "1.3.72",
                kotlin_version_v14            : "1.4.32",
+               kotlin_version_v15            : "1.5.31",
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
                booster_version               : "4.0.0",
@@ -43,8 +48,8 @@ ext {
                     "recyclerview"                  : 'androidx.recyclerview:recyclerview:1.1.0',
                     "material"                      : 'com.google.android.material:material:1.1.0',
                     "annotation"                    : "androidx.annotation:annotation:1.1.0",
-                    "kotlin_v13"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v13"]}",
-                    "kotlin_v14"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${android["kotlin_version_v14"]}",
+                    "kotlin_v13"                    : "org.jetbrains.kotlin:kotlin-stdlib:${android["kotlin_version_v13"]}",
+                    "kotlin_v14"                    : "org.jetbrains.kotlin:kotlin-stdlib:${android["kotlin_version_v14"]}",
                     "coroutines-core_v13"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v13"]}",
                     "coroutines-core_v14"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v14"]}",
                     "coroutines-android_v13"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v13"]}",
@@ -68,9 +73,11 @@ ext {
                     "guava"                         : "com.google.guava:guava:27.1-android",
                     //表格
                     //"SmartTable"                    : 'com.github.huangyanbin:SmartTable:2.2.0',
-                    "retrofit2"                     : "com.squareup.retrofit2:retrofit:2.8.1",
-                    "retrofit2_rxjava2"             : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
-                    "retrofit2_gson"                : "com.squareup.retrofit2:converter-gson:2.8.1",
+                    "retrofit2"                     : "com.squareup.retrofit2:retrofit:2.9.0",
+                    "retrofit2_scalars"             : "com.squareup.retrofit2:converter-scalars:2.9.0",
+                    "retrofit2_gson"                : "com.squareup.retrofit2:converter-gson:2.9.0",
+                    "retrofit2_rxjava2"             : "com.squareup.retrofit2:adapter-rxjava2:2.9.0",
+                    "rxAndroid"                     : "io.reactivex.rxjava2:rxandroid:2.1.1",
                     //暂时不支持3.14.0以上的okhttp版本
                     "okhttp_v2"                     : "com.squareup.okhttp:okhttp:${android["okhttp_v2"]}",
                     "okhttp_v3"                     : "com.squareup.okhttp3:okhttp:${android["okhttp_v3"]}",
@@ -92,7 +99,6 @@ ext {
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     "okio"                          : "com.squareup.okio:okio:1.17.2",
-                    "epic"                          : 'me.weishu:epic:0.11.1',
                     "utilcode"                      : 'com.blankj:utilcodex:1.29.0',
                     "glide"                         : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
@@ -151,6 +157,9 @@ ext {
                     "flexbox"                       : 'com.google.android:flexbox:1.0.0',
                     "auto_service"                  : 'com.google.auto.service:auto-service:1.0',
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
+                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.0',
+                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.0',
+                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.0',
 
     ]
     //定义全局方法
@@ -160,4 +169,30 @@ ext {
         String[] vs = version.split("\\.")
         return vs.length == 3
     }
+
+    usePrivateEnv = {
+        def runEnv = publish_config["run_env"]
+        return runEnv == 1
+    }
+
+    useLocalRepository = {
+        def useLocal = publish_config["use_local"]
+        return useLocal
+    }
+
+    privateRepository = {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def url = properties.getProperty('PRIVATE_REPOSITORY_URL', "")
+        return url
+    }
+
+    localRepository = {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def url = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+        return url
+    }
+
+
 }

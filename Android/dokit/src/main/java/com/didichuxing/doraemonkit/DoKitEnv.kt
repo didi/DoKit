@@ -8,7 +8,7 @@ import android.graphics.Point
  *
  * @author alvince.zy@gmail.com
  */
-internal object DoKitEnv {
+object DoKitEnv {
 
     @Volatile
     var app: Application? = null

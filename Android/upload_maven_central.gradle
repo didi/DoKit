@@ -11,9 +11,9 @@ def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
 task packageSourcesJar(type: Jar) {
     classifier 'sources'
     if (project.ARTIFACT_ID == "dokitx-plugin") {
-        from project.kotlin.sourceSets.main.kotlin.source
+        from project.kotlin.sourceSets.main.kotlin.getSrcDirs()
     } else {
-        from project.android.sourceSets.main.java.source
+        from project.android.sourceSets.main.java.getSrcDirs()
     }
 }
 if (project.ARTIFACT_ID == "dokitx-plugin") {

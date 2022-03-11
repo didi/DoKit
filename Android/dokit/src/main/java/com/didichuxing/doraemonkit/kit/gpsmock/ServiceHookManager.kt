@@ -25,7 +25,7 @@ object ServiceHookManager {
 
     private fun init() {
         //mHookers.add(new WifiHooker());
-        mHookers.add(LocationHooker())
+//        mHookers.add(LocationHooker())
 //        mHookers.add(ActivityMangerHooker())
 //        mHookers.add(ActivityTaskMangerHooker())
 //        mHookers.add(PackageManagerHooker())
@@ -48,6 +48,7 @@ object ServiceHookManager {
             //ServiceManager 中存储了本地Binder对象的代理对象
             val serviceManager = ReflectUtils.reflect("android.os.ServiceManager")
             for (hooker in mHookers) {
+                hooker.init()
                 //BinderProxy ：反射得到具体的本地Binder对象的代理对象
                 val binderProxy =
                     serviceManager.method("getService", hooker.serviceName()).get<IBinder>()

@@ -43,9 +43,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     if (needKotlinV14()) {
-        implementation rootProject.ext.dependencies["kotlin_v14"]
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
-        implementation rootProject.ext.dependencies["kotlin_v13"]
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["activity-ktx"]
@@ -61,4 +61,7 @@ dependencies {
     //此处需要使用api的形式 向上暴露内部api
     implementation project(':dokit')
     compileOnly project(':dokit-util')
+}
+repositories {
+    mavenCentral()
 }

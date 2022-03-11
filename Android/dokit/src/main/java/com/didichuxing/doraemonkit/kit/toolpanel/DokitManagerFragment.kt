@@ -297,8 +297,8 @@ class DokitManagerFragment : BaseFragment() {
                             findViewById<View>(R.id.tv_reset).visibility = View.GONE
                             IS_EDIT = false
 
-                            findViewById<EditText>(R.id.tv_edit).apply {
-                                setText(DoKitCommUtil.getString(R.string.dk_edit))
+                            findViewById<TextView>(R.id.tv_edit).apply {
+                                text = DoKitCommUtil.getString(R.string.dk_edit)
                                 setTextColor(
                                     ContextCompat.getColor(
                                         DoKit.APPLICATION,

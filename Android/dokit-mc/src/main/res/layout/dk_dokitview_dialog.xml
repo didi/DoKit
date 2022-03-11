@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_aa000000">
+
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/dk_color_FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="一机多控同步异常"
+            android:textColor="@color/dk_color_333333"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <View
+            style="@style/DK.Divider"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="异常类型"
+                android:textColor="@color/dk_color_333333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/exception_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_5"
+                android:maxLines="2"
+                android:text="主从机页面不一致"
+                android:textColor="@color/dk_color_FF0006"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_16"
+                android:text="备注：详细信息请在dokit.cn平台一机多控模块查看"
+                android:textColor="@color/dk_color_333333"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/DK.Divider"
+            android:layout_marginTop="20dp" />
+
+
+        <TextView
+            android:id="@+id/tv_ok"
+            style="@style/DK.Text.Blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dk_dialog_button_background"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="确认"
+            android:textColor="@color/dk_color_55A8FD"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

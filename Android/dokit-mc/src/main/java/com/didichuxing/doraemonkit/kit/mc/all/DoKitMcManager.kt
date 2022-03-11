@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
+import com.didichuxing.doraemonkit.kit.mc.client.ClientSyncFailedImpl
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
@@ -27,6 +28,12 @@ import io.ktor.http.cio.*
  * ================================================
  */
 object DoKitMcManager {
+
+    /**
+     * 同步失败回调
+     */
+    val syncFailedListener = ClientSyncFailedImpl()
+
     /**
      * 主机
      */

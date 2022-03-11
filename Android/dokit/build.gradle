@@ -19,7 +19,17 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     buildTypes {
@@ -34,6 +44,11 @@ android {
             buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
         }
     }
+//    externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//        }
+//    }
 
 //    compileOptions {
 //        sourceCompatibility JavaVersion.VERSION_1_8
@@ -57,7 +72,7 @@ android {
 }
 
 dependencies {
-    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
@@ -156,6 +171,9 @@ configurations.all {
 //            }
 //        }
     }
+}
+repositories {
+    mavenCentral()
 }
 
 

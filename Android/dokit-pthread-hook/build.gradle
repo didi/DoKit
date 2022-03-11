@@ -67,9 +67,9 @@ dependencies {
     def matrixVersion = "2.0.2"
     implementation "com.tencent.matrix:matrix-hooks:$matrixVersion"
     implementation "com.tencent.matrix:matrix-fd:$matrixVersion"
-    implementation('com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.2') {
-        transitive = false
-    }
+//    implementation('com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.4.2') {
+//        transitive = false
+//    }
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["appcompat"]

@@ -132,7 +132,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
         }
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         try {
             if (ignoreCurrentActivityDokitView(activity)) {
                 return

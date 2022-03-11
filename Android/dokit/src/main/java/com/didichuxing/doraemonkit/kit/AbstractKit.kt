@@ -68,7 +68,7 @@ abstract class AbstractKit : IKit {
         return ActivityUtils.getTopActivity()
     }
 
-
+    @Deprecated("已废弃，重不重写都不影响功能", ReplaceWith(""))
     override val category: Int
         get() = Category.DEFAULT
 

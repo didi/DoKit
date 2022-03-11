@@ -36,12 +36,15 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     if (needKotlinV14()) {
-        implementation rootProject.ext.dependencies["kotlin_v14"]
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
-        implementation rootProject.ext.dependencies["kotlin_v13"]
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
     implementation project(':dokit-okhttp-v3')
     implementation project(':dokit-okhttp-v4')
     compileOnly project(':dokit-util')
+}
+repositories {
+    mavenCentral()
 }
 

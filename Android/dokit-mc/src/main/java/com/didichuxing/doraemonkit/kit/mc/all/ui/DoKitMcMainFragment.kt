@@ -66,6 +66,10 @@ class DoKitMcMainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
+            DoKitMcManager.MC_CASE_ID = McCaseUtils.loadCaseId()
+        }
+
         val server = findViewById<Button>(R.id.tv_host)
         server.setOnClickListener {
             if (DoKitManager.WS_MODE == WSMode.RECORDING) {
@@ -79,13 +83,13 @@ class DoKitMcMainFragment : BaseFragment() {
                         "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
                     ).isTrueWithCor {
                         if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).changeFragment(WSMode.HOST)
+                            (activity as DoKitMcActivity).pushFragment(WSMode.HOST)
                         }
                     }
                 }
             } else {
                 if (activity is DoKitMcActivity) {
-                    (activity as DoKitMcActivity).changeFragment(WSMode.HOST)
+                    (activity as DoKitMcActivity).pushFragment(WSMode.HOST)
                 }
             }
 
@@ -184,7 +188,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 ToastUtils.showShort("DoKit初始化时未传入产品id")
                 return@setOnClickListener
             }
-            (requireActivity() as DoKitMcActivity).changeFragment(WSMode.MC_CASELIST)
+            (requireActivity() as DoKitMcActivity).pushFragment(WSMode.MC_CASELIST)
         }
 
         //加载exclude key
@@ -230,10 +234,27 @@ class DoKitMcMainFragment : BaseFragment() {
                 val permissions = arrayOf(Manifest.permission.CAMERA)
                 requestPermissions(permissions, REQUEST_CODE_CAMERA)
             } else {
-                startScan()
+                goClient()
             }
         } else {
+            goClient()
+        }
+    }
+
+    private fun goClient() {
+        if (DoKitManager.WS_MODE == WSMode.CLIENT) {
+            if (activity is DoKitMcActivity) {
+                (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT)
+            }
+            return
+        }
+        if (ClientHistoryUtils.loadClientHistory().size == 0) {
             startScan()
+            return
+        }
+
+        if (activity is DoKitMcActivity) {
+            (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT_HISTORY)
         }
     }
 
@@ -295,13 +316,16 @@ class DoKitMcMainFragment : BaseFragment() {
      * 没有返回结果
      */
     private fun handleNoResult() {
-        ToastUtils.showShort("没有扫描到任何内容>_<")
+        ToastUtils.showShort("没有扫描到任何内容 >_< .")
     }
 
     /**
      * 处理返回结果
      */
     private fun handleScanResult(uri: Uri) {
+
+        ClientHistoryUtils.saveClientHistory(McClientHistory(uri.host!!, uri.port, uri.path!!, "", ""))
+
         DoKitWsClient.connect(uri.host!!, uri.port, uri.path!!) { code, message ->
             withContext(Dispatchers.Main) {
                 when (code) {
@@ -310,12 +334,15 @@ class DoKitMcMainFragment : BaseFragment() {
                         DoKitMcManager.HOST_INFO =
                             GsonUtils.fromJson<HostInfo>(message, HostInfo::class.java)
                         if (activity is DoKitMcActivity) {
-                            (activity as DoKitMcActivity).changeFragment(WSMode.CLIENT)
+                            (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT)
                         }
                     }
                     DoKitWsClient.CONNECT_FAIL -> {
-                        LogHelper.i(TAG, "message===>$message")
+                        LogHelper.e(TAG, "message===>$message")
                         ToastUtils.showShort(message)
+                    }
+                    else -> {
+                        LogHelper.e(TAG, "code=$code, message===>$message")
                     }
                 }
             }
@@ -371,7 +398,6 @@ class DoKitMcMainFragment : BaseFragment() {
                         personName = personName
                     )
                 )
-
                 return true
             }
 

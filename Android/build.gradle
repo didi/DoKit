@@ -22,11 +22,22 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
-//        maven {
-//            //本地插件地址
-//            url uri('/Users/didi/project/dokit_repo')
-//        }
+
+        println("[dokit build] add buildscript private repositories")
+        println("[dokit build] usePrivateEnv=" + usePrivateEnv() +",privateRepository="+ privateRepository())
+        println("[dokit build] useLocalRepository="+useLocalRepository()+",localRepository="+localRepository() )
+
+        if (usePrivateEnv()){
+            maven {
+                url privateRepository()
+            }
+        }
+        if (useLocalRepository()){
+            maven {
+                url uri(localRepository())
+            }
+        }
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
@@ -36,7 +47,7 @@ buildscript {
         if (runType == 1) {
             classpath "io.github.didi.dokit:dokitx-plugin:$dokitPluginVersion"
         }
-        //classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
+//        classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
 //        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
@@ -44,7 +55,10 @@ buildscript {
 
 }
 
+apply from: "./config.gradle"
+
 allprojects {
+    def isRootProject = "Dokit-Android".equals(project.name)
     repositories {
         google()
         mavenCentral()
@@ -52,11 +66,22 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'https://artifactory.intra.xiaojukeji.com/artifactory/public' }
-//        maven {
-//            //本地插件地址
-//            url uri('/Users/didi/project/dokit_repo')
-//        }
+
+        println("[dokit build] add allprojects repositories config project=" + project.name)
+        println("[dokit build] usePrivateEnv=" + usePrivateEnv() + ",privateRepository=" + privateRepository())
+        println("[dokit build] useLocalRepository=" + useLocalRepository() + ",localRepository=" + localRepository())
+
+        if (usePrivateEnv()) {
+            maven {
+                url privateRepository()
+            }
+        }
+
+        if (useLocalRepository()){
+            maven {
+                url uri(localRepository())
+            }
+        }
     }
 }
 
@@ -106,40 +131,80 @@ task checkUploadConfig4Maven() {
         if (rootProject.ext.publish_config["archives_type"] != 2) {
             throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 2。")
         }
-        try {
-            rootProject.project("dokit-rpc").name
-            rootProject.project("dokit-rpc-mc").name
 
-        } catch (Exception e) {
-            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        //仓库检查
+        def repositories = new ArrayList<String>()
+
+        rootProject.repositories.forEach {
+            if (it instanceof MavenArtifactRepository) {
+                repositories.add((it as MavenArtifactRepository).url.toString())
+            }
         }
 
-        try {
-            rootProject.project("dokit-plugin").name
-        } catch (Exception e) {
-            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        //相关模块检查
+        def modules = new ArrayList<String>()
+
+        rootProject.allprojects.forEach {
+            modules.add(it.name)
         }
+
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
+
+        if (!modules.contains("dokit-plugin")) {
+            throw new RuntimeException("未找到dokit-plugin module。。。")
+        }
+
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
+
 
     }
 }
 
 task checkUploadConfig4Local() {
     doLast {
+        //配置检查
         if (rootProject.ext.publish_config["archives_type"] != 0) {
             throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 0。")
         }
-        try {
-            rootProject.project("dokit-rpc").name
-            rootProject.project("dokit-rpc-mc").name
-        } catch (Exception e) {
-            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        //仓库检查
+        def repositories = new ArrayList<String>()
+
+        rootProject.repositories.forEach {
+            if (it instanceof MavenArtifactRepository) {
+                repositories.add((it as MavenArtifactRepository).url.toString())
+            }
         }
 
-        try {
-            rootProject.project("dokit-plugin").name
-        } catch (Exception e) {
-            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        //相关模块检查
+        def modules = new ArrayList<String>()
+
+        rootProject.allprojects.forEach {
+            modules.add(it.name)
         }
+
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
+
+        if (!modules.contains("dokit-plugin")) {
+            throw new RuntimeException("未找到dokit-plugin module。。。")
+        }
+
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
 
     }
 }
@@ -149,18 +214,37 @@ task checkUploadConfig4Didi() {
         if (rootProject.ext.publish_config["archives_type"] != 1) {
             throw new RuntimeException("执行当前打包上传任务必须修改config.gradle配置中的archives_type = 1。")
         }
-        try {
-            rootProject.project("dokit-rpc").name
-            rootProject.project("dokit-rpc-mc").name
-        } catch (Exception e) {
-            throw new RuntimeException("dokit rpc 相关模块未开启动。。。")
+        //仓库检查
+        def repositories = new ArrayList<String>()
+
+        rootProject.repositories.forEach {
+            if (it instanceof MavenArtifactRepository) {
+                repositories.add((it as MavenArtifactRepository).url.toString())
+            }
         }
 
-        try {
-            rootProject.project("dokit-plugin").name
-        } catch (Exception e) {
-            throw new RuntimeException("dokit plugn 模块未开启动。。。")
+        //相关模块检查
+        def modules = new ArrayList<String>()
+
+        rootProject.allprojects.forEach {
+            modules.add(it.name)
         }
+
+//        if (!modules.contains("dokit-rpc")) {
+//            throw new RuntimeException("未找到dokit-rpc module。。。")
+//        }
+//
+//        if (!modules.contains("dokit-rpc-mc")) {
+//            throw new RuntimeException("未找到dokit-rpc-mc module。。。")
+//        }
+
+        if (!modules.contains("dokit-plugin")) {
+            throw new RuntimeException("未找到dokit-plugin module。。。")
+        }
+
+//        if (!modules.contains("dokit-dmap")) {
+//            throw new RuntimeException("未找到dokit-dmap module。。。")
+//        }
 
     }
 }

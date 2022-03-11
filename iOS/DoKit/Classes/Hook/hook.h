@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef dokit_hook_h
-#define dokit_hook_h
+#ifndef dokit_hook
+#define dokit_hook
 
+#include <DoraemonKit/common.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
-#define DOKIT_HOOK_EXPORT __attribute__((visibility("default")))
 
 #ifdef __cplusplus
 #define EXTERN_C_START
@@ -41,7 +40,7 @@ struct DKRebinding {
     uintptr_t *replaced;
 };
 
-DOKIT_HOOK_EXPORT bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length);
+DOKIT_EXPORT bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length);
 
 EXTERN_C_END
 
