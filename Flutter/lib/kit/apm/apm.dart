@@ -1,3 +1,4 @@
+import 'package:dokit/kit/apm/crash_kit.dart';
 import 'package:dokit/kit/apm/fps_kit.dart';
 import 'package:dokit/kit/apm/http_kit.dart';
 import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
@@ -19,7 +20,8 @@ class ApmKitManager {
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
     ApmKitName.KIT_SOURCE_CODE: SourceCodeKit(),
-    ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit()
+    ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit(),
+    ApmKitName.KIT_CARSH: CrashKit()
   };
 
   ApmKitManager._privateConstructor();
@@ -74,6 +76,11 @@ abstract class ApmKit implements IKit {
     return info != null && !storage.contains(info) && storage.save(info);
   }
 
+  bool removeAllItem() {
+    storage.clear();
+    return true;
+  }
+
   IStorage getStorage() {
     return storage;
   }
@@ -88,4 +95,5 @@ class ApmKitName {
   static const String KIT_HTTP = '网络请求';
   static const String KIT_SOURCE_CODE = '查看源码';
   static const String KIT_PAGE_LAUNCH = '启动耗时';
+  static const String KIT_CARSH = '崩溃检测';
 }

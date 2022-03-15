@@ -13,11 +13,13 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:dokit/engine/dokit_binding.dart';
+import 'package:dokit/kit/apm/crash_kit.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/vm/version.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/kit_page.dart';
+import 'package:dokit/util/FileOperation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
@@ -206,6 +208,10 @@ void _collectLog(String line) {
 void _collectError(Object? details, Object? stack) {
   LogManager.instance.addLog(
       LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
+  if (CrashLogManager.instance.crashSwitch) {
+    FileUtil.shared
+        .writeCounter('carshDoc', '${details.toString()}\n${stack.toString()}');
+  }
 }
 
 void addEntrance() {
