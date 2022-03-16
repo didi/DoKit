@@ -69,8 +69,12 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
         return NO;
     }
     // 文件类型不作处理
-    NSString * contentType = [request valueForHTTPHeaderField:@"Content-Type"];
-    if (contentType && [contentType containsString:@"multipart/form-data"]) {
+    NSString *contentType = [request valueForHTTPHeaderField:@"Content-Type"];
+    if ([contentType hasPrefix:@"multipart/form-data"]) {
+        return NO;
+    }
+    NSString *acceptString = [request valueForHTTPHeaderField:@"Accept"];
+    if ([acceptString hasPrefix:@"image/*"]) {
         return NO;
     }
     
