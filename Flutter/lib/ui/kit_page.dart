@@ -1,5 +1,8 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/biz/biz.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
@@ -79,6 +82,7 @@ class _KitPage extends State<KitPage> {
                     alignment: Alignment.center,
                   ),
                 ),
+                buildBizGroupView(context), // 自定义工具
                 Container(
                     width: width, height: 12, color: const Color(0xfff5f6f7)),
                 Container(
@@ -135,6 +139,91 @@ class _KitPage extends State<KitPage> {
         rc2.left + rc2.width > rc1.left &&
         rc1.top + rc1.height > rc2.top &&
         rc2.top + rc2.height > rc1.top;
+  }
+
+  Widget buildBizGroupView(BuildContext context) {
+    final widgets = <Widget>[];
+    final width = MediaQuery.of(context).size.width;
+    var groupKeys = BizKitManager.instance.groupKeys();
+    var counts = groupKeys.length;
+
+    if (counts == 0) {
+      return SizedBox();
+    }
+
+    for (var i = 0; i < counts; i++) {
+      var key = groupKeys[i];
+      var tip = BizKitManager.instance.kitGroupTips[key];
+      widgets.add(
+          Container(width: width, height: 12, color: const Color(0xfff5f6f7)));
+
+      widgets.add(Container(
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(left: 10, top: 10, bottom: 15),
+                child: RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  TextSpan(
+                      text: key, // 这块也是外部获取
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xff333333),
+                          fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text: '  $tip', // 外部获取
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xff333333),
+                      )),
+                ])),
+              ),
+              // 这里的数据从BizMananger中获取
+              buildBizKitView(context, key)
+            ],
+          ),
+        ),
+      ));
+
+      widgets.add(Container(
+          width: width,
+          height: 12,
+          color: Colors.white));
+    }
+
+    final wrap = Wrap(
+      children: widgets,
+    );
+    return wrap;
+  }
+
+  Widget buildBizKitView(BuildContext context, String key) {
+    final List<Widget> widgets = <Widget>[];
+    final double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
+    BizKitManager.instance.kitGroupMap[key]!.forEach((IKit value) {
+      widgets.add(
+        MaterialButton(
+            child: KitItem(value),
+            onPressed: () {
+              setState(() {
+                value.tabAction();
+              });
+            },
+            padding: const EdgeInsets.all(0),
+            minWidth: 40),
+      );
+    });
+    final wrap = Wrap(
+      spacing: round,
+      runSpacing: 15,
+      children: widgets,
+    );
+    return wrap;
   }
 
   Widget buildResidentView(BuildContext context) {
@@ -225,7 +314,7 @@ class _KitPage extends State<KitPage> {
         ),
       );
     });
-    final Wrap wrap = Wrap(
+    final wrap = Wrap(
       spacing: round,
       runSpacing: 15,
       children: widgets,
@@ -242,6 +331,8 @@ class KitItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 80,
+      alignment: Alignment.center,
       child: Column(
         children: <Widget>[
           Image.asset(
@@ -263,8 +354,6 @@ class KitItem extends StatelessWidget {
           ),
         ],
       ),
-      width: 80,
-      alignment: Alignment.center,
     );
   }
 }

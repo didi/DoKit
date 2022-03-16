@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/kit/biz/biz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,6 +29,7 @@ void main() {
   DoKit.runApp(
       app: DoKitApp(MyApp()),
       useInRelease: true,
+      useRunZoned: false,
       logCallback: (log) {
 //        String i = log;
       },
@@ -36,7 +38,88 @@ void main() {
         print('ttt$obj');
       });
   // runApp(MyApp());
+
+  DoKit.i.isDoKitPageShow((bool isShow) {
+    print('isShow = $isShow');
+  });
+
+  // 业务方接入自定义能力
+  DoKit.i.buildBizKit(
+      name: 'toB',
+      group: '业务专区',
+      desc: '[提供自动化测试能力]',
+      action: () => {print('isShow = 业务专区 toB')});
+
+  DoKit.i.buildBizKit(
+      name: 'toC',
+      group: '业务专区',
+      desc: '[提供自动化测试能力]',
+      action: () => {print('isShow = 业务专区 toB')});
+
+  DoKit.i.buildBizKit(
+      name: 'toC1',
+      group: '业务专区1',
+      desc: '[提供自动化测试能力1]',
+      action: () => {print('isShow = 业务专区 toB')});
+
+  DoKit.i.buildBizKit(
+      name: 'toC2',
+      group: '业务专区1',
+      desc: '[提供自动化测试能力1]',
+      kitBuilder: () => BizKitTestPage());
+
+  var bizKit0 = DoKit.i.newBizKit(name: '1111', group: '业务专区2');
+  DoKit.i.addKit(kit: bizKit0);
+
+  var bizKit1 = DoKit.i.newBizKit(name: '2222', group: '业务专区3');
+  var bizKit2 = DoKit.i.newBizKit(name: '3333', group: '业务专区3');
+  var bizKit3 = DoKit.i.newBizKit(name: '4444', group: '业务专区3');
+  DoKit.i.addBizKits([bizKit1, bizKit2, bizKit3]);
+
+  // DoKit.i.addKit({kit: BizKit(name: '1111', group: '业务专区2')});
 }
+
+/// ===自定义BizKit Test===
+class BizKitTestPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return BizKitTestPageState();
+  }
+}
+
+class BizKitTestPageState extends State<BizKitTestPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              height: 44,
+              child: Row(
+                children: [
+                  Text('自定义BizKit Test Page',
+                      style: TextStyle(
+                          color: Color(0xff333333),
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'PingFang SC',
+                          fontSize: 14))
+                ],
+              )),
+          Divider(
+            height: 0.5,
+            color: Color(0xffdddddd),
+            indent: 16,
+            endIndent: 16,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+/// === end ===
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

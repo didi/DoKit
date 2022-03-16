@@ -125,7 +125,7 @@ class DoKitBinaryMessenger extends BinaryMessenger {
 
   @override
   void setMockMessageHandler(String channel, handler) {
-    origin.setMockMessageHandler(channel, handler);
+    // origin.setMockMessageHandler(channel, handler);
   }
 
   @override
@@ -135,7 +135,7 @@ class DoKitBinaryMessenger extends BinaryMessenger {
 
   @override
   bool checkMockMessageHandler(String channel, MessageHandler? handler) {
-    return origin.checkMockMessageHandler(channel, handler);
+    return origin.checkMockMessageHandler(channel, handler!);
   }
 
   IInfo? filterSystemChannel(String name, ByteData? data, bool send) {
