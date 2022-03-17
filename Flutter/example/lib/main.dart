@@ -158,6 +158,7 @@ class MyApp extends StatelessWidget {
           shouldCheck: (route) {
             return route.settings.name != '/';
           },
+          confPolicyPool: ()=> {'TestPage2':1}
         ),
       ],
       home: DoKitTestPage(),
