@@ -174,12 +174,13 @@ class LeaksMsgNode {
 class LeaksMsgInfo {
   List<LeaksMsgNode>? retainingPathList = [];
   int? leaksInstanceCounts;
+  int? expectedTotalCount;
   String? leaksClsName;
   String? gcRootType;
 
   LeaksMsgInfo(
       List<LeaksMsgNode> this.retainingPathList, String this.gcRootType,
-      {this.leaksInstanceCounts, this.leaksClsName});
+      {this.leaksInstanceCounts, this.leaksClsName, this.expectedTotalCount});
 
   @override
   String toString() {

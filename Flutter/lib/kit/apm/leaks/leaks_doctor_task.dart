@@ -151,6 +151,7 @@ class LeaksDoctorTask extends _Task {
         });
 
         // 支持用户自定义设定条件
+        var expectedTotalCount = 0;
         if (searchPolicy != null && clzName != null) {
           final ret = searchPolicy!(clzName) ?? 0;
           if (ret > 0 && leaksInstanceCounts != null) {
@@ -158,11 +159,12 @@ class LeaksDoctorTask extends _Task {
             if (ret >= leaksInstanceCounts) {
               return null;
             }
+            expectedTotalCount = ret;
           }
         }
 
         return LeaksMsgInfo(retainingPathList, retainingPath.gcRootType!,
-            leaksInstanceCounts: leaksInstanceCounts, leaksClsName: clzName);
+            leaksInstanceCounts: leaksInstanceCounts, leaksClsName: clzName, expectedTotalCount: expectedTotalCount);
       }
     }
     return null;
