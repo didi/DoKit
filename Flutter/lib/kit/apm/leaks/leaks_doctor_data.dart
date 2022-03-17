@@ -184,7 +184,7 @@ class LeaksMsgInfo {
 
   @override
   String toString() {
-    return '$leaksClsName : {\nleaksInstanceCounts: $leaksInstanceCounts, \nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
+    return '$leaksClsName : {\nleaksInstanceCounts: $leaksInstanceCounts, \nexpectedTotalCount: $expectedTotalCount, \nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
   }
 }
 
