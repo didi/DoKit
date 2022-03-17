@@ -11,6 +11,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/crash_kit.dart';
@@ -25,6 +26,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
 
+import 'kit/apm/leaks/leaks_doctor.dart';
+import 'kit/apm/leaks/leaks_doctor_data.dart';
 import 'kit/apm/vm/vm_service_wrapper.dart';
 import 'kit/biz/biz.dart';
 
@@ -56,7 +59,11 @@ class DoKit {
       List<String> methodChannelBlackList = const <String>[],
       Function? releaseAction}) async {
     // 统计用户信息，便于了解该开源产品的使用量 (请大家放心，我们不用于任何恶意行为)
-    upLoadUserInfo();
+    try {
+      upLoadUserInfo();
+    } catch (e) {
+      print('真机可能报异常(可忽略) : upLoadUserInfo ${e.toString()}');
+    }
 
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -113,7 +120,7 @@ class DoKit {
 
 abstract class IDoKit {/* Just empty. */}
 
-class _DoKitInterfaces extends IDoKit with _BizKitMixin {
+class _DoKitInterfaces extends IDoKit with _BizKitMixin, _LeaksDoctorMixin {
   _DoKitInterfaces._();
 
   static final _DoKitInterfaces _instance = _DoKitInterfaces._();
@@ -183,6 +190,51 @@ mixin _BizKitMixin on IDoKit {
         desc: desc,
         kitBuilder: kitBuilder,
         action: action);
+  }
+}
+
+mixin _LeaksDoctorMixin on IDoKit {
+  // 初始化内存泄漏检测功能
+  void initLeaks(BuildContext Function() func,
+      {int maxRetainingPathLimit = 300}) {
+    LeaksDoctor().init(func, maxRetainingPathLimit: 300);
+  }
+
+  // 监听内存泄漏结果数据
+  void listenLeaksData(Function(LeaksMsgInfo? info)? callback) {
+    LeaksDoctor().onLeakedStream.listen((LeaksMsgInfo? info) {
+      print((info?.toString()) ?? '暂未发现泄漏');
+      print('发现泄漏对象实例个数 = ${(info?.leaksInstanceCounts) ?? "0"}');
+      if (callback != null) {
+        callback(info);
+      }
+    });
+  }
+
+  // 监听内存泄漏节点事件
+  void listenLeaksEvent(Function(LeaksDoctorEvent event)? callback) {
+    LeaksDoctor().onEventStream.listen((LeaksDoctorEvent event) {
+      if (callback != null) {
+        callback(event);
+      }
+    });
+  }
+
+  // 添加要观察的对象
+  void addObserved(Object obj,
+      {String group = 'manual', int? expectedTotalCount}) {
+    LeaksDoctor()
+        .addObserved(obj, group: group, expectedTotalCount: expectedTotalCount);
+  }
+
+  // 触发内存泄漏扫描
+  void scanLeaks({String? group, int delay = 500}) {
+    LeaksDoctor().memoryLeakScan(group: group, delay: delay);
+  }
+
+  // 显示泄漏信息汇总页面
+  void showLeaksInfoPage() {
+    LeaksDoctor().showLeaksPageWhenClick();
   }
 }
 

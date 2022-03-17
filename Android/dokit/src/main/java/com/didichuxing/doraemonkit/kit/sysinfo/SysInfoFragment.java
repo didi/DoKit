@@ -167,6 +167,11 @@ public class SysInfoFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            sysInfoItems.add(new SysInfoItem("WebView", DokitDeviceUtils.getWebViewChromeVersion(getContext())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -202,29 +207,29 @@ public class SysInfoFragment extends BaseFragment {
     private void addPermissionData(List<SysInfoItem> sysInfoItems) {
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_permission_info)));
         String[] p1 = {
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), checkPermission(p1), true));
         String[] p2 = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), checkPermission(p2), true));
         String[] p3 = {
-                Manifest.permission.CAMERA
+            Manifest.permission.CAMERA
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), checkPermission(p3), true));
         String[] p4 = {
-                Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), checkPermission(p4), true));
         String[] p5 = {
-                Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), checkPermission(p5), true));
         String[] p6 = {
-                Manifest.permission.READ_CONTACTS
+            Manifest.permission.READ_CONTACTS
         };
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), checkPermission(p6), true));
     }

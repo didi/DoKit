@@ -62,8 +62,8 @@ object ViewPathUtil {
                         SystemViewInfo(
                             parent::class.tagName,
                             UIUtils.getRealIdText(parent),
-                            parent.indexOfChild(view),
                             parent.childCount,
+                            parent.indexOfChild(view),
                             true,
                             parent.currentItem
                         )
@@ -74,7 +74,7 @@ object ViewPathUtil {
                         SystemViewInfo(
                             parent::class.tagName,
                             UIUtils.getRealIdText(parent),
-                            parent.indexOfChild(view),
+                            parent.childCount,
                             parent.indexOfChild(view)
                         )
                     )

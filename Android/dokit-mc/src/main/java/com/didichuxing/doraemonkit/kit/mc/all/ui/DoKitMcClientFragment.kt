@@ -40,7 +40,14 @@ class DoKitMcClientFragment : BaseFragment() {
                     (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
                 }
             }
+        }
 
+        findViewById<View>(R.id.btn_history).setOnClickListener {
+            lifecycleScope.launch {
+                if (activity is DoKitMcActivity) {
+                    (activity as DoKitMcActivity).pushFragment(WSMode.CLIENT_HISTORY)
+                }
+            }
         }
         //启动悬浮窗
         DoKit.launchFloating(ClientDokitView::class)

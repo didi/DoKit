@@ -110,7 +110,7 @@ class BizKitManager {
     if (bizKits.isEmpty) {
       return;
     }
-    
+
     var group = bizKits.first.group;
     var desc = bizKits.first.desc;
     _registerBizKitGroup(group, desc);

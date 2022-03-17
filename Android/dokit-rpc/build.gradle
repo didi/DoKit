@@ -38,6 +38,10 @@ android {
         //viewBinding = true
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
 }
 
 allprojects {
@@ -56,9 +60,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(":dokit-util")
     if (needKotlinV14()) {
-        implementation rootProject.ext.dependencies["kotlin_v14"]
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
-        implementation rootProject.ext.dependencies["kotlin_v13"]
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]

@@ -1,6 +1,5 @@
 package com.didichuxing.doraemondemo.retrofit
 
-import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -15,5 +14,5 @@ import retrofit2.http.Path
  */
 interface GithubService {
     @GET("users/{user}")
-    fun githubUserInfo(@Path("user") user: String?): Observable<GithubUserInfo>
+    suspend fun githubUserInfo(@Path("user") user: String?): GithubUserInfo
 }

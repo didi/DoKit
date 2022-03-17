@@ -91,7 +91,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
     var systemLayoutParams: WindowManager.LayoutParams? = null
         private set
 
-    private var mHandler: Handler? = Handler(Looper.myLooper())
+    private var mHandler: Handler? = Looper.myLooper()?.let { Handler(it) }
 
     private val mInnerReceiver = InnerReceiver()
 
@@ -709,6 +709,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
             }
 
             resetBorderline(this, systemLayoutParams)
+            //更新根布局的位置
             mRootView?.layoutParams = this
         }
     }

@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by jintai on 2019/09/26.
+ * 在改布局上绘制相应的View
  */
 public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDokitView.OnViewSelectListener {
     private LayoutBorderView mLayoutBorderView;

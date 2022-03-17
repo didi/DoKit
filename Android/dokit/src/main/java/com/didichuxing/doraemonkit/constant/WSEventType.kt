@@ -32,6 +32,11 @@ enum class WSMode {
     CLIENT,
 
     /**
+     * 从机链接历史
+     */
+    CLIENT_HISTORY,
+
+    /**
      *数据抓取中...
      */
     RECORDING,
@@ -95,6 +100,11 @@ enum class WSEType {
      * 自定义手势事件
      */
     WSE_CUSTOM_EVENT,
+
+    /**
+     * 从机执行指定事件失败
+     */
+    WSE_PERFORM_FAIL
 
 }
 

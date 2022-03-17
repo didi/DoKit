@@ -12,6 +12,7 @@ import android.os.IInterface;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.util.ReflectUtils;
@@ -46,6 +47,7 @@ public class LocationHooker extends BaseServiceHooker {
         return "android.location.ILocationManager$Stub";
     }
 
+    @NonNull
     @Override
     public Map<String, MethodHandler> registerMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
@@ -59,13 +61,16 @@ public class LocationHooker extends BaseServiceHooker {
     }
 
     @Override
-    public void replaceBinderProxy(Context context,  IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+    public void replaceBinderProxy(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         //在 frameworks/base/core/java/android/app/SystemServiceRegistry.java中初始化
         //替换具体服务中的mService
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-        IInterface customService = ReflectUtils.reflect(stubName()).method("asInterface", proxy).get();
-        ReflectUtils.reflect(locationManager).field("mService", customService);
+        //IInterface customService = ReflectUtils.reflect(stubName()).method("asInterface", proxy).get();
+        if (getMBinderStubProxy() != null) {
+            ReflectUtils.reflect(locationManager).field("mService", getMBinderStubProxy());
+        }
+
 
     }
 

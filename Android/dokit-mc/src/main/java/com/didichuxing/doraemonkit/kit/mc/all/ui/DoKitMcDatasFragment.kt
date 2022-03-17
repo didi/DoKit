@@ -51,13 +51,13 @@ class DoKitMcDatasFragment : BaseFragment() {
                 for (i in adapter.data) {
                     (i as McCaseInfo).isChecked = false
                 }
-                saveCaseId("")
+                McCaseUtils.saveCaseId("")
             } else {
                 for (i in adapter.data) {
                     (i as McCaseInfo).isChecked = false
                 }
                 item.isChecked = true
-                saveCaseId(item.caseId)
+                McCaseUtils.saveCaseId(item.caseId)
                 ToastUtils.showShort("用例: ${item.caseName} 已被选中")
             }
             if (DoKitManager.WS_MODE == WSMode.HOST) {
@@ -85,7 +85,7 @@ class DoKitMcDatasFragment : BaseFragment() {
                 if (it.isEmpty()) {
                     mEmpty.visibility = View.VISIBLE
                 } else {
-                    val caseId = loadCaseId()
+                    val caseId = McCaseUtils.loadCaseId()
                     it.forEach { info ->
                         info.isChecked = caseId == info.caseId
                     }
@@ -93,24 +93,6 @@ class DoKitMcDatasFragment : BaseFragment() {
                 }
 
             }
-        }
-
-    }
-
-    private fun saveCaseId(caseId: String) {
-        DoKitMcManager.MC_CASE_ID = caseId
-        SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, caseId)
-    }
-
-
-    private fun loadCaseId(): String = when {
-        DoKitMcManager.MC_CASE_ID.isEmpty() -> {
-            val caseId = SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY, "")
-            DoKitMcManager.MC_CASE_ID = caseId
-            DoKitMcManager.MC_CASE_ID
-        }
-        else -> {
-            DoKitMcManager.MC_CASE_ID
         }
     }
 

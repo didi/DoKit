@@ -13,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.mc.util.WindowPathUtil
 import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.launch
 
@@ -37,6 +40,8 @@ import kotlinx.coroutines.launch
  * ================================================
  */
 object WSClientProcessor {
+
+    private const val TAG = "WSClientProcessor"
     private var mHostInfo: HostInfo? = null
     private var mRatioX: Float? = null
     private var mRatioY: Float? = null
@@ -46,18 +51,23 @@ object WSClientProcessor {
      * 处理来自主机的消息
      */
     fun process(wsEvent: WSEvent) {
-        //LogHelper.i(TAG, "wsEvent===>$wsEvent")
+        LogHelper.i(TAG, "process() wsEvent===>$wsEvent")
         when (wsEvent.eventType) {
             WSEType.WSE_TEST -> {
                 //ToastUtils.showShort(wsEvent.message)
             }
 
+            /**
+             * 自定义事件类型
+             */
             WSEType.WSE_CUSTOM_EVENT -> {
                 if (DoKitManager.MC_CLIENT_PROCESSOR == null) {
+                    LogHelper.e(TAG, "client processor 从机处理器不存在,请重新启动从机")
                     return
                 }
 
                 wsEvent.viewC12c?.let { viewC12c ->
+                    //假如没有控件信息执行自定义事件
                     if (viewC12c.viewPaths == null) {
                         DoKitManager.MC_CLIENT_PROCESSOR?.process(
                             ActivityUtils.getTopActivity(),
@@ -72,19 +82,18 @@ object WSClientProcessor {
                     }
 
                     if (DoKitWindowManager.ROOT_VIEWS == null || viewC12c.viewRootImplIndex == -1) {
+                        LogHelper.e(TAG, "匹配控件失败，请手动操作 wsEvent===>$wsEvent")
                         ToastUtils.showShort("匹配控件失败，请手动操作")
                         return
                     }
-                    var viewRootImpl: ViewParent? = null
-                    DoKitWindowManager.ROOT_VIEWS?.let { rootViews ->
-                        viewRootImpl = rootViews[viewC12c.viewRootImplIndex]
-                    }
+                    var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(DoKitWindowManager.ROOT_VIEWS,viewC12c.viewRootImplIndex)
                     viewRootImpl?.let {
                         val decorView: ViewGroup =
                             ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
                         val targetView: View? =
                             ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
                         targetView?.let { target ->
+                            //执行自定义事件
                             DoKitManager.MC_CLIENT_PROCESSOR?.process(
                                 ActivityUtils.getTopActivity(),
                                 target,
@@ -95,6 +104,7 @@ object WSClientProcessor {
                                 ) as Map<String, String>
                             )
                         } ?: run {
+                            //执行自定义事件
                             DoKitManager.MC_CLIENT_PROCESSOR?.process(
                                 ActivityUtils.getTopActivity(),
                                 null,
@@ -107,6 +117,7 @@ object WSClientProcessor {
                             ToastUtils.showShort("匹配控件失败，请手动操作")
                         }
                     } ?: run {
+                        //执行自定义事件
                         DoKitManager.MC_CLIENT_PROCESSOR?.process(
                             ActivityUtils.getTopActivity(),
                             null,
@@ -161,7 +172,9 @@ object WSClientProcessor {
             WSEType.APP_ON_BACKGROUND -> {
                 ActivityUtils.startHomeActivity()
             }
-
+            /**
+             * 连接成功
+             */
             WSEType.WSE_CONNECTED -> {
 
                 mHostInfo = GsonUtils.fromJson<HostInfo>(
@@ -192,40 +205,50 @@ object WSClientProcessor {
                     topActivity.finish()
                 }
             }
-
+            /**
+             * 通用事件处理
+             */
             WSEType.WSE_COMM_EVENT -> {
                 wsEvent.commParams?.let {
-//                    LogHelper.json(
-//                        TAG,
-//                        "ServerActivityName===${it["activityName"]}    ClientActivityName===>${ActivityUtils.getTopActivity()::class.java.canonicalName}"
-//                    )
                     if (it["activityName"] != ActivityUtils.getTopActivity()::class.tagName) {
+                        DoKitMcManager.syncFailedListener.onActivityNotSync()
                         ToastUtils.showShort("当前测试和主机不处于同一个页面，请手动调整同步")
                         return
                     }
-
                 }
 
                 wsEvent.viewC12c?.let { viewC12c ->
                     if (DoKitWindowManager.ROOT_VIEWS == null || viewC12c.viewRootImplIndex == -1) {
-                        ToastUtils.showShort("匹配控件失败，请手动操作")
+                        LogHelper.e(TAG, "无法确定当前控件所属窗口/索引 wsEvent=$wsEvent")
+                        ToastUtils.showShort("无法确定当前控件所属窗口/索引")
                         return
                     }
-                    var viewRootImpl: ViewParent? = null
-                    DoKitWindowManager.ROOT_VIEWS?.let { rootViews ->
-                        viewRootImpl = rootViews[viewC12c.viewRootImplIndex]
-                    }
+                    var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(DoKitWindowManager.ROOT_VIEWS, viewC12c.viewRootImplIndex)
+
                     viewRootImpl?.let {
                         val decorView: ViewGroup =
                             ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
                         val targetView: View? =
                             ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
                         targetView?.let { target -> comm(viewC12c, target) }
-                            ?: run { ToastUtils.showShort("匹配控件失败，请手动操作") }
-                    } ?: run { ToastUtils.showShort("无法确定当前控件所属窗口") }
-                } ?: run { ToastUtils.showShort("无法获取手势控件信息") }
+                            ?: run {
+                                DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
+                                LogHelper.e(TAG,"匹配控件失败，请手动操作 wsEvent=$wsEvent")
+                                LogHelper.e(TAG,"匹配控件失败，请手动操作 className=${viewRootImpl?.javaClass?.name}")
+                                ToastUtils.showShort("匹配控件失败，请手动操作")
+                            }
+                    } ?: run {
+                        DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
+                        LogHelper.e(TAG,"无法确定当前控件所属窗口 wsEvent=$wsEvent")
+                        ToastUtils.showShort("无法确定当前控件所属窗口")
+                    }
+                } ?: run {
+                    LogHelper.e(TAG,"无法获取手势控件信息 wsEvent=$wsEvent")
+                    ToastUtils.showShort("无法获取手势控件信息")
+                }
             }
             else -> {
+                LogHelper.e(TAG,"处理事件类型 wsEvent=$wsEvent")
             }
         }
     }
@@ -245,6 +268,7 @@ object WSClientProcessor {
                 } else {
                     if (target.hasOnClickListeners()) {
                         target.performClick().isFalse {
+                            DoKitMcManager.syncFailedListener.onViewPerformClickFailed(viewC12c, target)
                             ToastUtils.showShort("模拟点击事件失败")
                         }
                     } else {
@@ -258,7 +282,6 @@ object WSClientProcessor {
                         } else {
                             ToastUtils.showShort("该控件没有设置点击事件")
                         }
-
                     }
                 }
             }
@@ -270,15 +293,18 @@ object WSClientProcessor {
                     }
                     else -> {
                         target.performLongClick().isFalse {
+                            DoKitMcManager.syncFailedListener.onViewPerformLongClickFailed(viewC12c, target)
                             ToastUtils.showShort("模拟长按事件失败")
                         }
                     }
                 }
             }
             // view 获取焦点
-
             AccessibilityEvent.TYPE_VIEW_FOCUSED -> {
-                target.requestFocus()
+                target.requestFocus().isFalse {
+                    DoKitMcManager.syncFailedListener.onViewPerformFocusedFailed(viewC12c, target)
+                    ToastUtils.showShort("获取焦点失败")
+                }
             }
             //EditText 文字改变
             AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> {
@@ -418,6 +444,7 @@ object WSClientProcessor {
             lv.smoothScrollToPositionFromTop(position, 0)
         }
     }
+
 
 }
 

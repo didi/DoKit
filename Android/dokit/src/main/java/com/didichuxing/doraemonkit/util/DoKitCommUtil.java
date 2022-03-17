@@ -76,11 +76,10 @@ public class DoKitCommUtil {
     }
 
 
-
     /**
      * 切换App到前台
      */
-    public static void changeAppOnForeground(Class<Activity> clazz) {
+    public static void changeAppOnForeground(Class<? extends Activity> clazz) {
         Intent intent = new Intent(DoKitEnv.requireApp(), clazz);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);

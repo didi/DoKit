@@ -11,6 +11,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/leaks/leaks_doctor_observer.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/biz/biz.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,15 @@ void main() {
       group: '业务专区1',
       desc: '[提供自动化测试能力1]',
       action: () => {print('isShow = 业务专区 toB')});
+
+  DoKit.i.buildBizKit(
+      name: '内存检测',
+      group: '业务专区4',
+      desc: '[提供触发内存泄漏扫描能力]',
+      action: () {
+        print('提供触发内存泄漏扫描能力');
+        DoKit.i.scanLeaks();
+      });
 
   DoKit.i.buildBizKit(
       name: 'toC2',
@@ -143,7 +153,14 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorObservers: [],
+      navigatorObservers: [
+        LeaksDoctorObserver(
+          shouldCheck: (route) {
+            return route.settings.name != '/';
+          },
+          confPolicyPool: ()=> {'TestPage2':1}
+        ),
+      ],
       home: DoKitTestPage(),
     );
   }
@@ -167,6 +184,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   @override
   void initState() {
     super.initState();
+
+    // 内存泄漏检测初始化
+    DoKit.i.initLeaks(() => context, maxRetainingPathLimit: 300);
+    DoKit.i.listenLeaksEvent((event) {
+      print(event);
+    });
   }
 
   @override
@@ -313,6 +336,23 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                 onPressed: stopAll,
               ),
             ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
+                child: Text('打开新页面',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: openPage,
+              ),
+            ),
           ],
         ),
       ),
@@ -359,6 +399,17 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
       final Map<String, dynamic>? map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
+  }
+
+  void openPage() {
+    Navigator.of(context, rootNavigator: false).push<void>(MaterialPageRoute(
+        builder: (context) {
+          //指定跳转的页面
+          var page = TestPage2();
+          DoKit.i.addObserved(page);
+          return page;
+        },
+        settings: RouteSettings(name: 'page1', arguments: ['test', '111'])));
   }
 
   void stopAll() {

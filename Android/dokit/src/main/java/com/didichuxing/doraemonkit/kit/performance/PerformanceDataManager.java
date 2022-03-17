@@ -11,6 +11,7 @@ import android.os.Message;
 import android.os.Process;
 import android.text.TextUtils;
 import android.view.Choreographer;
+import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
@@ -54,6 +55,8 @@ public class PerformanceDataManager {
     private String fpsFileName = "fps.txt";
 
     //private int mLastSkippedFrames;
+
+    private int mMaxFrameRate = MAX_FRAME_RATE;
     /**
      * cpu 百分比
      */
@@ -65,7 +68,7 @@ public class PerformanceDataManager {
     /**
      * 当前的帧率
      */
-    private int mLastFrameRate = MAX_FRAME_RATE;
+    private int mLastFrameRate = mMaxFrameRate;
     private long mUpBytes;
     private long mDownBytes;
     private long mLastUpBytes;
@@ -78,6 +81,7 @@ public class PerformanceDataManager {
     private float mMaxMemory;
     private Context mContext;
     private ActivityManager mActivityManager;
+    private WindowManager mWindowManager;
     private RandomAccessFile mProcStatFile;
     private RandomAccessFile mAppStatFile;
     private Long mLastCpuTime;
@@ -184,6 +188,13 @@ public class PerformanceDataManager {
     public void init() {
         mContext = DoKitEnv.requireApp().getApplicationContext();
         mActivityManager = (ActivityManager) DoKitEnv.requireApp().getSystemService(Context.ACTIVITY_SERVICE);
+        mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        if (mWindowManager != null) {
+            mMaxFrameRate = (int) mWindowManager.getDefaultDisplay().getRefreshRate();
+        } else {
+            mMaxFrameRate = MAX_FRAME_RATE;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }
@@ -475,8 +486,8 @@ public class PerformanceDataManager {
         @Override
         public void run() {
             mLastFrameRate = totalFramesPerSecond;
-            if (mLastFrameRate > MAX_FRAME_RATE) {
-                mLastFrameRate = MAX_FRAME_RATE;
+            if (mLastFrameRate > mMaxFrameRate) {
+                mLastFrameRate = mMaxFrameRate;
             }
             //保存fps数据
             if (AppUtils.isAppForeground()) {
