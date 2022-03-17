@@ -6,13 +6,16 @@ import 'leaks_doctor.dart';
 
 const int _defaultCheckLeakDelay = 500;
 typedef ShouldAddedRoute = bool Function(Route route);
+typedef ConfigPolicyPool = Map<String,int>? Function();
 
 class LeaksDoctorObserver extends NavigatorObserver {
   final ShouldAddedRoute? shouldCheck;
   final int checkLeakDelay;
+  // 策略  列表中的item是一个Map对象：key是类名，value存储期望类名对应实例对象的个数
+  final ConfigPolicyPool? confPolicyPool;
 
   LeaksDoctorObserver(
-      {this.checkLeakDelay = _defaultCheckLeakDelay, this.shouldCheck});
+      {this.checkLeakDelay = _defaultCheckLeakDelay, this.shouldCheck, this.confPolicyPool});
 
   @override
   void didPop(Route route, Route? previousRoute) {
@@ -55,11 +58,13 @@ class LeaksDoctorObserver extends NavigatorObserver {
             // 人为制造泄漏
             // LeaksCache.cache.add(element.widget);
 
-            addObserved(element, key); //Element
-            addObserved(element.widget, key); //Widget
-            if (element is StatefulElement) {
-              addObserved(element.state, key); //State
-            }
+            var _className = element.widget.toStringShort();
+            var _expectedTotalCount = _checkPolicy(_className);
+            if (_expectedTotalCount != null) {
+              _ObservedElement(element, key, expectedTotalCount: _expectedTotalCount);
+            } else {
+              _ObservedElement(element,key);
+            }            
           }
         });
       }
@@ -80,7 +85,7 @@ class LeaksDoctorObserver extends NavigatorObserver {
         final key = _getRouteKey(route, element.widget.toStringShort());
         if (element is StatefulElement || element is StatelessElement) {
           LeaksDoctor()
-              .memoryLeakScan(group: key, delay: _defaultCheckLeakDelay);
+              .memoryLeakScan(group: key, delay: checkLeakDelay);
         }
       }
 
@@ -100,12 +105,28 @@ class LeaksDoctorObserver extends NavigatorObserver {
     return ret;
   }
 
+  // 检查策略
+  int? _checkPolicy(String className) {
+    if (confPolicyPool != null) {
+      var policyPool = confPolicyPool!();
+      return policyPool?[className];
+    }
+  }
+
   // 添加被观察的obj
-  addObserved(Object obj, String name) {
+  _addObserved(Object obj, String name, {int? expectedTotalCount = 0}) {
     assert(() {
-      LeaksDoctor().addObserved(obj, group: name);
+      LeaksDoctor().addObserved(obj, group: name, expectedTotalCount: expectedTotalCount);
       return true;
     }());
+  }
+
+  void _ObservedElement(Element element, String key, {int? expectedTotalCount = 0}) {
+    _addObserved(element, key); //Element
+    _addObserved(element.widget, key); //Widget
+    if (element is StatefulElement) {
+      _addObserved(element.state, key); //State
+    }
   }
 
   // 获取我们页面的‘Element’
