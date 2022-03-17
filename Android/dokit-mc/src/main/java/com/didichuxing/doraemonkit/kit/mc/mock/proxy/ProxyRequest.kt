@@ -26,5 +26,6 @@ data class ProxyRequest(
     val requestContentType: String,
     val requestBodyLength: Long,
     val requestBody: String,
-    val protocol: String
+    val method: String,
+    val clientProtocol: String
 )

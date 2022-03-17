@@ -63,7 +63,6 @@ object McProxyManager {
             } else {
                 queryData.proxyCallback.onResponse(ProxyUtils.createEmptyProxyResponse(""))
             }
-
             mutableMap.remove(proxyPackage.pid)
         }
 

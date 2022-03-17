@@ -115,8 +115,8 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
 
                     }
                 }
-                WSMode.HOST,
-                WSMode.CLIENT -> {
+//                WSMode.CLIENT,
+                WSMode.HOST -> {
                     if (DoKitMcManager.MC_CASE_ID.isNotBlank() && DoKitManager.PRODUCT_ID.isNotBlank()) {
                         //将挂起函数转为阻塞调用 等待协程返回值
                         return runBlocking(mExceptionHandler) {

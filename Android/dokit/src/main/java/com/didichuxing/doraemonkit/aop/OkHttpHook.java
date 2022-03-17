@@ -58,8 +58,10 @@ public class OkHttpHook {
             DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("okhttp_interceptor");
+                Object interceptorProxy = processor.values().get("okhttp_proxy_interceptor");
                 if (interceptor instanceof AbsDoKitInterceptor) {
-                    noDuplicateAdd(interceptors, (AbsDoKitInterceptor) interceptor);
+//                    noDuplicateAdd(interceptors, (AbsDoKitInterceptor) interceptor);
+                    noDuplicateAdd(interceptors, (AbsDoKitInterceptor) interceptorProxy);
                 }
             }
             noDuplicateAdd(interceptors, new DokitMockInterceptor());

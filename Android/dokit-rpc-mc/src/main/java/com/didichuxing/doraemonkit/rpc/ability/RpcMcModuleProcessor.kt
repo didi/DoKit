@@ -15,9 +15,8 @@ class RpcMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
-//            "rpc_interceptor" to RpcMcInterceptor()
-            "rpc_interceptor" to RpcMcProxyInterceptor()
-
+            "rpc_interceptor" to RpcMcInterceptor(),
+            "rpc_proxy_interceptor" to RpcMcProxyInterceptor()
         )
     }
 

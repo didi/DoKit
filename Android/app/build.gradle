@@ -145,12 +145,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':dokit-util')
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["lifecycle-viewmodel-savedstate"]
     implementation rootProject.ext.dependencies["appcompat"]
+
+    implementation 'io.github.didi.dokit:dokitx:3.5.0.1'
 
     implementation rootProject.ext.dependencies["material"]
     if (needKotlinV14()) {

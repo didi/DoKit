@@ -34,11 +34,10 @@ class DokitMcProxyInterceptor : AbsDoKitInterceptor() {
         if (DoKitManager.WS_MODE == WSMode.HOST || DoKitManager.WS_MODE == WSMode.CLIENT) {
 
             if (!ProxyUtils.filterRequest(request)) {
-                val did = IdentityUtils.createDid()
-                val proxyRequest = ProxyUtils.createProxyRequest(did, request)
-
                 if (DoKitManager.WS_MODE == WSMode.HOST) {
                     //主机处理方式
+                    val did = IdentityUtils.createDid()
+                    val proxyRequest = ProxyUtils.createProxyRequest(did, request)
                     McProxyManager.requestStart(proxyRequest)
                     var response: Response
                     try {
@@ -53,14 +52,17 @@ class DokitMcProxyInterceptor : AbsDoKitInterceptor() {
                     return response
                 } else {
                     //从机处理方式
-                    runBlocking(mExceptionHandler) {
+                    return runBlocking(mExceptionHandler) {
                         val proxyRequest = ProxyUtils.createProxyRequest("", request)
                         LogHelper.i(TAG, "PROXY start proxyRequest=${proxyRequest}")
                         val proxyResponse: ProxyResponse = McProxyManager.requestQuery<ProxyResponse>(proxyRequest)
                         LogHelper.i(TAG, "PROXY stop proxyResponse=${proxyResponse}")
 
                         //查询不到数据，直接查询结果
-                        if (proxyResponse.image || proxyResponse.protocol.equals("mock", ignoreCase = false)) {
+                        if (proxyResponse.image
+                            || proxyResponse.protocol.equals("local", ignoreCase = false)
+                            || proxyResponse.responseContentType == null
+                        ) {
                             return@runBlocking chain.proceed(request)
                         }
 
@@ -73,8 +75,8 @@ class DokitMcProxyInterceptor : AbsDoKitInterceptor() {
                             .code(proxyResponse.responseCode)
                             .request(request)
                             .message("ok")
-                            .protocol(Protocol.valueOf(proxyResponse.protocol))
-                            .headers(Headers.of(proxyResponse.responseHeaders))
+                            .protocol(Protocol.get(proxyResponse.protocol))
+                            .headers(ProxyUtils.parseHeaders(proxyResponse.responseHeaders))
                             .body(responseBody)
                             .build()
                     }

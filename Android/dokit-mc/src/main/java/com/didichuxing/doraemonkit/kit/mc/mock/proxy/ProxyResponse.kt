@@ -21,5 +21,6 @@ data class ProxyResponse(
     val responseBody: String,
     val responseCode: Int,
     val image: Boolean,
+    val source:String,
     val protocol: String
 )

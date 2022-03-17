@@ -40,7 +40,7 @@ class DoKitMcConnectFragment : BaseFragment() {
         history = DokitMcConnectManager.itemHistory
         if (history != null) {
             findViewById<TextView>(R.id.tv_host_info).text = "当前设备已连接主机:【${history?.host}】"
-            findViewById<TextView>(R.id.info).text = "ws://${history?.host}:${history?.port}/${history?.path}"
+            findViewById<TextView>(R.id.info).text = "ws://${history?.host}:${history?.port}${history?.path}"
         } else {
             findViewById<TextView>(R.id.tv_host_info).text = "当前设备已连接主机:--"
             findViewById<TextView>(R.id.info).text = "ws://--"

@@ -27,6 +27,18 @@ object ProxyUtils {
         return headers.toString()
     }
 
+    fun parseHeaders(headers: String): Headers {
+        val map = mutableMapOf<String, String>()
+        val values = headers.split("\n")
+        values.forEach {
+            val e = it.split(": ")
+            if (e.size >= 2) {
+                map[e[0]] = e[1]
+            }
+        }
+        return Headers.of(map)
+    }
+
 
     fun nowTime(): String {
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS")
@@ -45,20 +57,21 @@ object ProxyUtils {
         val fragment = string(url.fragment())
         val headers = createHeaders(request.headers())
         val body = request.body()
-        val contentType = string(body?.contentType().toString())
+        val contentType = (body?.contentType() ?: "").toString()
         val contentLength = body?.contentLength() ?: 0
         val bodyString = body?.string() ?: ""
-        val protocol = "http-" + request.method()
+        val method = request.method()
+        val clientProtocol = "http"
         return ProxyRequest(
             did, aid, url.toString(), scheme, host, path, query, fragment,
-            time, headers, contentType, contentLength, bodyString, protocol
+            time, headers, contentType, contentLength, bodyString, method, clientProtocol
         )
     }
 
     fun createEmptyProxyResponse(did: String): ProxyResponse {
         return ProxyResponse(
             did, nowTime(), "",
-            "", 0, "", 404, false, "mock"
+            "", 0, "", 404, false, "data", "local"
         )
     }
 
@@ -66,27 +79,30 @@ object ProxyUtils {
         val time = nowTime()
         val headers = createHeaders(response.headers())
         val code = response.code()
-        val body = response.body()
-        val contentType = body?.contentType().toString() ?: ""
+        val body = response.peekBody(Long.MAX_VALUE)
+        val contentType = (body?.contentType() ?: "").toString()
         val image = InterceptorUtil.isImg(contentType)
         val contentLength = body?.contentLength() ?: 0
         var bodyString = ""
+        var source = ""
         if (!image) {
             try {
                 bodyString = body?.string() ?: ""
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            source = "data"
+        } else {
+            source = "image"
         }
-        val protocol = response.protocol().toString()
 
+        val protocol = response.protocol().toString()
 
         return ProxyResponse(
             did, time, headers,
-            contentType, contentLength, bodyString, code, image, protocol
+            contentType, contentLength, bodyString, code, image, source, protocol
         )
     }
-
 
     fun filterRequest(request: Request): Boolean {
         val scheme = request.url().scheme()

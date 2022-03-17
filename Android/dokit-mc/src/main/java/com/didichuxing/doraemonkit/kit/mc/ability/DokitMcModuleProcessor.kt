@@ -29,8 +29,8 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
-//            "okhttp_interceptor" to DokitMcInterceptor(),
-            "okhttp_interceptor" to DokitMcProxyInterceptor(),
+            "okhttp_interceptor" to DokitMcInterceptor(),
+            "okhttp_proxy_interceptor" to DokitMcProxyInterceptor(),
             "lifecycle" to McLifecycleMonitor()
         )
     }

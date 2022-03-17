@@ -42,8 +42,10 @@ public class DidiHttpHook {
             DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_RPC_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("rpc_interceptor");
+                Object interceptorProxy = processor.values().get("rpc_proxy_interceptor");
                 if (interceptor instanceof AbsDoKitRpcInterceptor) {
-                    noDuplicateAdd(interceptors, (AbsDoKitRpcInterceptor) interceptor);
+//                    noDuplicateAdd(interceptors, (AbsDoKitRpcInterceptor) interceptor);
+                    noDuplicateAdd(interceptors, (AbsDoKitRpcInterceptor) interceptorProxy);
                 }
             }
             noDuplicateAdd(interceptors, new RpcMockInterceptor());
