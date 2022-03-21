@@ -122,10 +122,10 @@ class LeaksDoctorObserver extends NavigatorObserver {
   }
 
   void _ObservedElement(Element element, String key, {int? expectedTotalCount = 0}) {
-    _addObserved(element, key); //Element
+    // _addObserved(element, key); //Element
     _addObserved(element.widget, key); //Widget
     if (element is StatefulElement) {
-      _addObserved(element.state, key); //State
+      _addObserved(element.state, key+'+state'); //State
     }
   }
 
