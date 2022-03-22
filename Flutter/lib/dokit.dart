@@ -25,6 +25,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
+import 'package:dokit/util/time_util.dart';
 
 import 'kit/apm/leaks/leaks_doctor.dart';
 import 'kit/apm/leaks/leaks_doctor_data.dart';
@@ -261,8 +262,9 @@ void _collectError(Object? details, Object? stack) {
   LogManager.instance.addLog(
       LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
   if (CrashLogManager.instance.crashSwitch) {
-    FileUtil.shared
-        .writeCounter('carshDoc', '${details.toString()}\n${stack.toString()}');
+    var dateTime = DateTime.now();
+    FileUtil.shared.writeCounter('carshDoc',
+        '[${toDateString(dateTime.millisecondsSinceEpoch)}] ${details.toString()}\n${stack.toString()}');
   }
 }
 
