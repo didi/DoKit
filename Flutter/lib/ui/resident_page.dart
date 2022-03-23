@@ -1,4 +1,5 @@
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/biz/biz.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:dokit/kit/kit.dart';
 import 'package:dokit/ui/kit_page.dart';
@@ -24,6 +25,8 @@ class ResidentPageState extends State<ResidentPage> {
         ApmKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
     page ??=
         CommonKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
+    page ??=
+        BizKitManager.instance.getKit(ResidentPage.tag)?.displayPage();
     page ??= KitPage();
     return page;
   }
@@ -32,6 +35,7 @@ class ResidentPageState extends State<ResidentPage> {
     String? title;
     title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= BizKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= 'DoKit';
     return title;
   }

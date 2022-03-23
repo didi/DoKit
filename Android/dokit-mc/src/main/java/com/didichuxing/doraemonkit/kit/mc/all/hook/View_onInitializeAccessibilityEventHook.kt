@@ -4,6 +4,8 @@ import android.app.Activity
 import android.os.Build
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.AdapterView
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -20,6 +22,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.mc.util.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
@@ -55,20 +58,13 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             val view = it.thisObject as View
             val accessibilityEvent = it.args[0] as AccessibilityEvent
 
+            LogHelper.i(TAG, "view==>$view  accessibilityEvent.eventType===${accessibilityEvent.eventType}")
 
-//            LogHelper.i(
-//                TAG,
-//                "view==>$view  accessibilityEvent.eventType===${accessibilityEvent.eventType}"
-//            )
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return
             }
-
-            //通用
             comm(view, accessibilityEvent)
-
         }
-
     }
 
 
@@ -78,8 +74,27 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
     private fun comm(view: View, accessibilityEvent: AccessibilityEvent) {
         val viewC12c: ViewC12c?
         when (accessibilityEvent.eventType) {
-            // on a View like Button, CompoundButton
-            AccessibilityEvent.TYPE_VIEW_CLICKED,
+
+            AccessibilityEvent.TYPE_VIEW_CLICKED -> {
+                viewC12c = createViewC12c(view, accessibilityEvent)
+                val wsEvent = WSEvent(
+                    WSMode.HOST,
+                    WSEType.WSE_COMM_EVENT,
+                    mutableMapOf(
+                        "activityName" to if (view.context is Activity) {
+                            view.context::class.tagName
+                        } else {
+                            ActivityUtils.getTopActivity()::class.tagName
+                        }
+                    ),
+                    viewC12c
+                )
+                if (view.hasOnClickListeners() || view.parent is AdapterView<*> || view is Button ){
+                    DoKitWsServer.send(wsEvent)
+                }else{
+                    LogHelper.e(TAG, "view not onClickListener view==>$view  accessibilityEvent.eventType===${accessibilityEvent.eventType} ")
+                }
+            }
                 // represents the event of scrolling a view
             AccessibilityEvent.TYPE_VIEW_SCROLLED,
                 // represents the event of long clicking on a View like Button, CompoundButton
@@ -98,9 +113,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                     ),
                     viewC12c
                 )
-                LogHelper.json(
-                    TAG, wsEvent
-                )
+//                LogHelper.json(TAG, wsEvent)
                 DoKitWsServer.send(wsEvent)
             }
             /**
@@ -173,12 +186,10 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
         acc: AccessibilityEvent
     ): ViewC12c {
         var viewRootImplIndex: Int = -1
-        DoKitWindowManager.ROOT_VIEWS?.let {
+        var viewParents = WindowPathUtil.filterViewRoot(DoKitWindowManager.ROOT_VIEWS);
+        viewParents?.let {
             if (view.rootView.parent == null) {
-//                val decorView =
-//                    ActivityUtils.getTopActivity().window.decorView as ViewParent
                 viewRootImplIndex = it.size - 1
-                // LogHelper.i(TAG, "${view.rootView}")
             } else {
                 viewRootImplIndex = it.indexOf(view.rootView.parent)
             }

@@ -1,11 +1,8 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,16 +12,12 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
-import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.util.CodeUtils
-import com.didichuxing.doraemonkit.kit.mc.util.McHookUtil
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ImageUtils
 import com.didichuxing.doraemonkit.util.LogHelper
-import de.robv.android.xposed.XposedHelpers
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
@@ -57,74 +50,29 @@ class DoKitMcHostFragment : BaseFragment() {
                 DoKitWsServer.stop {
                     DoKit.removeFloating(HostDokitView::class)
                     if (activity is DoKitMcActivity) {
-                        (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
+                        (activity as DoKitMcActivity).onBackPressed()
                     }
                 }
             }
         }
+
+
         val host = "ws://${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.MC_WS_PORT}/mc"
         val logo = ImageUtils.getBitmap(R.mipmap.dk_logo)
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host
         ivCode.setImageBitmap(qCode)
+
         if (DoKitManager.WS_MODE != WSMode.HOST) {
             DoKitWsServer.start {
                 //启动悬浮窗
                 DoKit.launchFloating(HostDokitView::class)
                 DoKitWindowManager.hookWindowManagerGlobal()
-                runTimeHook()
+                if (!DoKitWindowManager.HOOK_ENABLE) {
+                    DoKitWindowManager.runTimeHook(activity)
+                }
             }
         }
-    }
-
-    /**
-     * hook
-     */
-    private fun runTimeHook() {
-        try {
-            //对于Android9.0以下的系统 需要反射将AccessibilityManager.mIsEnabled变量改成true
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-                McHookUtil.hookAccessibilityManager(activity)
-            }
-
-            //绕过无障碍的权限
-            XposedHelpers.findAndHookMethod(
-                AccessibilityManager::class.java,
-                "isEnabled",
-                AccessibilityGetInstanceMethodHook()
-            )
-
-
-            //hook onInitializeAccessibilityEvent
-//            val onInitializeAccessibilityEventMethod = XposedHelpers.findMethodExact(
-//                View::class.java,
-//                "onInitializeAccessibilityEvent",
-//                AccessibilityEvent::class.java
-//            )
-//            DexposedBridge.hookMethod(
-//                onInitializeAccessibilityEventMethod,
-//                View_onInitializeAccessibilityEventHook()
-//            )
-            XposedHelpers.findAndHookMethod(
-                View::class.java,
-                "onInitializeAccessibilityEvent",
-                AccessibilityEvent::class.java,
-                View_onInitializeAccessibilityEventHook()
-            )
-
-            //hook View#onTouchEvent
-//            DexposedBridge.findAndHookMethod(
-//                View::class.java,
-//                "onTouchEvent",
-//                MotionEvent::class.java,
-//                View_onTouchEventHook()
-//            )
-
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
     }
 
 

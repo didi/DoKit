@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,6 +23,15 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="正常"
+            android:textColor="@color/dk_color_79DE79"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/btn_close"
             android:layout_width="150dp"
@@ -30,6 +39,18 @@
             android:layout_marginTop="25dp"
             android:background="@drawable/dk_btn_mc_bg"
             android:text="断开"
+            android:textAllCaps="false"
+            android:textColor="@color/dk_color_FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_history"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/dk_btn_mc_bg"
+            android:text="连接历史"
             android:textAllCaps="false"
             android:textColor="@color/dk_color_FFFFFF"
             android:textSize="18sp"

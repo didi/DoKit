@@ -12,21 +12,21 @@ public class LogHelper {
         if (!IS_DEBUG) {
             return;
         }
-        LogUtils.v("[" + subTag + "]: " + msg);
+        LogUtils.d("[" + subTag + "]: " + msg);
     }
 
     public static void i(String subTag, String msg) {
         if (!IS_DEBUG) {
             return;
         }
-        LogUtils.v("[" + subTag + "]: " + msg);
+        LogUtils.i("[" + subTag + "]: " + msg);
     }
 
     public static void e(String subTag, String msg) {
         if (!IS_DEBUG) {
             return;
         }
-        LogUtils.v("[" + subTag + "]: " + msg);
+        LogUtils.e("[" + subTag + "]: " + msg);
     }
 
     public static void json(String subTag, Object o) {

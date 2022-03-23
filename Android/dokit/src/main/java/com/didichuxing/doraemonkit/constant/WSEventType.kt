@@ -32,6 +32,11 @@ enum class WSMode {
     CLIENT,
 
     /**
+     * 从机链接历史
+     */
+    CLIENT_HISTORY,
+
+    /**
      *数据抓取中...
      */
     RECORDING,

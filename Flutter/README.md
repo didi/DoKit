@@ -24,6 +24,8 @@ void main() => {
       DoKit.runApp(app:DoKitApp(MyApp()),
           // 是否在release包内使用，默认release包会禁用
           useInRelease: true,
+          // 选择性控制是否使用dokit中的runZonedGuarded,false: 禁用；true: 启用
+          useRunZoned: false,
           releaseAction: () => {
               // release模式下执行该函数，一些用到runZone之类实现的可以放到这里，该值为空则会直接调用系统的runApp(MyApp())，
               })
@@ -168,6 +170,11 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 框架已做无侵入的注入NavigatorObserver。但是在较复杂的App构建时可能失效，需要手动添加`DokitNavigatorObserver`
 
 **注：页面启动耗时信息只有在profile或release模式下才有意义**
+
+### 自定义入口
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/0b2jdWmxbK1637739570393.png" width="300px">
+
+业务方可以依照自己需要，依托自定义入口的功能（支持添加多组），在dokit中添加自己的功能启动入口。比如上图中的“业务专区”。
 
 
 
