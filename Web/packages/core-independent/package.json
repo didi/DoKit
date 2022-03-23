@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web-core-independent",
-  "version": "0.0.3-alpha.0",
+  "version": "0.0.3-alpha.4",
   "description": "Dokit",
   "keywords": [
     "Dokit"
@@ -29,7 +29,10 @@
     "url": "https://github.com/didi/DoraemonKit/issues"
   },
   "dependencies": {
-    "@dokit/web-utils": "^0.0.1"
+    "@dokit/web-utils": "^0.0.1",
+    "@medv/finder": "^1.1.3",
+    "cssesc": "^3.0.0",
+    "vue": "^3.2.21"
   },
   "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }

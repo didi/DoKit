@@ -1,15 +1,24 @@
-import {createApp} from 'vue'
+import {
+  createApp
+} from 'vue'
 import App from './components/app'
 import DokitUi from './common/components/dokit-ui'
 import Store from './store'
-import {applyLifecyle, LifecycleHooks} from './common/js/lifecycle' 
-import {getRouter} from './router'
-export class Dokit{
+import {
+  applyLifecyle,
+  LifecycleHooks
+} from './common/js/lifecycle'
+import {
+  getRouter
+} from './router'
+export class Dokit {
   options = null
-  constructor(options){
+  constructor(options) {
     this.options = options
     let app = createApp(App);
-    let {features} = options;
+    let {
+      features
+    } = options;
     app.use(DokitUi);
     app.use(getRouter(features));
     app.use(Store);
@@ -19,12 +28,12 @@ export class Dokit{
     this.onLoad();
   }
 
-  onLoad(){
+  onLoad() {
     // Lifecycle Load
     applyLifecyle(this.options.features, LifecycleHooks.LOAD)
   }
 
-  onUnload(){
+  onUnload() {
     // Lifecycle UnLoad
     applyLifecyle(this.options.features, LifecycleHooks.UNLOAD)
   }
@@ -33,7 +42,7 @@ export class Dokit{
     applyLifecyle(this.options.features, LifecycleHooks.PRODUCT_READY)
   }
 
-  init(){
+  init() {
     let dokitRoot = document.createElement('div')
     dokitRoot.id = "dokit-root"
     document.documentElement.appendChild(dokitRoot);
@@ -48,6 +57,29 @@ export class Dokit{
     this.productId = productId
     Store.state.productId = productId
     this.onProductReady()
+  }
+
+  startMultiControl(url, role) {
+    Store.state.socketUrl = url;
+    Store.state.socketConnect = true;
+    if (role === 'master') {
+      setTimeout(() => {
+        let socketMessage = (e) => {
+          try {
+            let msg = JSON.parse(e?.data);
+            if (msg?.type === "LOGIN") {
+              setTimeout(() => {
+                Store.state.isMaster = true;
+              });
+              Store.state.mySocket.socket.removeEventListener('message', socketMessage)
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        Store.state.mySocket.socket.addEventListener('message', socketMessage)
+      });
+    }
   }
 }
 

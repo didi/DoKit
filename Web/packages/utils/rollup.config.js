@@ -1,5 +1,5 @@
 import {terser} from 'rollup-plugin-terser'
-
+import commonjs from 'rollup-plugin-commonjs'
 const extendPlugins = []
 if(process.env.NODE_ENV === 'production'){
   extendPlugins.push(terser())
@@ -12,7 +12,9 @@ export default {
     file: 'dist/index.js',
     format: 'es'
   },
+
   plugins: [
+    commonjs(),
     ...extendPlugins
   ]
 }

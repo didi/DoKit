@@ -4,6 +4,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import {terser} from 'rollup-plugin-terser'
 import rAlias from '@rollup/plugin-alias'
+import commonjs from 'rollup-plugin-commonjs'
 const path = require('path')
 
 const extendPlugins = []
@@ -18,7 +19,6 @@ export default {
     file: 'dist/dokit.js',
     format: 'iife',
   },
-  
   plugins: [
     rAlias({
       entries:{
@@ -34,6 +34,7 @@ export default {
     }),
     postcssPlugin(),
     resolve({ extensions: ['.vue'] }),
+    commonjs(),
     ...extendPlugins
   ]
 }

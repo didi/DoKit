@@ -10,6 +10,6 @@ function run(){
   server.listen(3000, () => {
     console.log('Dev Server Running at http://localhost:3000');
     open('http://localhost:3000/playground');
-    open('http://localhost:3000/playground/index2.html');
+    open('http://localhost:3000/playground/index3.html');
   })
 }

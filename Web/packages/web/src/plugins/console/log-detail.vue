@@ -13,7 +13,7 @@
 </template>
 <script>
 import Detail from "./log-detail";
-import { clone } from '../../assets/deepClone'
+import { clone } from '@dokit/web-utils'
 import { getDataType } from '../../assets/util'
 export default {
   name: "Detail",

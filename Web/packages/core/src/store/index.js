@@ -6,7 +6,11 @@ const store = new Store({
     showHighlightElement:false,
     highlightElement:null,
     independPlugins: [],
-    features: []
+    features: [],
+    socketUrl:'',
+    isMaster:false,
+    socketConnect: false,
+    socketHistoryList:new Map(),
   }
 })
 

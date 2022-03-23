@@ -7,4 +7,3 @@ import {Features} from '../../web/src/feature'
 window.Dokit = new Dokit({
   features: Features,
 });
-

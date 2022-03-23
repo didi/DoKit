@@ -24,6 +24,7 @@
 </head>
 
 <body>
+  <input calss="inputDemo" />
   <div>DoKit For Web</div>
   <div class="asd1">
     <div class="asd2">
@@ -43,6 +44,7 @@
     margin: 10px 20px 30px 40px;
     border: 10px solid;
     border-width:10px 20px 30px 50px;">Playground</h2>
+  <input>
   <h2 style="padding: 10px 20px 30px 40px;
     margin: 10px 20px 30px 40px;
     border: 10px solid;
@@ -64,48 +66,92 @@
     border: 10px solid;
     border-width:10px 20px 30px 50px;">Playground</h2>
 </body>
-<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.1.5/vue.global.js"></script>
+<script src="https://unpkg.com/vue@next"></script>
 <script src="../packages/web/dist/dokit.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-  Dokit.setProductId('379cca45571436f86c31d687578541fc')
-</script>
-<script>
-  document.getElementsByClassName('asd1')[0].onclick=()=>{
-    alert(111)
-  }
-  setTimeout(() => {
+  let eventNode = document.getElementsByClassName('asd1')[0]
+  eventNode.onclick = (e) => {
     // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
-    //   // body: JSON.stringify({
-    //   //   a:1
-    //   // }),
-    //   headers: new Headers({
-    //     'Content-Type': 'text/html; charset=utf-8'
-    //   }),
-    //   method: 'post',
-    // })
+    //     // body: JSON.stringify({
+    //     //   appid: 68852321,
+    //     // appsecret:'BgGLDVc7',
+    //     // }),
+    //     // headers: {
+    //     //   'Content-Type': 'application/json',
+    //     // },
+    //     // method: 'POST',
+    //   })
     //   .then((response) => {
     //     let weatherInfo = response.json();
     //     return weatherInfo;
     //   })
     //   .then((info) => {
     //     console.log('weatherInfo', info)
+    //     alert(JSON.stringify(info))
     //   });
-    var a={
-      b:1,
-      c:3,
-    }
-    console.log(a);
-    function reqListener() {
-      console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this.responseText);
-    }
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", reqListener);
-    oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
-    oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
-    oReq.send(JSON.stringify({
-      a: 1
-    }));
-  }, 5000);
+    // function reqListener() {
+    //   console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this
+    //     .responseText);
+    // }
+    // var oReq = new XMLHttpRequest();
+    // oReq.addEventListener("load", reqListener);
+    // oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    // oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
+    // oReq.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/playground')
+    // oReq.setRequestHeader('Access-Control-Allow-Credentials', 'true')
+    // oReq.send(JSON.stringify({
+    //   a: 1
+    // }));
+    axios({
+      url: 'https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7',
+    }).then((res)=>{
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
+    });
+    // axios({
+    //   url: 'https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7',
+    //   method: "POST",
+    //   data: {
+    //     firstName: "Fred",
+    //     lastName: "Flintstone"
+    //   }
+    // }).then((res) => {
+    //   console.log(res)
+    // }).catch((err) => {
+    //   console.log(err)
+    // });
+  }
+  eventNode.addEventListener('touchstart', (e) => {
+    console.log(e)
+    console.log('----------touchstart--------')
+  }, false)
+  eventNode.addEventListener('touchmove', () => {
+    console.log('----------touchmove--------')
+  }, false)
+  eventNode.addEventListener('touchend', () => {
+    console.log('----------touchend--------')
+  }, false)
+  // setTimeout(() => {
+  //   var a = {
+  //     b: 1,
+  //     c: 3,
+  //   }
+  //   console.log(a);
+
+  // function reqListener() {
+  //   console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this
+  //     .responseText);
+  // }
+  // var oReq = new XMLHttpRequest();
+  // oReq.addEventListener("load", reqListener);
+  // oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+  // oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
+  // oReq.send(JSON.stringify({
+  //   a: 1
+  // }));
+  // }, 5000);
 </script>
 
 </html>
