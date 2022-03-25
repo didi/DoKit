@@ -14,9 +14,9 @@ import {
 } from '../../store'
 
 var xpathFinder;
-window.onload = () => {
+window.addEventListener("load", function (_event) {
   xpathFinder = xpath()
-};
+});
 export default class EventRecorder {
   constructor(socketUrl) {
     this.state = getGlobalData();
@@ -45,9 +45,23 @@ export default class EventRecorder {
   _initializeRecorder() {
     // console.debug('event recorder init:', this._isTopFrame);
     const events = Object.values(eventsToRecord);
+    const popstateCallback = (e) =>{
+      console.log('页面返回:',e);
+      const msg = {
+        type: 'action',
+        action: 'navigatorBack',
+        timestamp: new Date().getTime(),
+        trudid: uuid(),
+        location: window.location ? window.location : null,
+      };
+      this._eventLog.push(msg);
+      this._sendMessage(msg);
+    }
     if (!window.screenRecorderAddedControlListeners) {
       console.log('_addAllListeners:', events);
       this._addAllListeners(events);
+      
+      window.addEventListener('popstate', popstateCallback);
       // this._boundedMessageListener = this._boundedMessageListener || this._handleBackgroundMessage.bind(this);
       // chrome.runtime.onMessage.addListener(this._boundedMessageListener);
       window.screenRecorderAddedControlListeners = true;
@@ -140,6 +154,7 @@ export default class EventRecorder {
       return;
     }
     try {
+      console.time('finder耗时');
       let selector = '';
       let dangerSelector = '';
       let el = e.target;
@@ -147,7 +162,6 @@ export default class EventRecorder {
         selector = 'html';
         el = e.target.scrollingElement;
       } else {
-        console.time('finder耗时');
         const optimizedMinLength = (e.target.id) ? 2 : 10;
         selector = this._dataAttribute && e.target.hasAttribute && e.target.hasAttribute(this._dataAttribute) ?
           EventRecorder._formatDataSelector(e.target, this._dataAttribute) :

@@ -1,7 +1,12 @@
-
-import { getGlobalData } from '../../store'
+import {
+    getGlobalData
+} from '../../store'
+import {
+    getCurrentInstance
+} from 'vue';
 export default class Socket {
     constructor(url) {
+        this.instance = getCurrentInstance();
         this.state = getGlobalData();
         this.socket = null;
         this.webSocketState = null;
@@ -16,38 +21,49 @@ export default class Socket {
         this.isReconnect = true;
         this.wsUrl = url;
         this.init();
-        this.onopen(() => {
-            this.webSocketState = true
-            this.send({
-                type: 'LOGIN',
-                data: JSON.stringify({
-                    manufacturer:window.location.host,
-                    connectSerial:this.state.connectSerial||undefined
-                })
-            })
-            this.startHeartBeat(this.heartBeat.time) // 心跳机制
-        })
-        this.onerror(() => {
-            this.webSocketState = false
-        })
-        this.onclose(() => {
-            this.webSocketState = false
-        })
-        this.onmessage((e) => {
-            let msg = JSON.parse(e.data);
-            if (msg.type === "HEART_BEAT") {
+        if (this.socket) {
+            this.onopen(() => {
                 this.webSocketState = true
-            }
-        })
+                this.send({
+                    type: 'LOGIN',
+                    data: JSON.stringify({
+                        manufacturer: window.location.host,
+                        connectSerial: this.state.connectSerial || undefined
+                    })
+                })
+                this.startHeartBeat(this.heartBeat.time) // 心跳机制
+            })
+            this.onerror((e) => {
+                this.webSocketState = false
+            })
+            this.onclose((e) => {
+                this.socket = null
+                this.state.socketConnect = false
+                this.webSocketState = false
+                this.reconnectTimer && clearTimeout(this.reconnectTimer);
+                this.waitingServerTime && clearTimeout(this.waitingServerTime);
+                this.startHeartBeatTime && clearTimeout(this.startHeartBeatTime);
+            })
+            this.onmessage((e) => {
+                let msg = JSON.parse(e.data);
+                if (msg.type === "HEART_BEAT") {
+                    this.webSocketState = true
+                }
+            })
+        }
     }
     init() {
-        if (!this.socket) {
-            this.socket = new WebSocket(this.wsUrl)
-        }
-        if (this.socket && this.reconnectTimer) {
-            clearTimeout(this.reconnectTimer)
-            this.reconnectTimer = null
-            this.socket = new WebSocket(this.wsUrl)
+        try {
+            if (!this.socket) {
+                this.socket = new WebSocket(this.wsUrl)
+            }
+            if (this.socket && this.reconnectTimer) {
+                clearTimeout(this.reconnectTimer)
+                this.reconnectTimer = null
+                this.socket = new WebSocket(this.wsUrl)
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
     onopen(callBack) {
@@ -63,14 +79,14 @@ export default class Socket {
         this.socket.addEventListener('error', callBack)
     }
     close() {
-        this.socket.close()
+        this.socket && this.socket?.close()
         this.socket = null
-        clearTimeout(this.reconnectTimer);
-        clearTimeout(this.waitingServerTime);
-        clearTimeout(this.startHeartBeatTimee);
+        this.reconnectTimer && clearTimeout(this.reconnectTimer);
+        this.waitingServerTime && clearTimeout(this.waitingServerTime);
+        this.startHeartBeatTime && clearTimeout(this.startHeartBeatTime);
     }
     send(msg) {
-        this.socket.send(JSON.stringify(msg))
+        this.socket && this.socket.send(JSON.stringify(msg))
     }
     startHeartBeat(time) {
         this.startHeartBeatTime = setTimeout(() => {
@@ -95,6 +111,7 @@ export default class Socket {
             console.log('心跳无响应，已断线')
             try {
                 this.close()
+                this.instance.proxy.$toast("连接已经断开", 2000);
             } catch (e) {
                 console.log('连接已关闭，无需关闭')
             }

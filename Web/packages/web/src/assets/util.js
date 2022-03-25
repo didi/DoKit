@@ -2,6 +2,7 @@ import {
   Request,
   EventEmitter
 } from "@dokit/web-utils";
+import { ConsoleLogMap } from "../plugins/console/js/console";
 
 
 export const request = new Request()
@@ -38,22 +39,24 @@ export const getDataStructureStr = function (arg, isFirstLevel) {
     case 'Array':
       break;
     case 'Object':
-      str += '{'
-      if (isFirstLevel) {
-        let propertyNames = Object.getOwnPropertyNames(arg)
-        let propertyNameStrs = propertyNames.map(key =>
-          str += `${key}: ${getDataStructureStr(arg[key], false)}`
-        )
-        propertyNameStrs.join(',')
-        if (propertyNameStrs.length > MAX_DISPLAY_PROPERTY_NUM) {
-          str += ',...'
+      try {
+        str += '{'
+        if (isFirstLevel) {
+          let propertyNames = Object.getOwnPropertyNames(arg)
+          let propertyNameStrs = propertyNames.map(key =>
+            str += `${key}: ${getDataStructureStr(arg[key], false)}`
+          )
+          propertyNameStrs.join(',')
+          if (propertyNameStrs.length > MAX_DISPLAY_PROPERTY_NUM) {
+            str += ',...'
+          }
+        } else {
+          str += '...'
         }
-      } else {
-        str += '...'
+        str += '}'
+      } catch (error) {
+        console.log(error)
       }
-
-      str += '}'
-
       break;
     default:
       break;
@@ -80,7 +83,7 @@ export const uuid = () => {
 export const debounce = (fn, wait, time) => {
   var previous = null
   var timer = null
-  return function(...args){
+  return function (...args) {
     var now = +new Date()
     var that = this
     if (!previous) previous = now

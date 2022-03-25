@@ -11,7 +11,7 @@ export default {
     TOUCHMOVE:'touchmove',
     TOUCHEND:'touchend',
     INPUT: 'input',
+    SCROLL: 'scroll',
     // LOAD: 'load',
     // UNLOAD: 'unload',
-    // SCROLL: 'scroll',
   }

@@ -48,9 +48,7 @@
           <div class="name">{{ item[0] }}</div>
           <div
             class="opt-btn"
-            :style="`background-color:${
-              item[1] === 'connect' ? '#d81e06' : '#28af31'
-            }`"
+            :style="`background-color:${item[1] === 'connect' ? '#d81e06' : '#28af31'}`"
             @click="connectHandle(item[0])"
           >
             {{ item[1] === "connect" ? "断开连接" : "连接" }}
@@ -77,6 +75,7 @@ export default {
       recording: false,
       socketUrl: "",
       historyList: [],
+      testSocket: null,
     };
   },
   watch: {
@@ -103,11 +102,14 @@ export default {
     },
   },
   created() {
-    let list = JSON.parse(
-      localStorage.getItem("dokit-socket-history-list") || "[]"
-    );
+    let list = JSON.parse(localStorage.getItem("dokit-socket-history-list") || "[]");
     list.forEach((item) => {
-      this.$store.state.socketHistoryList.set(item[0], "close");
+      if (this.connect && item[0] === this.$store.state.socketUrl) {
+        this.$store.state.socketHistoryList.set(item[0], "connect");
+        this.socketUrl = this.$store.state.socketUrl
+      } else {
+        this.$store.state.socketHistoryList.set(item[0], "close");
+      }
     });
     $bus.on("scanCode", this.scanCodeCallback);
   },
@@ -117,12 +119,33 @@ export default {
   methods: {
     recordHandle() {},
     connectHandle(url) {
-      url && (this.socketUrl = url);
-      this.$nextTick(() => {
-        this.$store.state.socketConnect = !this.$store.state.socketConnect;
-        this.$store.state.socketConnect &&
-          (this.$store.state.showContainer = false);
-      });
+      if (
+        (url && !/^(ws?s:\/\/)/.test(url)) ||
+        (this.$store.state.socketUrl && !/^(ws?s:\/\/)/.test(this.$store.state.socketUrl))
+      ) {
+        this.$toast("url地址格式不对", 1000);
+        return;
+      }
+      try {
+        this.testSocket = new WebSocket(url || this.$store.state.socketUrl);
+        this.testSocket.addEventListener("error", (e) => {
+          this.$toast("url地址无法连接", 2000);
+          this.testSocket.close();
+          this.testSocket = null;
+        });
+        this.testSocket.addEventListener("open", (e) => {
+          url && (this.socketUrl = url);
+          this.$nextTick(() => {
+            this.$store.state.socketConnect = !this.$store.state.socketConnect;
+            this.$store.state.socketConnect && (this.$store.state.showContainer = false);
+          });
+          this.testSocket.close();
+          this.testSocket = null;
+        });
+      } catch (error) {
+        this.$toast("url地址无法连接", 1000);
+        return;
+      }
     },
     scanCode() {
       this.$router.push({

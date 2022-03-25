@@ -84,3 +84,17 @@ export const HTTP_STATUS_CODES = {
   504: "Gateway Timeout",
   505: "HTTP Version Not Supported"
 }
+
+/**
+ * 获取url参数
+ * @param key 参数的key
+ */
+ export const getQueryVariable = (key, url) => {
+  var query = url ? url.split('?')[1] : window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == key) { return pair[1]; }
+  }
+  return (false);
+}

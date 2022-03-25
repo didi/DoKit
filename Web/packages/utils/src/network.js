@@ -2,7 +2,7 @@ import {
   EventEmitter
 } from './eventEmiter'
 import {
-  guid
+  guid,getQueryVariable
 } from './utils'
 import {
   getGlobalData
@@ -43,7 +43,6 @@ export class Request extends EventEmitter {
     const getAllResponseHeaders = winXhrProto.getAllResponseHeaders;
     // XMLHttp
     window.XMLHttpRequest.prototype.setRequestHeader = function (...args) {
-      console.log('setRequestHeader', args, this);
       this.reqConf.requestHeaders||(this.reqConf.requestHeaders = {})
       this.reqConf.requestHeaders[args[0]] = args[1]
       if (Req.hookXhrConfig.onBeforeSetRequestHeader) {
@@ -97,8 +96,8 @@ export class Request extends EventEmitter {
                     scheme: urlObject?.protocol,
                     host: urlObject?.host,
                     port: urlObject?.port,
-                    path: urlObject?.pathname,
-                    searchKey:hex_md5(urlObject?.pathname),
+                    path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
+                    searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
                     query: urlObject?.search?.split('?')[1] || "",
                     fragment: urlObject?.hash,
                     // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -239,8 +238,8 @@ export class Request extends EventEmitter {
               scheme: urlObject?.protocol,
               host: urlObject?.host,
               port: urlObject?.port,
-              path: urlObject?.pathname,
-              searchKey:hex_md5(urlObject?.pathname),
+              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
+              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
               query: urlObject?.search?.split('?')[1] || "",
               fragment: urlObject?.hash,
               // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -292,8 +291,8 @@ export class Request extends EventEmitter {
               requestBody: args.length > 1 ? (args[1].body || '') : '', //接口参数
               method: args.length > 1 && args[1].method || 'GET',
               clientProtocol: 'http',
-              path: urlObject?.pathname,
-              searchKey:hex_md5(urlObject?.pathname),
+              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
+              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
               connectSerial: Req.state.connectSerial
             })
           })
@@ -354,8 +353,8 @@ export class Request extends EventEmitter {
               scheme: urlObject?.protocol,
               host: urlObject?.host,
               port: urlObject?.port,
-              path: urlObject?.pathname,
-              searchKey:hex_md5(urlObject?.pathname),
+              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
+              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
               query: args.length > 1 ? (args[1].query || '') : '',
               fragment: urlObject?.hash,
               // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -387,7 +386,6 @@ export class Request extends EventEmitter {
         fetchResult = origFetch(...args);
           try {
           const res = await fetchResult
-          console.log(res)
           const r = await res.clone().text()
           if (Req.state.socketConnect) {
             if (Req.state.isMaster) {

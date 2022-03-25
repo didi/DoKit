@@ -11,6 +11,7 @@ import {
 import {
   getRouter
 } from './router'
+import toast from './common/components/toast/index'
 export class Dokit {
   options = null
   constructor(options) {
@@ -22,6 +23,9 @@ export class Dokit {
     app.use(DokitUi);
     app.use(getRouter(features));
     app.use(Store);
+    window.addEventListener("load", function (_event) {
+      app.use(toast);
+    });
     Store.state.features = features;
     this.app = app;
     this.init();

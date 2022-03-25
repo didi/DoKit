@@ -73,30 +73,30 @@
 <script>
   let eventNode = document.getElementsByClassName('asd1')[0]
   eventNode.onclick=()=>{
-    // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
-    //   // body: JSON.stringify({
-    //   //   a:1
-    //   // }),
-    //   // headers: new Headers({
-    //   //   'Content-Type': 'text/html; charset=utf-8'
-    //   // }),
-    //   // method: 'post',
-    // })
-    //   .then((response) => {
-    //     let weatherInfo = response.json();
-    //     return weatherInfo;
-    //   })
-    //   .then((info) => {
-    //     console.log('weatherInfo', info)
-    //     alert(JSON.stringify(info))
-    //   });
-    axios({
-      url: 'https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7',
-    }).then((res)=>{
-      console.log(res)
-    }).catch((err)=>{
-      console.log(err)
-    });
+    fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {
+      // body: JSON.stringify({
+      //   a:1
+      // }),
+      // headers: new Headers({
+      //   'Content-Type': 'text/html; charset=utf-8'
+      // }),
+      // method: 'post',
+    })
+      .then((response) => {
+        let weatherInfo = response.json();
+        return weatherInfo;
+      })
+      .then((info) => {
+        console.log('weatherInfo', info)
+        // alert(JSON.stringify(info))
+      });
+    // axios({
+    //   url: 'https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7',
+    // }).then((res)=>{
+    //   console.log(res)
+    // }).catch((err)=>{
+    //   console.log(err)
+    // });
   }
   eventNode.addEventListener('touchstart',(e)=>{
     console.log(e)
