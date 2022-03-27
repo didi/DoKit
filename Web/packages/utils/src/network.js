@@ -88,6 +88,7 @@ export class Request extends EventEmitter {
                 Req.state.mySocket.send({
                   type: 'DATA',
                   contentType: 'request',
+                  channelSerial: Req.state.channelSerial,
                   pid:xhr.reqConf.pid,
                   data: JSON.stringify({
                     did: xhr.reqConf.did, //数据唯一识别ID 32位随机数
@@ -130,6 +131,7 @@ export class Request extends EventEmitter {
                 Req.state.mySocket.send({
                   type: 'DATA',
                   contentType: 'response',
+                  channelSerial: Req.state.channelSerial,
                   pid:xhr.reqConf.pid,
                   data: JSON.stringify({
                     did:xhr.reqConf.did, //数据唯一识别ID 32位随机数
@@ -231,6 +233,7 @@ export class Request extends EventEmitter {
           Req.state.mySocket.send({
             type: 'DATA',
             contentType: 'query',
+            channelSerial: Req.state.channelSerial,
             pid,
             data: JSON.stringify({
               aid: Req.state.aid, //行为唯一识别ID 32位随机数，非空
@@ -274,6 +277,7 @@ export class Request extends EventEmitter {
           Req.state.mySocket.send({
             type: 'DATA',
             contentType: 'request',
+            channelSerial: Req.state.channelSerial,
             pid,
             data: JSON.stringify({
               did, //数据唯一识别ID 32位随机数
@@ -346,6 +350,7 @@ export class Request extends EventEmitter {
           Req.state.mySocket.send({
             type: 'DATA',
             contentType: 'query',
+            channelSerial: Req.state.channelSerial,
             pid,
             data: JSON.stringify({
               aid: Req.state.aid, //行为唯一识别ID 32位随机数，非空
@@ -392,6 +397,7 @@ export class Request extends EventEmitter {
               Req.state.mySocket.send({
                 type: 'DATA',
                 contentType: 'response',
+                channelSerial: Req.state.channelSerial,
                 data: JSON.stringify({
                   did, //数据唯一识别ID 32位随机数
                   // responseTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),

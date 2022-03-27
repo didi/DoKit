@@ -6,6 +6,7 @@ const store = new Store({
     showHighlightElement:false,
     highlightElement:null,
     independPlugins: [],
+    interfaceList:[],
     features: [],
     socketUrl:'',
     isMaster:false,

@@ -14,9 +14,18 @@ import {
 } from '../../store'
 
 var xpathFinder;
-window.addEventListener("load", function (_event) {
+if (document.readyState === "loading") {
+  // window.addEventListener("load", function (_event) {
+  //   xpathFinder = xpath()
+  // });
+  document.addEventListener("readystatechange", function () {
+    if (document.readyState === "interactive") {
+      xpathFinder = xpath()
+    }
+  });
+}else{
   xpathFinder = xpath()
-});
+}
 export default class EventRecorder {
   constructor(socketUrl) {
     this.state = getGlobalData();
@@ -139,6 +148,7 @@ export default class EventRecorder {
       console.log('send message:', msg, window.eventRecorder);
       this.state.mySocket.send({
         type: 'BROADCAST',
+        channelSerial: this.state.channelSerial,
         data: JSON.stringify({
           ...msg,
           connectSerial: this.state.connectSerial
@@ -167,7 +177,7 @@ export default class EventRecorder {
           EventRecorder._formatDataSelector(e.target, this._dataAttribute) :
           xpathFinder.find(e.target);
         dangerSelector = finder(e.target, {
-          seedMinLength: 100,
+          seedMinLength: 50,
           optimizedMinLength,
           className: (className, input) => {
             if (input.tagName.toLowerCase() === 'body') {

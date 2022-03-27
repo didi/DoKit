@@ -79,9 +79,6 @@ export default {
     };
   },
   watch: {
-    socketUrl(val) {
-      this.$store.state.socketUrl = val;
-    },
     socketHistoryList: {
       handler: function (newVal, oldVal) {
         this.historyList = [...newVal];
@@ -106,7 +103,7 @@ export default {
     list.forEach((item) => {
       if (this.connect && item[0] === this.$store.state.socketUrl) {
         this.$store.state.socketHistoryList.set(item[0], "connect");
-        this.socketUrl = this.$store.state.socketUrl
+        this.socketUrl = this.$store.state.socketUrl;
       } else {
         this.$store.state.socketHistoryList.set(item[0], "close");
       }
@@ -119,15 +116,19 @@ export default {
   methods: {
     recordHandle() {},
     connectHandle(url) {
+      if (this.$store.state.socketConnect) {
+        this.$store.state.socketConnect = false;
+        return;
+      }
       if (
         (url && !/^(ws?s:\/\/)/.test(url)) ||
-        (this.$store.state.socketUrl && !/^(ws?s:\/\/)/.test(this.$store.state.socketUrl))
+        (this.socketUrl && !/^(ws?s:\/\/)/.test(this.socketUrl))
       ) {
         this.$toast("url地址格式不对", 1000);
         return;
       }
       try {
-        this.testSocket = new WebSocket(url || this.$store.state.socketUrl);
+        this.testSocket = new WebSocket(url || this.socketUrl);
         this.testSocket.addEventListener("error", (e) => {
           this.$toast("url地址无法连接", 2000);
           this.testSocket.close();
@@ -135,6 +136,7 @@ export default {
         });
         this.testSocket.addEventListener("open", (e) => {
           url && (this.socketUrl = url);
+          this.$store.state.socketUrl = this.socketUrl;
           this.$nextTick(() => {
             this.$store.state.socketConnect = !this.$store.state.socketConnect;
             this.$store.state.socketConnect && (this.$store.state.showContainer = false);

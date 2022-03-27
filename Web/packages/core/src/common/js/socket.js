@@ -26,6 +26,7 @@ export default class Socket {
                 this.webSocketState = true
                 this.send({
                     type: 'LOGIN',
+                    channelSerial: this.state.channelSerial,
                     data: JSON.stringify({
                         manufacturer: window.location.host,
                         connectSerial: this.state.connectSerial || undefined
