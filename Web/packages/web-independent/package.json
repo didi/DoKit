@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web-independent",
-  "version": "0.0.3-alpha.4",
+  "version": "0.0.3",
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -29,12 +29,6 @@
     "build": "npx cross-env NODE_ENV=production npx rollup -c",
     "dev": "npx rollup -wc"
   },
-  "dependencies": {
-    "@dokit/web-core-independent": "^0.0.3-alpha.0",
-    "@dokit/web-utils": "^0.0.1",
-    "jsqr": "^1.4.0",
-    "mutation-observer": "^1.0.3",
-    "web-vitals": "^2.1.2"
-  },
+  "dependencies": {},
   "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }

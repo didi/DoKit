@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web",
-  "version": "0.0.3-alpha.4",
+  "version": "0.0.3",
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -30,8 +30,8 @@
     "dev": "npx rollup -wc"
   },
   "dependencies": {
-    "@dokit/web-core": "^0.0.3-alpha.3",
-    "@dokit/web-utils": "^0.0.1",
+    "@dokit/web-core": "file:../core",
+    "@dokit/web-utils": "file:../utils",
     "jsqr": "^1.4.0",
     "mutation-observer": "^1.0.3",
     "web-vitals": "^2.1.2"
