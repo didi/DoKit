@@ -61,6 +61,9 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                     if (thirdLibInfo.variant.contains("dokitx-rpc")) {
                         DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
                     }
+                    if (thirdLibInfo.variant.contains("dokitx-tcp-hook-dj")) {
+                        DoKitExtUtil.HAS_DOKIT_TCP_HOOK_DJ = true
+                    }
 //                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
                     DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                 } else if (variants.size == 4) {
@@ -70,6 +73,9 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                     )
                     if (thirdLibInfo.variant.contains("doraemonkit-rpc")) {
                         DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
+                    }
+                    if (thirdLibInfo.variant.contains("dokitx-tcp-hook-dj")) {
+                        DoKitExtUtil.HAS_DOKIT_TCP_HOOK_DJ = true
                     }
 //                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
                     DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)

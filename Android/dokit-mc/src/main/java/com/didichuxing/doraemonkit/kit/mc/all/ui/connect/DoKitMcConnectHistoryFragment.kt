@@ -191,7 +191,7 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            val url = "ws://${uri.host}:${uri.port}/${uri.path}"
+                            val url = "ws://${uri.host}:${uri.port}${uri.path}"
                             val history = McClientHistory(uri.host!!, uri.port, uri.path!!, name, time, url)
                             ConnectHistoryUtils.saveClientHistory(history)
                             handleConnect(history)
@@ -223,8 +223,9 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
     }
 
     private fun handleConnect(clientHistory: McClientHistory) {
-        if ( DoKitMcManager.CONNECT_MODE != WSMode.UNKNOW){
+        if (DoKitMcManager.CONNECT_MODE != WSMode.UNKNOW) {
             DoKitMcConnectClient.close()
+            DoKitMcManager.CONNECT_MODE = WSMode.UNKNOW
         }
         DoKitMcConnectClient.connect(
             clientHistory.host!!,

@@ -19,7 +19,9 @@ data class ProxyPackage(
     val data: String,
     val contentType: String = "json",
     val code: Int = 0,
-    val message: String = "ok"
+    val message: String = "ok",
+    val channelSerial: String = "android",
+    var connectSerial: String = ""
 )
 
 

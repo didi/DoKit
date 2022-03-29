@@ -79,6 +79,14 @@ object DoKit {
     }
 
     /**
+     * 获取MC当前链接地址
+     */
+    @JvmStatic
+    fun getMcConnectUrl(): String {
+        return DoKitReal.getMcConnectUrl()
+    }
+
+    /**
      * 启动悬浮窗
      * @JvmStatic:允许使用java的静态方法的方式调用
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。

@@ -13,7 +13,12 @@ package com.didichuxing.doraemonkit.kit.mc.net
 data class WSPackage(
     val pid: String,
     val type: PackageType,
-    val data: String
+    val data: String,
+    val channelSerial: String = "android",
+    var connectSerial: String = "",
+    var contentType: String = "text",
+    var message: String = "",
+    var code: Int = 0
 )
 
 

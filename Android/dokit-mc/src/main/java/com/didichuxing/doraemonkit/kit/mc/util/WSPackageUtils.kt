@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.util
 
+import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
 import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.net.PackageType
 import com.didichuxing.doraemonkit.kit.mc.net.WSPackage
@@ -15,12 +16,12 @@ object WSPackageUtils {
     }
 
     fun toPackageJson(id: String, type: PackageType, event: WSEvent): String {
-        val wsPackage = WSPackage(id, type, GsonUtils.toJson(event))
+        val wsPackage = WSPackage(id, type, GsonUtils.toJson(event), connectSerial = DoKitMcConnectClient.getConnectSerial())
         return GsonUtils.toJson(wsPackage)
     }
 
     fun toPackageJson(id: String, type: PackageType, data: String): String {
-        val wsPackage = WSPackage(id, type, data)
+        val wsPackage = WSPackage(id, type, data, connectSerial = DoKitMcConnectClient.getConnectSerial())
         return GsonUtils.toJson(wsPackage)
     }
 

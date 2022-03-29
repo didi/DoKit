@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
@@ -39,6 +40,7 @@ class MultiControlKit : AbstractKit() {
 
     override fun onAppInit(context: Context?) {
 //        DexposedBridge.hookAllConstructors(AccessibilityManager::class.java, AllMethodHook())
+        DoKitMcManager.init()
     }
 
     override val isInnerKit: Boolean get() = true

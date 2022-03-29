@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McLifecycleMonitor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.mock.http.DokitMcInterceptor
 import com.didichuxing.doraemonkit.kit.mc.all.ui.host.HostDokitView
@@ -68,6 +69,11 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                     }
                     "global_hook" -> {
                         McXposedHookUtils.globalHook()
+                    }
+                    "dokit_mc_connect_url" -> {
+                        val map = mutableMapOf<String, String>()
+                        val history = DokitMcConnectManager.currentConnectHistory
+                        map["url"] = history?.url ?: ""
                     }
 
                     else -> {

@@ -27,7 +27,7 @@ class McClientHistoryAdapter(clientList: MutableList<McClientHistory>, callback:
     val callback2 = callback
     override fun convert(holder: BaseViewHolder, item: McClientHistory) {
         holder.getView<TextView>(R.id.tv_name).text = "主机名称:${item.name}"
-        holder.getView<TextView>(R.id.tv_address).text = "地址:ws://${item.host}:${item.port}/${item.path}"
+        holder.getView<TextView>(R.id.tv_address).text = "地址:ws://${item.host}:${item.port}${item.path}"
         holder.getView<TextView>(R.id.tv_time).text = "时间:${item.time}"
         holder.getView<TextView>(R.id.connect).setOnClickListener {
             callback2(item)

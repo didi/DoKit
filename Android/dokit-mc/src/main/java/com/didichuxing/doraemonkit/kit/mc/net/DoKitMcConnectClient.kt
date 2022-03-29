@@ -36,6 +36,8 @@ object DoKitMcConnectClient {
     const val CONNECT_SUCCEED = 200
     const val CONNECT_FAILED = 0
 
+    var authLoginData: LoginData? = null
+
     private val client: HttpClient by lazy {
 
         try {
@@ -53,9 +55,10 @@ object DoKitMcConnectClient {
     }
 
     fun connect(host: String, port: Int, path: String, connectSerial: String, callBack: suspend (Int, String?) -> Unit) {
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                client.ws(
+                val client = client.ws(
                     method = HttpMethod.Get,
                     host = host,
                     port = port,
@@ -92,6 +95,7 @@ object DoKitMcConnectClient {
                     }
 
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 LogHelper.e(TAG, "client connect error===>${e.message}")
@@ -119,9 +123,12 @@ object DoKitMcConnectClient {
                     when (text.type) {
                         PackageType.LOGIN -> {
                             DokitMcConnectManager.connectMode = ConnectMode.CONNECT
-                            val loginData = text.data
+                            val data = text.data
+
                             try {
-                                callBack(CONNECT_SUCCEED, loginData)
+                                val loginData = GsonUtils.fromJson<LoginData>(data, LoginData::class.java)
+                                authLoginData = loginData
+                                callBack(CONNECT_SUCCEED, data)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 LogHelper.e(TAG, "client handle error===>${e.message}")
@@ -232,6 +239,13 @@ object DoKitMcConnectClient {
                 }
             }
         }
+    }
+
+    fun getConnectSerial(): String {
+        authLoginData?.let {
+            return it.connectSerial
+        }
+        return ""
     }
 
     private fun login(connectSerial: String) {

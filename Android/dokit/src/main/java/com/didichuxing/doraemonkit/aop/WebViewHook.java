@@ -2,16 +2,19 @@ package com.didichuxing.doraemonkit.aop;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.webkit.WebViewCompat;
 
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitJSI;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClient;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitX5WebViewClient;
 import com.didichuxing.doraemonkit.kit.h5_help.X5WebViewUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
+
 
 /**
  * ================================================
@@ -24,6 +27,18 @@ import com.didichuxing.doraemonkit.util.LogHelper;
  */
 public class WebViewHook {
     private static final String TAG = "WebViewHook";
+
+
+    public static String getSafeUrl(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            if (DoKitManager.H5_DOKIT_MC_INJECT && ((String) url).startsWith("https")) {
+                return url.replaceFirst("https", "http");
+            } else {
+                return url;
+            }
+        }
+        return "";
+    }
 
     /**
      * webview inject java object
@@ -53,6 +68,8 @@ public class WebViewHook {
             if (!(WebViewCompat.getWebViewClient(webView) instanceof DokitWebViewClient)) {
                 WebSettings settings = webView.getSettings();
                 settings.setJavaScriptEnabled(true);
+                settings.setDatabaseEnabled(true);
+                settings.setDomStorageEnabled(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
                 webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
                 webView.setWebViewClient(new DokitWebViewClient(WebViewCompat.getWebViewClient(webView), settings.getUserAgentString()));

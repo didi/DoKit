@@ -24,6 +24,7 @@ enum class WSMode {
      * 联网
      */
     CONNECT,
+
     /**
      * 联网
      */
@@ -108,6 +109,11 @@ enum class WSEType {
      * 自定义手势事件
      */
     WSE_CUSTOM_EVENT,
+
+    /**
+     * TCP 消息事件
+     */
+    WSE_TCP_EVENT,
 
     /**
      * 从机执行指定事件失败

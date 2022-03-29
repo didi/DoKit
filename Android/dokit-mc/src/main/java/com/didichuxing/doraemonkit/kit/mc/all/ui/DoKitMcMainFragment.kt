@@ -186,6 +186,27 @@ class DoKitMcMainFragment : BaseFragment() {
             }
         }
 
+        val h5Inject = findViewById<Button>(R.id.tv_h5jsInject)
+        updateH5Inject(h5Inject)
+        h5Inject.setOnClickListener {
+            DoKitMcManager.saveMcH5Inject(!DoKitManager.H5_DOKIT_MC_INJECT)
+            updateH5Inject(h5Inject)
+            if (DoKitManager.H5_DOKIT_MC_INJECT) {
+                ToastUtils.showShort("已开启H5注入")
+            } else {
+                ToastUtils.showShort("已关闭H5注入")
+            }
+        }
+
+    }
+
+    private fun updateH5Inject(view: Button) {
+        val text = if (DoKitManager.H5_DOKIT_MC_INJECT) {
+            "关闭H5注入"
+        } else {
+            "开启H5注入"
+        }
+        view.text = text
     }
 
     private fun checkMcPreparedState(callback: () -> Unit) {

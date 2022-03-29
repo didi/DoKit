@@ -4,6 +4,7 @@ import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McAccessibilityEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McCustomEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.ability.processor.McLifecycleEventMonitor
+import com.didichuxing.doraemonkit.kit.mc.ability.processor.McTcpMessageEventProcessor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 import com.didichuxing.doraemonkit.util.*
@@ -41,6 +42,10 @@ object WSClientProcessor {
              */
             WSEType.WSE_CUSTOM_EVENT -> {
                 McCustomEventProcessor.onCustomEvent(wsEvent)
+            }
+
+            WSEType.WSE_TCP_EVENT -> {
+                McTcpMessageEventProcessor.onTcpMessageEvent(wsEvent)
             }
 
             WSEType.ACTIVITY_FINISH,

@@ -13,6 +13,7 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
@@ -76,7 +77,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         request: WebResourceRequest?
     ): WebResourceResponse? {
         //开关均被关闭则不进行拦截
-        if (!DoKitManager.H5_JS_INJECT && !DoKitManager.H5_VCONSOLE_INJECT) {
+        if (!DoKitManager.H5_JS_INJECT && !DoKitManager.H5_VCONSOLE_INJECT && !DoKitManager.H5_DOKIT_MC_INJECT) {
             return super.shouldInterceptRequest(view, request)
         }
         request?.let { webRequest ->
@@ -108,6 +109,11 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
                 //注入vConsole的代码
                 if (DoKitManager.H5_VCONSOLE_INJECT) {
                     newHtml = injectVConsoleHook(newHtml)
+                }
+
+                //注入Dokit js mc代码
+                if (DoKitManager.H5_DOKIT_MC_INJECT) {
+                    newHtml = injectDokitMcHook(newHtml)
                 }
 
                 return WebResourceResponse(
@@ -284,6 +290,34 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         return doc.toString()
     }
 
+    /**
+     * 注入 vConsole的代码
+     */
+    private fun injectDokitMcHook(html: String?): String {
+        //读取本地js hook 代码
+        val dokitjs = ResourceUtils.readAssets2String("h5help/dokit.js")
+        val mcUrl = DoKitManager.MC_CONNECT_URL
+        val productId = DoKitManager.PRODUCT_ID
+        val mode = if (DoKitManager.WS_MODE == WSMode.HOST) {
+            "master"
+        } else {
+
+            "client"
+        }
+//        val preVue = "<script src=\"https://unpkg.com/vue@next\"></script>\n"
+        val injectHook = "<script type=\"text/javascript\">\n ${dokitjs}\n" +
+            " window.Dokit.setProductId('${productId}')\n" +
+            " window.Dokit.startMultiControl('${mcUrl}','${mode}')\n" +
+            "</script>"
+
+        val doc = Jsoup.parse(html)
+        doc.outputSettings().prettyPrint(true)
+        val elements = doc.getElementsByTag("head")
+        if (elements.size > 0) {
+            elements[elements.size - 1].append("").append(injectHook)
+        }
+        return doc.toString()
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -312,6 +346,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         if (mWebViewClient != null) {
             return mWebViewClient.onPageFinished(view, url)
         }
+
         super.onPageFinished(view, url)
     }
 

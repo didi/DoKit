@@ -147,6 +147,12 @@ object DoKitManager {
     var H5_VCONSOLE_INJECT = false
 
     /**
+     * h5 dokit mc 注入代码开关
+     */
+    @JvmField
+    var H5_DOKIT_MC_INJECT = false
+
+    /**
      * 是否允许上传统计信息
      */
     var ENABLE_UPLOAD = true
@@ -167,7 +173,14 @@ object DoKitManager {
     /**
      * 一机多控类型
      */
+    @JvmField
     var WS_MODE: WSMode = WSMode.UNKNOW
+
+    /**
+     *  一机多控地址
+     */
+    @JvmField
+    var MC_CONNECT_URL: String = ""
 
 
     /**

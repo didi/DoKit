@@ -4,6 +4,7 @@ import com.didichuxing.doraemonkit.extension.string
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
+import com.didichuxing.doraemonkit.util.EncryptUtils
 import okhttp3.Headers
 import okhttp3.Request
 import okhttp3.Response
@@ -60,11 +61,12 @@ object ProxyUtils {
         val contentType = (body?.contentType() ?: "").toString()
         val contentLength = body?.contentLength() ?: 0
         val bodyString = body?.string() ?: ""
+        val searchKey = EncryptUtils.encryptMD5ToString(path)
         val method = request.method()
         val clientProtocol = "http"
         return ProxyRequest(
             did, aid, url.toString(), scheme, host, path, query, fragment,
-            time, headers, contentType, contentLength, bodyString, method, clientProtocol
+            time, headers, contentType, contentLength, bodyString,searchKey, method, clientProtocol
         )
     }
 

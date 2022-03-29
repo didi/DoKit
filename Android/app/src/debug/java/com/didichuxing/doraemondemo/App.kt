@@ -161,7 +161,7 @@ class App : Application() {
             // 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
             .setFilePrefix("djx-table-log")
             // 输出日志是否带边框开关，默认开
-            .setBorderSwitch(false)
+            .setBorderSwitch(true)
             // 一条日志仅输出一条，默认开，为美化 AS 3.1 的 Logcat
             .setSingleTagSwitch(false)
             // log 的控制台过滤器，和 logcat 过滤器同理，默认 Verbose
@@ -169,7 +169,7 @@ class App : Application() {
             // log 文件过滤器，和 logcat 过滤器同理，默认 Verbose
             .setFileFilter(LogUtils.E)
             // log 栈深度，默认为 1
-            .setStackDeep(2)
+            .setStackDeep(1)
             .stackOffset = 1
     }
 

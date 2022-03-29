@@ -480,6 +480,8 @@ public class DoKit private constructor() {
     }
 }
 ```
+开启插件调试
+./gradlew :app:assembleDebug -Dorg.gradle.daemon=false -Dorg.gradle.debug=true
 
 
 #### 5. FAQ

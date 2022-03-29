@@ -32,7 +32,6 @@ class DokitMcProxyInterceptor : AbsDoKitInterceptor() {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         if (DoKitManager.WS_MODE == WSMode.HOST || DoKitManager.WS_MODE == WSMode.CLIENT) {
-
             if (!ProxyUtils.filterRequest(request)) {
                 if (DoKitManager.WS_MODE == WSMode.HOST) {
                     //主机处理方式

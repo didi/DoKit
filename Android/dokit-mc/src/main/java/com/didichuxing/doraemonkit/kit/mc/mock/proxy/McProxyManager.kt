@@ -21,27 +21,36 @@ import kotlin.coroutines.suspendCoroutine
 
 object McProxyManager {
 
-    val TAG = "McProxyManager"
+    private const val TAG = "McProxyManager"
+    private val mutableMap: MutableMap<String, ProxyQueryData> = mutableMapOf()
 
     fun requestStart(request: ProxyRequest) {
-        LogHelper.e(TAG, "PROXY requestStart() request=$request")
-        val proxyPackage = ProxyPackage(IdentityUtils.createPid(), PackageType.DATA, GsonUtils.toJson(request), "request")
+        LogHelper.d(TAG, "PROXY requestStart() request=$request")
+        val proxyPackage = ProxyPackage(
+            IdentityUtils.createPid(), PackageType.DATA, GsonUtils.toJson(request), "request",
+            connectSerial = DoKitMcConnectClient.getConnectSerial()
+        )
         DoKitMcConnectClient.sendDataProxy(GsonUtils.toJson(proxyPackage))
     }
 
     fun requestStop(response: ProxyResponse) {
-        LogHelper.e(TAG, "PROXY requestStop() response=$response")
-        val proxyPackage = ProxyPackage(IdentityUtils.createPid(), PackageType.DATA, GsonUtils.toJson(response), "response")
+        LogHelper.d(TAG, "PROXY requestStop() response=$response")
+        val proxyPackage = ProxyPackage(
+            IdentityUtils.createPid(), PackageType.DATA, GsonUtils.toJson(response), "response",
+            connectSerial = DoKitMcConnectClient.getConnectSerial()
+        )
         DoKitMcConnectClient.sendDataProxy(GsonUtils.toJson(proxyPackage))
     }
 
-    fun requestQueryLine(pid: String, request: ProxyRequest) {
-        LogHelper.e(TAG, "PROXY requestQueryLine() request=$request")
-        val proxyPackage = ProxyPackage(pid, PackageType.DATA, GsonUtils.toJson(request), "query")
+    private fun requestQueryLine(pid: String, request: ProxyRequest) {
+        LogHelper.d(TAG, "PROXY requestQueryLine() request=$request")
+        val proxyPackage = ProxyPackage(
+            pid, PackageType.DATA, GsonUtils.toJson(request), "query",
+            connectSerial = DoKitMcConnectClient.getConnectSerial()
+        )
         DoKitMcConnectClient.sendDataProxy(GsonUtils.toJson(proxyPackage))
     }
 
-    val mutableMap: MutableMap<String, ProxyQueryData> = mutableMapOf()
 
     fun requestQueryNow(request: ProxyQueryData) {
         mutableMap[request.pid] = request

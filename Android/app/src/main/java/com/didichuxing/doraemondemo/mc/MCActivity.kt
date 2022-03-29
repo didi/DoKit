@@ -31,6 +31,10 @@ class MCActivity : AppCompatActivity() {
             startActivity(Intent(this, NetMainActivity::class.java))
         }
 
+        findViewById<Button>(R.id.webPage).setOnClickListener {
+            startActivity(Intent(this, WebViewActivity::class.java))
+        }
+
         findViewById<SlideBar>(R.id.unlock_bar).setOnUnlockListener(object :
             SlideBar.OnUnlockListener {
             override fun onUnlock(view: View?) {

@@ -256,6 +256,21 @@ object DoKitReal {
 
     }
 
+    /**
+     * 获取MC当前的链接地址
+     */
+    fun getMcConnectUrl(): String {
+        try {
+            val mcProcessor = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)
+            val map = mcProcessor?.proceed(mapOf("action" to "dokit_mc_connect_url"))
+            val url = map?.get("url") as String
+            return url
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
     private fun checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen()) {
             GpsMockManager.getInstance().startMock()

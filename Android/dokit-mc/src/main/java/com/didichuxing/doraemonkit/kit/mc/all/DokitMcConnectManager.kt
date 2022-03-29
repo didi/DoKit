@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.all.ui.connect.ConnectDokitView
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
@@ -13,6 +14,11 @@ object DokitMcConnectManager {
 
     var itemHistory: McClientHistory? = null
     var currentConnectHistory: McClientHistory? = null
+        set(value) {
+            val url = value?.url ?: ""
+            DoKitMcManager.saveMcConnectUrl(url)
+            field = value
+        }
 
     var currentClientHistory: McClientHistory? = null
 
