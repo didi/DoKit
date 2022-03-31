@@ -263,7 +263,15 @@ static NSString * const kDoraemonMultiProtocolKey = @"doraemon_multi_protocol_ke
 
 }
 
-
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
+        NSURLCredential *urlCredential = challenge.protectionSpace.serverTrust ? [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] : nil;
+        completionHandler(NSURLSessionAuthChallengeUseCredential, urlCredential);
+        
+        return;
+    }
+    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+}
 
 /*
  * 通知>>任务完成
