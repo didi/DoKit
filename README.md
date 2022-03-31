@@ -214,22 +214,29 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [小枫](https://github.com/bbssyyuui) 
 
 **内部核心成员**
-[yixiangboy(易翔)](https://github.com/yixiangboy)、
-[jtsky(金台)](https://github.com/jtsky) 、
 [小枫](https://github.com/bbssyyuui) 、
-[LinJZong](https://github.com/LinJZong) 、
-[jayconscious](https://github.com/jayconscious) 、
-[xukaibin](https://github.com/xu984386604) 、
-[jellybean](https://github.com/excitedhaha) 、
+[ChasonTang](https://github.com/ChasonTang) 、
+[AdamCaoQAQ](https://github.com/AdamCaoQAQ) 、
+[fangyeqing123](https://github.com/fangyeqing123) 、
+[RealOnlyone](https://github.com/RealOnlyone) 、
+[HeyCFarmer](https://github.com/HeyCFarmer) 、
+[yFeii](https://github.com/yFeii) 、
+[卡布达](https://github.com/kabda) 、
 [maxiee](https://github.com/maxiee) 、
 [zhugeafanti](https://github.com/zhugeafanti)
 
 **贡献者榜单**
-[BzCoder](https://github.com/BzCoder) 、 
-[wangzhipeng](https://github.com/WangLao100)、
-[momoxiangbei](https://github.com/momoxiangbei)、
-[changzuozhen](https://github.com/changzuozhen)、
+[yixiangboy(易翔)](https://github.com/yixiangboy)、
+[jtsky(金台)](https://github.com/jtsky) 、
+[LinJZong](https://github.com/LinJZong) 、
 [wanglikun7342](https://github.com/wanglikun7342) 、
+[jayconscious](https://github.com/jayconscious) 、
+[jellybean](https://github.com/excitedhaha) 、
+[linusflow](https://github.com/xu984386604) 、
+[wangzhipeng](https://github.com/WangLao100)、
+[BzCoder](https://github.com/BzCoder) 、 
+[changzuozhen](https://github.com/changzuozhen)、
+[momoxiangbei](https://github.com/momoxiangbei)、
 [wenquanlebao](https://github.com/wenquanlebao) 、 
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
