@@ -57,10 +57,8 @@ object DoKitMcManager {
 
     var MC_CASE_ID: String = ""
 
-    @JvmField
     var mcNetMockInterceptor: McNetMockInterceptor? = null
-
-    @JvmField
+    
     var mcTcpMessageProcessor: McTcpMessageProcessor ? = null
 
     var WS_MODE: WSMode = WSMode.UNKNOW

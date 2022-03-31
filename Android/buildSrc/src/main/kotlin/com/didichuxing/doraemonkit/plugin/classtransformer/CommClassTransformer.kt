@@ -295,7 +295,7 @@ class CommClassTransformer : AbsClassTransformer() {
             //hook tcp 支持tcp消息hook
             if (className == "com.didi.daijia.tcp.message.MessageSender") {
                 klass.methods?.find {
-                    it.name == "sendMessage" && it.desc != "(Ljava/lang/Object;)Ljava/lang/Boolean;"
+                    it.name == "sendMessage" && it.desc == "(Ljava/lang/String;)Z"
                 }.let {
                     "${context.projectDir.lastPath()}->hook tcp MessageSender succeed: ${className}_${it?.name}_${it?.desc}".println()
                     val first = it?.instructions?.first
@@ -306,9 +306,9 @@ class CommClassTransformer : AbsClassTransformer() {
             }
             if (className == "com.didi.daijia.tcp.message.MessageReceiver") {
                 klass.methods?.find {
-                    it.name == "channelRead" && it.desc != "(Ljava/lang/Object;)V"
+                    it.name == "channelRead" && it.desc == "(Ljava/lang/Object;)V"
                 }.let {
-                    "${context.projectDir.lastPath()}->hook tcp MessageSender succeed: ${className}_${it?.name}_${it?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook tcp MessageReceiver succeed: ${className}_${it?.name}_${it?.desc}".println()
                     val first = it?.instructions?.first
                     if (first != null) {
                         it.instructions.insert(first, createMessageReceiverHookInsnList())
@@ -1121,17 +1121,27 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createMessageSenderHookInsnList(): InsnList {
         return with(InsnList()) {
             //插入application 拦截器
+            val l0= LabelNode()
+            add(l0)
             add(VarInsnNode(ALOAD, 0))
-
+            add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/tcp/ability/MessageSenderHook",
                     "hookSendMessage",
-                    "(Lcom/didi/daijia/tcp/message/MessageSender;Ljava/lang/Object;)Ljava/lang/Boolean;",
+                    "(Lcom/didi/daijia/tcp/message/MessageSender;Ljava/lang/Object;)Z",
                     false
                 )
             )
+            val l1= LabelNode()
+            add(JumpInsnNode(IFEQ,l1))
+            val l2= LabelNode()
+            add(l2)
+            add(InsnNode(ICONST_1))
+            add(InsnNode(IRETURN))
+            add(l1)
+            add(FrameNode(F_SAME,0,null,0,null))
             this
         }
 
@@ -1142,17 +1152,26 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createMessageReceiverHookInsnList(): InsnList {
         return with(InsnList()) {
             //插入application 拦截器
+            val l0= LabelNode()
+            add(l0)
             add(VarInsnNode(ALOAD, 0))
-
+            add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/tcp/ability/MessageReceiverHook",
                     "hookChannelRead",
-                    "(Lcom/didi/daijia/tcp/message/MessageReceiver;Ljava/lang/Object;)Ljava/lang/Boolean;",
+                    "(Lcom/didi/daijia/tcp/message/MessageReceiver;Ljava/lang/Object;)Z",
                     false
                 )
             )
+            val l1= LabelNode()
+            add(JumpInsnNode(IFEQ,l1))
+            val l2= LabelNode()
+            add(l2)
+            add(InsnNode(RETURN))
+            add(l1)
+            add(FrameNode(F_SAME,0,null,0,null))
             this
         }
 

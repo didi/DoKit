@@ -22,6 +22,8 @@ object DoKitExtUtil {
     var HAS_DOKIT_RPC_MODULE = false
     //private var mApplicationId: String = ""
 
+    var HAS_DOKIT_TCP_HOOK_DJ = false
+
     /**
      * 三方库版本信息
      */
