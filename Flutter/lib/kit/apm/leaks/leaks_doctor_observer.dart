@@ -56,7 +56,7 @@ class LeaksDoctorObserver extends NavigatorObserver {
             final key = _getRouteKey(route, element.widget.toStringShort());
 
             // 人为制造泄漏
-            // LeaksCache.cache.add(element.widget);
+            LeaksCache.cache.add(element.widget);
 
             var _className = element.widget.toStringShort();
             var _expectedTotalCount = _checkPolicy(_className);

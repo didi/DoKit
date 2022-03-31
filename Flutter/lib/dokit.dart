@@ -26,6 +26,7 @@ import 'package:package_info/package_info.dart';
 
 import 'kit/apm/leaks/leaks_doctor.dart';
 import 'kit/apm/leaks/leaks_doctor_data.dart';
+import 'kit/apm/leaks/leaks_doctor_event.dart';
 import 'kit/apm/vm/vm_service_wrapper.dart';
 import 'kit/biz/biz.dart';
 

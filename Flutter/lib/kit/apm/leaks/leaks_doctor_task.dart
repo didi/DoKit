@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 import 'package:vm_service/vm_service.dart';
 
-import 'leaks_doctor.dart';
 import 'leaks_doctor_data.dart';
+import 'leaks_doctor_event.dart';
 
 abstract class _Task<T> {
   void start() async {
@@ -48,13 +48,11 @@ class LeaksDoctorTask extends _Task {
   @override
   void run() async {
     if (expando != null) {
-      if (await _isLeaked()) {
-        // 强制GC，确保对象Release
-        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart));
-        await VmserviceToolset().forceGC(); //GC
-        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd));
-        return _afterGC();
-      }
+      // 强制GC，确保对象Release
+      sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart));
+      await VmserviceToolset().forceGC(); //GC
+      sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd));
+      return _afterGC();
     }
     sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd));
     return null;
@@ -81,17 +79,6 @@ class LeaksDoctorTask extends _Task {
     }
 
     sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd));
-  }
-
-  Future<bool> _isLeaked() async {
-    List<dynamic> weakPropertyList = await _getWeakPropertys(expando!);
-    for (var weakProperty in weakPropertyList) {
-      if (weakProperty != null) {
-        final leakedInstance = await _getWeakPropertyKey(weakProperty.id);
-        if (leakedInstance != null) return true;
-      }
-    }
-    return false;
   }
 
   // 获取WeakProperty列表
