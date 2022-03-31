@@ -7,7 +7,7 @@ import {
 import {
   getGlobalData
 } from '@dokit/web-core'
-import { HTTP_STATUS_CODES } from './utils'
+import { HTTP_STATUS_CODES,strMapToObj } from './utils'
 import { hex_md5 } from './md5'
 // import moment from 'moment'
 const getAllResponseHeadersMap = function (xhr) {
@@ -97,8 +97,8 @@ export class Request extends EventEmitter {
                     scheme: urlObject?.protocol,
                     host: urlObject?.host,
                     port: urlObject?.port,
-                    path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
-                    searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
+                    path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
+                    searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
                     query: urlObject?.search?.split('?')[1] || "",
                     fragment: urlObject?.hash,
                     // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -128,6 +128,7 @@ export class Request extends EventEmitter {
             xhr.reqConf.headerMap = headerMap
             if (Req.state.socketConnect) {
               if (Req.state.isMaster) {
+                debugger
                 Req.state.mySocket.send({
                   type: 'DATA',
                   contentType: 'response',
@@ -241,8 +242,8 @@ export class Request extends EventEmitter {
               scheme: urlObject?.protocol,
               host: urlObject?.host,
               port: urlObject?.port,
-              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
-              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
+              path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
+              searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
               query: urlObject?.search?.split('?')[1] || "",
               fragment: urlObject?.hash,
               // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -295,8 +296,8 @@ export class Request extends EventEmitter {
               requestBody: args.length > 1 ? (args[1].body || '') : '', //接口参数
               method: args.length > 1 && args[1].method || 'GET',
               clientProtocol: 'http',
-              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
-              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
+              path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
+              searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
               connectSerial: Req.state.connectSerial
             })
           })
@@ -358,8 +359,8 @@ export class Request extends EventEmitter {
               scheme: urlObject?.protocol,
               host: urlObject?.host,
               port: urlObject?.port,
-              path: `${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`,
-              searchKey:hex_md5(`${urlObject?.pathname}?${getQueryVariable('api',urlObject?.href)&&`api=${getQueryVariable('api',urlObject?.href)}`}`),
+              path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
+              searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
               query: args.length > 1 ? (args[1].query || '') : '',
               fragment: urlObject?.hash,
               // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
@@ -394,6 +395,7 @@ export class Request extends EventEmitter {
           const r = await res.clone().text()
           if (Req.state.socketConnect) {
             if (Req.state.isMaster) {
+              const responseHeaders = strMapToObj(res.headers)
               Req.state.mySocket.send({
                 type: 'DATA',
                 contentType: 'response',
@@ -401,12 +403,12 @@ export class Request extends EventEmitter {
                 data: JSON.stringify({
                   did, //数据唯一识别ID 32位随机数
                   // responseTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-                  responseHeaders: JSON.stringify(res.headers),
+                  responseHeaders: JSON.stringify(responseHeaders),
                   protocol: "http",
                   responseContentType: res.headers.get('Content-Type'),
                   // responseBodyLength: '',
                   responseBody: JSON.stringify(JSON.parse(r)), //响应消息体
-                  responseCode: JSON.stringify(JSON.parse(r).code), //响应状态码
+                  responseCode: res.status, //响应状态码
                   image: res.headers.get('Content-Type').indexOf('image/') >= 0 ? true:false,
                   source: '',
                   connectSerial: Req.state.connectSerial,

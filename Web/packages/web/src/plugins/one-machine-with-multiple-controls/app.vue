@@ -253,6 +253,7 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 30px;
+      font-size: 17px;
     }
   }
 }

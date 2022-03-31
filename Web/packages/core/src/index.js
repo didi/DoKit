@@ -12,7 +12,6 @@ import {
   getRouter
 } from './router'
 import toast from './common/components/toast/index'
-import { hex_md5 } from '@dokit/web-utils'
 export class Dokit {
   options = null
   constructor(options) {
@@ -40,7 +39,6 @@ export class Dokit {
     this.app = app;
     this.init();
     this.onLoad();
-    Store.state.channelSerial = `web-${hex_md5(location.pathname)}`
   }
 
   onLoad() {

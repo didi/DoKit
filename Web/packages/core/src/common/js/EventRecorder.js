@@ -114,8 +114,8 @@ export default class EventRecorder {
   // }
 
   _addAllListeners(events) {
-    let boundedRecordEvent = this._recordEvent.bind(this);
     events.forEach((type) => {
+      let boundedRecordEvent = this._recordEvent.bind(this);
       if (type === 'input') {
         boundedRecordEvent = debounce(boundedRecordEvent, 200);
         let inputList = document.getElementsByTagName("input");
@@ -134,10 +134,10 @@ export default class EventRecorder {
         return;
       }
       if (type === 'touchmove') {
-        boundedRecordEvent = throttle(boundedRecordEvent, 200);
+        boundedRecordEvent = throttle(boundedRecordEvent, 100);
       }
       if (type === 'scroll') {
-        boundedRecordEvent = throttle(boundedRecordEvent, 200);
+        boundedRecordEvent = throttle(boundedRecordEvent, 100);
       }
       window.addEventListener(type, boundedRecordEvent, true);
     })
@@ -159,12 +159,12 @@ export default class EventRecorder {
   }
 
   _recordEvent(e) {
+    console.log(e);
     this.state.aid = uuid()
     if (!this.state.startRecorder) {
       return;
     }
     try {
-      console.time('finder耗时');
       let selector = '';
       let dangerSelector = '';
       let el = e.target;
@@ -177,7 +177,7 @@ export default class EventRecorder {
           EventRecorder._formatDataSelector(e.target, this._dataAttribute) :
           xpathFinder.find(e.target);
         dangerSelector = finder(e.target, {
-          seedMinLength: 50,
+          seedMinLength: 5,
           optimizedMinLength,
           className: (className, input) => {
             if (input.tagName.toLowerCase() === 'body') {
@@ -187,7 +187,6 @@ export default class EventRecorder {
           },
         });
       }
-      console.timeEnd('finder耗时');
       if (dangerSelector.indexOf('#dokit-root') >= 0 || dangerSelector.indexOf('.dokit-app') >= 0) {
         return;
       }
