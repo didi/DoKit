@@ -1,5 +1,5 @@
 class LeaksDoctorConf {
-  int? maxRetainingPathLimit=0;
+  int? maxRetainingPathLimit;
 
   // 策略池 存储期望类对象实例个数
   final Map<String, int> _policyCachePool = {};
@@ -11,6 +11,17 @@ class LeaksDoctorConf {
   void savePolicy(String clsName, int expectedTotalCount) =>
       _policyCachePool[clsName] = expectedTotalCount;
 
-  LeaksDoctorConf._constructor();
-  static final LeaksDoctorConf instance = LeaksDoctorConf._constructor();
+ 
+  static final LeaksDoctorConf _instance = LeaksDoctorConf._internal();
+  factory LeaksDoctorConf(){
+    return _instance;
+  }
+
+  LeaksDoctorConf._internal(){
+    init();
+  }
+  void init(){
+    maxRetainingPathLimit=200;
+  }
+
 }

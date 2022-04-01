@@ -47,11 +47,13 @@ class LeaksDoctorTask extends _Task {
   @override
   Future<LeaksMsgInfo?> run() async {
     if (expando != null) {
-      // 强制GC，确保对象Release
-      sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart,data: group));
-      await VmserviceToolset().forceGC(); //GC
-      sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd,data: group));
-      return _afterGC();
+      if (await _maybeLeaked()) {
+        // 强制GC，确保对象Release
+        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart,data: group));
+        await VmserviceToolset().forceGC(); //GC
+        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd,data: group));
+        return _afterGC();
+      }
     }
     return null;
   }
@@ -77,6 +79,19 @@ class LeaksDoctorTask extends _Task {
       }
     }
     sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd,data: group));
+  }
+
+  // 可能有泄漏
+  Future<bool> _maybeLeaked() async {
+    List<dynamic> weakPropertyList =
+        await _getWeakPropertys(expando!);
+    for (var weakProperty in weakPropertyList) {
+      if (weakProperty != null) {
+        final leakedInstance = await _getWeakPropertyKey(weakProperty.id);
+        if (leakedInstance != null) return true;
+      }
+    }
+    return false;
   }
 
   // 获取WeakProperty列表
@@ -114,11 +129,9 @@ class LeaksDoctorTask extends _Task {
   }
 
   static Future<LeaksMsgInfo?> analyzeLeaks(InstanceRef? leakedInstance) async {
-    final maxRetainingPathLimit = LeaksDoctorConf.instance.maxRetainingPathLimit!;
     if (leakedInstance?.id != null) {
-      final retainingPath = await VmserviceToolset()
-          .getRetainingPath(leakedInstance!.id!, maxRetainingPathLimit);
-      if (retainingPath.elements != null &&
+      RetainingPath? retainingPath = await _getRetainPath(leakedInstance!);
+      if (retainingPath != null && retainingPath.elements != null &&
           retainingPath.elements!.isNotEmpty) {
         final retainObjList = retainingPath.elements!;
 
@@ -139,7 +152,7 @@ class LeaksDoctorTask extends _Task {
         // 支持用户自定义设定条件
         var expectedTotalCount = 0;
         if (clzName != null) {
-          final ret = LeaksDoctorConf.instance.searchPolicy(clzName) ?? 0;
+          final ret = LeaksDoctorConf().searchPolicy(clzName) ?? 0;
           if (ret > 0 && leaksInstanceCounts != null) {
             // 如果期望的对象数和实际对象数相同或者期望对象数大于实际对象数，符号预期，不认为是一次泄漏
             if (ret >= leaksInstanceCounts) {
@@ -156,8 +169,58 @@ class LeaksDoctorTask extends _Task {
     return null;
   }
 
+   static Future<RetainingPath?> _getRetainPath(InstanceRef ref) async {
+    try {
+      final maxRetainingPathLimit = LeaksDoctorConf().maxRetainingPathLimit!;
+      return await VmserviceToolset()
+          .getRetainingPath(ref.id!, maxRetainingPathLimit);
+    } on SentinelException catch (e) {
+      // 有可能已经被回收了 ~
+      if (e.sentinel.kind == SentinelKind.kCollected || e.sentinel.kind == SentinelKind.kExpired) {
+        return null;
+      }
+      // 其它错误
+      rethrow;
+    }
+  }
+
+  static void _analyzeRetainingObject(RetainingObject ele) {
+    // 引用路径其中一个节点
+    ObjRef ref = ele.value!;
+    String name = ref.id!;
+    if (ref is InstanceRef) {
+      // 函数引用，如匿名函数 <anonymous closure>
+      if (ref.kind == InstanceKind.kClosure) {
+        List<String?> chain = [ref.closureFunction!.name];
+        var owner = ref.closureFunction!.owner;
+        while (owner is FuncRef) {
+          chain.add(owner.name);
+          owner = owner.owner;
+        }
+        if (owner != null) {
+          chain.add(owner.name);
+        }
+        name = chain.reversed.join('.');
+      }
+    } else if (ref is FieldRef) {
+      if (ref.isStatic == true) {
+        // 这是个全局静态field
+        name = '${ref.name} (static)';
+      }
+    } else if (ref is ContextRef) {
+      // 匿名函数的 context
+      name = '<Closure Context>';
+    }
+    // 引用路径节点的父节点 field
+    final String parentField = ele.parentField ?? '';
+    print('+ $name   $parentField');
+}
+
   static Future<LeaksMsgNode?> _buildAnalyzeNode(
       RetainingObject retainingObject) async {
+
+    _analyzeRetainingObject(retainingObject); 
+      
     if (retainingObject.value is InstanceRef) {
       InstanceRef instanceRef = retainingObject.value as InstanceRef;
       final String name = instanceRef.classRef?.name ?? '';

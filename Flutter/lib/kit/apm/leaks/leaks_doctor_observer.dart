@@ -55,7 +55,7 @@ class LeaksDoctorObserver extends NavigatorObserver {
             }
 
             // 人为制造泄漏
-            LeaksCache.cache.add(element.widget);
+            // LeaksCache.cache.add(element);
 
             var _className = element.widget.toStringShort();
             var _expectedTotalCount = _checkPolicy(_className);
@@ -130,13 +130,13 @@ class LeaksDoctorObserver extends NavigatorObserver {
     final elementKey = _getKey(route, GenerateKeyType.Element, element);
     _addObserved(element, elementKey); //Element
 
-    final widgetKey = _getKey(route, GenerateKeyType.Widget, element);
-    _addObserved(element.widget, widgetKey); //Widget
+    // final widgetKey = _getKey(route, GenerateKeyType.Widget, element);
+    // _addObserved(element.widget, widgetKey); //Widget
 
-    if (element is StatefulElement) {
-      final stateKey = _getKey(route, GenerateKeyType.State, element);
-      _addObserved(element.state, stateKey); //State
-    }
+    // if (element is StatefulElement) {
+    //   final stateKey = _getKey(route, GenerateKeyType.State, element);
+    //   _addObserved(element.state, stateKey); //State
+    // }
   }
 
   // 获取我们页面的‘Element’

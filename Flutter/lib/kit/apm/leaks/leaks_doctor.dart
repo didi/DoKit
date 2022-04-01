@@ -31,8 +31,6 @@ class LeaksDoctor {
 
   Stream<LeaksDoctorEvent> get onEventStream => _leakController.onEventStream;
 
-  bool isRunning = false;
-
   factory LeaksDoctor() {
     _instance ??= LeaksDoctor._();
     return _instance!;
@@ -96,13 +94,8 @@ class LeaksDoctor {
 
   void init(BuildContext Function()? func, {int maxRetainingPathLimit = 300}) {
     getBuildContext = func;
-    _leakController.maxRetainingPathLimit = maxRetainingPathLimit;
+    LeaksDoctorConf().maxRetainingPathLimit = maxRetainingPathLimit;
     onEventStream.listen((LeaksDoctorEvent event) {
-      if (event.type == LeaksDoctorEventType.AddObject || event.type == LeaksDoctorEventType.AllEnd) {
-        isRunning = false;
-      } else {
-        isRunning = true;
-      }
       if (!isEmpty()) {
         showLeaksPage(event);
       }
@@ -113,10 +106,6 @@ class LeaksDoctor {
   // 使用Timer是为了延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
   // 比如runZone就会延时释放
   void memoryLeakScan({String? group, int delay = 0}) async {
-    if (isRunning == true) {
-      print('LeaksDoctor is running');
-      return;
-    }
     bool isNotEmpty = _dynamicWatchGroup.isNotEmpty;
     // if (group == null && isNotEmpty) {
     //   Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
@@ -129,10 +118,13 @@ class LeaksDoctor {
       Expando? expando = _dynamicWatchGroup[group];
       _dynamicWatchGroup.remove(group);
       if (expando != null) {
-        _leakController.addTask(expando, group);
+        Timer(Duration(milliseconds: delay), () async {
+          _leakController.addTask(expando, group);
+          _leakController.runTask();
+        });
       }
     }
-    _leakController.runTask();
+    
   }
 
   // [group] 认为可以在一块释放的对象组
@@ -176,12 +168,12 @@ class LeaksDoctor {
   void _savePolicy(Object obj, int? expectedTotalCount, String? className) {
     if (expectedTotalCount != null) {
       if (className != null) {
-        LeaksDoctorConf.instance.savePolicy(className, expectedTotalCount);
+        LeaksDoctorConf().savePolicy(className, expectedTotalCount);
       } else {
         VmserviceToolset().getInstanceByObject(obj).then((value) {
           final clsName = value!.classRef!.name;
           if (clsName != null) {
-            LeaksDoctorConf.instance.savePolicy(clsName, expectedTotalCount);
+            LeaksDoctorConf().savePolicy(clsName, expectedTotalCount);
           }
         });
       }

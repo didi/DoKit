@@ -6,7 +6,6 @@ import 'leaks_doctor_event.dart';
 import 'leaks_doctor_task.dart';
 
 class LeaksDoctorController {
-  int? maxRetainingPathLimit = 300;
   LeaksDoctorTask? _currentTask;
 
   // Queue 检测内存泄漏，先进先出
