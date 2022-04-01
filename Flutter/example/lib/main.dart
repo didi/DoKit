@@ -405,9 +405,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     Navigator.of(context, rootNavigator: false).push<void>(MaterialPageRoute(
         builder: (context) {
           //指定跳转的页面
-          var page = TestPage2();
-          DoKit.i.addObserved(page);
-          return page;
+          return TestPage2();
         },
         settings: RouteSettings(name: 'page1', arguments: ['test', '111'])));
   }

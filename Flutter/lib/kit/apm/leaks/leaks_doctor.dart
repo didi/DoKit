@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:dokit/kit/apm/leaks/leaks_doctor_conf.dart';
 import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 import 'package:flutter/material.dart';
 
@@ -117,17 +118,18 @@ class LeaksDoctor {
       return;
     }
     bool isNotEmpty = _dynamicWatchGroup.isNotEmpty;
-    if (group == null && isNotEmpty) {
-      Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
-      _dynamicWatchGroup.clear();
-      tmpMap.forEach((key, expando) {
-          _leakController.addTask(expando);
-        });
-    } else if (isNotEmpty) {
+    // if (group == null && isNotEmpty) {
+    //   Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
+    //   _dynamicWatchGroup.clear();
+    //   tmpMap.forEach((key, expando) {
+    //       _leakController.addTask(expando);
+    //     });
+    // } else 
+    if (isNotEmpty) {
       Expando? expando = _dynamicWatchGroup[group];
       _dynamicWatchGroup.remove(group);
       if (expando != null) {
-        _leakController.addTask(expando);
+        _leakController.addTask(expando, group);
       }
     }
     _leakController.runTask();
@@ -174,12 +176,12 @@ class LeaksDoctor {
   void _savePolicy(Object obj, int? expectedTotalCount, String? className) {
     if (expectedTotalCount != null) {
       if (className != null) {
-        _leakController.savePolicy(className, expectedTotalCount);
+        LeaksDoctorConf.instance.savePolicy(className, expectedTotalCount);
       } else {
         VmserviceToolset().getInstanceByObject(obj).then((value) {
           final clsName = value!.classRef!.name;
           if (clsName != null) {
-            _leakController.savePolicy(clsName, expectedTotalCount);
+            LeaksDoctorConf.instance.savePolicy(clsName, expectedTotalCount);
           }
         });
       }
