@@ -26,9 +26,9 @@ export default class EventPlayback {
                                 let node = document.querySelector(data.selector)
                                 let event;
                                 switch (data.action) {
-                                    case "navigatorBack":
-                                        window.history.back()
-                                        break;
+                                    // case "navigatorBack":
+                                    //     window.history.back()
+                                    //     break;
                                     case "click":
                                         node.click();
                                         break;

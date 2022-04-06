@@ -12,6 +12,9 @@ const store = new Store({
     isMaster:false,
     socketConnect: false,
     socketHistoryList:new Map(),
+    mcClientWaitRequestQueue:[],
+    mcMasterWaitRequestQueue:[],
+    mcMasterWaitResponseQueue:[],
   }
 })
 

@@ -19,6 +19,7 @@
 
 <script>
 import { dragable } from "@dokit/web-utils";
+import { uuid } from '../common/js/util.js'
 import RouterContainer from "./router-container";
 import IndependContainer from "./independ-container";
 import ElementsHighlight from "./elements-highlight.vue";
@@ -48,6 +49,9 @@ export default {
       },
     };
   },
+  created() {
+    this.$store.state.aid = uuid()
+  },
   watch: {
     socketConnect: {
       handler(newVal, oldVal) {
@@ -76,7 +80,7 @@ export default {
     isMaster: {
       handler(newVal, oldVal) {
         if (newVal) {
-          this.eventPlayback.state.mySocket.send({
+          this.eventPlayback?.state?.mySocket?.webSocketState&&this.eventPlayback.state.mySocket.send({
             type: "BROADCAST",
             data: JSON.stringify({
               type: "switchState",

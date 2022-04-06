@@ -70,7 +70,7 @@ export default class EventRecorder {
       console.log('_addAllListeners:', events);
       this._addAllListeners(events);
       
-      window.addEventListener('popstate', popstateCallback);
+      // window.addEventListener('popstate', popstateCallback);
       // this._boundedMessageListener = this._boundedMessageListener || this._handleBackgroundMessage.bind(this);
       // chrome.runtime.onMessage.addListener(this._boundedMessageListener);
       window.screenRecorderAddedControlListeners = true;
@@ -166,7 +166,7 @@ export default class EventRecorder {
     }
     try {
       let selector = '';
-      let dangerSelector = '';
+      // let dangerSelector = '';
       let el = e.target;
       if (e.target === document) {
         selector = 'html';
@@ -176,18 +176,19 @@ export default class EventRecorder {
         selector = this._dataAttribute && e.target.hasAttribute && e.target.hasAttribute(this._dataAttribute) ?
           EventRecorder._formatDataSelector(e.target, this._dataAttribute) :
           xpathFinder.find(e.target);
-        dangerSelector = finder(e.target, {
-          seedMinLength: 5,
-          optimizedMinLength,
-          className: (className, input) => {
-            if (input.tagName.toLowerCase() === 'body') {
-              return false;
-            }
-            return true;
-          },
-        });
+        // dangerSelector = finder(e.target, {
+        //   seedMinLength: 5,
+        //   optimizedMinLength,
+        //   className: (className, input) => {
+        //     if (input.tagName.toLowerCase() === 'body') {
+        //       return false;
+        //     }
+        //     return true;
+        //   },
+        // });
+        // console.log('dangerSelector:',dangerSelector)
       }
-      if (dangerSelector.indexOf('#dokit-root') >= 0 || dangerSelector.indexOf('.dokit-app') >= 0) {
+      if (selector.indexOf('body')<0) {
         return;
       }
       let attrs = {};
@@ -243,7 +244,7 @@ export default class EventRecorder {
         type: 'action',
         e: cloneEvent,
         selector,
-        dangerSelector,
+        // dangerSelector,
         aid: this.state.aid,
         className: names.join(''),
         value: el.value,

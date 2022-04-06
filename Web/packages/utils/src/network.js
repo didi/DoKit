@@ -2,7 +2,7 @@ import {
   EventEmitter
 } from './eventEmiter'
 import {
-  guid,getQueryVariable
+  guid,getQueryVariable,completionUrlProtocol
 } from './utils'
 import {
   getGlobalData
@@ -64,16 +64,17 @@ export class Request extends EventEmitter {
       }
       args = Req.hookXhrConfig.onBeforeOpen && Req.hookXhrConfig.onBeforeOpen(args) || args
       const xhr = this;
+      
       this.reqConf = {
         id: guid(),
         type: 'xhr',
         requestInfo: {
           method: args[0].toUpperCase(),
-          url: args[1]
+          url: completionUrlProtocol(args[1])
         },
         originRequestInfo: {
           method: originArgs[0].toUpperCase(),
-          url: originArgs[1]
+          url: completionUrlProtocol(originArgs[1])
         }
       }
 
@@ -84,8 +85,7 @@ export class Request extends EventEmitter {
             const urlObject = new URL(xhr.reqConf.requestInfo.url)
             if (Req.state.socketConnect) {
               if (Req.state.isMaster) {
-                console.log('主机发送请求')
-                Req.state.mySocket.send({
+                let data = {
                   type: 'DATA',
                   contentType: 'request',
                   channelSerial: Req.state.channelSerial,
@@ -103,14 +103,29 @@ export class Request extends EventEmitter {
                     fragment: urlObject?.hash,
                     // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
                     requestHeaders: JSON.stringify(xhr.reqConf.requestHeaders),
-                    requestContentType: xhr.reqConf.requestHeaders['content-type'] || '',
+                    requestContentType: xhr.reqConf.requestHeaders['Content-Type']||xhr.reqConf.requestHeaders['content-type'] || '',
                     // requestBodyLength: 0,
                     requestBody: xhr.reqConf?.requestInfo?.body || '', //接口参数
                     method: xhr.reqConf?.requestInfo?.method || 'GET',
                     clientProtocol: 'http',
                     connectSerial: Req.state.connectSerial
                   })
-                })
+                };
+                if(Req.state?.mySocket?.webSocketState){
+                  let mcMasterWaitRequestQueueLength = Req.state.mcMasterWaitRequestQueue.length
+                  if(mcMasterWaitRequestQueueLength>0){
+                    while (mcMasterWaitRequestQueueLength--) {
+                      let item = Req.state.mcMasterWaitRequestQueue[mcMasterWaitRequestQueueLength]
+                      Req.state.mySocket.send(item.data)
+                      console.log('主机队列发送Request请求',item)
+                      Req.state.mcMasterWaitRequestQueue.splice(mcMasterWaitRequestQueueLength, 1)
+                    }
+                  }
+                  Req.state.mySocket.send(data)
+                  console.log('主机发送Request请求')
+                }else{
+                  Req.state.mcMasterWaitRequestQueue.push({data})
+                }
               }
             }
             break;
@@ -128,8 +143,7 @@ export class Request extends EventEmitter {
             xhr.reqConf.headerMap = headerMap
             if (Req.state.socketConnect) {
               if (Req.state.isMaster) {
-                debugger
-                Req.state.mySocket.send({
+                let data = {
                   type: 'DATA',
                   contentType: 'response',
                   channelSerial: Req.state.channelSerial,
@@ -139,18 +153,33 @@ export class Request extends EventEmitter {
                     // responseTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
                     responseHeaders: JSON.stringify(xhr.reqConf.headerMap),
                     protocol: "http",
-                    responseContentType: xhr.reqConf.headerMap['content-type']||'',
+                    responseContentType: xhr.reqConf.headerMap['Content-Type']||xhr.reqConf.headerMap['content-type']||'',
                     // responseBodyLength: '',
                     responseBody: xhr.response, //响应消息体
                     responseCode: xhr.status, //响应状态码
-                    image: xhr.reqConf.headerMap['content-type']?.indexOf('image/') >= 0 ? true:false,
+                    image: (xhr.reqConf.headerMap['Content-Type']||xhr.reqConf.headerMap['content-type'])?.indexOf('image/') >= 0 ? true:false,
                     source: '',
                     connectSerial: Req.state.connectSerial,
                     headersString: headers,
                     responseXML:xhr.responseXML,
                     resRaw: xhr.reqConf.responseInfo.resRaw
                   })
-                })
+                };
+                if(Req.state?.mySocket?.webSocketState){
+                  let mcMasterWaitResponseQueueLength = Req.state.mcMasterWaitResponseQueue.length
+                  if(mcMasterWaitResponseQueueLength>0){
+                    while (mcMasterWaitResponseQueueLength--) {
+                      let item = Req.state.mcMasterWaitResponseQueue[mcMasterWaitResponseQueueLength]
+                      Req.state.mySocket.send(item.data)
+                      console.log('主机队列发送Response请求',item)
+                      Req.state.mcMasterWaitResponseQueue.splice(mcMasterWaitResponseQueueLength, 1)
+                    }
+                  }
+                  Req.state.mySocket.send(data)
+                  console.log('主机发送Response请求')
+                }else{
+                  Req.state.mcMasterWaitResponseQueue.push({data})
+                }
               }
             }
             break;
@@ -182,85 +211,142 @@ export class Request extends EventEmitter {
     };
 
     window.XMLHttpRequest.prototype.send = function () {
-      let did = guid();
-      let pid = guid();
-      const urlObject = new URL(this.reqConf.requestInfo.url)
-      if (arguments.length) {
-        this.reqConf.requestInfo.body = arguments[0]
-      }
-      console.log('open', arguments, this);
-      this.reqConf.did = did
-      this.reqConf.pid = pid
-      if (Req.state.socketConnect) {
-        if (!Req.state.isMaster) {
-          console.log('从机发送请求')
-          let socketMessage = (e) => {
-            let msg = JSON.parse(e.data);
-            if (msg.type === "DATA") {
-              if (msg.pid === pid) {
-                if(msg.code!==404){
-                  let definePropertyKey = ['readyState','response','responseText','status','statusText','responseURL','responseXML']
-                  definePropertyKey.forEach((item)=>{
-                    Object.defineProperty(this, item, {
-                      writable:true,
-                    });
-                  })
-                  let data = JSON.parse(msg.data)
-                  let newData = data.responseBody
-                  this.response = this.responseText = newData
-                  this.status = data.responseCode || 200
-                  this.statusText = HTTP_STATUS_CODES[this.status]
-                  this.responseHeader = JSON.parse(data.responseHeaders)
-                  this.headersString = data.headersString
-                  this.responseURL = data.url
-                  this.responseXML = data.responseXML
-                  this.readyState = 2
-                  this.dispatchEvent(new Event('readystatechange'))
-                  this.readyState = 3
-                  this.dispatchEvent(new Event('readystatechange'))
-                  this.readyState = 4
-                  this.dispatchEvent(new Event('readystatechange'))
-                  this.dispatchEvent(new Event('load'));
-                  this.dispatchEvent(new Event('loadend'));
-                }else {
-                  this.socketCode = 404
-                  originSend.apply(this, arguments);
+      try {
+        let did = guid();
+        let pid = guid();
+        const urlObject = new URL(this.reqConf.requestInfo.url)
+        if (arguments.length) {
+          this.reqConf.requestInfo.body = arguments[0]
+        }
+        this.reqConf.did = did
+        this.reqConf.pid = pid
+        if (Req.state.socketConnect) {
+          if (!Req.state.isMaster) {
+            let data = {
+              type: 'DATA',
+              contentType: 'query',
+              channelSerial: Req.state.channelSerial,
+              pid,
+              data: JSON.stringify({
+                aid: Req.state.aid, //行为唯一识别ID 32位随机数，非空
+                url: urlObject?.href,
+                scheme: urlObject?.protocol,
+                host: urlObject?.host,
+                port: urlObject?.port,
+                path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
+                searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
+                query: urlObject?.search?.split('?')[1] || "",
+                fragment: urlObject?.hash,
+                // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
+                requestHeaders: JSON.stringify(this.reqConf?.requestHeaders), //请求头
+                requestContentType:  this.reqConf.requestHeaders['Content-Type']||this.reqConf.requestHeaders['content-type'] || '',
+                // requestBodyLength: 0,
+                requestBody: this.reqConf?.requestInfo?.body || '', //接口参数
+                method: this.reqConf?.requestInfo?.method || 'GET',
+                clientProtocol: "http",
+                connectSerial: Req.state.connectSerial,
+              })
+            }
+            if(Req.state?.mySocket?.webSocketState){
+              let mcClientWaitRequestQueueLength = Req.state.mcClientWaitRequestQueue.length
+              if(mcClientWaitRequestQueueLength>0){
+                while (mcClientWaitRequestQueueLength--) {
+                  let item = Req.state.mcClientWaitRequestQueue[mcClientWaitRequestQueueLength]
+                  console.log('从机队列发送请求',item)
+                  let socketMessage = (e) => {
+                    let msg = JSON.parse(e.data);
+                    if (msg.type === "DATA") {
+                      if (msg.pid === item.data.pid) {
+                        if(msg.code!==404){
+                          let definePropertyKey = ['readyState','response','responseText','status','statusText','responseURL','responseXML']
+                          definePropertyKey.forEach((definePropertyItem)=>{
+                            Object.defineProperty(item.that, definePropertyItem, {
+                              writable:true,
+                            });
+                          })
+                          let data = JSON.parse(msg.data)
+                          let newData = data.responseBody
+                          item.that.response = item.that.responseText = newData
+                          item.that.status = data.responseCode || 200
+                          item.that.statusText = HTTP_STATUS_CODES[item.that.status]
+                          item.that.responseHeader = JSON.parse(data.responseHeaders)
+                          item.that.headersString = data.headersString
+                          item.that.responseURL = data.url
+                          item.that.responseXML = data.responseXML
+                          item.that.readyState = 2
+                          item.that.dispatchEvent(new Event('readystatechange'))
+                          item.that.readyState = 3
+                          item.that.dispatchEvent(new Event('readystatechange'))
+                          item.that.readyState = 4
+                          item.that.dispatchEvent(new Event('readystatechange'))
+                          item.that.dispatchEvent(new Event('load'));
+                          item.that.dispatchEvent(new Event('loadend'));
+                          console.log('从机队列接受中转消息',item.that)
+                        }else {
+                          item.that.socketCode = 404
+                          originSend.apply(item.that, item.arg);
+                        }
+                        Req.state.mySocket.socket.removeEventListener('message', socketMessage)
+                      }
+                    }
+                  }
+                  Req.state.mySocket.socket.addEventListener('message', socketMessage)
+                  Req.state.mySocket.send(item.data)
+                  console.log('从机队列发送请求成功',item)
+                  Req.state.mcClientWaitRequestQueue.splice(mcClientWaitRequestQueueLength, 1)
                 }
-                Req.state.mySocket.socket.removeEventListener('message', socketMessage)
               }
+              console.log('从机发送请求',urlObject?.href)
+              let socketMessage = (e) => {
+                let msg = JSON.parse(e.data);
+                if (msg.type === "DATA") {
+                  if (msg.pid === pid) {
+                    if(msg.code!==404){
+                      let definePropertyKey = ['readyState','response','responseText','status','statusText','responseURL','responseXML']
+                      definePropertyKey.forEach((item)=>{
+                        Object.defineProperty(this, item, {
+                          writable:true,
+                        });
+                      })
+                      let data = JSON.parse(msg.data)
+                      let newData = data.responseBody
+                      this.response = this.responseText = newData
+                      this.status = data.responseCode || 200
+                      this.statusText = HTTP_STATUS_CODES[this.status]
+                      this.responseHeader = JSON.parse(data.responseHeaders)
+                      this.headersString = data.headersString
+                      this.responseURL = data.url
+                      this.responseXML = data.responseXML
+                      this.readyState = 2
+                      this.dispatchEvent(new Event('readystatechange'))
+                      this.readyState = 3
+                      this.dispatchEvent(new Event('readystatechange'))
+                      this.readyState = 4
+                      this.dispatchEvent(new Event('readystatechange'))
+                      this.dispatchEvent(new Event('load'));
+                      this.dispatchEvent(new Event('loadend'));
+                    }else {
+                      this.socketCode = 404
+                      originSend.apply(this, arguments);
+                    }
+                    Req.state.mySocket.socket.removeEventListener('message', socketMessage)
+                  }
+                }
+              }
+              Req.state.mySocket.socket.addEventListener('message', socketMessage)
+              Req.state.mySocket.send(data)
+              console.log('从机发送请求成功',urlObject?.href)
+            }else{
+              Req.state.mcClientWaitRequestQueue.push({that:this,data,arg:arguments})
             }
           }
-          Req.state.mySocket.socket.addEventListener('message', socketMessage)
-          Req.state.mySocket.send({
-            type: 'DATA',
-            contentType: 'query',
-            channelSerial: Req.state.channelSerial,
-            pid,
-            data: JSON.stringify({
-              aid: Req.state.aid, //行为唯一识别ID 32位随机数，非空
-              url: urlObject?.href,
-              scheme: urlObject?.protocol,
-              host: urlObject?.host,
-              port: urlObject?.port,
-              path: `${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`,
-              searchKey:hex_md5(`${urlObject?.pathname}${getQueryVariable('api',urlObject?.href)?`?api=${getQueryVariable('api',urlObject?.href)}`:''}`),
-              query: urlObject?.search?.split('?')[1] || "",
-              fragment: urlObject?.hash,
-              // requestTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), //请求发生时间
-              requestHeaders: JSON.stringify(this.reqConf.requestHeaders), //请求头
-              requestContentType: this.reqConf.requestHeaders['content-type'] || '',
-              // requestBodyLength: 0,
-              requestBody: this.reqConf?.requestInfo?.body || '', //接口参数
-              method: this.reqConf?.requestInfo?.method || 'GET',
-              clientProtocol: "http",
-              connectSerial: Req.state.connectSerial,
-            })
-          })
         }
-      }
-      Req.emit('REQUEST.SEND', this.reqConf)
-      if (!(Req.state.socketConnect&&!Req.state.isMaster)) {
-        originSend.apply(this, arguments);
+        Req.emit('REQUEST.SEND', this.reqConf)
+        if (!(Req.state.socketConnect&&!Req.state.isMaster)) {
+          originSend.apply(this, arguments);
+        }   
+      } catch (error) {
+        console.log(urlObject?.href,error)
       }
     }
 
@@ -271,7 +357,7 @@ export class Request extends EventEmitter {
       let did = guid();
       let pid = guid();
       let fetchResult = null;
-      const urlObject = new URL(args[0])
+      const urlObject = new URL(completionUrlProtocol(args[0]))
       if (Req.state.socketConnect) {
         if (Req.state.isMaster) {
           console.log('主机发送请求')
@@ -499,7 +585,7 @@ export class Request extends EventEmitter {
       update();
     }
   }
-  multiControlTransfer() {
+  multiControlhook() {
 
   }
 }

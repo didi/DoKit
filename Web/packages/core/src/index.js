@@ -73,26 +73,14 @@ export class Dokit {
   }
 
   startMultiControl(url, role) {
-    Store.state.socketUrl = url;
-    Store.state.socketConnect = true;
-    if (role === 'master') {
-      setTimeout(() => {
-        let socketMessage = (e) => {
-          try {
-            let msg = JSON.parse(e?.data);
-            if (msg?.type === "LOGIN") {
-              setTimeout(() => {
-                Store.state.isMaster = true;
-              });
-              Store.state.mySocket.socket.removeEventListener('message', socketMessage)
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        Store.state.mySocket.socket.addEventListener('message', socketMessage)
-      });
+    if(role==='client'||role==='master'){
+      role === 'master'&&(Store.state.isMaster = true);
+      Store.state.socketUrl = url;
+      Store.state.socketConnect = true;
     }
+  }
+  stopMultiControl(){
+    Store.state.socketConnect = false;
   }
 }
 
