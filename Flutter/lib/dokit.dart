@@ -202,8 +202,8 @@ mixin _LeaksDoctorMixin on IDoKit {
   // 监听内存泄漏结果数据
   void listenLeaksData(Function(LeaksMsgInfo? info)? callback) {
     LeaksDoctor().onLeakedStream.listen((LeaksMsgInfo? info) {
-      print((info?.toString()) ?? '暂未发现泄漏');
-      print('发现泄漏对象实例个数 = ${(info?.leaksInstanceCounts) ?? "0"}');
+      // print((info?.toString()) ?? '暂未发现泄漏');
+      // print('发现泄漏对象实例个数 = ${(info?.leaksInstanceCounts) ?? "0"}');
       if (callback != null) {
         callback(info);
       }
