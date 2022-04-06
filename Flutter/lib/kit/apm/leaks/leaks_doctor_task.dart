@@ -213,7 +213,7 @@ class LeaksDoctorTask extends _Task {
     }
     // 引用路径节点的父节点 field
     final String parentField = ele.parentField ?? '';
-    print('+ $name   $parentField');
+    // print('+ $name   $parentField');
 }
 
   static Future<LeaksMsgNode?> _buildAnalyzeNode(
