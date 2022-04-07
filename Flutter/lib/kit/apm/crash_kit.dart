@@ -37,9 +37,21 @@ class CrashKit extends ApmKit {
 }
 
 class CrashLogManager {
+  static final String KEY_CRASH_SWITCH = 'key_crash_switch';
+
   CrashLogManager._privateConstructor();
 
-  bool crashSwitch = false;
+  bool _crashSwitch = false;
+
+  bool get crashSwitch{
+    return _crashSwitch;
+  }
+
+  set crashSwitch(enable){
+    _crashSwitch = enable;
+    SharedPreferences.getInstance()
+        .then((SharedPreferences prefs) => prefs.setBool(KEY_CRASH_SWITCH, enable));
+  }
 
   static final CrashLogManager _instance =
       CrashLogManager._privateConstructor();

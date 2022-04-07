@@ -2,6 +2,7 @@
 
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/apm/crash_kit.dart';
 import 'package:dokit/kit/biz/biz.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:dokit/kit/kit.dart';
@@ -462,6 +463,11 @@ class KitPageManager {
         ResidentPage.tag = KitPageManager.instance.residentList.first;
       } else {
         ResidentPage.tag = KitPageManager.KIT_ALL;
+      }
+
+      if(prefs.getBool(CrashLogManager.KEY_CRASH_SWITCH)!=null) {
+        CrashLogManager.instance.crashSwitch =
+            prefs.getBool(CrashLogManager.KEY_CRASH_SWITCH);
       }
     });
   }
