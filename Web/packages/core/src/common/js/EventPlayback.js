@@ -20,95 +20,95 @@ export default class EventPlayback {
                         this.state.connectSerial = data.connectSerial
                     } else if (msg.type === "BROADCAST") {
                         data = JSON.parse(msg.data)
-                        if (data.type === 'action') {
-                            this.state.aid = data.aid
+                        if (msg.contentType === 'action') {
+                            this.state.aid = data.eventId
                             if (this.state.startPlayback) {
-                                let node = document.querySelector(data.selector)
+                                let node = document.querySelector(data.viewC12c.viewPath)
                                 let event;
-                                switch (data.action) {
+                                switch (data.viewC12c.actionType) {
                                     // case "navigatorBack":
                                     //     window.history.back()
                                     //     break;
-                                    case "click":
+                                    case "ON_CLICK":
                                         node.click();
                                         break;
-                                    case "touchstart":
+                                    case "ON_TOUCH_START":
                                         event = document.createEvent('MouseEvents');
-                                        event.initMouseEvent('touchstart', true, true, window, 0, data.e.targetTouches.screenX, data.e.targetTouches.screenY, data.e.targetTouches.clientX, data.e.targetTouches.clientY, data.e.ctrlKey, data.e.altKey, data.e.shiftKey, data.e.metaKey);
+                                        event.initMouseEvent('touchstart', true, true, window, 0, data.viewC12c.cloneEvent.targetTouches.screenX, data.viewC12c.cloneEvent.targetTouches.screenY, data.viewC12c.cloneEvent.targetTouches.clientX, data.viewC12c.cloneEvent.targetTouches.clientY, data.viewC12c.cloneEvent.ctrlKey, data.viewC12c.cloneEvent.altKey, data.viewC12c.cloneEvent.shiftKey, data.viewC12c.cloneEvent.metaKey);
                                         event.changedTouches = [{
-                                            clientX: data.e.targetTouches.clientX,
-                                            clientY: data.e.targetTouches.clientY,
-                                            force: data.e.targetTouches.force,
-                                            identifier: data.e.targetTouches.identifier,
-                                            pageX: data.e.targetTouches.pageX,
-                                            pageY: data.e.targetTouches.pageY,
-                                            radiusX: data.e.targetTouches.radiusX,
-                                            radiusY: data.e.targetTouches.radiusY,
-                                            rotationAngle: data.e.targetTouches.rotationAngle,
-                                            screenX: data.e.targetTouches.screenX,
-                                            screenY: data.e.targetTouches.screenY
+                                            clientX: data.viewC12c.cloneEvent.targetTouches.clientX,
+                                            clientY: data.viewC12c.cloneEvent.targetTouches.clientY,
+                                            force: data.viewC12c.cloneEvent.targetTouches.force,
+                                            identifier: data.viewC12c.cloneEvent.targetTouches.identifier,
+                                            pageX: data.viewC12c.cloneEvent.targetTouches.pageX,
+                                            pageY: data.viewC12c.cloneEvent.targetTouches.pageY,
+                                            radiusX: data.viewC12c.cloneEvent.targetTouches.radiusX,
+                                            radiusY: data.viewC12c.cloneEvent.targetTouches.radiusY,
+                                            rotationAngle: data.viewC12c.cloneEvent.targetTouches.rotationAngle,
+                                            screenX: data.viewC12c.cloneEvent.targetTouches.screenX,
+                                            screenY: data.viewC12c.cloneEvent.targetTouches.screenY
                                         }]
                                         event.touches = event.changedTouches
                                         event.targetTouches = event.changedTouches
                                         console.log('fyq', event)
                                         node.dispatchEvent(event);
                                         break;
-                                    case "touchmove":
+                                    case "ON_TOUCH_MOVE":
                                         event = document.createEvent('MouseEvents');
-                                        event.initMouseEvent('touchmove', true, true, window, 0, data.e.targetTouches.screenX, data.e.targetTouches.screenY, data.e.targetTouches.clientX, data.e.targetTouches.clientY, data.e.ctrlKey, data.e.altKey, data.e.shiftKey, data.e.metaKey);
+                                        event.initMouseEvent('touchmove', true, true, window, 0, data.viewC12c.cloneEvent.targetTouches.screenX, data.viewC12c.cloneEvent.targetTouches.screenY, data.viewC12c.cloneEvent.targetTouches.clientX, data.viewC12c.cloneEvent.targetTouches.clientY, data.viewC12c.cloneEvent.ctrlKey, data.viewC12c.cloneEvent.altKey, data.viewC12c.cloneEvent.shiftKey, data.viewC12c.cloneEvent.metaKey);
                                         event.changedTouches = [{
-                                            clientX: data.e.targetTouches.clientX,
-                                            clientY: data.e.targetTouches.clientY,
-                                            force: data.e.targetTouches.force,
-                                            identifier: data.e.targetTouches.identifier,
-                                            pageX: data.e.targetTouches.pageX,
-                                            pageY: data.e.targetTouches.pageY,
-                                            radiusX: data.e.targetTouches.radiusX,
-                                            radiusY: data.e.targetTouches.radiusY,
-                                            rotationAngle: data.e.targetTouches.rotationAngle,
-                                            screenX: data.e.targetTouches.screenX,
-                                            screenY: data.e.targetTouches.screenY
+                                            clientX: data.viewC12c.cloneEvent.targetTouches.clientX,
+                                            clientY: data.viewC12c.cloneEvent.targetTouches.clientY,
+                                            force: data.viewC12c.cloneEvent.targetTouches.force,
+                                            identifier: data.viewC12c.cloneEvent.targetTouches.identifier,
+                                            pageX: data.viewC12c.cloneEvent.targetTouches.pageX,
+                                            pageY: data.viewC12c.cloneEvent.targetTouches.pageY,
+                                            radiusX: data.viewC12c.cloneEvent.targetTouches.radiusX,
+                                            radiusY: data.viewC12c.cloneEvent.targetTouches.radiusY,
+                                            rotationAngle: data.viewC12c.cloneEvent.targetTouches.rotationAngle,
+                                            screenX: data.viewC12c.cloneEvent.targetTouches.screenX,
+                                            screenY: data.viewC12c.cloneEvent.targetTouches.screenY
                                         }]
                                         event.touches = event.changedTouches
                                         event.targetTouches = event.changedTouches
                                         node.dispatchEvent(event);
                                         break;
-                                    case "touchend":
+                                    case "ON_TOUCH_END":
                                         event = document.createEvent('MouseEvents');
-                                        event.initMouseEvent('touchend', true, true, window, 0, data.e.changedTouches.screenX, data.e.changedTouches.screenY, data.e.changedTouches.clientX, data.e.changedTouches.clientY, data.e.ctrlKey, data.e.altKey, data.e.shiftKey, data.e.metaKey);
+                                        event.initMouseEvent('touchend', true, true, window, 0, data.viewC12c.cloneEvent.changedTouches.screenX, data.viewC12c.cloneEvent.changedTouches.screenY, data.viewC12c.cloneEvent.changedTouches.clientX, data.viewC12c.cloneEvent.changedTouches.clientY, data.viewC12c.cloneEvent.ctrlKey, data.viewC12c.cloneEvent.altKey, data.viewC12c.cloneEvent.shiftKey, data.viewC12c.cloneEvent.metaKey);
                                         event.changedTouches = [{
-                                            clientX: data.e.targetTouches.clientX,
-                                            clientY: data.e.targetTouches.clientY,
-                                            force: data.e.targetTouches.force,
-                                            identifier: data.e.targetTouches.identifier,
-                                            pageX: data.e.targetTouches.pageX,
-                                            pageY: data.e.targetTouches.pageY,
-                                            radiusX: data.e.targetTouches.radiusX,
-                                            radiusY: data.e.targetTouches.radiusY,
-                                            rotationAngle: data.e.targetTouches.rotationAngle,
-                                            screenX: data.e.targetTouches.screenX,
-                                            screenY: data.e.targetTouches.screenY
+                                            clientX: data.viewC12c.cloneEvent.targetTouches.clientX,
+                                            clientY: data.viewC12c.cloneEvent.targetTouches.clientY,
+                                            force: data.viewC12c.cloneEvent.targetTouches.force,
+                                            identifier: data.viewC12c.cloneEvent.targetTouches.identifier,
+                                            pageX: data.viewC12c.cloneEvent.targetTouches.pageX,
+                                            pageY: data.viewC12c.cloneEvent.targetTouches.pageY,
+                                            radiusX: data.viewC12c.cloneEvent.targetTouches.radiusX,
+                                            radiusY: data.viewC12c.cloneEvent.targetTouches.radiusY,
+                                            rotationAngle: data.viewC12c.cloneEvent.targetTouches.rotationAngle,
+                                            screenX: data.viewC12c.cloneEvent.targetTouches.screenX,
+                                            screenY: data.viewC12c.cloneEvent.targetTouches.screenY
                                         }]
                                         event.touches = event.changedTouches
                                         event.targetTouches = event.changedTouches
                                         node.dispatchEvent(event);
                                         break;
-                                    case "input":
+                                    case "ON_INPUT_CHANGE":
                                         event = document.createEvent('Events');
                                         event.initEvent('input', true, true);
-                                        node.value = data.value
+                                        node.value = data.viewC12c.text
                                         node.dispatchEvent(event);
                                         break;
-                                    case "scroll":
-                                        node.scrollTop = data.scrollTop;
-                                        node.scrollLeft = data.scrollLeft;
+                                    case "ON_SCROLL":
+                                        node.scrollTop = data.viewC12c.scrollX;
+                                        node.scrollLeft = data.viewC12c.scrollY;
                                         break;
                                     default:
                                         break;
                                 }
                             }
-                        } else if (data.type === 'switchState') {
-                            this.state.isMaster = false;
+                        } else if (msg.contentType === 'mc_host') {
+                            this.state.isHost = false;
                             this.state.startPlayback = true
                         }
                     }

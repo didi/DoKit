@@ -91,8 +91,8 @@ export default {
     connect() {
       return this.$store.state.socketConnect;
     },
-    isMaster() {
-      return this.$store.state.isMaster;
+    isHost() {
+      return this.$store.state.isHost;
     },
     socketHistoryList() {
       return this.$store.state.socketHistoryList;

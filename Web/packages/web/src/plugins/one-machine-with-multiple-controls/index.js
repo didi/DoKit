@@ -21,14 +21,12 @@ export default new RouterPlugin({
   onLoad() {
     let state = getGlobalData()
     state.channelSerial = `web-${hex_md5(location.pathname)}`
-  },
-  onProductReady(){
     request.multiControlhook({
-      xhrMasterRequest:function(xhr){
+      xhrHostRequest:function(xhr){
         let state = getGlobalData()
         const urlObject = new URL(xhr.reqConf.requestInfo.url)
         if (state.socketConnect) {
-          if (state.isMaster) {
+          if (state.isHost) {
             let data = {
               type: 'DATA',
               contentType: 'request',
@@ -56,24 +54,24 @@ export default new RouterPlugin({
               })
             };
             if(state?.mySocket?.webSocketState) {
-              let mcMasterWaitRequestQueueLength = state.mcMasterWaitRequestQueue.length
-              if(mcMasterWaitRequestQueueLength>0){
-                while (mcMasterWaitRequestQueueLength--) {
-                  let item = state.mcMasterWaitRequestQueue[mcMasterWaitRequestQueueLength]
+              let mcHostWaitRequestQueueLength = state.mcHostWaitRequestQueue.length
+              if(mcHostWaitRequestQueueLength>0){
+                while (mcHostWaitRequestQueueLength--) {
+                  let item = state.mcHostWaitRequestQueue[mcHostWaitRequestQueueLength]
                   state.mySocket.send(item.data)
                   console.log('主机队列发送Request请求',item)
-                  state.mcMasterWaitRequestQueue.splice(mcMasterWaitRequestQueueLength, 1)
+                  state.mcHostWaitRequestQueue.splice(mcHostWaitRequestQueueLength, 1)
                 }
               }
               state.mySocket.send(data)
               console.log('主机发送Request请求')
             }else{
-              state.mcMasterWaitRequestQueue.push({data})
+              state.mcHostWaitRequestQueue.push({data})
             }
           }
         }
       },
-      xhrMasterResponse:function(xhr){
+      xhrHostResponse:function(xhr){
         let state = getGlobalData()
         var headers = xhr.getAllResponseHeaders();
         var arr = headers.trim().split(/[\r\n]+/);
@@ -86,7 +84,7 @@ export default new RouterPlugin({
         })
         xhr.reqConf.headerMap = headerMap
         if (state.socketConnect) {
-          if (state.isMaster) {
+          if (state.isHost) {
             let data = {
               type: 'DATA',
               contentType: 'response',
@@ -110,33 +108,32 @@ export default new RouterPlugin({
               })
             };
             if(state?.mySocket?.webSocketState){
-              let mcMasterWaitResponseQueueLength = state.mcMasterWaitResponseQueue.length
-              if(mcMasterWaitResponseQueueLength>0){
-                while (mcMasterWaitResponseQueueLength--) {
-                  let item = state.mcMasterWaitResponseQueue[mcMasterWaitResponseQueueLength]
+              let mcHostWaitResponseQueueLength = state.mcHostWaitResponseQueue.length
+              if(mcHostWaitResponseQueueLength>0){
+                while (mcHostWaitResponseQueueLength--) {
+                  let item = state.mcHostWaitResponseQueue[mcHostWaitResponseQueueLength]
                   state.mySocket.send(item.data)
                   console.log('主机队列发送Response请求',item)
-                  state.mcMasterWaitResponseQueue.splice(mcMasterWaitResponseQueueLength, 1)
+                  state.mcHostWaitResponseQueue.splice(mcHostWaitResponseQueueLength, 1)
                 }
               }
               state.mySocket.send(data)
               console.log('主机发送Response请求')
             }else{
-              state.mcMasterWaitResponseQueue.push({data})
+              state.mcHostWaitResponseQueue.push({data})
             }
           }
         }
       },
       xhrClientQuery:function(originSend,...arg){
-        let state = getGlobalData()
+        let state = getGlobalData();
         let did = guid();
         let pid = guid();
-        console.log(this.reqConf)
         this.reqConf.did = did
         this.reqConf.pid = pid
         const urlObject = new URL(this.reqConf.requestInfo.url)
         if (state.socketConnect) {
-          if (!state.isMaster) {
+          if (!state.isHost) {
             let data = {
               type: 'DATA',
               contentType: 'query',
@@ -259,29 +256,29 @@ export default new RouterPlugin({
       },
       getResponseHeader:function(getResponseHeader,name){
         let state = getGlobalData()
-        if (!(state.socketConnect&&!state.isMaster)||this.socketCode===404) {
+        if (!(state.socketConnect&&!state.isHost)||this.socketCode===404) {
           return getResponseHeader.call(this, name);
         }
         return this.responseHeader[name]
       },
       getAllResponseHeaders:function(getAllResponseHeaders,...arg){
         let state = getGlobalData()
-        if (!(state.socketConnect&&!state.isMaster)||this.socketCode===404) {
+        if (!(state.socketConnect&&!state.isHost)||this.socketCode===404) {
           return getAllResponseHeaders.apply(this, arg);
         }
         return this.headersString
       },
       isOriginSend:function(originSend,...arg){
         let state = getGlobalData()
-        if (!(state.socketConnect&&!state.isMaster)) {
+        if (!(state.socketConnect&&!state.isHost)) {
           originSend.apply(this, arg);
         }   
       },
-      fetchMasterRequest:function(did,pid,...args){
+      fetchHostRequest:function(did,pid,...args){
         let state = getGlobalData()
         const urlObject = new URL(completionUrlProtocol(args[0]))
         if (state.socketConnect) {
-          if (state.isMaster) {
+          if (state.isHost) {
             console.log('主机发送请求')
             state.mySocket.send({
               type: 'DATA',
@@ -312,10 +309,10 @@ export default new RouterPlugin({
           }
         }
       },
-      fetchMasterResponse:function(did,res,r){
+      fetchHostResponse:function(did,res,r){
         let state = getGlobalData()
         if (state.socketConnect) {
-          if (state.isMaster) {
+          if (state.isHost) {
             const responseHeaders = strMapToObj(res.headers)
             state.mySocket.send({
               type: 'DATA',
@@ -343,7 +340,7 @@ export default new RouterPlugin({
         const urlObject = new URL(completionUrlProtocol(args[0]))
         let state = getGlobalData()
         if (state.socketConnect) {
-          if (!state.isMaster) {
+          if (!state.isHost) {
             state.mySocket.send({
               type: 'DATA',
               contentType: 'query',
@@ -376,7 +373,7 @@ export default new RouterPlugin({
         let fetchResult = null;
         let state = getGlobalData()
         if (state.socketConnect) {
-          if (!state.isMaster) {
+          if (!state.isHost) {
             fetchResult = new Promise((resolve, reject) => {
               //做一些异步操作
               let socketMessage = (e) => {
@@ -427,5 +424,5 @@ export default new RouterPlugin({
         return fetchResult
       }
     })
-  }
+  },
 })

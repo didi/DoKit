@@ -74,15 +74,19 @@ export class Request extends EventEmitter {
       }
 
       xhr.addEventListener('readystatechange', function (e) {
-        switch (xhr.readyState) {
-          case 2:
-            // this.headersReceived();
-            Req.multiControlhookConfig?.xhrMasterRequest?.call(Req,xhr);
-            break;
-          case 4:
-            Req.handleDone(xhr);
-            Req.multiControlhookConfig?.xhrMasterResponse?.call(Req,xhr);
-            break;
+        try {
+          switch (xhr.readyState) {
+            case 2:
+              // this.headersReceived();
+              Req.multiControlhookConfig?.xhrHostRequest?.call(Req,xhr);
+              break;
+            case 4:
+              Req.handleDone(xhr);
+              Req.multiControlhookConfig?.xhrHostResponse?.call(Req,xhr);
+              break;
+          }         
+        } catch (error) {
+            console.log(error)
         }
       });
 
@@ -136,7 +140,8 @@ export class Request extends EventEmitter {
         let pid = guid();
         let reqId = guid()
         let fetchResult = null;
-        Req.multiControlhookConfig?.fetchMasterRequest?.apply(Req, [did,pid,...arguments]);
+        console.log('fetchHostRequest:',Req.multiControlhookConfig?.fetchHostRequest)
+        Req.multiControlhookConfig?.fetchHostRequest?.apply(Req, [did,pid,...arguments]);
         fetchResult = Req.multiControlhookConfig?.fetchResult?.apply(Req, [pid,reqId,origFetch,...arguments]);
         Req.multiControlhookConfig?.fetchClientQuery?.apply(Req, [pid,...arguments]);
         args = Req.hookFetchConfig.onBeforeFetch && Req.hookFetchConfig.onBeforeFetch(args) || args
@@ -154,7 +159,7 @@ export class Request extends EventEmitter {
           fetchResult = origFetch(...args);
           const res = await fetchResult
           const r = await res.clone().text()
-          Req.multiControlhookConfig?.fetchMasterResponse?.apply(Req, [did,res,r]);
+          Req.multiControlhookConfig?.fetchHostResponse?.apply(Req, [did,res,r]);
           Req.emit('REQUEST.DONE', {
             id: reqId,
             responseInfo: {

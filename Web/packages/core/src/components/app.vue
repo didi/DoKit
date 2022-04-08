@@ -13,7 +13,7 @@
       v-if="showHighlightElement && highlightElement"
       :element="highlightElement"
     ></elements-highlight>
-    <master-suspendedBall v-if="socketConnect"></master-suspendedBall>
+    <host-suspendedBall v-if="socketConnect"></host-suspendedBall>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import { uuid } from '../common/js/util.js'
 import RouterContainer from "./router-container";
 import IndependContainer from "./independ-container";
 import ElementsHighlight from "./elements-highlight.vue";
-import MasterSuspendedBall from "./masterSuspendedBall.vue";
+import HostSuspendedBall from "./hostSuspendedBall.vue";
 import { toggleContainer } from "@store/index";
 import EventRecorder from "../common/js/EventRecorder";
 import EventPlayback from "../common/js/EventPlayback";
@@ -32,7 +32,7 @@ export default {
     RouterContainer,
     IndependContainer,
     ElementsHighlight,
-    MasterSuspendedBall,
+    HostSuspendedBall,
   },
   directives: {
     dragable,
@@ -77,13 +77,14 @@ export default {
       },
       deep: true,
     },
-    isMaster: {
+    isHost: {
       handler(newVal, oldVal) {
         if (newVal) {
           this.eventPlayback?.state?.mySocket?.webSocketState&&this.eventPlayback.state.mySocket.send({
             type: "BROADCAST",
+            contentType:'mc_host',
+            channelSerial: this.state.channelSerial,
             data: JSON.stringify({
-              type: "switchState",
               connectSerial: this.eventPlayback.state.connectSerial,
             }),
           });
@@ -100,6 +101,9 @@ export default {
     },
   },
   computed: {
+    channelSerial(){
+      return this.state.channelSerial;
+    },
     socketHistoryList(){
       return this.state.socketHistoryList;
     },
@@ -124,8 +128,8 @@ export default {
     socketUrl() {
       return this.state.socketUrl;
     },
-    isMaster() {
-      return this.state.isMaster;
+    isHost() {
+      return this.state.isHost;
     },
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="masterSuspendedBall" @click="change" v-dragable="btnConfig">
-      {{ isMaster ? "主机" : "从机" }}
+      {{ isHost ? "主机" : "从机" }}
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      isMaster: false,
+      isHost: false,
       btnConfig: {
         name: "dokit_multi_control",
         opacity: 0.5,
@@ -26,13 +26,13 @@ export default {
     };
   },
   computed: {
-    isMaster() {
-      return this.$store.state.isMaster;
+    isHost() {
+      return this.$store.state.isHost;
     },
   },
   methods: {
     change() {
-      this.$store.state.isMaster = !this.$store.state.isMaster;
+      this.$store.state.isHost = !this.$store.state.isHost;
     },
   },
 };

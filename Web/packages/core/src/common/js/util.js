@@ -129,3 +129,34 @@ export function getOsVersion() {
     }
   }
 }
+
+export const ActionObject = {
+  'click':{
+    actionType:'ON_CLICK',
+    actionName:'点击',
+  },
+  'dblclick':{
+    actionType:'ON_DBL_CLICK',
+    actionName:'双击',
+  },
+  'touchstart':{
+    actionType:'ON_TOUCH_START',
+    actionName:'触摸开始',
+  },
+  'touchmove':{
+    actionType:'ON_TOUCH_MOVE',
+    actionName:'触摸移动',
+  },
+  'touchend':{
+    actionType:'ON_TOUCH_END',
+    actionName:'触摸结束',
+  },
+  'input':{
+    actionType:'ON_INPUT_CHANGE',
+    actionName:'输入',
+  },
+  'scroll':{
+    actionType:'ON_SCROLL',
+    actionName:'滚动',
+  },
+}

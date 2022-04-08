@@ -1,7 +1,8 @@
 import {
   throttle,
   debounce,
-  uuid
+  uuid,
+  ActionObject,
 } from './util'
 import xpath from './xpath/index';
 import cssesc from 'cssesc';
@@ -9,10 +10,10 @@ import finder from './finder';
 import eventsToRecord from './dom-events-to-record';
 import UIController from './UIController';
 import getNodeText from './node';
+import moment from 'moment'
 import {
   getGlobalData
 } from '../../store'
-
 var xpathFinder;
 if (document.readyState === "loading") {
   // window.addEventListener("load", function (_event) {
@@ -39,16 +40,58 @@ export default class EventRecorder {
     this._screenShotMode = false;
     this._isTopFrame = (window.location === window.parent.location);
     this._isRecordingClicks = true;
-    this.socketUrl = socketUrl
+    this.socketUrl = socketUrl;
+    this.observer = null;
+    this.inputEventListenerFun = debounce(this._recordEvent.bind(this), 200);
   }
 
   boot() {
     this.state.startRecorder = true
-    this._initializeRecorder();
+    if (document.readyState === "loading") {
+      document.addEventListener("readystatechange", ()=>{
+        if (document.readyState === "complete") {
+          this._initializeRecorder();
+          this.ovserverDom();
+        }
+      });
+    }else{
+      this._initializeRecorder();
+      this.ovserverDom()
+    }
   }
 
   off() {
     this.state.startRecorder = false
+    this.observer.disconnect()
+  }
+  ovserverDom(){
+    this.observer = new MutationObserver((mutations) => {
+      for (let i = 0; i < mutations.length; i++) {
+        let mutation = mutations[i];
+        if(mutation.addedNodes.length>0){
+          let inputList = document.getElementsByTagName("input");
+          let textareaList = document.getElementsByTagName("textarea");
+          let list = [...inputList, ...textareaList];
+          list.forEach((item) => {
+            console.log(item.type)
+            switch (item.type) {
+              case 'text':
+              case 'number':
+              case 'password':
+              case 'textarea':
+                item.addEventListener('input', this.inputEventListenerFun, true);
+              default:
+                break;
+            }
+          })
+        }
+      }
+    });
+    this.observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+    console.log('observer:',this.observer);
   }
 
   _initializeRecorder() {
@@ -68,6 +111,7 @@ export default class EventRecorder {
     }
     if (!window.screenRecorderAddedControlListeners) {
       console.log('_addAllListeners:', events);
+
       this._addAllListeners(events);
       
       // window.addEventListener('popstate', popstateCallback);
@@ -116,17 +160,20 @@ export default class EventRecorder {
   _addAllListeners(events) {
     events.forEach((type) => {
       let boundedRecordEvent = this._recordEvent.bind(this);
+      console.log('type:',type)
       if (type === 'input') {
-        boundedRecordEvent = debounce(boundedRecordEvent, 200);
         let inputList = document.getElementsByTagName("input");
         let textareaList = document.getElementsByTagName("textarea");
         let list = [...inputList, ...textareaList];
+        console.log('inputList:',list)
         list.forEach((item) => {
+          console.log(item.type)
           switch (item.type) {
             case 'text':
+            case 'number':
             case 'password':
             case 'textarea':
-              item.addEventListener(type, boundedRecordEvent, true);
+              item.addEventListener('input', this.inputEventListenerFun, true);
             default:
               break;
           }
@@ -134,10 +181,10 @@ export default class EventRecorder {
         return;
       }
       if (type === 'touchmove') {
-        boundedRecordEvent = throttle(boundedRecordEvent, 100);
+        boundedRecordEvent = throttle(boundedRecordEvent, 50);
       }
       if (type === 'scroll') {
-        boundedRecordEvent = throttle(boundedRecordEvent, 100);
+        boundedRecordEvent = throttle(boundedRecordEvent, 50);
       }
       window.addEventListener(type, boundedRecordEvent, true);
     })
@@ -145,9 +192,10 @@ export default class EventRecorder {
 
   _sendMessage(msg) {
     if (this.state.mySocket && this.state.mySocket.webSocketState) {
-      console.log('send message:', msg, window.eventRecorder);
+      // console.log('send message:', msg, window.eventRecorder);
       this.state.mySocket.send({
         type: 'BROADCAST',
+        contentType:'action',
         channelSerial: this.state.channelSerial,
         data: JSON.stringify({
           ...msg,
@@ -159,12 +207,13 @@ export default class EventRecorder {
   }
 
   _recordEvent(e) {
-    console.log(e);
     this.state.aid = uuid()
+    // console.log('startRecorder:',this.state.startRecorder)
     if (!this.state.startRecorder) {
       return;
     }
     try {
+      console.log(e);
       let selector = '';
       // let dangerSelector = '';
       let el = e.target;
@@ -186,9 +235,9 @@ export default class EventRecorder {
         //     return true;
         //   },
         // });
-        // console.log('dangerSelector:',dangerSelector)
+        console.log('selector:',selector)
       }
-      if (selector.indexOf('body')<0) {
+      if (selector.indexOf('body')<0&&selector!=='html') {
         return;
       }
       let attrs = {};
@@ -197,6 +246,9 @@ export default class EventRecorder {
           scrollLeft: el.scrollLeft,
           scrollTop: el.scrollTop,
         };
+      }
+      if(e.type==='input'){
+        console.log('input:',el.value)
       }
       const names = Array.from(e.target.classList || [])
         .map(cName => `.${cssesc(cName, { isIdentifier: true })}`);
@@ -240,26 +292,47 @@ export default class EventRecorder {
         default:
           break;
       }
+      console.log('e.type:',e.type)
+      let dateTime = new Date().getTime();
+      let coordinates = EventRecorder._getCoordinates(e);
       const msg = {
-        type: 'action',
-        e: cloneEvent,
-        selector,
-        // dangerSelector,
-        aid: this.state.aid,
-        className: names.join(''),
-        value: el.value,
-        innerHTML: getNodeText(el),
-        tagName: el.tagName,
-        action: e.type,
-        keyCode: e.keyCode ? e.keyCode : null,
-        href: el.href ? el.href : null,
-        coordinates: EventRecorder._getCoordinates(e),
-        timestamp: new Date().getTime(),
-        trudid: uuid(),
-        position: this.getPositon(el),
+        eventId: uuid(),
+        eventType:'VIEW_COMMON_EVENT',
+        dateTime: moment(dateTime).format("YYYY-MM-DD HH:mm:ss"),
+        diffTime:this.state.actionTime?(dateTime - this.state.actionTime):0,
+        params:{},
+        viewC12c:{
+          actionType: ActionObject[e.type].actionType,
+          actionName: ActionObject[e.type].actionName,
+          params:{},
+          viewPath:selector,
+          viewPathDetail:selector,
+          text:el.value,
+          touchX:coordinates?.x,
+          touchY:coordinates?.y,
+          scrollX:attrs?.scrollTop,
+          scrollY:attrs?.scrollLeft,
+          inputValue:el?.value,
+          position:this.getPositon(el),
+          cloneEvent,
+        },
+        // type: 'action',
+        // e: cloneEvent,
+        // selector,
+        // aid: this.state.aid,
+        // className: names.join(''),
+        // value: el.value,
+        // innerHTML: getNodeText(el),
+        // tagName: el.tagName,
+        // action: e.type,
+        // keyCode: e.keyCode ? e.keyCode : null,
+        // href: el.href ? el.href : null,
+        // coordinates: EventRecorder._getCoordinates(e),
+        // position: this.getPositon(el),
         // location: window.location ? window.location : null,
-        ...attrs,
+        // ...attrs,
       };
+      this.state.actionTime = dateTime
       this._eventLog.push(msg);
       this._sendMessage(msg);
     } catch (event) {
@@ -335,7 +408,7 @@ export default class EventRecorder {
   }
 
   static _getCoordinates(evt) {
-    console.log(evt)
+    // console.log(evt)
     const eventsWithCoordinates = {
       mouseup: true,
       mousedown: true,
