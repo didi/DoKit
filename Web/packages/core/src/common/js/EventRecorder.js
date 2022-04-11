@@ -73,7 +73,6 @@ export default class EventRecorder {
           let textareaList = document.getElementsByTagName("textarea");
           let list = [...inputList, ...textareaList];
           list.forEach((item) => {
-            console.log(item.type)
             switch (item.type) {
               case 'text':
               case 'number':
@@ -91,7 +90,6 @@ export default class EventRecorder {
       childList: true,
       subtree: true,
     });
-    console.log('observer:',this.observer);
   }
 
   _initializeRecorder() {
@@ -111,9 +109,7 @@ export default class EventRecorder {
     }
     if (!window.screenRecorderAddedControlListeners) {
       console.log('_addAllListeners:', events);
-
       this._addAllListeners(events);
-      
       // window.addEventListener('popstate', popstateCallback);
       // this._boundedMessageListener = this._boundedMessageListener || this._handleBackgroundMessage.bind(this);
       // chrome.runtime.onMessage.addListener(this._boundedMessageListener);
@@ -192,7 +188,7 @@ export default class EventRecorder {
 
   _sendMessage(msg) {
     if (this.state.mySocket && this.state.mySocket.webSocketState) {
-      // console.log('send message:', msg, window.eventRecorder);
+      console.log('send message:', msg, window.eventRecorder);
       this.state.mySocket.send({
         type: 'BROADCAST',
         contentType:'action',
@@ -213,7 +209,7 @@ export default class EventRecorder {
       return;
     }
     try {
-      console.log(e);
+      // console.log(e);
       let selector = '';
       // let dangerSelector = '';
       let el = e.target;
@@ -235,7 +231,7 @@ export default class EventRecorder {
         //     return true;
         //   },
         // });
-        console.log('selector:',selector)
+        // console.log('selector:',selector)
       }
       if (selector.indexOf('body')<0&&selector!=='html') {
         return;
@@ -246,9 +242,6 @@ export default class EventRecorder {
           scrollLeft: el.scrollLeft,
           scrollTop: el.scrollTop,
         };
-      }
-      if(e.type==='input'){
-        console.log('input:',el.value)
       }
       const names = Array.from(e.target.classList || [])
         .map(cName => `.${cssesc(cName, { isIdentifier: true })}`);
@@ -292,7 +285,6 @@ export default class EventRecorder {
         default:
           break;
       }
-      console.log('e.type:',e.type)
       let dateTime = new Date().getTime();
       let coordinates = EventRecorder._getCoordinates(e);
       const msg = {
@@ -307,7 +299,7 @@ export default class EventRecorder {
           params:{},
           viewPath:selector,
           viewPathDetail:selector,
-          text:el.value,
+          text:getNodeText(el),
           touchX:coordinates?.x,
           touchY:coordinates?.y,
           scrollX:attrs?.scrollTop,
@@ -408,7 +400,6 @@ export default class EventRecorder {
   }
 
   static _getCoordinates(evt) {
-    // console.log(evt)
     const eventsWithCoordinates = {
       mouseup: true,
       mousedown: true,
