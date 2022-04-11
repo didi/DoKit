@@ -6,7 +6,7 @@
       v-dragable="btnConfig"
       @click="toggleShowContainer"
     ></div>
-    <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
+    <div class="dokit-mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
     <independ-container v-show="independPlugins.length"></independ-container>
     <elements-highlight
@@ -152,6 +152,7 @@ export default {
   z-index: 100000;
   & > * {
     pointer-events: all;
+    font-size: 16px;
   }
 }
 .dokit-entry-btn {
@@ -164,7 +165,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 }
-.mask {
+.dokit-mask {
   position: absolute;
   top: 0;
   left: 0;

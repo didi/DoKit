@@ -1,11 +1,11 @@
 <template>
-  <div class="bar">
-    <div class="bar-back" @click="handleBackRoute" v-show="canBack">
-      <img class="bar-back-icon" :src="icon"/>
-      <span class="bar-back-btn">返回</span>
+  <div class="dokit-bar">
+    <div class="dokit-bar-back" @click="handleBackRoute" v-show="canBack">
+      <img class="dokit-bar-back-icon" :src="icon"/>
+      <span class="dokit-bar-back-btn">返回</span>
     </div>
-    <div class="bar-title">
-      <span class="bar-title-text">{{title}}</span>
+    <div class="dokit-bar-title">
+      <span class="dokit-bar-title-text">{{title}}</span>
     </div>
     <!-- TODO 支持切换模式 -->
     <!-- <div class="bar-other">
@@ -41,7 +41,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .bar{
+  .dokit-bar{
     background-color: white;
     height: 50px;
     width: 100%;
@@ -53,28 +53,28 @@ export default {
     position: relative;
     border-radius: 10px 10px 0 0;
   }
-  .bar-back{
+  .dokit-bar-back{
     position: absolute;
     left: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-  .bar-back-icon{
+  .dokit-bar-back-icon{
     display: inline-block;
     height: 18px;
   }
-  .bar-back-btn{
+  .dokit-bar-back-btn{
     color: #337CC4;
     font-size: 16px;
     margin-left: 5px;
   }
-  .bar-title-text{
+  .dokit-bar-title-text{
     color: #333333;
     font-size: 20px;
     font-weight: bold;
   }
-  .bar-other-text{
+  .dokit-bar-other-text{
     color:  #666666;
     font-size: 16px;
   }

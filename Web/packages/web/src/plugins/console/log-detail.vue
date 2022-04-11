@@ -1,7 +1,7 @@
 <template>
   <div
-    class="detail-container"
-    :class="[canFold ? 'can-unfold' : '', unfold ? 'unfolded' : '']"
+    class="dokit-detail-container"
+    :class="[canFold ? 'dokit-can-unfold' : '', unfold ? 'dokit-unfolded' : '']"
   >
     <div @click="unfoldDetail" v-html="displayDetailValue"></div>
     <template v-if="canFold">
@@ -81,7 +81,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.detail-container {
+.dokit-detail-container {
   font-size: 12px;
   margin-left: 24px;
   position: relative;
@@ -89,7 +89,7 @@ export default {
   word-wrap: break-word;
   max-width: 100%;
 }
-.can-unfold {
+.dokit-can-unfold {
   &::before {
     content: "";
     width: 0;
@@ -102,7 +102,7 @@ export default {
   }
 }
 
-.unfolded {
+.dokit-unfolded {
   &::before {
     border: 4px solid transparent;
     border-top-color: #333;

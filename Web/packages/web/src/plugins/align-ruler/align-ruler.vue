@@ -1,26 +1,26 @@
 <template>
   <div>
-    <div class="ruler-center-bg" :style="centerStyle"></div>
-    <div class="ruler-center-round" :style="centerStyle"></div>
-    <div class="ruler-center-dot" :style="centerStyle"></div>
-    <div class="ruler-line ruler-horizon-line" :style="horizonLineStyle"></div>
+    <div class="dokit-ruler-center-bg" :style="centerStyle"></div>
+    <div class="dokit-ruler-center-round" :style="centerStyle"></div>
+    <div class="dokit-ruler-center-dot" :style="centerStyle"></div>
+    <div class="dokit-ruler-line dokit-ruler-horizon-line" :style="horizonLineStyle"></div>
     <div
-      class="ruler-line ruler-vertical-line"
+      class="dokit-ruler-line dokit-ruler-vertical-line"
       :style="verticalLineStyle"
     ></div>
-    <div class="ruler-info" :style="topInfoStyle">{{ position.top }}</div>
-    <div class="ruler-info" :style="rightInfoStyle">
+    <div class="dokit-ruler-info" :style="topInfoStyle">{{ position.top }}</div>
+    <div class="dokit-ruler-info" :style="rightInfoStyle">
       {{ position.right }}
     </div>
-    <div class="ruler-info" :style="bottomInfoStyle">
+    <div class="dokit-ruler-info" :style="bottomInfoStyle">
       {{ position.bottom }}
     </div>
-    <div class="ruler-info" :style="leftInfoStyle">{{ position.left }}</div>
+    <div class="dokit-ruler-info" :style="leftInfoStyle">{{ position.left }}</div>
 
     <InfoBox :position="position" @remove="remove" />
 
     <div
-      class="ruler-drag-mask"
+      class="dokit-ruler-drag-mask"
       :style="centerStyle"
       @mousedown="drag"
       @touchstart="drag"
@@ -170,7 +170,7 @@ export default {
   color: #cc3a4b30;
 }
 
-.ruler-center-bg {
+.dokit-ruler-center-bg {
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 0.392156863);
   position: fixed;
@@ -181,7 +181,7 @@ export default {
   border: solid 1px rgba(51, 124, 196, 0.392156863);
 }
 
-.ruler-center-round {
+.dokit-ruler-center-round {
   background-color: rgba(204, 58, 75, 0.196078431);
   position: fixed;
   width: 40px;
@@ -190,7 +190,7 @@ export default {
   border-radius: 20px;
 }
 
-.ruler-center-dot {
+.dokit-ruler-center-dot {
   background-color: #cc3a4b;
   position: fixed;
   width: 6px;
@@ -199,28 +199,28 @@ export default {
   border-radius: 3px;
 }
 
-.ruler-line {
+.dokit-ruler-line {
   position: fixed;
   background-color: #cc3a4b;
 }
 
-.ruler-horizon-line {
+.dokit-ruler-horizon-line {
   left: 0;
   height: 1px;
   transform: translate(0px, -0.5px);
 }
 
-.ruler-vertical-line {
+.dokit-ruler-vertical-line {
   top: 0;
   width: 1px;
   transform: translate(-0.5px, 0px);
 }
 
-.ruler-info {
+.dokit-ruler-info {
   position: fixed;
 }
 
-.ruler-drag-mask {
+.dokit-ruler-drag-mask {
   position: fixed;
   width: 60px;
   height: 60px;

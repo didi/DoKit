@@ -1,8 +1,8 @@
 <template>
   <transition name="alert-fade">
-    <div id="toast"
+    <div id="dokit-toast"
          v-show="visible"
-         class="dialog-tips dialog-center">
+         class="dokit-dialog-tips dokit-dialog-center">
       {{message}}
     </div>
   </transition>
@@ -37,7 +37,7 @@ export default {
 .alert-fade-leave-to {
   opacity: 0;
 }
-.dialog-tips {
+.dokit-dialog-tips {
   position: fixed;
   z-index: 100001;
   max-width: 70%;
@@ -49,7 +49,7 @@ export default {
   text-align: center;
   color: #ffffff;
 }
-.dialog-center {
+.dokit-dialog-center {
   top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);

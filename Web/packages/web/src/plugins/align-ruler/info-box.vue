@@ -1,9 +1,9 @@
 <template>
-  <div class="position-infobox-container">
+  <div class="dokit-position-infobox-container">
     位置: 左 {{ position.left }}, 右 {{ position.right }}, 上 {{ position.top }}, 下 {{ 
       position.bottom
     }}
-    <span class="close-button" @click="$emit('remove')"></span>
+    <span class="dokit-close-button" @click="$emit('remove')"></span>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.position-infobox-container {
+.dokit-position-infobox-container {
   position: fixed;
   left: 0;
   right: 0;
@@ -42,7 +42,7 @@ export default {
   font-size: 10px;
 }
 
-.close-button {
+.dokit-close-button {
   background: #324456;
   color: #fff;
 

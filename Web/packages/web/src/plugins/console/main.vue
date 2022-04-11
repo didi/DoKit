@@ -1,11 +1,11 @@
 <template>
-  <div class="console-container">
+  <div class="dokit-console-container">
     <console-tap :tabs="logTabs" @changeTap="handleChangeTab"></console-tap>
-    <div class="log-container">
-      <div class="info-container">
+    <div class="dokit-log-container">
+      <div class="dokit-info-container">
         <log-container :logList="curLogList"></log-container>
       </div>
-      <div class="operation-container">
+      <div class="dokit-operation-container">
         <operation-command></operation-command>
       </div>
     </div>
@@ -52,17 +52,17 @@ export default {
 <style lang="less" scoped>
 @import "./css/var.less";
 
-.console-container{
+.dokit-console-container{
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.log-container{
+.dokit-log-container{
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  .info-container{
+  .dokit-info-container{
     flex: 1;
     background-color: @background-color;
     border-bottom: 1px solid @border-color;

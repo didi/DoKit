@@ -1,20 +1,20 @@
 <template>
-  <div class="scaner" ref="scaner">
-    <div class="banner" v-if="showBanner">
-      <i class="close_icon" @click="() => (showBanner = false)"></i>
-      <p class="text">若当前浏览器无法扫码，请切换其他浏览器尝试，目前支持的url:localhost、file和https</p>
+  <div class="dokit-scaner" ref="scaner">
+    <div class="dokit-banner" v-if="showBanner">
+      <i class="dokit-close_icon" @click="() => (showBanner = false)"></i>
+      <p class="dokit-text">若当前浏览器无法扫码，请切换其他浏览器尝试，目前支持的url:localhost、file和https</p>
     </div>
-    <div class="cover">
-      <p class="line"></p>
-      <span class="square top left"></span>
-      <span class="square top right"></span>
-      <span class="square bottom right"></span>
-      <span class="square bottom left"></span>
-      <p class="tips">将二维码放入框内，即可自动扫描</p>
+    <div class="dokit-cover">
+      <p class="dokit-line"></p>
+      <span class="dokit-square top left"></span>
+      <span class="dokit-square top right"></span>
+      <span class="dokit-square bottom right"></span>
+      <span class="dokit-square bottom left"></span>
+      <p class="dokit-tips">将二维码放入框内，即可自动扫描</p>
     </div>
     <video
       v-show="showPlay"
-      class="source"
+      class="dokit-source"
       ref="video"
       :width="videoWH.width"
       :height="videoWH.height"
@@ -237,7 +237,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.scaner {
+.dokit-scaner {
   background: #000000;
   position: fixed;
   top: 48px;
@@ -249,7 +249,7 @@ export default {
   height: -ms-calc(100% - 48px);
   height: -o-calc(100% - 48px);
   height: calc(100% - 48px);
-  .banner {
+  .dokit-banner {
     width: 340px;
     position: absolute;
     top: 16px;
@@ -262,7 +262,7 @@ export default {
     padding-right: 39px;
     opacity: 0.9;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
-    .text {
+    .dokit-text {
       padding: 0;
       margin: 0;
       color: #ffffff;
@@ -270,7 +270,7 @@ export default {
       text-align: justify;
       text-align-last: left;
     }
-    .close_icon {
+    .dokit-close_icon {
       display: inline-block;
       height: 24px;
       width: 24px;
@@ -283,7 +283,7 @@ export default {
       transform: translateY(-50%);
     }
   }
-  .cover {
+  .dokit-cover {
     height: 220px;
     width: 220px;
     position: absolute;
@@ -296,7 +296,7 @@ export default {
     transform: translate(-50%, -50%);
     border: 0.5px solid #999999;
     z-index: 1111;
-    .line {
+    .dokit-line {
       width: 200px;
       height: 1px;
       margin-left: 10px;
@@ -322,7 +322,7 @@ export default {
       animation-fill-mode: both;
       border-radius: 1px;
     }
-    .square {
+    .dokit-square {
       display: inline-block;
       height: 20px;
       width: 20px;
@@ -344,7 +344,7 @@ export default {
       right: 0;
       border-right: 1px solid #5f68e8;
     }
-    .tips {
+    .dokit-tips {
       position: absolute;
       bottom: -48px;
       width: 100%;

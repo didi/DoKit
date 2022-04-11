@@ -1,5 +1,5 @@
 <template>
-  <div class="api-mock-plugin">
+  <div class="dokit-api-mock-plugin">
     <interfaceItem
       v-for="(interfaceItem, index) in interfaceList"
       :key="interfaceItem._id"
@@ -46,7 +46,7 @@ export default {
 };
 </script>
 <style>
-.api-mock-plugin {
+.dokit-api-mock-plugin {
   padding: 5px;
 }
 </style>

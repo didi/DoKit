@@ -1,25 +1,25 @@
 <template>
-  <div class="operation">
-    <div class="input-wrapper">
-      <input class="input" placeholder="Command……" v-model="command" />
+  <div class="dokit-operation">
+    <div class="dokit-input-wrapper">
+      <input class="dokit-input" placeholder="Command……" v-model="command" />
     </div>
-    <div class="button-wrapper" @click="excuteCommand">
+    <div class="dokit-button-wrapper" @click="excuteCommand">
       <span>Excute</span>
     </div>
   </div>
 </template>
 <style lang="less" scoped>
 @import "./css/var.less";
-.operation {
+.dokit-operation {
   height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.input-wrapper {
+.dokit-input-wrapper {
   flex: 1;
   height: 100%;
-  .input {
+  .dokit-input {
     height: 100%;
     width: 100%;
     outline: none;
@@ -29,7 +29,7 @@
     font-size: 18px;
   }
 }
-.button-wrapper {
+.dokit-button-wrapper {
   height: 100%;
   line-height: 100%;
   margin-left: 10px;

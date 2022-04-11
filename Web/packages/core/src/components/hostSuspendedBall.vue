@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="masterSuspendedBall" @click="change" v-dragable="btnConfig">
+    <div class="dokit-masterSuspendedBall" @click="change" v-dragable="btnConfig">
       {{ isHost ? "主机" : "从机" }}
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.masterSuspendedBall {
+.dokit-masterSuspendedBall {
   // position: fixed;
   z-index: 10000;
   // opacity: 0.5;

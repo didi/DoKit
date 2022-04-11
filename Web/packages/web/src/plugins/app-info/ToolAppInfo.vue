@@ -1,13 +1,13 @@
 <template>
-  <div class="app-info-container">
-    <div class="info-wrapper">
+  <div class="dokit-app-info-container">
+    <div class="dokit-info-wrapper">
       <Card title="Page Info">
         <template v-slot:body>
-          <DoRow class="app-info-item">
+          <DoRow class="dokit-app-info-item">
             <DoCol :span=8>UA</DoCol>
             <DoCol :span=16>{{ua}}</DoCol>
           </DoRow>
-          <DoRow class="app-info-item">
+          <DoRow class="dokit-app-info-item">
             <DoCol :span=8>URL</DoCol>
             <DoCol :span=16>{{url}}</DoCol>
           </DoRow>
@@ -15,18 +15,18 @@
         
       </Card>
     </div>
-    <div class="info-wrapper" style="margin-top:20px">
+    <div class="dokit-info-wrapper" style="margin-top:20px">
       <Card title="Device Info">
         <template v-slot:body>
-          <DoRow class="app-info-item">
+          <DoRow class="dokit-app-info-item">
             <DoCol :span=8>设备缩放比</DoCol>
             <DoCol :span=16>{{ratio}}</DoCol>
           </DoRow>
-          <DoRow class="app-info-item">
+          <DoRow class="dokit-app-info-item">
             <DoCol :span=8>screen</DoCol>
             <DoCol :span=16>{{screen.width}} X {{screen.height}}</DoCol>
           </DoRow>
-          <DoRow class="app-info-item">
+          <DoRow class="dokit-app-info-item">
             <DoCol :span=8>viewport</DoCol>
             <DoCol :span=16>{{viewport.width}} X {{viewport.height}}</DoCol>
           </DoRow>
@@ -57,17 +57,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.app-info-container{
+.dokit-app-info-container{
   font-size: 14px;
   height: 100%;
   overflow: hidden;
 }
-.info-wrapper{
+.dokit-info-wrapper{
     margin: 5px 5px 0 5px;
     .key{
       font-weight: bold;
     }
-    .app-info-item{
+    .dokit-app-info-item{
       padding: 5px 0;
     }
   }

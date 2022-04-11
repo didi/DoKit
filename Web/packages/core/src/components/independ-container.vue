@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="z-index: 998;">
+  <div class="dokit-container" style="z-index: 998;">
     <component :is="toRaw(plugin.component)" v-for="plugin in independPlugins" :key="plugin.name"/>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.container{
+.dokit-container{
   position: absolute;
   left: 0;
   right: 0;
