@@ -104,7 +104,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/dk_btn_mc_bg"
-                android:text=""
+                android:text="H5代码注入"
                 android:textAllCaps="false"
                 android:textColor="@color/dk_color_FFFFFF"
                 android:textSize="18sp"

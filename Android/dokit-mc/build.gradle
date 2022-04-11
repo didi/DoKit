@@ -77,10 +77,11 @@ dependencies {
     implementation rootProject.ext.dependencies["ktor_client_cio"]
     //备用客户端websocket引擎
     compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
-    compileOnly project(':dokit-util')
-    compileOnly project(':dokit-okhttp-api')
+    implementation project(':dokit-util')
+    implementation project(':dokit-okhttp-api')
     //此处需要使用api的形式 向上暴露内部api
     implementation project(':dokit')
+    implementation project(':dokit-test')
     //okhttp wrap
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]

@@ -295,16 +295,26 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
      */
     private fun injectDokitMcHook(html: String?): String {
         //读取本地js hook 代码
-        val dokitjs = ResourceUtils.readAssets2String("h5help/dokit.js")
+        var dokitjs = ResourceUtils.readAssets2String("h5help/dokit.js")
+
+        if (!"file".equals(DoKitManager.H5_MC_JS_INJECT_MODE)) {
+            val httpRequest = Request.Builder()
+                .header("User-Agent", mUserAgent)
+                .url(DoKitManager.H5_MC_JS_INJECT_URL)
+                .build()
+            val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()
+            dokitjs = response.body()?.string() ?: dokitjs
+        }
+
         val mcUrl = DoKitManager.MC_CONNECT_URL
         val productId = DoKitManager.PRODUCT_ID
         val mode = if (DoKitManager.WS_MODE == WSMode.HOST) {
-            "master"
-        } else {
-
+            "host"
+        } else if (DoKitManager.WS_MODE == WSMode.CLIENT) {
             "client"
+        } else {
+            "unknown"
         }
-//        val preVue = "<script src=\"https://unpkg.com/vue@next\"></script>\n"
         val injectHook = "<script type=\"text/javascript\">\n ${dokitjs}\n" +
             " window.Dokit.setProductId('${productId}')\n" +
             " window.Dokit.startMultiControl('${mcUrl}','${mode}')\n" +

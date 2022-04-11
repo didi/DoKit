@@ -1,33 +1,43 @@
 [
   {
     "groupId": "dk_category_platform",
-    "kits": [
-      {
-        "allClassName": "com.didichuxing.doraemonkit.kit.network.MockKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_platform_ck_mock"
-      },
-      {
-        "allClassName": "com.didichuxing.doraemonkit.kit.health.HealthKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_platform_ck_health"
-      },
-      {
-        "allClassName": "com.didichuxing.doraemonkit.kit.filemanager.FileTransferKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_platform_ck_filetransfer"
-      },
-      {
-        "allClassName": "com.didichuxing.doraemonkit.kit.mc.MultiControlKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_platform_ck_mc"
-      },
-        {
-            "allClassName": "com.kronos.dokit.pthread.PThreadKit",
-            "checked": true,
-            "innerKitId": "dokit_sdk_platform_thread_hook"
-        }
-    ]
+      "kits": [
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.network.MockKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_mock"
+          },
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.health.HealthKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_health"
+          },
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.filemanager.FileTransferKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_filetransfer"
+          },
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.dokitforweb.AutoService",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_dokit_for_web"
+          },
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.mc.MultiControlKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_mc"
+          },
+          {
+              "allClassName": "com.didichuxing.doraemonkit.kit.autotest.AutoTestControlKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_autotest"
+          },
+          {
+              "allClassName": "com.kronos.dokit.pthread.PThreadKit",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_thread_hook"
+          }
+      ]
   },
   {
     "groupId": "dk_category_comms",

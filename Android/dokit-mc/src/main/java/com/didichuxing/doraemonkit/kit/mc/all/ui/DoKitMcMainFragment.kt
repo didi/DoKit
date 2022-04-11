@@ -17,6 +17,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.all.data.McCaseInfo
 import com.didichuxing.doraemonkit.kit.mc.all.data.McConfigInfo
 import com.didichuxing.doraemonkit.kit.mc.all.ui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.mock.CaseInfo
 import com.didichuxing.doraemonkit.kit.mc.util.McCaseUtils
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -187,15 +188,19 @@ class DoKitMcMainFragment : BaseFragment() {
         }
 
         val h5Inject = findViewById<Button>(R.id.tv_h5jsInject)
-        updateH5Inject(h5Inject)
+//        updateH5Inject(h5Inject)
         h5Inject.setOnClickListener {
-            DoKitMcManager.saveMcH5Inject(!DoKitManager.H5_DOKIT_MC_INJECT)
-            updateH5Inject(h5Inject)
-            if (DoKitManager.H5_DOKIT_MC_INJECT) {
-                ToastUtils.showShort("已开启H5注入")
-            } else {
-                ToastUtils.showShort("已关闭H5注入")
+
+            if (activity is DoKitMcActivity) {
+                (activity as DoKitMcActivity).pushFragment(WSMode.MC_H5_JS_INJECT)
             }
+//            DoKitMcManager.saveMcH5Inject(!DoKitManager.H5_DOKIT_MC_INJECT)
+//            updateH5Inject(h5Inject)
+//            if (DoKitManager.H5_DOKIT_MC_INJECT) {
+//                ToastUtils.showShort("已开启H5注入")
+//            } else {
+//                ToastUtils.showShort("已关闭H5注入")
+//            }
         }
 
     }
@@ -270,7 +275,7 @@ class DoKitMcMainFragment : BaseFragment() {
     /**
      * 确认用例信息
      */
-    private suspend fun mcCaseInfoDialog(): McCaseInfoDialogProvider.CaseInfo = suspendCoroutine {
+    private suspend fun mcCaseInfoDialog(): CaseInfo = suspendCoroutine {
         showDialog(McCaseInfoDialogProvider(null, object : DialogListener {
             override fun onPositive(dialogProvider: DialogProvider<*>): Boolean {
                 val provider = dialogProvider as McCaseInfoDialogProvider
@@ -287,7 +292,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 }
 
                 it.resume(
-                    McCaseInfoDialogProvider.CaseInfo(
+                    CaseInfo(
                         caseName = caseName,
                         personName = personName
                     )

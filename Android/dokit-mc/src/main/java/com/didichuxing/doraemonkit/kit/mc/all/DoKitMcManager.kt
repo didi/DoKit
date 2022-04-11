@@ -3,11 +3,17 @@ package com.didichuxing.doraemonkit.kit.mc.all
 import android.view.View
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
+import com.didichuxing.doraemonkit.kit.mc.ability.DoKitMcEventDispatcher
+import com.didichuxing.doraemonkit.kit.mc.ability.OnActionEventListener
 import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McCustomEventMonitor
 import com.didichuxing.doraemonkit.kit.mc.ability.monitor.McTcpMessageEventMonitor
 import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientSyncFailedImpl
 import com.didichuxing.doraemonkit.kit.mc.all.data.HostInfo
+import com.didichuxing.doraemonkit.kit.mc.mock.MockManager
+import com.didichuxing.doraemonkit.kit.mc.mock.MockProxyDataClient
 import com.didichuxing.doraemonkit.kit.mc.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
+import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.SPUtils
@@ -41,8 +47,8 @@ object DoKitMcManager {
     const val MC_CASE_ID_KEY = "MC_CASE_ID"
     const val MC_CASE_RECODING_KEY = "MC_CASE_RECODING"
     const val DOKIT_MC_CONNECT_URL = "dokit_mc_connect_url"
-    const val DOKIT_H5_MC_INJECT_JS = "dokit_h5_mc_inject_js"
     const val NAME_DOKIIT_MC_CONFIGALL = "dokiit-mc-config-all"
+
 
     /**
      * 是否处于录制状态
@@ -58,8 +64,8 @@ object DoKitMcManager {
     var MC_CASE_ID: String = ""
 
     var mcNetMockInterceptor: McNetMockInterceptor? = null
-    
-    var mcTcpMessageProcessor: McTcpMessageProcessor ? = null
+
+    var mcTcpMessageProcessor: McTcpMessageProcessor? = null
 
     var WS_MODE: WSMode = WSMode.UNKNOW
 
@@ -73,11 +79,23 @@ object DoKitMcManager {
 
     fun init() {
         loadConfig()
+
+        DoKitMcEventDispatcher.addOnActionEventListener(object : OnActionEventListener {
+            override fun onActionEvent(wsEvent: WSEvent) {
+                DoKitMcConnectClient.send(wsEvent)
+            }
+        })
+
+        MockManager.mockProxyDataClient = object :MockProxyDataClient{
+            override fun send(data: String) {
+                DoKitMcConnectClient.sendDataProxy(data)
+            }
+        }
     }
 
     fun loadConfig() {
         DoKitManager.MC_CONNECT_URL = sp.getString(DOKIT_MC_CONNECT_URL)
-        DoKitManager.H5_DOKIT_MC_INJECT = sp.getBoolean(DOKIT_H5_MC_INJECT_JS)
+
     }
 
     fun saveMcConnectUrl(url: String) {
@@ -86,10 +104,6 @@ object DoKitMcManager {
     }
 
 
-    fun saveMcH5Inject(switch: Boolean) {
-        DoKitManager.H5_DOKIT_MC_INJECT = switch
-        sp.put(DOKIT_H5_MC_INJECT_JS, switch)
-    }
 
     /**
      * 发送自定义事件

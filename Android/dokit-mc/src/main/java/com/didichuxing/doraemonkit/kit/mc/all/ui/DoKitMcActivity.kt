@@ -46,7 +46,7 @@ class DoKitMcActivity : BaseActivity() {
     }
 
     fun newHomeFragment() {
-        changeFragment(WSMode.UNKNOW)
+        changeFragment(WSMode.CONNECT_HISTORY)
     }
 
     fun changeFragment(wsMode: WSMode) {
@@ -90,6 +90,7 @@ class DoKitMcActivity : BaseActivity() {
                 mTitlebar.setTitle("一机多控（用例列表）")
                 DoKitMcDatasFragment()
             }
+
             else -> {
                 mTitlebar.setTitle("一机多控（主页）")
                 DoKitMcMainFragment()

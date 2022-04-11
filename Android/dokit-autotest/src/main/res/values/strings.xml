@@ -1,0 +1,3 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dk_kit_autotest">自动化测试</string>
+</resources>

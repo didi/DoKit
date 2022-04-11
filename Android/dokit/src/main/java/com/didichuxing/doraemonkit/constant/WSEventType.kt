@@ -53,7 +53,9 @@ enum class WSMode {
     /**
      * 查看用例列表
      */
-    MC_CASELIST
+    MC_CASELIST,
+
+    MC_H5_JS_INJECT
 }
 
 /**

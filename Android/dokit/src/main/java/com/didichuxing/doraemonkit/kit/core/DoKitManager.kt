@@ -147,10 +147,16 @@ object DoKitManager {
     var H5_VCONSOLE_INJECT = false
 
     /**
-     * h5 dokit mc 注入代码开关
+     * h5 dokit for web 注入代码开关
      */
     @JvmField
     var H5_DOKIT_MC_INJECT = false
+
+    @JvmField
+    var H5_MC_JS_INJECT_MODE = "file"
+
+    @JvmField
+    var H5_MC_JS_INJECT_URL = "http://120.55.183.20/dokit/mc/dokit.js"
 
     /**
      * 是否允许上传统计信息

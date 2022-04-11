@@ -145,7 +145,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation project(path: ':dokit-util')
+    implementation project(path: ':dokit-mc')
+    implementation project(path: ':dokit-autotest')
+    implementation project(path: ':dokit-test')
+
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["multidex"]

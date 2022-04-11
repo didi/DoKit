@@ -65,6 +65,7 @@ public class WebViewHook {
     @SuppressLint({"AddJavascriptInterface", "RequiresFeature", "SetJavaScriptEnabled"})
     private static void injectNormal(WebView webView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            webView.setWebContentsDebuggingEnabled(true);
             if (!(WebViewCompat.getWebViewClient(webView) instanceof DokitWebViewClient)) {
                 WebSettings settings = webView.getSettings();
                 settings.setJavaScriptEnabled(true);
