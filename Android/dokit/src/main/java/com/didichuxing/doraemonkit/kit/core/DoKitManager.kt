@@ -4,7 +4,6 @@ import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
@@ -175,12 +174,6 @@ object DoKitManager {
      * 全局回调
      */
     var CALLBACK: DoKitCallBack? = null
-
-    /**
-     * 一机多控类型
-     */
-    @JvmField
-    var WS_MODE: WSMode = WSMode.UNKNOW
 
     /**
      *  一机多控地址

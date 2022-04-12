@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.kit.mc.report
 
-import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 
 data class RecordActionStep(
     val dateTime: String,
     val type: String,
-    val event: WSEvent,
+    val event: ControlEvent,
     val dataList: MutableList<RecordData>
 )

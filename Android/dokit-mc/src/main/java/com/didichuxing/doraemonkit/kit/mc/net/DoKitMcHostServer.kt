@@ -1,10 +1,9 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.mc.all.ui.host.WSRouter
-import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.test.event.EventType
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
+import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -50,7 +49,7 @@ object DoKitMcHostServer {
     suspend fun stop(callBack: () -> Unit) {
         try {
             shotDown = true
-            send(WSEvent(WSMode.HOST, WSEType.WSE_HOST_CLOSE))
+            send(ControlEvent("", EventType.WSE_HOST_CLOSE))
             delay(1000)
             wsSessionMaps.forEach {
                 it.value.close()
@@ -63,7 +62,7 @@ object DoKitMcHostServer {
         }
     }
 
-    fun send(wsEvent: WSEvent) {
+    fun send(wsEvent: ControlEvent) {
         //一机多控主机事件分发
         val wsPackage = WSPackageUtils.toPackageJson(wsEvent)
         wsSessionMaps.forEach {

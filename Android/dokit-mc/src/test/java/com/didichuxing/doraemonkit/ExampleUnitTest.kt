@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit
 
-import com.didichuxing.doraemonkit.kit.mc.all.data.McCaseInfo
-import com.didichuxing.doraemonkit.kit.mc.mock.McResInfo
+import com.didichuxing.doraemonkit.kit.test.mock.data.McCaseInfo
+import com.didichuxing.doraemonkit.kit.test.mock.McResInfo
 import com.google.gson.Gson
 import org.json.JSONObject
 import org.junit.Test

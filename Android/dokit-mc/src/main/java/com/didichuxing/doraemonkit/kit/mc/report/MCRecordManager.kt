@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.report
 
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
+import com.didichuxing.doraemonkit.kit.test.event.EventType
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 
 /**
  * ================================================
@@ -18,24 +18,24 @@ object MCRecordManager {
      */
     var isEventRecoding = false
 
-    val mWsEvents: MutableList<WSEvent> by lazy {
-        mutableListOf<WSEvent>()
+    val mWsEvents: MutableList<ControlEvent> by lazy {
+        mutableListOf<ControlEvent>()
     }
 
     /**
      * 有效的事件类型
      */
     private val effectiveEventTypes = arrayOf(
-        WSEType.APP_ON_FOREGROUND,
-        WSEType.APP_ON_BACKGROUND,
-        WSEType.ACTIVITY_BACK_PRESSED,
-        WSEType.WSE_COMM_EVENT
+        EventType.APP_ON_FOREGROUND,
+        EventType.APP_ON_BACKGROUND,
+        EventType.ACTIVITY_BACK_PRESSED,
+        EventType.WSE_COMM_EVENT
     )
 
     /**
      * 拦截所有事件
      */
-    fun intercept(wsEvent: WSEvent) {
+    fun intercept(wsEvent: ControlEvent) {
         //拦截无效的事件类型
         if (needFilter(wsEvent.eventType)) {
             return
@@ -48,7 +48,7 @@ object MCRecordManager {
     /**
      * 是否过滤特定的事件类型
      */
-    private fun needFilter(eventType: WSEType): Boolean {
+    private fun needFilter(eventType: EventType): Boolean {
         if (effectiveEventTypes.contains(eventType)) {
             return false
         }

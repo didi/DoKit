@@ -4,12 +4,12 @@
 
     <application>
         <activity
-            android:name="com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity"
+            android:name="com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />
 
         <activity
-            android:name="com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcScanActivity"
+            android:name="com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcScanActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
 <!--        <service-->

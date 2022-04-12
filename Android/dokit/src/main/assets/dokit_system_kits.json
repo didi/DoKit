@@ -18,6 +18,11 @@
               "innerKitId": "dokit_sdk_platform_ck_filetransfer"
           },
           {
+              "allClassName": "com.didichuxing.doraemonkit.kit.mc.MultiControlKitTest",
+              "checked": true,
+              "innerKitId": "dokit_sdk_platform_ck_mc_test"
+          },
+          {
               "allClassName": "com.didichuxing.doraemonkit.kit.dokitforweb.AutoService",
               "checked": true,
               "innerKitId": "dokit_sdk_platform_ck_dokit_for_web"

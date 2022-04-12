@@ -1,14 +1,11 @@
-package com.didichuxing.doraemonkit.kit.mc.all.ui.host
+package com.didichuxing.doraemonkit.kit.mc.net
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.mc.net.WSEvent
-import com.didichuxing.doraemonkit.kit.mc.ability.WSEventProcessor
-import com.didichuxing.doraemonkit.kit.mc.all.data.HostInfo
-import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcHostServer
-import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
+import com.didichuxing.doraemonkit.kit.test.event.EventType
+import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
+import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.application.*
 import io.ktor.features.*
@@ -54,9 +51,9 @@ val WSRouter: Application.() -> Unit = {
                 ScreenUtils.getAppScreenWidth().toFloat(),
                 ScreenUtils.getAppScreenHeight().toFloat()
             )
-            val wsEvent = WSEvent(
-                WSMode.HOST,
-                WSEType.WSE_CONNECTED,
+            val wsEvent = ControlEvent(
+                "",
+                EventType.WSE_CONNECTED,
                 mutableMapOf(
                     "hostInfo" to GsonUtils.toJson(hostInfo)
                 ),
@@ -73,11 +70,11 @@ val WSRouter: Application.() -> Unit = {
                     is Frame.Text -> {
                         try {
                             val wsEvent = WSPackageUtils.jsonToEvent(it.readText())
-                            if (wsEvent.eventType == WSEType.WSE_CLOSE) {
+                            if (wsEvent.eventType == EventType.WSE_CLOSE) {
                                 DoKitMcHostServer.send(
-                                    WSEvent(
-                                        WSMode.HOST,
-                                        WSEType.WSE_CLOSE,
+                                    ControlEvent(
+                                        "",
+                                        EventType.WSE_CLOSE,
                                         mutableMapOf(
                                             "command" to "confirmed bye"
                                         ),
@@ -87,7 +84,7 @@ val WSRouter: Application.() -> Unit = {
                                 close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
                                 ToastUtils.showShort("从机【$deviceModels】已断开连接")
                             } else {
-                                WSEventProcessor.process(wsEvent)
+                                WSServerProcessor.process(wsEvent)
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()

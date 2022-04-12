@@ -9,15 +9,13 @@ import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.DoKitReal
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
@@ -308,15 +306,11 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
 
         val mcUrl = DoKitManager.MC_CONNECT_URL
         val productId = DoKitManager.PRODUCT_ID
-        val mode = if (DoKitManager.WS_MODE == WSMode.HOST) {
-            "host"
-        } else if (DoKitManager.WS_MODE == WSMode.CLIENT) {
-            "client"
-        } else {
-            "unknown"
-        }
+        val mode = DoKitReal.getMode()
+
         val injectHook = "<script type=\"text/javascript\">\n ${dokitjs}\n" +
             " window.Dokit.setProductId('${productId}')\n" +
+            " window.Dokit.isNativeContainer()\n" +
             " window.Dokit.startMultiControl('${mcUrl}','${mode}')\n" +
             "</script>"
 

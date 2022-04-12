@@ -2,17 +2,16 @@ package com.didichuxing.doraemonkit.kit.mc.net
 
 import androidx.appcompat.app.AlertDialog
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
-import com.didichuxing.doraemonkit.kit.mc.ability.WSClientProcessor
-import com.didichuxing.doraemonkit.kit.mc.ability.WSEventProcessor
-import com.didichuxing.doraemonkit.kit.mc.all.*
-import com.didichuxing.doraemonkit.kit.mc.all.data.HostInfo
-import com.didichuxing.doraemonkit.kit.mc.all.ui.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
-import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.test.event.WSClientProcessor
+import com.didichuxing.doraemonkit.kit.test.all.*
+import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
+import com.didichuxing.doraemonkit.kit.mc.ui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
+import com.didichuxing.doraemonkit.kit.test.event.EventType
+import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -76,7 +75,7 @@ object DoKitMcClient {
                         }
                     }
                 ) {
-                    DoKitManager.WS_MODE = WSMode.CLIENT
+                    DoKitTestManager.WS_MODE = TestMode.CLIENT
                     clientWebSocketSession = this
 
                     /**
@@ -93,8 +92,8 @@ object DoKitMcClient {
                                     //连接成功的返回信息
                                     when (wsEvent.eventType) {
 
-                                        WSEType.WSE_CONNECTED -> {
-                                            val mHostInfo = GsonUtils.fromJson<HostInfo>(wsEvent.commParams?.get("hostInfo"), HostInfo::class.java)
+                                        EventType.WSE_CONNECTED -> {
+                                            val mHostInfo = GsonUtils.fromJson<HostInfo>(wsEvent.params?.get("hostInfo"), HostInfo::class.java)
                                             callBack(CONNECT_SUCCEED, mHostInfo)
                                             mHostInfo.let {
                                                 ToastUtils.showShort("已经连接到${it.deviceName}主机")
@@ -103,7 +102,7 @@ object DoKitMcClient {
                                         /**
                                          * 主机断开
                                          */
-                                        WSEType.WSE_HOST_CLOSE -> {
+                                        EventType.WSE_HOST_CLOSE -> {
                                             doKitGlobalScope.launch {
                                                 DoKitMcClient.close()
                                             }
@@ -122,7 +121,7 @@ object DoKitMcClient {
                                             }
                                         }
 
-                                        WSEType.WSE_TEST -> {
+                                        EventType.WSE_TEST -> {
                                             LogHelper.e(WSClientProcessor.TAG, "WSE_TEST wsEvent=$wsEvent")
                                         }
                                         else -> {
@@ -161,15 +160,15 @@ object DoKitMcClient {
     suspend fun close() {
         try {
             send(
-                WSEvent(
-                    WSMode.CLIENT,
-                    WSEType.WSE_CLOSE,
+                ControlEvent(
+                    "",
+                    EventType.WSE_CLOSE,
                     mutableMapOf("command" to "bye"),
                     null
                 )
             )
             clientWebSocketSession?.close()
-            DoKitManager.WS_MODE = WSMode.UNKNOW
+            DoKitTestManager.WS_MODE = TestMode.UNKNOW
             DokitMcConnectManager.currentClientHistory = null
         } catch (e: Exception) {
             e.printStackTrace()
@@ -178,7 +177,7 @@ object DoKitMcClient {
     }
 
 
-    fun send(wsEvent: WSEvent) {
+    fun send(wsEvent: ControlEvent) {
         clientWebSocketSession?.let {
             CoroutineScope(it.coroutineContext).launch {
                 if (it.isActive) {

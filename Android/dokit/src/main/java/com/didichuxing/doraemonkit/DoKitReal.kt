@@ -32,7 +32,6 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.*
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 /**
@@ -478,6 +477,14 @@ object DoKitReal {
             "param" to param
         )
         DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(map)
+    }
+
+    fun getMode(): String {
+        val map = mapOf(
+            "action" to "mc_mode"
+        )
+        val result = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(map)
+        return result?.get("mode") as String
     }
 
     /**

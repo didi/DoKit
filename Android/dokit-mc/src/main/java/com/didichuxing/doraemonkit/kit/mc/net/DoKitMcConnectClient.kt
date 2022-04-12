@@ -1,14 +1,17 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
 import android.text.TextUtils
+import com.didichuxing.doraemonkit.connect.data.LoginData
+import com.didichuxing.doraemonkit.connect.data.PackageType
+import com.didichuxing.doraemonkit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.constant.WSEType
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.mc.ability.WSEventProcessor
-import com.didichuxing.doraemonkit.kit.mc.all.*
-import com.didichuxing.doraemonkit.kit.mc.all.DokitMcConnectManager
-import com.didichuxing.doraemonkit.kit.mc.mock.proxy.McProxyManager
-import com.didichuxing.doraemonkit.kit.mc.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.test.TestMode
+import com.didichuxing.doraemonkit.kit.test.all.*
+import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.mock.proxy.McProxyManager
+import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
+import com.didichuxing.doraemonkit.kit.test.event.EventType
+import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -78,7 +81,7 @@ object DoKitMcConnectClient {
 
                     onConnectSuccess(connectSerial)
                     DokitMcConnectManager.connectMode = ConnectMode.CONNECT
-                    DoKitManager.WS_MODE = WSMode.CLIENT
+                    DoKitTestManager.WS_MODE = TestMode.CLIENT
 
                     clientWebSocketSession?.let {
                         CoroutineScope(it.coroutineContext).launch {
@@ -115,9 +118,9 @@ object DoKitMcConnectClient {
             is Frame.Text -> {
                 val packageText = it.readText()
                 LogHelper.json(TAG, packageText)
-                val text = GsonUtils.fromJson<WSPackage>(
+                val text = GsonUtils.fromJson<TextPackage>(
                     packageText,
-                    WSPackage::class.java
+                    TextPackage::class.java
                 )
                 if (text?.type != null) {
                     when (text.type) {
@@ -177,17 +180,17 @@ object DoKitMcConnectClient {
 
     private suspend fun process(serverInfo: String) {
         val wsEvent =
-            GsonUtils.fromJson<WSEvent>(
+            GsonUtils.fromJson<ControlEvent>(
                 serverInfo,
-                WSEvent::class.java
+                ControlEvent::class.java
             )
         //连接成功的返回信息
-        if (wsEvent.eventType == WSEType.WSE_CONNECTED) {
+        if (wsEvent.eventType == EventType.WSE_CONNECTED) {
 
         }
 
         //断开连接
-        if (wsEvent.eventType == WSEType.WSE_CLOSE) {
+        if (wsEvent.eventType == EventType.WSE_CLOSE) {
 
         }
 
@@ -209,7 +212,7 @@ object DoKitMcConnectClient {
     }
 
 
-    fun send(wsEvent: WSEvent) {
+    fun send(wsEvent: ControlEvent) {
         clientWebSocketSession?.let {
             CoroutineScope(it.coroutineContext).launch {
                 if (it.isActive) {

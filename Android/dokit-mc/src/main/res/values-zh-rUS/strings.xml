@@ -9,4 +9,6 @@
     <string name="dk_kit_multi_control_list">Case List</string>
     <string name="dokit_access_desc">DoKit Access</string>
 
+    <string name="dk_kit_multi_control_test">MultiControl *</string>
+
 </resources>
