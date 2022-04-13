@@ -4,7 +4,6 @@ import {
 import {
   guid,completionUrlProtocol
 } from './utils'
-// import moment from 'moment'
 const getAllResponseHeadersMap = function (xhr) {
   let headers = xhr.getAllResponseHeaders();
   let arr = headers.trim().split(/[\r\n]+/);
@@ -125,7 +124,7 @@ export class Request extends EventEmitter {
         if(Req.multiControlhookConfig?.isOriginSend){
           Req.multiControlhookConfig?.isOriginSend.apply(this, [originSend,...arguments]);
         }else{
-          originSend.apply(this, arg);
+          originSend.apply(this, arguments);
         }
       } catch (error) {
         console.log(error)

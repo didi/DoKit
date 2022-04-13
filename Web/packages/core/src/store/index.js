@@ -15,6 +15,10 @@ const store = new Store({
     mcClientWaitRequestQueue:[],
     mcHostWaitRequestQueue:[],
     mcHostWaitResponseQueue:[],
+    mcClientWaitFetchRequestQueue:[],
+    mcHostWaitFetchRequestQueue:[],
+    mcHostWaitFetchResponseQueue:[],
+    isNative:false,
   }
 })
 

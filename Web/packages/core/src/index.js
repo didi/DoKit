@@ -79,8 +79,17 @@ export class Dokit {
       Store.state.socketConnect = true;
     }
   }
+
   stopMultiControl(){
     Store.state.socketConnect = false;
+  }
+
+  isNativeContainer(){
+    if(!Store.state.socketConnect){
+      Store.state.isNative = true;
+      let nativeConnectSerial = localStorage.getItem('nativeConnectSerial')
+      nativeConnectSerial&&(Store.state.connectSerial = nativeConnectSerial)
+    }
   }
 }
 

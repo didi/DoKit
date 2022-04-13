@@ -18,6 +18,9 @@ export default class EventPlayback {
                     if (msg.type === "LOGIN") {
                         data = JSON.parse(msg.data)
                         this.state.connectSerial = data.connectSerial
+                        if(this.state.isNative){
+                            localStorage.setItem('nativeConnectSerial', data.connectSerial)
+                        }
                     } else if (msg.type === "BROADCAST") {
                         data = JSON.parse(msg.data)
                         if (msg.contentType === 'action') {

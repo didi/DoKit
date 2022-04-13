@@ -290,7 +290,7 @@ export default class EventRecorder {
       const msg = {
         eventId: uuid(),
         eventType:'VIEW_COMMON_EVENT',
-        dateTime: moment(dateTime).format("YYYY-MM-DD HH:mm:ss"),
+        dateTime: moment(dateTime).format("YYYY-MM-DD HH:mm:ss.SSS"),
         diffTime:this.state.actionTime?(dateTime - this.state.actionTime):0,
         params:{},
         viewC12c:{

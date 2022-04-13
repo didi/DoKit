@@ -83,7 +83,7 @@ export default {
           this.eventPlayback?.state?.mySocket?.webSocketState&&this.eventPlayback.state.mySocket.send({
             type: "BROADCAST",
             contentType:'mc_host',
-            channelSerial: this.state.channelSerial,
+            channelSerial: this.channelSerial,
             data: JSON.stringify({
               connectSerial: this.eventPlayback.state.connectSerial,
             }),

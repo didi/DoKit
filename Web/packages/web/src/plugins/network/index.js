@@ -19,6 +19,7 @@ export default new RouterPlugin({
     })
 
     request.on('REQUEST.DONE', info => {
+      console.log('REQUEST.DONE',info)
       let index = state.requestList.findIndex(e => e.id === info.id)
       let recorderIndex = state.recorderRequestList.findIndex(e => e.id === info.id)
       state.requestList[index].responseInfo = info.responseInfo
@@ -26,6 +27,7 @@ export default new RouterPlugin({
     })
 
     request.on('REQUEST.ERROR', info => {
+      console.log('REQUEST.ERROR',info)
       let index = state.requestList.findIndex(e => e.id === info.id)
       let recorderIndex = state.recorderRequestList.findIndex(e => e.id === info.id)
       state.requestList[index].responseInfo = {...state.requestList[index].responseInfo, ...info.responseInfo}

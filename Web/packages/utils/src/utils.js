@@ -1,3 +1,5 @@
+
+import {EventEmitter} from './eventEmiter'
 export const isObject = function (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
@@ -33,6 +35,8 @@ export const getQueryMap = (queryStr) => {
   });
   return queryMap
 }
+
+export const $bus = new EventEmitter()
 
 export const guid = function () {
   function S4() {

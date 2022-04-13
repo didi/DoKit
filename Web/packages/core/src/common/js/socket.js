@@ -4,6 +4,9 @@ import {
 import {
     getCurrentInstance
 } from 'vue';
+import {
+    $bus,
+  } from '@dokit/web-utils'
 export default class Socket {
     constructor(url) {
         this.instance = getCurrentInstance();
@@ -23,6 +26,7 @@ export default class Socket {
         this.init();
         if (this.socket) {
             this.onopen(() => {
+                this.state = getGlobalData();
                 this.webSocketState = true
                 this.send({
                     type: 'LOGIN',
@@ -32,12 +36,17 @@ export default class Socket {
                         connectSerial: this.state.connectSerial || undefined
                     })
                 })
+                $bus.emit("webSocketState")
                 this.startHeartBeat(this.heartBeat.time) // 心跳机制
             })
             this.onerror((e) => {
+                console.log(e);
                 this.webSocketState = false
+                this.socket = null
+                this.state.socketConnect = false
             })
             this.onclose((e) => {
+                console.log(e)
                 this.socket = null
                 this.state.socketConnect = false
                 this.webSocketState = false
