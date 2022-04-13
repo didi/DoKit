@@ -96,20 +96,6 @@ export default new RouterPlugin({
             headerMap[header] = value;
           })
           xhr.reqConf.headerMap = headerMap
-          console.log('socketConnect',state.socketConnect)
-          console.log('isHost',state.isHost)
-          console.log('webSocketState',state?.mySocket?.webSocketState)
-          console.log('headerMap',headerMap)
-          console.log('pid',xhr?.reqConf?.pid)
-          console.log('did',xhr?.reqConf?.did)
-          console.log('responseContentType',xhr?.reqConf?.headerMap['Content-Type']||xhr?.reqConf?.headerMap['content-type']||'')
-          console.log('responseBody',xhr?.response)
-          console.log('responseCode',xhr?.status)
-          console.log('image',(xhr?.reqConf?.headerMap['Content-Type']||xhr?.reqConf?.headerMap['content-type'])?.indexOf('image/') >= 0 ? true:false)
-          console.log('headersString',headers)
-          console.log('xhrKey', Object.keys(xhr))
-          console.log('responseXML', xhr?.responseXML)
-          console.log('resRaw',xhr?.reqConf?.responseInfo?.resRaw)
           if (state.socketConnect) {
             if (state.isHost) {
               let data = {
