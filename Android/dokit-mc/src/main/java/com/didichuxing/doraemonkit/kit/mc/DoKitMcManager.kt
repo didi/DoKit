@@ -5,14 +5,11 @@ import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.OnActionEventListener
 import com.didichuxing.doraemonkit.kit.test.event.monitor.CustomEventMonitor
-import com.didichuxing.doraemonkit.kit.test.event.monitor.TcpMessageEventMonitor
-import com.didichuxing.doraemonkit.kit.test.mock.McNetMockInterceptor
-import com.didichuxing.doraemonkit.kit.test.mock.McTcpMessageProcessor
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
-import com.didichuxing.doraemonkit.kit.test.mock.MockProxyDataClient
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.test.mock.ProxyMockCallback
+import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
@@ -62,15 +59,12 @@ object DoKitMcManager {
 
     var MC_CASE_ID: String = ""
 
-    var mcNetMockInterceptor: McNetMockInterceptor? = null
-
-    var mcTcpMessageProcessor: McTcpMessageProcessor? = null
 
     var WS_MODE: TestMode = TestMode.UNKNOW
 
     var CONNECT_MODE: TestMode = TestMode.UNKNOW
 
-    var currentActionId = IdentityUtils.createAid()
+    var currentActionId = RandomIdentityUtils.createAid()
 
     var sp: SPUtils = SPUtils.getInstance(NAME_DOKIIT_MC_CONFIGALL)
 
@@ -83,7 +77,7 @@ object DoKitMcManager {
             }
         })
 
-        MockManager.mockProxyDataClient = object :MockProxyDataClient{
+        MockManager.proxyMockCallback = object :ProxyMockCallback{
             override fun send(data: String) {
                 DoKitMcConnectClient.sendDataProxy(data)
             }
@@ -119,37 +113,10 @@ object DoKitMcManager {
         CustomEventMonitor.onCustomEvent(eventType, view, param)
     }
 
-    fun hookTcpSendMessageEvent(message: String): Boolean {
-        //从机收发都拦截不处理
-        if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
-            return true
-        }
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            TcpMessageEventMonitor.onMessageEvent("send", message)
-        }
-        return false
-    }
-
-    fun hookTcpReceiveMessageEvent(message: String): Boolean {
-        //从机收发都拦截不处理
-        if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
-            return true
-        }
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            TcpMessageEventMonitor.onMessageEvent("receive", message)
-        }
-        return false
-    }
-
-    fun onTcpMessageEvent(type: String, message: String) {
-        if (mcTcpMessageProcessor != null) {
-            mcTcpMessageProcessor?.onTcpMessageEvent(type, message)
-        }
-    }
 
     fun updateActionId(id: String) {
         if (id.isNullOrEmpty()) {
-            currentActionId = IdentityUtils.createAid()
+            currentActionId = RandomIdentityUtils.createAid()
         } else {
             currentActionId = id
         }

@@ -5,7 +5,7 @@ import com.didichuxing.doraemonkit.kit.test.event.ActionEventManager
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.util.DateTime
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -21,12 +21,14 @@ object TcpMessageEventMonitor {
      */
     fun onMessageEvent(eventType: String, message: String = "") {
         val viewC12c = createViewC12c(eventType, message)
-        val actionId = IdentityUtils.createAid()
+        val actionId = RandomIdentityUtils.createAid()
         val wsEvent = ControlEvent(
             actionId,
             EventType.WSE_TCP_EVENT,
             mutableMapOf(
-                "activityName" to ActivityUtils.getTopActivity()::class.tagName
+                "activityName" to ActivityUtils.getTopActivity()::class.tagName,
+                "eventType" to eventType,
+                "message" to message
             ),
             viewC12c,
             DateTime.nowTime()
@@ -38,9 +40,7 @@ object TcpMessageEventMonitor {
     private fun createViewC12c(eventType: String, message: String): ViewC12c {
         var viewRootImplIndex: Int = -1
         return ViewC12c(
-            customEventType = eventType,
-            customParams = message,
-            viewRootImplIndex = viewRootImplIndex,
+            windowIndex = viewRootImplIndex,
             viewPaths = mutableListOf(),
             text = ""
         )

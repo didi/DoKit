@@ -5,16 +5,17 @@ object MockManager {
 
     var MC_CASE_ID: String = ""
 
-    var mcNetMockInterceptor: McNetMockInterceptor? = null
+    var httpMockInterceptor: HttpMockInterceptor? = null
 
-    var mcTcpMessageProcessor: McTcpMessageProcessor? = null
-
-    var mockProxyDataClient: MockProxyDataClient? = null
+    var proxyMockCallback: ProxyMockCallback? = null
 
 
     fun sendDataProxy(data: String) {
-        mockProxyDataClient?.let {
+        proxyMockCallback?.let {
             it.send(data)
         }
     }
+
+
+
 }

@@ -1,17 +1,16 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
 import android.text.TextUtils
-import com.didichuxing.doraemonkit.connect.data.LoginData
-import com.didichuxing.doraemonkit.connect.data.PackageType
-import com.didichuxing.doraemonkit.connect.data.TextPackage
+import com.didichuxing.doraemonkit.kit.connect.data.LoginData
+import com.didichuxing.doraemonkit.kit.connect.data.PackageType
+import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.test.TestMode
-import com.didichuxing.doraemonkit.kit.test.all.*
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.McProxyManager
+import com.didichuxing.doraemonkit.kit.test.mock.proxy.ProxyMockManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -141,7 +140,7 @@ object DoKitMcConnectClient {
                             LogHelper.e(TAG, "client handle notify===>${text.data}")
                         }
                         PackageType.BROADCAST -> {
-                            if (TextUtils.equals(text.pid, "001")) {
+                            if (TextUtils.equals(text.contentType, "mc_host")) {
                                 DokitMcConnectManager.changeClientMode()
                             } else {
                                 val serverInfo = text.data
@@ -154,7 +153,7 @@ object DoKitMcConnectClient {
                             }
                         }
                         PackageType.DATA -> {
-                            McProxyManager.dispatch(packageText)
+                            ProxyMockManager.dispatch(packageText)
                         }
                     }
                 }
@@ -237,7 +236,7 @@ object DoKitMcConnectClient {
         clientWebSocketSession?.let {
             CoroutineScope(it.coroutineContext).launch {
                 if (it.isActive) {
-                    val wsPackage = WSPackageUtils.toPackageJson("001", PackageType.BROADCAST, "")
+                    val wsPackage = WSPackageUtils.toModePackageJson(PackageType.BROADCAST, "mc_host")
                     it.outgoing.send(Frame.Text(wsPackage))
                 }
             }
@@ -269,7 +268,7 @@ object DoKitMcConnectClient {
                         "${pi.versionName}"
                     )
                     val data = GsonUtils.toJson(loginData)
-                    it.outgoing.send(Frame.Text(WSPackageUtils.toPackageJson("000", PackageType.LOGIN, data)))
+                    it.outgoing.send(Frame.Text(WSPackageUtils.toPackageJson(PackageType.LOGIN, data)))
                 }
             }
         }

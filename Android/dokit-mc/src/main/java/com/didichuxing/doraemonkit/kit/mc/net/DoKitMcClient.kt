@@ -5,13 +5,12 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.test.event.WSClientProcessor
-import com.didichuxing.doraemonkit.kit.test.all.*
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
-import com.didichuxing.doraemonkit.kit.mc.ui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*

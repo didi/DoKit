@@ -26,21 +26,18 @@ object CustomEventProcessor {
                 DoKitManager.MC_CLIENT_PROCESSOR?.process(
                     ActivityUtils.getTopActivity(),
                     null,
-                    viewC12c.customEventType,
-                    GsonUtils.fromJson(
-                        viewC12c.customParams,
-                        Map::class.java
-                    ) as Map<String, String>
+                    viewC12c.actionName,
+                    viewC12c.params
                 )
                 return
             }
 
-            if (McXposedHookUtils.ROOT_VIEWS == null || viewC12c.viewRootImplIndex == -1) {
+            if (McXposedHookUtils.ROOT_VIEWS == null || viewC12c.windowIndex == -1) {
                 LogHelper.e(WSClientProcessor.TAG, "匹配控件失败，请手动操作 wsEvent===>$wsEvent")
                 ToastUtils.showShort("匹配控件失败，请手动操作")
                 return
             }
-            var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(McXposedHookUtils.ROOT_VIEWS, viewC12c.viewRootImplIndex)
+            var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(McXposedHookUtils.ROOT_VIEWS, viewC12c.windowIndex)
             viewRootImpl?.let {
                 val decorView: ViewGroup =
                     ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
@@ -51,22 +48,16 @@ object CustomEventProcessor {
                     DoKitManager.MC_CLIENT_PROCESSOR?.process(
                         ActivityUtils.getTopActivity(),
                         target,
-                        viewC12c.customEventType,
-                        GsonUtils.fromJson(
-                            viewC12c.customParams,
-                            Map::class.java
-                        ) as Map<String, String>
+                        viewC12c.actionName,
+                        viewC12c.params
                     )
                 } ?: run {
                     //执行自定义事件
                     DoKitManager.MC_CLIENT_PROCESSOR?.process(
                         ActivityUtils.getTopActivity(),
                         null,
-                        viewC12c.customEventType,
-                        GsonUtils.fromJson(
-                            viewC12c.customParams,
-                            Map::class.java
-                        ) as Map<String, String>
+                        viewC12c.actionName,
+                        viewC12c.params
                     )
                     ToastUtils.showShort("匹配控件失败，请手动操作")
                 }
@@ -75,11 +66,9 @@ object CustomEventProcessor {
                 DoKitManager.MC_CLIENT_PROCESSOR?.process(
                     ActivityUtils.getTopActivity(),
                     null,
-                    viewC12c.customEventType,
-                    GsonUtils.fromJson(
-                        viewC12c.customParams,
-                        Map::class.java
-                    ) as Map<String, String>
+                    viewC12c.actionName,
+                    viewC12c.params
+
                 )
                 ToastUtils.showShort("无法确定当前控件所属窗口")
             }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical"
+    android:padding="@dimen/dk_dp_10">
+
+    <View
+        android:id="@+id/state_dot"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignBottom="@+id/tv_name"
+        android:layout_marginBottom="4dp"
+        android:layout_toRightOf="@+id/tv_name"
+        android:background="@drawable/dk_dokitview_mc_connect"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dk_dp_10"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="主机名称:10.10.0.33" />
+
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="@dimen/dk_dp_10"
+        android:layout_marginRight="@dimen/dk_dp_98"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="地址:2222222222222222222222222222222222222222222222222" />
+
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address"
+        android:layout_marginTop="@dimen/dk_dp_10"
+        android:textColor="@color/dk_color_666666"
+        android:textSize="12sp"
+        tools:text="上次连接时间:" />
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="连接" />
+
+</RelativeLayout>

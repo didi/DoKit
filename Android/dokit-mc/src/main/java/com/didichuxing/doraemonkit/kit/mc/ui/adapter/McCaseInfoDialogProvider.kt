@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.ui.adapter
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.didichuxing.doraemonkit.kit.test.mock.CaseInfo
+import com.didichuxing.doraemonkit.kit.test.mock.data.CaseInfo
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider

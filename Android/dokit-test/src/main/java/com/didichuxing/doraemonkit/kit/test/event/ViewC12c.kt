@@ -1,24 +1,30 @@
 package com.didichuxing.doraemonkit.kit.test.event
 
 /**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/12/8-16:13
- * 描    述：View的特征
- * 修订历史：
- * ================================================
+ * didi Create on 2022/4/13 .
+ *
+ * Copyright (c) 2022/4/13 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/13 3:07 下午
+ * @Description 用一句话说明文件功能
  */
-
 data class ViewC12c(
-
-    val actionType: Int = -9999,
-    val actionName: String = "",
-    val customEventType: String = "",
-    val customParams: String = "",
-    val viewRootImplIndex: Int = -1,
+    val actionType: ActionType = ActionType.UNKNOWN,
+    val actionName: String = ActionType.UNKNOWN.getDesc(),
+    val params: Map<String, String> = mutableMapOf(),
+    val windowIndex: Int = -1,
+    val viewPath: String = "",
     val viewPaths: MutableList<SystemViewNode>? = null,
+    val accEventType: Int = -1,
     val accEventInfo: AccessibilityEventNode? = null,
     var text: String? = "",
-    val dokitViewPosInfo: DoKitViewNode? = null
+    var touchX: Long = -1,
+    var touchY: Long = -1,
+    var scrollX: Long = -1,
+    var scrollY: Long = -1,
+    var inputValue: String = "",
+    var position: Position? = null,
+    val doKitViewNode: DoKitViewNode? = null
 )

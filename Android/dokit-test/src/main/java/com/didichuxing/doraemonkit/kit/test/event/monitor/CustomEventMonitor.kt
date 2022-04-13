@@ -9,11 +9,10 @@ import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.ActivityUtils
-import com.didichuxing.doraemonkit.util.GsonUtils
 
 object CustomEventMonitor {
 
@@ -25,7 +24,7 @@ object CustomEventMonitor {
      */
     fun onCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
         val viewC12c = createViewC12c(view, eventType, param)
-        val actionId = IdentityUtils.createAid()
+        val actionId = RandomIdentityUtils.createAid()
         val wsEvent = ControlEvent(
             actionId,
             EventType.WSE_CUSTOM_EVENT,
@@ -58,13 +57,9 @@ object CustomEventMonitor {
         }
 
         return ViewC12c(
-            customEventType = eventType,
-            customParams = if (param == null) {
-                "{}"
-            } else {
-                GsonUtils.toJson(param)
-            },
-            viewRootImplIndex = viewRootImplIndex,
+            actionName = eventType,
+            params = param ?: mutableMapOf(),
+            windowIndex = viewRootImplIndex,
             viewPaths = if (view != null) {
                 ViewPathUtil.createViewPathOfWindow(view)
             } else {

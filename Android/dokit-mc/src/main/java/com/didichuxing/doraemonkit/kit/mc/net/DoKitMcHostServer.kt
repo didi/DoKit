@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.net
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*

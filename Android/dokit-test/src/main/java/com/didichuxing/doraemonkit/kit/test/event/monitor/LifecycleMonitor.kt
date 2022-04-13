@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ActionEventManager
 import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.util.DateTime
 
@@ -30,7 +30,7 @@ class LifecycleMonitor : DokitLifecycleInterface {
 
     override fun onBackPressed(activity: Activity) {
         if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            val actionId = IdentityUtils.createAid()
+            val actionId = RandomIdentityUtils.createAid()
             val wsEvent = ControlEvent(
                 actionId,
                 EventType.ACTIVITY_BACK_PRESSED,
@@ -49,7 +49,7 @@ class LifecycleMonitor : DokitLifecycleInterface {
 
     override fun onForeground(className: String) {
         if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            val actionId = IdentityUtils.createAid()
+            val actionId = RandomIdentityUtils.createAid()
             val wsEvent = ControlEvent(
                 actionId,
                 EventType.APP_ON_FOREGROUND,
@@ -67,7 +67,7 @@ class LifecycleMonitor : DokitLifecycleInterface {
 
     override fun onBackground() {
         if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            val actionId = IdentityUtils.createAid()
+            val actionId = RandomIdentityUtils.createAid()
             val wsEvent = ControlEvent(
                 actionId,
                 EventType.APP_ON_BACKGROUND,

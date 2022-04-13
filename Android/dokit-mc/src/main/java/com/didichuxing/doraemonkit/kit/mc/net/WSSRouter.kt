@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
-import com.didichuxing.doraemonkit.kit.test.util.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.application.*
 import io.ktor.features.*

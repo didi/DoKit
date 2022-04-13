@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.client.DoKitMcClientFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.client.DoKitMcClientHistoryFragment
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientFragment
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientHistoryFragment
 import com.didichuxing.doraemonkit.kit.mc.ui.connect.DoKitMcConnectFragment
 import com.didichuxing.doraemonkit.kit.mc.ui.connect.DoKitMcConnectHistoryFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.host.DoKitMcHostFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.main.DoKitMcMainFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.record.DoKitMcDatasFragment
+import com.didichuxing.doraemonkit.kit.mc.oldui.host.DoKitMcHostFragment
+import com.didichuxing.doraemonkit.kit.mc.oldui.main.DoKitMcMainFragment
+import com.didichuxing.doraemonkit.kit.mc.oldui.record.DoKitMcDatasFragment
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 

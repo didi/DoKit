@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.kit.test.event.DoKitViewNode
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.IdentityUtils
+import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.test.util.DateTime
 import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
 import com.didichuxing.doraemonkit.kit.test.util.WindowPathUtil
@@ -85,7 +85,7 @@ object AccessibilityEventMonitor {
         if (DoKitTestManager.WS_MODE != TestMode.HOST) {
             return null
         }
-        val actionId = IdentityUtils.createAid()
+        val actionId = RandomIdentityUtils.createAid()
         val viewC12c: ViewC12c = createViewC12c(view, accessibilityEvent)
         val wsEvent = ControlEvent(
             actionId,
@@ -117,8 +117,8 @@ object AccessibilityEventMonitor {
             }
         }
         return ViewC12c(
-            actionType = acc.eventType,
-            viewRootImplIndex = viewRootImplIndex,
+            accEventType = acc.eventType,
+            windowIndex = viewRootImplIndex,
             viewPaths = ViewPathUtil.createViewPathOfWindow(view),
             accEventInfo = transformAccEventInfo(acc),
             text = if (view is TextView) {
@@ -126,7 +126,7 @@ object AccessibilityEventMonitor {
             } else {
                 ""
             },
-            dokitViewPosInfo = createDokitViewInfo(view)
+            doKitViewNode = createDokitViewInfo(view)
         )
     }
 

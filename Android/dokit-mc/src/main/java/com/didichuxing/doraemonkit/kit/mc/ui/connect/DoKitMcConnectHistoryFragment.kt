@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.utils.ConnectHistoryUtils
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
-import com.didichuxing.doraemonkit.connect.data.LoginData
+import com.didichuxing.doraemonkit.kit.connect.data.LoginData
 import com.didichuxing.doraemonkit.kit.mc.ui.*
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McClientHistoryAdapter

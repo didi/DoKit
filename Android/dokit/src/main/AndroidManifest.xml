@@ -49,6 +49,10 @@
             android:name=".zxing.activity.CaptureActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".kit.connect.DoKitScanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
 
         <provider
             android:name=".DebugFileProvider"

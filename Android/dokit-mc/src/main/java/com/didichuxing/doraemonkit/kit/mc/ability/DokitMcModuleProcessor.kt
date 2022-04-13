@@ -6,11 +6,13 @@ import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleMonitor
 import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
-import com.didichuxing.doraemonkit.kit.mc.ui.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.test.mock.http.DokitMcInterceptor
-import com.didichuxing.doraemonkit.kit.mc.ui.host.HostDokitView
-import com.didichuxing.doraemonkit.kit.mc.ui.record.RecordingDokitView
-import com.didichuxing.doraemonkit.kit.test.mock.http.DokitMcProxyInterceptor
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitMockInterceptor
+import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.TestMode
+import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
 import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
@@ -28,8 +30,8 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
-            "okhttp_interceptor" to DokitMcInterceptor(),
-            "okhttp_proxy_interceptor" to DokitMcProxyInterceptor(),
+            "okhttp_interceptor" to DoKitMockInterceptor(),
+            "okhttp_proxy_interceptor" to DoKitProxyMockInterceptor(),
             "lifecycle" to LifecycleMonitor()
         )
     }
@@ -59,7 +61,14 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         }
                     }
                     "mc_mode" -> {
-                        return mapOf(Pair("mode", ""))
+                        val mode = if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+                            "host"
+                        } else if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
+                            "client"
+                        } else {
+                            "unknown"
+                        }
+                        return mapOf(Pair("mode", mode))
                     }
                     "mc_custom_event" -> {
                         DoKitMcManager.sendCustomEvent(

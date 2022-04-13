@@ -34,12 +34,12 @@ object AccessibilityEventProcessor {
         }
 
         wsEvent.viewC12c?.let { viewC12c ->
-            if (McXposedHookUtils.ROOT_VIEWS == null || viewC12c.viewRootImplIndex == -1) {
+            if (McXposedHookUtils.ROOT_VIEWS == null || viewC12c.windowIndex == -1) {
                 LogHelper.e(WSClientProcessor.TAG, "无法确定当前控件所属窗口/索引 wsEvent=$wsEvent")
                 ToastUtils.showShort("无法确定当前控件所属窗口/索引")
                 return
             }
-            var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(McXposedHookUtils.ROOT_VIEWS, viewC12c.viewRootImplIndex)
+            var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(McXposedHookUtils.ROOT_VIEWS, viewC12c.windowIndex)
 
             viewRootImpl?.let {
                 val decorView: ViewGroup =
@@ -69,7 +69,7 @@ object AccessibilityEventProcessor {
      * 通用的处理方式
      */
     private fun comm(viewC12c: ViewC12c, target: View) {
-        when (viewC12c.actionType) {
+        when (viewC12c.accEventType) {
             //单击
             AccessibilityEvent.TYPE_VIEW_CLICKED -> {
                 if (target is Switch) {
@@ -146,9 +146,9 @@ object AccessibilityEventProcessor {
                     val layoutParams: FrameLayout.LayoutParams =
                         target.layoutParams as FrameLayout.LayoutParams
                     layoutParams.leftMargin =
-                        viewC12c.dokitViewPosInfo?.leftMargin!!
+                        viewC12c.doKitViewNode?.leftMargin!!
                     layoutParams.topMargin =
-                        viewC12c.dokitViewPosInfo.topMargin
+                        viewC12c.doKitViewNode.topMargin
                     target.layoutParams = layoutParams
                 }
 

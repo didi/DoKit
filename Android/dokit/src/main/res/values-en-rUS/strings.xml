@@ -364,5 +364,6 @@
     <string name="dk_file_manager_sd_permission_tip">Your current targetSdkVersion>=29, please add android:requestLegacyExternalStorage="true" under the application of AndroidManifest.xml to solve the problem that the SD card does not have permission</string>
     <!-- h5助手-->
     <string name="dk_kit_h5_help">H5 Helper</string>
-    <string name="dk_kit_dokit_for_web">Dokit Web</string>
+    <string name="dk_kit_dokit_for_web">DoKit Web</string>
+    <string name="dk_kit_dokit_studio">DoKit Studio</string>
 </resources>
