@@ -3,17 +3,18 @@ ext {
         //0:发布到到本地localRepoURL仓库
         //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
         //2:发布到maven_central远程仓库
-        archives_type: 0,
+        archives_type: 1,
         //0:依赖dokit本地module运行
         //1:依赖dokit远程aar运行
         run_type     : 0,
         //0:外部公共环境
         //1:内部私有环境，使用私有仓库构建，仓库地址在 local.properties 中添加 PRIVATE_REPOSITORY_URL
-        run_env      : 0,
+        run_env      : 1,
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
-        use_local    : false,
+        use_local    : true,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.6.0'
+        version      : '3.6.0.7'
+
     ]
 
     android = [compileSdkVersion             : 29,
@@ -31,7 +32,7 @@ ext {
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
                booster_version               : "4.0.0",
-               agp_module_verson             : "7.0.0",
+               agp_module_verson             : "4.2.2",
                agp_plugin_verson             : "4.2.2",
                ktor                          : "1.5.4",
                okhttp_v2                     : "2.7.5",
@@ -157,9 +158,11 @@ ext {
                     "flexbox"                       : 'com.google.android:flexbox:1.0.0',
                     "auto_service"                  : 'com.google.auto.service:auto-service:1.0',
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
-                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.0',
-                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.0',
-                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.0',
+                    "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.1',
+                    "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.1',
+                    "sandhook_xposedcompat"         : 'com.swift.sandhook:xposedcompat:4.2.1',
+                    "epic"                          : 'me.weishu:epic:0.11.1',
+//                    "epic"                          : 'com.github.tiann:epic:0.11.2',
 
     ]
     //定义全局方法
@@ -167,7 +170,8 @@ ext {
         String version = publish_config["version"]
         //分割字符串
         String[] vs = version.split("\\.")
-        return vs.length == 3
+//        return vs.length == 3
+        return false
     }
 
     usePrivateEnv = {

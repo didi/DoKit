@@ -63,9 +63,11 @@ dependencies {
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["zxing"]
 
-    implementation rootProject.ext.dependencies["sandhook_hooklib"]
-    implementation rootProject.ext.dependencies["sandhook_nativehook"]
-    implementation rootProject.ext.dependencies["sandhook_xposedcompat"]
+    implementation rootProject.ext.dependencies["epic"]
+
+//    implementation rootProject.ext.dependencies["sandhook_hooklib"]
+//    implementation rootProject.ext.dependencies["sandhook_nativehook"]
+//    implementation rootProject.ext.dependencies["sandhook_xposedcompat"]
 
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
@@ -75,10 +77,11 @@ dependencies {
     implementation rootProject.ext.dependencies["ktor_client_cio"]
     //备用客户端websocket引擎
     compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
-    compileOnly project(':dokit-util')
-    compileOnly project(':dokit-okhttp-api')
+    implementation project(':dokit-util')
+    implementation project(':dokit-okhttp-api')
     //此处需要使用api的形式 向上暴露内部api
     implementation project(':dokit')
+    implementation project(':dokit-test')
     //okhttp wrap
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]

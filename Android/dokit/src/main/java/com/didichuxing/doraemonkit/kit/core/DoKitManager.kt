@@ -4,7 +4,6 @@ import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
@@ -147,6 +146,18 @@ object DoKitManager {
     var H5_VCONSOLE_INJECT = false
 
     /**
+     * h5 dokit for web 注入代码开关
+     */
+    @JvmField
+    var H5_DOKIT_MC_INJECT = false
+
+    @JvmField
+    var H5_MC_JS_INJECT_MODE = "file"
+
+    @JvmField
+    var H5_MC_JS_INJECT_URL = "http://120.55.183.20/dokit/mc/dokit.js"
+
+    /**
      * 是否允许上传统计信息
      */
     var ENABLE_UPLOAD = true
@@ -165,9 +176,10 @@ object DoKitManager {
     var CALLBACK: DoKitCallBack? = null
 
     /**
-     * 一机多控类型
+     *  一机多控地址
      */
-    var WS_MODE: WSMode = WSMode.UNKNOW
+    @JvmField
+    var MC_CONNECT_URL: String = ""
 
 
     /**

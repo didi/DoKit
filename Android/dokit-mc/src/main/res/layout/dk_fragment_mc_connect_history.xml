@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dk_dp_16"
+            android:layout_marginTop="@dimen/dk_dp_16"
+            android:layout_marginRight="@dimen/dk_dp_16"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主机模式"
+                android:textStyle="bold"
+                android:textColor="@color/dk_color_333333"
+                android:textSize="@dimen/dk_dp_18" />
+
+            <Switch
+                android:id="@+id/dokit_mode_switch_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dk_dp_40"
+                android:textOff="off"
+                android:textOn="on">
+
+            </Switch>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="100" />
+
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dk_dp_48"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="@color/dk_color_337CC4"
+            android:text="添加"
+            android:textColor="@color/dk_color_FFFFFF"
+            android:textSize="24sp"
+            android:visibility="visible" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

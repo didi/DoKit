@@ -73,9 +73,9 @@ class CommClassTransformer : AbsClassTransformer() {
                 method.instructions?.iterator()?.asIterable()
                     ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
                         it.opcode == INVOKEVIRTUAL &&
-                                it.owner == "android/location/LocationManager" &&
-                                it.name == "getGpsStatus" &&
-                                it.desc == "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;"
+                            it.owner == "android/location/LocationManager" &&
+                            it.name == "getGpsStatus" &&
+                            it.desc == "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;"
                     }?.forEach {
                         "${context.projectDir.lastPath()}->hook LocationManager#getGpsStatus method  succeed in : ${className}_${method.name}_${method.desc}".println()
                         method.instructions.insert(
@@ -189,7 +189,7 @@ class CommClassTransformer : AbsClassTransformer() {
                 //拦截注册监听器
                 klass.methods?.filter {
                     it.name == "registerLocationListener"
-                            && (it.desc == "(Lcom/baidu/location/BDLocationListener;)V" || it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V")
+                        && (it.desc == "(Lcom/baidu/location/BDLocationListener;)V" || it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V")
                 }?.forEach { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     if (methodNode.desc == "(Lcom/baidu/location/BDLocationListener;)V") {
@@ -257,9 +257,9 @@ class CommClassTransformer : AbsClassTransformer() {
                         ?.filterIsInstance(FieldInsnNode::class.java)
                         ?.filter { fieldInsnNode ->
                             fieldInsnNode.opcode == PUTFIELD
-                                    && fieldInsnNode.owner == "okhttp3/OkHttpClient"
-                                    && fieldInsnNode.name == "networkInterceptors"
-                                    && fieldInsnNode.desc == "Ljava/util/List;"
+                                && fieldInsnNode.owner == "okhttp3/OkHttpClient"
+                                && fieldInsnNode.name == "networkInterceptors"
+                                && fieldInsnNode.desc == "Ljava/util/List;"
                         }?.forEach { fieldInsnNode ->
                             it.instructions.insert(fieldInsnNode, createOkHttpClientInsnList())
                         }
@@ -278,9 +278,9 @@ class CommClassTransformer : AbsClassTransformer() {
                         ?.filterIsInstance(FieldInsnNode::class.java)
                         ?.filter { fieldInsnNode ->
                             fieldInsnNode.opcode == PUTFIELD
-                                    && fieldInsnNode.owner == "didihttp/DidiHttpClient"
-                                    && fieldInsnNode.name == "networkInterceptors"
-                                    && fieldInsnNode.desc == "Ljava/util/List;"
+                                && fieldInsnNode.owner == "didihttp/DidiHttpClient"
+                                && fieldInsnNode.name == "networkInterceptors"
+                                && fieldInsnNode.desc == "Ljava/util/List;"
                         }
                         ?.forEach { fieldInsnNode ->
                             it.instructions.insert(
@@ -292,22 +292,82 @@ class CommClassTransformer : AbsClassTransformer() {
             }
 
 
+            //hook tcp 支持tcp消息hook
+            if (className == "com.didi.daijia.tcp.message.MessageSender") {
+                klass.methods?.find {
+                    it.name == "sendMessage" && it.desc == "(Ljava/lang/String;)Z"
+                }.let {
+                    "${context.projectDir.lastPath()}->hook tcp MessageSender succeed: ${className}_${it?.name}_${it?.desc}".println()
+                    val first = it?.instructions?.first
+                    if (first != null) {
+                        it.instructions.insert(first, createMessageSenderHookInsnList())
+                    }
+                }
+            }
+            if (className == "com.didi.daijia.tcp.message.MessageReceiver") {
+                klass.methods?.find {
+                    it.name == "channelRead" && it.desc == "(Ljava/lang/Object;)V"
+                }.let {
+                    "${context.projectDir.lastPath()}->hook tcp MessageReceiver succeed: ${className}_${it?.name}_${it?.desc}".println()
+                    val first = it?.instructions?.first
+                    if (first != null) {
+                        it.instructions.insert(first, createMessageReceiverHookInsnList())
+                    }
+                }
+            }
+
+
             //webView 字节码操作
             if (DoKitExtUtil.commExt.webViewSwitch) {
                 //普通的webview
                 klass.methods.forEach { method ->
                     method.instructions?.iterator()?.asIterable()
                         ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
-                            it.opcode == INVOKEVIRTUAL &&
-                                    it.name == "loadUrl" &&
-                                    it.desc == "(Ljava/lang/String;)V" &&
-                                    isWebViewOwnerNameMatched(it.owner)
+                            if ("loadUrl".equals(it.name)) {
+                                "hook loadUrl() all ${className} ^${superName}^${it.owner} :: ${it.name} , ${it.desc} ,${it.opcode}".println()
+                            }
+                            (it.opcode == INVOKEVIRTUAL || it.opcode == INVOKESPECIAL) &&
+                                it.name == "loadUrl" &&
+                                (it.desc == "(Ljava/lang/String;)V" || it.desc == "(Ljava/lang/String;Ljava/util/Map;)V") &&
+                                isWebViewOwnerNameMatched(it.owner)
                         }?.forEach {
                             "${context.projectDir.lastPath()}->hook WebView#loadurl method  succeed in :  ${className}_${method.name}_${method.desc} | ${it.owner}".println()
-                            method.instructions.insertBefore(
-                                it,
-                                createWebViewInsnList()
-                            )
+                            if (it.desc == "(Ljava/lang/String;)V") {
+                                method.instructions.insertBefore(
+                                    it,
+                                    createWebViewInsnList()
+                                )
+                            } else {
+                                val size = method.localVariables.size
+                                val insn = with(InsnList()) {
+                                    add(VarInsnNode(ASTORE, size + 1))
+                                    add(VarInsnNode(ASTORE, size))
+                                    add(InsnNode(DUP))
+                                    add(
+                                        MethodInsnNode(
+                                            INVOKESTATIC,
+                                            "com/didichuxing/doraemonkit/aop/WebViewHook",
+                                            "inject",
+                                            "(Ljava/lang/Object;)V",
+                                            false
+                                        )
+                                    )
+                                    add(VarInsnNode(ALOAD, size))
+                                    add(
+                                        MethodInsnNode(
+                                            INVOKESTATIC,
+                                            "com/didichuxing/doraemonkit/aop/WebViewHook",
+                                            "getSafeUrl",
+                                            "(Ljava/lang/String;)Ljava/lang/String;",
+                                            false
+                                        )
+                                    )
+                                    add(VarInsnNode(ALOAD, size + 1))
+                                    this
+                                }
+                                method.instructions.insertBefore(it, insn)
+                            }
+
                         }
                 }
             }
@@ -317,9 +377,9 @@ class CommClassTransformer : AbsClassTransformer() {
                 method.instructions?.iterator()?.asIterable()
                     ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
                         it.opcode == INVOKEVIRTUAL &&
-                                it.owner == "java/net/URL" &&
-                                it.name == "openConnection" &&
-                                it.desc == "()Ljava/net/URLConnection;"
+                            it.owner == "java/net/URL" &&
+                            it.name == "openConnection" &&
+                            it.desc == "()Ljava/net/URLConnection;"
                     }?.forEach {
                         "${context.projectDir.lastPath()}->hook URL#openConnection method  succeed in : ${className}_${method.name}_${method.desc}".println()
                         method.instructions.insert(
@@ -455,9 +515,9 @@ class CommClassTransformer : AbsClassTransformer() {
 
     private fun isWebViewOwnerNameMatched(ownerName: String): Boolean {
         return ownerName == "android/webkit/WebView" ||
-                ownerName == "com/tencent/smtt/sdk/WebView" ||
-                ownerName.contentEquals("WebView") ||
-                ownerName == DoKitExtUtil.WEBVIEW_CLASS_NAME
+            ownerName == "com/tencent/smtt/sdk/WebView" ||
+            ownerName.contentEquals("WebView") ||
+            ownerName == DoKitExtUtil.WEBVIEW_CLASS_NAME
     }
 
 
@@ -1058,6 +1118,68 @@ class CommClassTransformer : AbsClassTransformer() {
     /**
      * 创建OkhttpClient一个数构造函数指令
      */
+    private fun createMessageSenderHookInsnList(): InsnList {
+        return with(InsnList()) {
+            //插入application 拦截器
+            val l0= LabelNode()
+            add(l0)
+            add(VarInsnNode(ALOAD, 0))
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/tcp/ability/MessageSenderHook",
+                    "hookSendMessage",
+                    "(Lcom/didi/daijia/tcp/message/MessageSender;Ljava/lang/Object;)Z",
+                    false
+                )
+            )
+            val l1= LabelNode()
+            add(JumpInsnNode(IFEQ,l1))
+            val l2= LabelNode()
+            add(l2)
+            add(InsnNode(ICONST_1))
+            add(InsnNode(IRETURN))
+            add(l1)
+            add(FrameNode(F_SAME,0,null,0,null))
+            this
+        }
+
+    }
+    /**
+     * 创建OkhttpClient一个数构造函数指令
+     */
+    private fun createMessageReceiverHookInsnList(): InsnList {
+        return with(InsnList()) {
+            //插入application 拦截器
+            val l0= LabelNode()
+            add(l0)
+            add(VarInsnNode(ALOAD, 0))
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/tcp/ability/MessageReceiverHook",
+                    "hookChannelRead",
+                    "(Lcom/didi/daijia/tcp/message/MessageReceiver;Ljava/lang/Object;)Z",
+                    false
+                )
+            )
+            val l1= LabelNode()
+            add(JumpInsnNode(IFEQ,l1))
+            val l2= LabelNode()
+            add(l2)
+            add(InsnNode(RETURN))
+            add(l1)
+            add(FrameNode(F_SAME,0,null,0,null))
+            this
+        }
+
+    }
+
+    /**
+     * 创建OkhttpClient一个数构造函数指令
+     */
     private fun createDidiHttpClientInsnList(): InsnList {
         return with(InsnList()) {
             //插入application 拦截器
@@ -1083,9 +1205,9 @@ class CommClassTransformer : AbsClassTransformer() {
      */
     private fun createWebViewInsnList(): InsnList {
         return with(InsnList()) {
-            //复制栈顶的2个指令 指令集变为 比如 aload 2 aload0 aload 2 aload0
+            //复制栈顶的2个指令 指令集变为 比如 aload 2 aload0 / aload 2 aload0
             add(InsnNode(DUP2))
-            //抛出最上面的指令 指令集变为 aload 2 aload0 aload 2  其中 aload 2即为我们所需要的对象
+            //抛出最上面的指令 指令集变为 aload 2 aload0 / aload 2  其中 aload 2即为我们所需要的对象
             add(InsnNode(POP))
             add(
                 MethodInsnNode(
@@ -1096,9 +1218,19 @@ class CommClassTransformer : AbsClassTransformer() {
                     false
                 )
             )
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/WebViewHook",
+                    "getSafeUrl",
+                    "(Ljava/lang/String;)Ljava/lang/String;",
+                    false
+                )
+            )
             this
         }
     }
+
 
     /**
      * 创建new DoKitAppCompatDelegateImpl指令集

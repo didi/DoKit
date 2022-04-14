@@ -21,11 +21,9 @@ interface DokitAbility {
      */
     fun moduleName(): DoKitModule
 
-//    /**
-//     *注册模块能力
-//     */
-//    fun getModuleFunctions(): Map<String, Any>
-
+    /**
+     *注册模块能力处理器
+     */
     fun getModuleProcessor(): DokitModuleProcessor
 
 

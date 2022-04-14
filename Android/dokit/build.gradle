@@ -99,6 +99,7 @@ dependencies {
     //implementation rootProject.ext.dependencies["debug-db-encrypt"]
     implementation rootProject.ext.dependencies["android_spinkit"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
+    implementation rootProject.ext.dependencies["okhttp_v3"]
     implementation rootProject.ext.dependencies["room_runtime"]
 
     implementation rootProject.ext.dependencies["jsoup"]

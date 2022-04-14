@@ -2,20 +2,20 @@ package com.didichuxing.doraemonkit.kit.mc.ability
 
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.DoKitEnv
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
-import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onClickListenerEventHook
-import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
-import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleEventMonitor
+import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitMockInterceptor
+import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.TestMode
+import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
+import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
-import com.swift.sandhook.SandHook
-import com.swift.sandhook.SandHookConfig
-import com.swift.sandhook.xposedcompat.XposedCompat
-import de.robv.android.xposed.XposedHelpers
 
 /**
  * ================================================
@@ -30,8 +30,9 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
-            "okhttp_interceptor" to DokitMcInterceptor(),
-            "lifecycle" to McDokitLifecycleImpl()
+            "okhttp_interceptor" to DoKitMockInterceptor(),
+            "okhttp_proxy_interceptor" to DoKitProxyMockInterceptor(),
+            "lifecycle" to LifecycleEventMonitor()
         )
     }
 
@@ -55,9 +56,19 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                             DoKitMcManager.IS_MC_RECODING = true
                             DoKitMcManager.MC_CASE_ID =
                                 SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)
-                            DoKitManager.WS_MODE = WSMode.RECORDING
                         } else {
+
                         }
+                    }
+                    "mc_mode" -> {
+                        val mode = if (DoKitTestManager.isHostMode()) {
+                            "host"
+                        } else if (DoKitTestManager.isClientMode()) {
+                            "client"
+                        } else {
+                            "unknown"
+                        }
+                        return mapOf(Pair("mode", mode))
                     }
                     "mc_custom_event" -> {
                         DoKitMcManager.sendCustomEvent(
@@ -67,31 +78,16 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         )
                     }
                     "global_hook" -> {
-                        //init SandHook
-                        SandHookConfig.DEBUG = true
-
-                        SandHook.disableVMInline()
-                        SandHook.tryDisableProfile(DoKitEnv.requireApp().packageName)
-                        SandHook.disableDex2oatInline(false)
-
-                        //for xposed compat(no need xposed comapt new)
-                        XposedCompat.cacheDir = DoKitEnv.requireApp().cacheDir
-
-
-                        //for load xp module(sandvxp)
-                        XposedCompat.context = DoKitEnv.requireApp()
-                        XposedCompat.classLoader = DoKitEnv.requireApp().classLoader
-                        XposedCompat.isFirstApplication = true
-
-                        //hook onClick事件
-                        XposedHelpers.findAndHookMethod(
-                            View::class.java, "setOnClickListener",
-                            View.OnClickListener::class.java, View_onClickListenerEventHook()
-                        )
+                        XposedHookUtils.globalHook()
+                    }
+                    "dokit_mc_connect_url" -> {
+                        val map = mutableMapOf<String, String>()
+                        val history = DokitMcConnectManager.currentConnectHistory
+                        map["url"] = history?.url ?: ""
                     }
 
                     else -> {
-
+                        LogHelper.e("DokitMcModuleProcessor", "not action ${actions["action"]}")
                     }
                 }
             }

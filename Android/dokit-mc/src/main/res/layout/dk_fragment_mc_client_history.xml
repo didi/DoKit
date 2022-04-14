@@ -10,23 +10,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <Button
-            android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="添加"
-            android:textColor="@color/dk_color_333333"
-            android:textSize="20sp"
-            android:visibility="visible" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="100" />
+
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dk_dp_48"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="@color/dk_color_337CC4"
+            android:text="添加"
+            android:textColor="@color/dk_color_FFFFFF"
+            android:textSize="24sp"
+            android:visibility="visible" />
 
 
     </LinearLayout>

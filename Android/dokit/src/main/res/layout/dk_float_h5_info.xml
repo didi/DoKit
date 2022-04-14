@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="H5 Helper"
+        android:text="@string/dk_kit_h5_help"
         android:textColor="@color/dk_color_333333"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -108,6 +108,33 @@
 
             <CheckBox
                 android:id="@+id/vConsole_switch"
+                style="@style/DK.CheckBox"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View style="@style/DK.Divider" />
+
+        <!-- vConsole hook switch-->
+        <RelativeLayout
+            android:id="@+id/rl_dokitjs_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_js_switch"
+            android:layout_marginTop="@dimen/dk_dp_10"
+            android:layout_marginBottom="@dimen/dk_dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="dokitjs  switch"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/dokitjs_switch"
                 style="@style/DK.CheckBox"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" />

@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: '../upload.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        lintOptions {
+            abortOnError false
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        //viewBinding = true
+    }
+
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
+    if (needKotlinV14()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
+    } else {
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
+    }
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["fragment-ktx"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["cardview"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+    implementation rootProject.ext.dependencies["fragment"]
+    implementation rootProject.ext.dependencies["zxing"]
+
+    implementation rootProject.ext.dependencies["volley"]
+    implementation rootProject.ext.dependencies["ktor_server_websockets"]
+    implementation rootProject.ext.dependencies["ktor_client_websockets"]
+    implementation rootProject.ext.dependencies["ktor_server_cio"]
+    //默认客户端websocket引擎
+    implementation rootProject.ext.dependencies["ktor_client_cio"]
+    //备用客户端websocket引擎
+    compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
+    implementation project(':dokit-util')
+    implementation project(':dokit-okhttp-api')
+    //此处需要使用api的形式 向上暴露内部api
+    implementation project(':dokit')
+//    implementation project(':dokit-mc')
+    implementation project(':dokit-test')
+
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
+}
+repositories {
+    mavenCentral()
+}

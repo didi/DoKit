@@ -28,4 +28,11 @@
     <string name="dk_kit_simple_float" translatable="false">自定义悬浮</string>
     <string name="dk_kit_fullscreen" translatable="false">自定义全屏</string>
 
+    <string-array name="city">
+        <item> 北京</item>
+        <item>上海</item>
+        <item>广州</item>
+        <item>深圳</item>
+    </string-array>
+
 </resources>

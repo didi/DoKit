@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.mc.ability
 
 import com.didichuxing.doraemonkit.constant.DoKitModule
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.google.auto.service.AutoService
 
 /**
@@ -12,11 +13,14 @@ import com.google.auto.service.AutoService
  * 描    述：
  * 修订历史：
  * ================================================
+ * 模块能力相关代码
  */
 @AutoService(DokitAbility::class)
 class DokitMcAbility : DokitAbility {
-    override fun init() {
 
+    private val TAG = "DokitMcAbility"
+    override fun init() {
+        LogHelper.i(TAG, "init()")
     }
 
     override fun moduleName(): DoKitModule {

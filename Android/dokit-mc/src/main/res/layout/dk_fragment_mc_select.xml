@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/iv_banner"
-
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -26,6 +25,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
+
 
             <Button
                 android:id="@+id/tv_host"
@@ -86,6 +87,8 @@
                 android:textColor="@color/dk_color_FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+
         </LinearLayout>
     </ScrollView>
 

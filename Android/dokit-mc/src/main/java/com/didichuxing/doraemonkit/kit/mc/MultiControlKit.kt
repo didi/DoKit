@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
+import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.ToastUtils
@@ -22,10 +22,8 @@ import com.google.auto.service.AutoService
  */
 @AutoService(AbstractKit::class)
 class MultiControlKit : AbstractKit() {
-    override val name: Int
-        get() = R.string.dk_kit_multi_control
-    override val icon: Int
-        get() = R.mipmap.dk_icon_mc
+    override val name: Int get() = R.string.dk_kit_multi_control
+    override val icon: Int get() = R.mipmap.dk_icon_mc
 
     override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
@@ -40,10 +38,11 @@ class MultiControlKit : AbstractKit() {
     }
 
     override fun onAppInit(context: Context?) {
+//        DexposedBridge.hookAllConstructors(AccessibilityManager::class.java, AllMethodHook())
+        DoKitMcManager.init()
     }
 
-    override val isInnerKit: Boolean
-        get() = true
+    override val isInnerKit: Boolean get() = true
 
     override fun innerKitId(): String {
         return "dokit_sdk_platform_ck_mc"

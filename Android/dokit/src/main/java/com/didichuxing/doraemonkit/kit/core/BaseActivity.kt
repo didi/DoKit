@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.core
 
-import android.R
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,7 @@ import java.util.*
  */
 abstract class BaseActivity : AppCompatActivity() {
     private val mFragments = ArrayDeque<BaseFragment>()
+    private var contentId = android.R.id.content
 
     @JvmOverloads
     fun showContent(target: Class<out BaseFragment>, bundle: Bundle? = null) {
@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
             if (bundle != null) {
                 fragment.arguments = bundle
             }
-            showContent(R.id.content, fragment)
+            showContent(android.R.id.content, fragment)
         } catch (e: InstantiationException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
@@ -29,13 +29,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @JvmOverloads
     fun showContent(@IdRes contentId: Int, fragment: BaseFragment) {
+        this.contentId = contentId
         try {
-            val fm = supportFragmentManager
-            val fragmentTransaction = fm.beginTransaction()
-            fragmentTransaction.add(contentId, fragment)
             mFragments.push(fragment)
-            fragmentTransaction.addToBackStack("")
-            fragmentTransaction.commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction()
+                .replace(contentId, fragment)
+                .commitNowAllowingStateLoss()
+
         } catch (e: InstantiationException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
@@ -45,6 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @JvmOverloads
     fun replaceContent(@IdRes contentId: Int, fragment: BaseFragment) {
+        this.contentId = contentId
         mFragments.clear()
         mFragments.push(fragment)
         supportFragmentManager.beginTransaction()
@@ -54,13 +55,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (!mFragments.isEmpty()) {
-            val fragment = mFragments.first
-            if (!fragment.onBackPressed()) {
-                mFragments.removeFirst()
-                super.onBackPressed()
-                if (mFragments.isEmpty()) {
-                    finish()
-                }
+            val old = mFragments.pollFirst()
+            if (!mFragments.isEmpty()) {
+                val fragment = mFragments.peekFirst()
+                supportFragmentManager.beginTransaction()
+                    .replace(contentId, fragment)
+                    .commitNowAllowingStateLoss()
+            } else {
+                finish()
             }
         } else {
             super.onBackPressed()

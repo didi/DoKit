@@ -32,7 +32,6 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.*
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 /**
@@ -178,7 +177,7 @@ object DoKitReal {
         AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
             //进入前台
             override fun onForeground(activity: Activity?) {
-                DokitServiceManager.dispatch(
+                DoKitServiceManager.dispatch(
                     DokitServiceEnum.onForeground,
                     activity!!
                 )
@@ -186,7 +185,7 @@ object DoKitReal {
 
             //进入后台
             override fun onBackground(activity: Activity?) {
-                DokitServiceManager.dispatch(
+                DoKitServiceManager.dispatch(
                     DokitServiceEnum.onBackground,
                     activity!!
                 )
@@ -254,6 +253,21 @@ object DoKitReal {
             e.printStackTrace()
         }
 
+    }
+
+    /**
+     * 获取MC当前的链接地址
+     */
+    fun getMcConnectUrl(): String {
+        try {
+            val mcProcessor = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)
+            val map = mcProcessor?.proceed(mapOf("action" to "dokit_mc_connect_url"))
+            val url = map?.get("url") as String
+            return url
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
     private fun checkGPSMock() {
@@ -463,6 +477,14 @@ object DoKitReal {
             "param" to param
         )
         DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(map)
+    }
+
+    fun getMode(): String {
+        val map = mapOf(
+            "action" to "mc_mode"
+        )
+        val result = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(map)
+        return result?.get("mode") as String
     }
 
     /**

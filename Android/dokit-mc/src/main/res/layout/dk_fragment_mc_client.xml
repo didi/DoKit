@@ -23,15 +23,6 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="正常"
-            android:textColor="@color/dk_color_79DE79"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
         <Button
             android:id="@+id/btn_close"
             android:layout_width="150dp"

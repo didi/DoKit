@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
@@ -76,6 +75,14 @@ object DoKit {
     @JvmStatic
     fun hide() {
         DoKitReal.hide()
+    }
+
+    /**
+     * 获取MC当前链接地址
+     */
+    @JvmStatic
+    fun getMcConnectUrl(): String {
+        return DoKitReal.getMcConnectUrl()
     }
 
     /**
@@ -185,7 +192,9 @@ object DoKit {
      * 获取一机多控类型
      */
     @JvmStatic
-    fun mcMode(): WSMode = DoKitManager.WS_MODE
+    fun mcMode(): String {
+       return DoKitReal.getMode()
+    }
 
     class Builder(private val app: Application) {
         private var productId: String = ""

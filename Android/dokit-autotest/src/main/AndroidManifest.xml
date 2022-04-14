@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didichuxing.doraemonkit.autotest">
+
+    <application>
+        <activity
+            android:name="com.didichuxing.doraemonkit.kit.autotest.ui.DokitAutotestActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />
+    </application>
+
+
+</manifest>

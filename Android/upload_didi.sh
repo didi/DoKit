@@ -22,21 +22,16 @@ RES="\033[0m"
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
-./gradlew :dokit-rpc:assembleRelease --stacktrace
-./gradlew :dokit-rpc-mc:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 #publish
+./gradlew :dokit-plugin:publish
 ./gradlew :dokit:publish
-./gradlew :dokit-ft:publish
-./gradlew :dokit-mc:publish
 ./gradlew :dokit-no-op:publish
 ./gradlew :dokit-okhttp-api:publish
 ./gradlew :dokit-okhttp-v3:publish
 ./gradlew :dokit-okhttp-v4:publish
-./gradlew :dokit-plugin:publish
-./gradlew :dokit-rpc:publish
-./gradlew :dokit-rpc-mc:publish
+./gradlew :dokit-ft:publish
+./gradlew :dokit-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
-./gradlew :dokit-dmap:publish
 echo -e  "${GREEN_COLOR} 打包上传到滴滴内部仓库完成！！！${RES}"
