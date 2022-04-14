@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test.util
 
+import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
@@ -10,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.kit.test.event.SystemViewNode
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.UIUtils
 
 /**
@@ -22,6 +24,15 @@ import com.didichuxing.doraemonkit.util.UIUtils
  * ================================================
  */
 object ViewPathUtil {
+
+
+    fun getActivity(view: View?): Activity {
+        return if (view != null && view.context is Activity) {
+            view.context as Activity
+        } else {
+            ActivityUtils.getTopActivity()
+        }
+    }
 
     private fun addParentViewInfo(
         systemViewInfos: MutableList<SystemViewNode>,

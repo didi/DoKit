@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test.mock.tcp
 
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.event.monitor.TcpMessageEventMonitor
 
 
@@ -23,22 +22,22 @@ object TcpMockManager {
 
     fun hookTcpSendMessageEvent(message: String): Boolean {
         //从机收发都拦截不处理
-        if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
+        if (DoKitTestManager.isClientMode()) {
             return true
         }
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            TcpMessageEventMonitor.onMessageEvent("send", message)
+        if (DoKitTestManager.isHostMode()) {
+            TcpMessageEventMonitor.onTcpMessageEvent("send", message)
         }
         return false
     }
 
     fun hookTcpReceiveMessageEvent(message: String): Boolean {
         //从机收发都拦截不处理
-        if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
+        if (DoKitTestManager.isClientMode()) {
             return true
         }
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
-            TcpMessageEventMonitor.onMessageEvent("receive", message)
+        if (DoKitTestManager.isHostMode()) {
+            TcpMessageEventMonitor.onTcpMessageEvent("receive", message)
         }
         return false
     }

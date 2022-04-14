@@ -5,12 +5,10 @@ import com.didichuxing.doraemonkit.kit.connect.data.LoginData
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.kit.test.TestMode
-import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.mock.proxy.ProxyMockManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
+import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -80,7 +78,6 @@ object DoKitMcConnectClient {
 
                     onConnectSuccess(connectSerial)
                     DokitMcConnectManager.connectMode = ConnectMode.CONNECT
-                    DoKitTestManager.WS_MODE = TestMode.CLIENT
 
                     clientWebSocketSession?.let {
                         CoroutineScope(it.coroutineContext).launch {
@@ -153,7 +150,7 @@ object DoKitMcConnectClient {
                             }
                         }
                         PackageType.DATA -> {
-                            ProxyMockManager.dispatch(packageText)
+                            MockManager.receiveQueryResponse(text)
                         }
                     }
                 }

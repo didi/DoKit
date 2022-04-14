@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
 import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.extension.tagName
 
 /**
  * ================================================
@@ -13,15 +12,15 @@ import com.didichuxing.doraemonkit.extension.tagName
  * 修订历史：
  * ================================================
  */
-object DokitServiceManager {
-    var lifecycle: DokitLifecycleInterface? = null
+object DoKitServiceManager {
+    var lifecycle: DoKitLifecycleInterface? = null
 
     fun dispatch(activityOverrideEnum: DokitServiceEnum, activity: Activity) {
         if (lifecycle == null) {
             val life = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
                 ?.get("lifecycle")
             if (life != null) {
-                lifecycle = life as DokitLifecycleInterface
+                lifecycle = life as DoKitLifecycleInterface
             }
         }
 
@@ -38,8 +37,8 @@ object DokitServiceManager {
             )
             DokitServiceEnum.onBackPressed -> lifecycle?.onBackPressed(activity)
             DokitServiceEnum.dispatchTouchEvent -> lifecycle?.dispatchTouchEvent(activity)
-            DokitServiceEnum.onBackground -> lifecycle?.onBackground()
-            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity::class.tagName)
+            DokitServiceEnum.onBackground -> lifecycle?.onBackground(activity)
+            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity)
             else -> lifecycle?.other(activity)
 
         }

@@ -62,7 +62,7 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val host = findViewById<Button>(R.id.tv_host)
         host.setOnClickListener {
-            if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOW) {
+            if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOWN) {
                 ToastUtils.showShort("当前处于联网模式，请先关闭！")
                 return@setOnClickListener
             }
@@ -74,7 +74,7 @@ class DoKitMcMainFragment : BaseFragment() {
         }
         val client = findViewById<Button>(R.id.tv_client)
         client.setOnClickListener {
-            if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOW) {
+            if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOWN) {
                 ToastUtils.showShort("当前处于联网模式，请先关闭！")
                 return@setOnClickListener
             }
@@ -93,7 +93,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 return@setOnClickListener
             }
 
-            if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+            if (DoKitTestManager.isHostMode()) {
                 ToastUtils.showShort("当前已处于录制状态")
                 return@setOnClickListener
             }
@@ -116,7 +116,7 @@ class DoKitMcMainFragment : BaseFragment() {
                         }
                     } catch (e: Exception) {
                         LogHelper.e(TAG, "e===>${e.message}")
-                        DoKitTestManager.WS_MODE = TestMode.UNKNOW
+                        DoKitTestManager.closeTest()
                         ToastUtils.showShort("用例采集启动失败")
                     }
                 }
@@ -142,7 +142,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 if (result.code == RESPONSE_OK) {
                     DoKit.removeFloating(RecordingDokitView::class)
                     SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
-                    DoKitTestManager.WS_MODE = TestMode.UNKNOW
+                    DoKitTestManager.closeTest()
                     DoKitMcManager.IS_MC_RECODING = false
                     ToastUtils.showShort("用例上传成功")
                 } else {
@@ -179,7 +179,7 @@ class DoKitMcMainFragment : BaseFragment() {
     }
 
     private fun checkMcPreparedState(callback: () -> Unit) {
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+        if (DoKitTestManager.isHostMode()) {
             ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
             return
         }
@@ -204,7 +204,7 @@ class DoKitMcMainFragment : BaseFragment() {
         configInfo?.let {
             DoKitMcManager.MC_CASE_ID = it.caseId
             DoKit.launchFloating(RecordingDokitView::class.java)
-            DoKitTestManager.WS_MODE = TestMode.HOST
+            DoKitTestManager.startTest(TestMode.HOST)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, DoKitMcManager.MC_CASE_ID)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, true)
             ToastUtils.showShort("开始用例采集")

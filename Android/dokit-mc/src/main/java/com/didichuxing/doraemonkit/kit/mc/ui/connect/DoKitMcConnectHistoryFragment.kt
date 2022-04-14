@@ -221,9 +221,9 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
     }
 
     private fun handleConnect(clientHistory: McClientHistory) {
-        if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOW) {
+        if (DoKitMcManager.CONNECT_MODE != TestMode.UNKNOWN) {
             DoKitMcConnectClient.close()
-            DoKitMcManager.CONNECT_MODE = TestMode.UNKNOW
+            DoKitMcManager.CONNECT_MODE = TestMode.UNKNOWN
         }
         DoKitMcConnectClient.connect(
             clientHistory.host!!,
@@ -250,7 +250,7 @@ class DoKitMcConnectHistoryFragment : BaseFragment() {
                         DokitMcConnectManager.currentConnectHistory = null
                         updateHistoryView()
                         DoKitMcManager.closeWorkMode()
-                        DoKitMcManager.CONNECT_MODE = TestMode.UNKNOW
+                        DoKitMcManager.CONNECT_MODE = TestMode.UNKNOWN
                         LogHelper.e(TAG, "message===>$message")
                         ToastUtils.showShort(message)
                     }

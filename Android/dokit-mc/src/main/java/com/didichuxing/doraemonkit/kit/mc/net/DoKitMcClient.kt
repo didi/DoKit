@@ -2,12 +2,9 @@ package com.didichuxing.doraemonkit.kit.mc.net
 
 import androidx.appcompat.app.AlertDialog
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
-import com.didichuxing.doraemonkit.kit.test.event.WSClientProcessor
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
-import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
@@ -74,7 +71,6 @@ object DoKitMcClient {
                         }
                     }
                 ) {
-                    DoKitTestManager.WS_MODE = TestMode.CLIENT
                     clientWebSocketSession = this
 
                     /**
@@ -121,7 +117,7 @@ object DoKitMcClient {
                                         }
 
                                         EventType.WSE_TEST -> {
-                                            LogHelper.e(WSClientProcessor.TAG, "WSE_TEST wsEvent=$wsEvent")
+                                            LogHelper.e(TAG, "WSE_TEST wsEvent=$wsEvent")
                                         }
                                         else -> {
                                             WSEventProcessor.process(wsEvent)
@@ -167,7 +163,6 @@ object DoKitMcClient {
                 )
             )
             clientWebSocketSession?.close()
-            DoKitTestManager.WS_MODE = TestMode.UNKNOW
             DokitMcConnectManager.currentClientHistory = null
         } catch (e: Exception) {
             e.printStackTrace()

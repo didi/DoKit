@@ -1,8 +1,7 @@
 package com.didichuxing.doraemonkit.kit.test.event.processor
 
+import android.app.Activity
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import androidx.core.widget.NestedScrollView
@@ -10,161 +9,159 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.extension.isFalse
-import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
-import com.didichuxing.doraemonkit.kit.test.event.WSClientProcessor
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
-import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
-import com.didichuxing.doraemonkit.kit.test.util.WindowPathUtil
+import com.didichuxing.doraemonkit.kit.test.event.EventErrorCode
 import com.didichuxing.doraemonkit.util.*
 
-object AccessibilityEventProcessor {
+/**
+ * didi Create on 2022/4/13 .
+ *
+ * Copyright (c) 2022/4/13 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/13 3:07 下午
+ * @Description 用一句话说明文件功能
+ */
+class AccessibilityEventProcessor : AbstractEventProcessor() {
 
 
-    fun onAccessibilityEvent(wsEvent: ControlEvent) {
-
-        wsEvent.params?.let {
-            if (it["activityName"] != ActivityUtils.getTopActivity()::class.tagName) {
-//                DoKitMcManager.syncFailedListener.onActivityNotSync()
-                ToastUtils.showShort("当前测试和主机不处于同一个页面，请手动调整同步")
-                return
-            }
-        }
-
-        wsEvent.viewC12c?.let { viewC12c ->
-            if (McXposedHookUtils.ROOT_VIEWS == null || viewC12c.windowIndex == -1) {
-                LogHelper.e(WSClientProcessor.TAG, "无法确定当前控件所属窗口/索引 wsEvent=$wsEvent")
-                ToastUtils.showShort("无法确定当前控件所属窗口/索引")
-                return
-            }
-            var viewRootImpl: ViewParent? = WindowPathUtil.findViewRoot(McXposedHookUtils.ROOT_VIEWS, viewC12c.windowIndex)
-
-            viewRootImpl?.let {
-                val decorView: ViewGroup =
-                    ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
-                val targetView: View? =
-                    ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
-                targetView?.let { target -> comm(viewC12c, target) }
-                    ?: run {
-//                        DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
-                        LogHelper.e(WSClientProcessor.TAG, "匹配控件失败，请手动操作 wsEvent=$wsEvent")
-                        LogHelper.e(WSClientProcessor.TAG, "匹配控件失败，请手动操作 className=${viewRootImpl?.javaClass?.name}")
-                        ToastUtils.showShort("匹配控件失败，请手动操作")
-                    }
-            } ?: run {
-//                DoKitMcManager.syncFailedListener.onViewNotFound(wsEvent.viewC12c)
-                LogHelper.e(WSClientProcessor.TAG, "无法确定当前控件所属窗口 wsEvent=$wsEvent")
-                ToastUtils.showShort("无法确定当前控件所属窗口")
-            }
-        } ?: run {
-            LogHelper.e(WSClientProcessor.TAG, "无法获取手势控件信息 wsEvent=$wsEvent")
-            ToastUtils.showShort("无法获取手势控件信息")
-        }
+    override fun onSimulationEventAction(activity: Activity, view: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        dispatchSimulationEventAction(activity, view, viewC12c, controlEvent)
     }
-
 
     /**
      * 通用的处理方式
      */
-    private fun comm(viewC12c: ViewC12c, target: View) {
+    private fun dispatchSimulationEventAction(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
         when (viewC12c.accEventType) {
             //单击
             AccessibilityEvent.TYPE_VIEW_CLICKED -> {
-                if (target is Switch) {
-                    target.toggle()
-                } else if (target is CheckBox) {
-                    target.isChecked = !target.isChecked
-                } else if (target is RadioButton) {
-                    target.isChecked = true
-                } else {
-                    if (target.hasOnClickListeners()) {
-                        target.performClick().isFalse {
-//                            DoKitMcManager.syncFailedListener.onViewPerformClickFailed(viewC12c, target)
-                            ToastUtils.showShort("模拟点击事件失败")
-                        }
-                    } else {
-                        //兼容adapter
-                        if (target.parent is AdapterView<*>) {
-                            (target.parent as AdapterView<*>).performItemClick(
-                                target,
-                                viewC12c.viewPaths?.get(1)!!.currentEventPosition,
-                                target.id.toLong()
-                            )
-                        } else {
-                            ToastUtils.showShort("该控件没有设置点击事件")
-                        }
-                    }
-                }
+                onSimulationClickEvent(activity, targetView, viewC12c, controlEvent)
             }
             //长按
             AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> {
-                when (target) {
-                    is EditText -> {
-                        target.selectAll()
-                    }
-                    else -> {
-                        target.performLongClick().isFalse {
-//                            DoKitMcManager.syncFailedListener.onViewPerformLongClickFailed(viewC12c, target)
-                            ToastUtils.showShort("模拟长按事件失败")
-                        }
-                    }
-                }
+                onSimulationLongClickEvent(activity, targetView, viewC12c, controlEvent)
             }
             // view 获取焦点
             AccessibilityEvent.TYPE_VIEW_FOCUSED -> {
-                target.requestFocus().isFalse {
-//                    DoKitMcManager.syncFailedListener.onViewPerformFocusedFailed(viewC12c, target)
-                    ToastUtils.showShort("获取焦点失败")
-                }
+                onSimulationViewFocusEvent(activity, targetView, viewC12c, controlEvent)
             }
             //EditText 文字改变
             AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> {
-                if (target is TextView) {
-                    target.text = viewC12c.text
-                }
+                onSimulationTextChangeEvent(activity, targetView, viewC12c, controlEvent)
             }
             //EditText 光标变动
             AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED -> {
-                if (target is EditText) {
-                    target.setSelection(
-                        viewC12c.accEventInfo?.fromIndex!!,
-                        viewC12c.accEventInfo.toIndex!!
-                    )
-                }
+                onSimulationTextSelectionChangedEvent(activity, targetView, viewC12c, controlEvent)
             }
             //滚动
             AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
-                dealScrollEvent(target, viewC12c)
+                onSimulationViewScrollEvent(activity, targetView, viewC12c, controlEvent)
             }
-
             //处理dokit view的拖动
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-
-                if (target is DokitFrameLayout && target.layoutParams is FrameLayout.LayoutParams) {
-                    val layoutParams: FrameLayout.LayoutParams =
-                        target.layoutParams as FrameLayout.LayoutParams
-                    layoutParams.leftMargin =
-                        viewC12c.doKitViewNode?.leftMargin!!
-                    layoutParams.topMargin =
-                        viewC12c.doKitViewNode.topMargin
-                    target.layoutParams = layoutParams
-                }
-
+                onSimulationViewMoveEvent(activity, targetView, viewC12c, controlEvent)
             }
             else -> {
+                onControlEventProcessFailed(
+                    activity = activity,
+                    view = targetView,
+                    controlEvent = controlEvent,
+                    code = EventErrorCode.ACTION_IGNORE,
+                    message = "动作被忽略"
+                )
+                return
+            }
+        }
 
+        onControlEventProcessSuccess(activity, targetView, controlEvent)
+    }
+
+    private fun onSimulationClickEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        if (targetView is Switch) {
+            targetView.toggle()
+        } else if (targetView is CheckBox) {
+            targetView.isChecked = !targetView.isChecked
+        } else if (targetView is RadioButton) {
+            targetView.isChecked = true
+        } else {
+            if (targetView.hasOnClickListeners()) {
+                targetView.performClick().isFalse {
+                    ToastUtils.showShort("模拟点击事件失败")
+                }
+            } else {
+                //兼容adapter
+                if (targetView.parent is AdapterView<*>) {
+                    (targetView.parent as AdapterView<*>).performItemClick(
+                        targetView,
+                        viewC12c.viewPaths?.get(1)!!.currentEventPosition,
+                        targetView.id.toLong()
+                    )
+                } else {
+                    ToastUtils.showShort("该控件没有设置点击事件")
+                }
             }
         }
     }
 
+    private fun onSimulationLongClickEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        when (targetView) {
+            is EditText -> {
+                targetView.selectAll()
+            }
+            else -> {
+                targetView.performLongClick().isFalse {
+                    ToastUtils.showShort("模拟长按事件失败")
+                }
+            }
+        }
+    }
+
+    private fun onSimulationViewFocusEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        targetView.requestFocus().isFalse {
+            ToastUtils.showShort("获取焦点失败")
+        }
+    }
+
+    private fun onSimulationTextChangeEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        if (targetView is TextView) {
+            targetView.text = viewC12c.text
+        }
+    }
+
+    private fun onSimulationTextSelectionChangedEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        if (targetView is EditText) {
+            targetView.setSelection(
+                viewC12c.accEventInfo?.fromIndex!!,
+                viewC12c.accEventInfo.toIndex!!
+            )
+        }
+    }
+
+
+    private fun onSimulationViewScrollEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        simulationScrollEvent(activity, targetView, viewC12c, controlEvent)
+    }
+
+    private fun onSimulationViewMoveEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        if (targetView is DokitFrameLayout && targetView.layoutParams is FrameLayout.LayoutParams) {
+            val layoutParams: FrameLayout.LayoutParams =
+                targetView.layoutParams as FrameLayout.LayoutParams
+            layoutParams.leftMargin =
+                viewC12c.doKitViewNode?.leftMargin!!
+            layoutParams.topMargin =
+                viewC12c.doKitViewNode.topMargin
+            targetView.layoutParams = layoutParams
+        }
+    }
 
     /**
      * 处理滑动事件
      */
-    private fun dealScrollEvent(targetView: View?, viewC12c: ViewC12c) {
-
+    private fun simulationScrollEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
         when (targetView) {
             is ScrollView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
@@ -223,8 +220,6 @@ object AccessibilityEventProcessor {
                             moveToPosition(targetView, accEventInfo.fromIndex)
                         }
                     }
-
-                    //targetView.smoothScrollToPosition(accEventInfo.fromIndex!!)
                 }
             }
 
@@ -235,7 +230,13 @@ object AccessibilityEventProcessor {
             }
 
             else -> {
-
+                onControlEventProcessFailed(
+                    activity = activity,
+                    view = targetView,
+                    controlEvent = controlEvent,
+                    code = EventErrorCode.ACTION_IGNORE,
+                    message = "动作被忽略"
+                )
             }
         }
 

@@ -11,7 +11,7 @@ import android.app.Activity
  * 修订历史：
  * ================================================
  */
-interface DokitLifecycleInterface {
+interface DoKitLifecycleInterface {
     /**
      * 生命周期
      */
@@ -34,10 +34,10 @@ interface DokitLifecycleInterface {
     /**
      * app 切换到前台
      */
-    fun onForeground(className: String){}
+    fun onForeground(activity: Activity) {}
 
     /**
      * app 切换到后台
      */
-    fun onBackground(){}
+    fun onBackground(activity: Activity) {}
 }

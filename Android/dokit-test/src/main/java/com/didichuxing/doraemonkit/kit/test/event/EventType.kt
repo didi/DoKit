@@ -56,7 +56,7 @@ enum class EventType {
     /**
      * 通用手势事件
      */
-    WSE_COMM_EVENT,
+    WSE_COMMON_EVENT,
 
     /**
      * 自定义手势事件

@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.ability
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
-import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleMonitor
+import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleEventMonitor
 import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
-import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
 
@@ -32,7 +32,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
         return mapOf(
             "okhttp_interceptor" to DoKitMockInterceptor(),
             "okhttp_proxy_interceptor" to DoKitProxyMockInterceptor(),
-            "lifecycle" to LifecycleMonitor()
+            "lifecycle" to LifecycleEventMonitor()
         )
     }
 
@@ -61,9 +61,9 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         }
                     }
                     "mc_mode" -> {
-                        val mode = if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+                        val mode = if (DoKitTestManager.isHostMode()) {
                             "host"
-                        } else if (DoKitTestManager.WS_MODE == TestMode.CLIENT) {
+                        } else if (DoKitTestManager.isClientMode()) {
                             "client"
                         } else {
                             "unknown"
@@ -78,7 +78,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         )
                     }
                     "global_hook" -> {
-                        McXposedHookUtils.globalHook()
+                        XposedHookUtils.globalHook()
                     }
                     "dokit_mc_connect_url" -> {
                         val map = mutableMapOf<String, String>()

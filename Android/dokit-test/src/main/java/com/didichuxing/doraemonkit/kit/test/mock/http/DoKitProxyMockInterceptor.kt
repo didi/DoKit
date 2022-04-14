@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.kit.test.mock.http
 
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.mock.proxy.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import io.ktor.http.*
@@ -12,6 +12,9 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * didi Create on 2022/3/10 .
@@ -31,30 +34,30 @@ class DoKitProxyMockInterceptor : AbsDoKitInterceptor() {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        if (DoKitTestManager.WS_MODE == TestMode.HOST || DoKitTestManager.WS_MODE == TestMode.CLIENT) {
+        if (DoKitTestManager.isHostMode() || DoKitTestManager.isClientMode()) {
             if (!ProxyMockUtils.filterRequest(request)) {
-                if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+                if (DoKitTestManager.isHostMode()) {
                     //主机处理方式
                     val did = RandomIdentityUtils.createDid()
                     val proxyRequest = ProxyMockUtils.createProxyRequest(did, request)
-                    ProxyMockManager.requestStart(proxyRequest)
+                    MockManager.requestStart(proxyRequest)
                     var response: Response
                     try {
                         response = chain.proceed(request)
                     } catch (e: Exception) {
                         val proxyResponse = ProxyMockUtils.createEmptyProxyResponse(did)
-                        ProxyMockManager.requestStop(proxyResponse)
+                        MockManager.requestStop(proxyResponse)
                         throw IOException("dokit mock error", e)
                     }
                     val proxyResponse = ProxyMockUtils.createProxyResponse(did, response)
-                    ProxyMockManager.requestStop(proxyResponse)
+                    MockManager.requestStop(proxyResponse)
                     return response
                 } else {
                     //从机处理方式
                     return runBlocking(mExceptionHandler) {
                         val proxyRequest = ProxyMockUtils.createProxyRequest("", request)
                         LogHelper.i(TAG, "PROXY start proxyRequest=${proxyRequest}")
-                        val proxyResponse: ProxyResponse = ProxyMockManager.requestQuery<ProxyResponse>(proxyRequest)
+                        val proxyResponse: ProxyResponse = requestQuery<ProxyResponse>(proxyRequest)
                         LogHelper.i(TAG, "PROXY stop proxyResponse=${proxyResponse}")
 
                         //查询不到数据，直接查询结果
@@ -84,6 +87,22 @@ class DoKitProxyMockInterceptor : AbsDoKitInterceptor() {
         }
         return chain.proceed(request)
 
+    }
+
+    /**
+     * 将异步请求转为阻塞等待
+     */
+    private suspend inline fun <reified T> requestQuery(request: ProxyRequest): ProxyResponse = suspendCoroutine {
+        try {
+            val proxyQuery = object : ProxyCallback {
+                override fun onResponse(proxyResponse: ProxyResponse) {
+                    it.resume(proxyResponse)
+                }
+            }
+            MockManager.requestQuery(request, proxyQuery)
+        } catch (e: Exception) {
+            it.resumeWithException(e)
+        }
     }
 
 

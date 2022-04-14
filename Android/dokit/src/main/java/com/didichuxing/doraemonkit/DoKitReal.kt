@@ -177,7 +177,7 @@ object DoKitReal {
         AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
             //进入前台
             override fun onForeground(activity: Activity?) {
-                DokitServiceManager.dispatch(
+                DoKitServiceManager.dispatch(
                     DokitServiceEnum.onForeground,
                     activity!!
                 )
@@ -185,7 +185,7 @@ object DoKitReal {
 
             //进入后台
             override fun onBackground(activity: Activity?) {
-                DokitServiceManager.dispatch(
+                DoKitServiceManager.dispatch(
                     DokitServiceEnum.onBackground,
                     activity!!
                 )

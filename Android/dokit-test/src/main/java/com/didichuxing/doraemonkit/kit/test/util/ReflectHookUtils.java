@@ -18,7 +18,7 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class McReflectHookUtils {
+public class ReflectHookUtils {
     public static final String TAG = "McUtil";
 
     /**
@@ -55,14 +55,15 @@ public class McReflectHookUtils {
     /**
      * hook 相关方法
      */
-    public static void hookAccessibilityManager(Context context) {
+    public static void hookAccessibilityManager(Context context, boolean enable) {
         try {
             Class<AccessibilityManager> accessibilityManagerClass = ReflectUtils.reflect(AccessibilityManager.class).get();
             AccessibilityManager instance = (AccessibilityManager) accessibilityManagerClass.getMethod("getInstance", Context.class).invoke(null, context);
             //先重置状态
-            ReflectUtils.reflect(instance).field("mIsEnabled", true);
+            ReflectUtils.reflect(instance).field("mIsEnabled", enable);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

@@ -41,9 +41,10 @@ class DoKitMcClientFragment : BaseFragment() {
             "当前设备已连接主机:ws://${history?.host}:${history?.port}/${history?.path}"
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
-                DoKitMcManager.WS_MODE = TestMode.UNKNOW
+                DoKitMcManager.WS_MODE = TestMode.UNKNOWN
                 DoKit.removeFloating(ClientDokitView::class)
                 DoKitMcClient.close()
+                DoKitMcManager.closeWorkMode()
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).onBackPressed()
                 }

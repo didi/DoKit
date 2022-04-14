@@ -5,19 +5,18 @@ package com.didichuxing.doraemonkit.kit.test
  */
 enum class TestMode {
     /**
-     *未知
+     *未知 :不允许执行采集也不允许执行模拟事件
      */
-    UNKNOW,
+    UNKNOWN,
 
     /**
-     * 主机
+     * 主机:采集事件
      */
     HOST,
 
     /**
-     * 从机
+     * 从机:模拟执行事件
      */
     CLIENT,
-
 
 }

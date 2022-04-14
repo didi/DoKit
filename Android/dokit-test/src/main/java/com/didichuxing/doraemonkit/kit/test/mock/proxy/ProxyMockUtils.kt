@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.test.mock.proxy
 
 import com.didichuxing.doraemonkit.extension.string
-import com.didichuxing.doraemonkit.kit.test.event.ActionEventManager
+import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
 import com.didichuxing.doraemonkit.util.EncryptUtils
@@ -22,7 +22,6 @@ import java.util.*
  * @Description 用一句话说明文件功能
  */
 object ProxyMockUtils {
-
 
     private fun createHeaders(headers: Headers): String {
         return headers.toString()
@@ -48,7 +47,7 @@ object ProxyMockUtils {
 
 
     fun createProxyRequest(did: String, request: Request): ProxyRequest {
-        val aid = ActionEventManager.currentActionId
+        val aid = ControlEventManager.getCurrentEventId()
         val time = nowTime()
         val url = request.url()
         val scheme = url.scheme()
@@ -66,7 +65,7 @@ object ProxyMockUtils {
         val clientProtocol = "http"
         return ProxyRequest(
             did, aid, url.toString(), scheme, host, path, query, fragment,
-            time, headers, contentType, contentLength, bodyString,searchKey, method, clientProtocol
+            time, headers, contentType, contentLength, bodyString, searchKey, method, clientProtocol
         )
     }
 

@@ -33,7 +33,7 @@ class ViewOnInitializeAccessibilityEventHook : XC_MethodHook() {
      */
     override fun afterHookedMethod(param: MethodHookParam?) {
         super.afterHookedMethod(param)
-        if (DoKitTestManager.WS_MODE != TestMode.HOST) {
+        if (!DoKitTestManager.isHostMode()) {
             return
         }
         param?.let {
@@ -44,9 +44,6 @@ class ViewOnInitializeAccessibilityEventHook : XC_MethodHook() {
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return
             }
-//            if (view.id == R.id.dokit_mode_switch_btn) {
-//                return
-//            }
             AccessibilityEventMonitor.onAccessibilityEvent(view, accessibilityEvent)
         }
     }

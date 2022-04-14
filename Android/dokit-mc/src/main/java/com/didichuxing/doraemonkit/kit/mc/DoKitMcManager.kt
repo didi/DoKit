@@ -1,20 +1,19 @@
 package com.didichuxing.doraemonkit.kit.mc
 
+import android.app.Activity
 import android.view.View
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
-import com.didichuxing.doraemonkit.kit.test.event.OnActionEventListener
+import com.didichuxing.doraemonkit.kit.test.event.OnControlEventActionListener
 import com.didichuxing.doraemonkit.kit.test.event.monitor.CustomEventMonitor
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.test.mock.ProxyMockCallback
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcConnectClient
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
-import com.didichuxing.doraemonkit.util.ActivityUtils
+import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
+import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.SPUtils
 
 /**
@@ -27,7 +26,6 @@ import com.didichuxing.doraemonkit.util.SPUtils
  * ================================================
  */
 object DoKitMcManager {
-
 
 
     /**
@@ -60,24 +58,26 @@ object DoKitMcManager {
     var MC_CASE_ID: String = ""
 
 
-    var WS_MODE: TestMode = TestMode.UNKNOW
+    var WS_MODE: TestMode = TestMode.UNKNOWN
 
-    var CONNECT_MODE: TestMode = TestMode.UNKNOW
-
-    var currentActionId = RandomIdentityUtils.createAid()
+    var CONNECT_MODE: TestMode = TestMode.UNKNOWN
 
     var sp: SPUtils = SPUtils.getInstance(NAME_DOKIIT_MC_CONFIGALL)
 
     fun init() {
         loadConfig()
 
-        DoKitMcEventDispatcher.addOnActionEventListener(object : OnActionEventListener {
-            override fun onActionEvent(wsEvent: ControlEvent) {
-                DoKitMcConnectClient.send(wsEvent)
+        ControlEventManager.addOnControlEventActionListener(object : OnControlEventActionListener {
+
+            override fun onControlEventAction(activity: Activity?, view: View?, event: ControlEvent) {
+                if (view != null && view.id == R.id.dokit_mode_switch_btn) {
+                    return
+                }
+                DoKitMcConnectClient.send(event)
             }
         })
 
-        MockManager.proxyMockCallback = object :ProxyMockCallback{
+        MockManager.proxyMockCallback = object : ProxyMockCallback {
             override fun send(data: String) {
                 DoKitMcConnectClient.sendDataProxy(data)
             }
@@ -95,7 +95,6 @@ object DoKitMcManager {
     }
 
 
-
     /**
      * 发送自定义事件
      * @return view
@@ -103,7 +102,7 @@ object DoKitMcManager {
      * @return param 自定义参数
      */
     fun sendCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
-        if (DoKitTestManager.WS_MODE != TestMode.HOST) {
+        if (!DoKitTestManager.isHostMode()) {
             return
         }
 
@@ -114,29 +113,16 @@ object DoKitMcManager {
     }
 
 
-    fun updateActionId(id: String) {
-        if (id.isNullOrEmpty()) {
-            currentActionId = RandomIdentityUtils.createAid()
-        } else {
-            currentActionId = id
-        }
-    }
-
     fun startHostMode() {
-        DoKitTestManager.WS_MODE = TestMode.HOST
-        McXposedHookUtils.hookWindowManagerGlobal()
-        if (!McXposedHookUtils.HOOK_ENABLE) {
-            McXposedHookUtils.runTimeHook(ActivityUtils.getTopActivity())
-        }
+        DoKitTestManager.startTest(TestMode.HOST)
     }
 
     fun startClientMode() {
-        DoKitTestManager.WS_MODE = TestMode.CLIENT
-        McXposedHookUtils.hookWindowManagerGlobal()
+        DoKitTestManager.startTest(TestMode.CLIENT)
     }
 
     fun closeWorkMode() {
-        DoKitTestManager.WS_MODE = TestMode.UNKNOW
+        DoKitTestManager.closeTest()
     }
 
 

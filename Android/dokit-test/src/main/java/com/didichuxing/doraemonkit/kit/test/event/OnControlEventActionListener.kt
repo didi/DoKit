@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.kit.test.event
 
+import android.app.Activity
+import android.view.View
+
 
 /**
  * didi Create on 2022/4/11 .
@@ -12,7 +15,7 @@ package com.didichuxing.doraemonkit.kit.test.event
  * @Description 用一句话说明文件功能
  */
 
-interface OnActionEventListener {
+interface OnControlEventActionListener {
 
-    fun onActionEvent(wsEvent: ControlEvent)
+    fun onControlEventAction(activity: Activity?, view: View?, event: ControlEvent)
 }

@@ -58,7 +58,7 @@ class DoKitMcConnectFragment : BaseFragment() {
 
                 } else {
                     DoKit.removeFloating(ConnectDokitView::class)
-                    DoKitMcManager.CONNECT_MODE = TestMode.UNKNOW
+                    DoKitMcManager.CONNECT_MODE = TestMode.UNKNOWN
                     DokitMcConnectManager.currentConnectHistory = null
                     DoKitMcConnectClient.close()
                     if (activity is DoKitMcActivity) {

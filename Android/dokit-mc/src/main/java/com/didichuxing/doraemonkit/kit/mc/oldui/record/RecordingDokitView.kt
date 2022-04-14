@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
@@ -80,7 +79,7 @@ class RecordingDokitView : AbsDokitView() {
             //TODO 需要补充取消录制接口
             DoKit.removeFloating(RecordingDokitView::class)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
-            DoKitTestManager.WS_MODE = TestMode.UNKNOW
+            DoKitTestManager.closeTest()
             DoKitMcManager.IS_MC_RECODING = false
             ToastUtils.showShort("用例取消录制")
         }

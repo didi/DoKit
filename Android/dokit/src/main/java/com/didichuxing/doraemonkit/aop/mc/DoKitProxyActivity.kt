@@ -8,7 +8,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.kit.core.DokitServiceEnum
-import com.didichuxing.doraemonkit.kit.core.DokitServiceManager
+import com.didichuxing.doraemonkit.kit.core.DoKitServiceManager
 
 
 /**
@@ -29,32 +29,32 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DokitServiceManager.dispatch(DokitServiceEnum.onCreate, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onCreate, this)
     }
 
 
     override fun onStart() {
         super.onStart()
-        DokitServiceManager.dispatch(DokitServiceEnum.onStart, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onStart, this)
 
     }
 
     override fun onResume() {
         super.onResume()
-        DokitServiceManager.dispatch(DokitServiceEnum.onResume, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onResume, this)
 
     }
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        DokitServiceManager.dispatch(DokitServiceEnum.dispatchTouchEvent, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.dispatchTouchEvent, this)
         return super.dispatchTouchEvent(ev)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        DokitServiceManager.dispatch(
+        DoKitServiceManager.dispatch(
             DokitServiceEnum.onConfigurationChanged,
             this
         )
@@ -69,7 +69,7 @@ public open class DoKitProxyActivity : Activity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (applicationInfo.targetSdkVersion < Build.VERSION_CODES.ECLAIR) {
-                DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+                DoKitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
             }
         }
 
@@ -80,7 +80,7 @@ public open class DoKitProxyActivity : Activity() {
 
         if (applicationInfo.targetSdkVersion >= Build.VERSION_CODES.ECLAIR) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event!!.isTracking && !event.isCanceled) {
-                DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
+                DoKitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
             }
         }
         return super.onKeyUp(keyCode, event)
@@ -88,24 +88,24 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onPause() {
         super.onPause()
-        DokitServiceManager.dispatch(DokitServiceEnum.onPause, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onPause, this)
 
     }
 
     override fun onStop() {
         super.onStop()
-        DokitServiceManager.dispatch(DokitServiceEnum.onStop, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onStop, this)
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        DokitServiceManager.dispatch(DokitServiceEnum.onDestroy, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.onDestroy, this)
     }
 
     override fun finish() {
         super.finish()
-        DokitServiceManager.dispatch(DokitServiceEnum.finish, this)
+        DoKitServiceManager.dispatch(DokitServiceEnum.finish, this)
     }
 
     override fun onAttachedToWindow() {

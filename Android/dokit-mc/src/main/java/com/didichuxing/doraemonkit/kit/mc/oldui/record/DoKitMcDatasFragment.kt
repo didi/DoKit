@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McCaseInfo
@@ -60,7 +59,7 @@ class DoKitMcDatasFragment : BaseFragment() {
                 McCaseUtils.saveCaseId(item.caseId)
                 ToastUtils.showShort("用例: ${item.caseName} 已被选中")
             }
-            if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+            if (DoKitTestManager.isHostMode()) {
                 doKitGlobalScope.launch {
                     delay(100)
                     adapter.notifyDataSetChanged()

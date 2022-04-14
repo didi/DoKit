@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.net
 
-import com.didichuxing.doraemonkit.kit.test.event.WSClientProcessor
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
+import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,7 +19,7 @@ object WSEventProcessor {
         try {
             withContext(Dispatchers.Main) {
                 try {
-                    WSClientProcessor.process(wsEvent)
+                    ControlEventManager.getControlEventProcessor().processControlEvent(wsEvent)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

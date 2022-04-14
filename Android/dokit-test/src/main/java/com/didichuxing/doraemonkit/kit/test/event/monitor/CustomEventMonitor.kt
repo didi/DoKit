@@ -1,19 +1,26 @@
 package com.didichuxing.doraemonkit.kit.test.event.monitor
 
-import android.app.Activity
 import android.view.View
 import android.widget.TextView
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.test.event.ActionEventManager
-import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
+import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
-import com.didichuxing.doraemonkit.kit.test.event.DoKitMcEventDispatcher
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
-import com.didichuxing.doraemonkit.util.ActivityUtils
 
+/**
+ * didi Create on 2022/4/13 .
+ *
+ * Copyright (c) 2022/4/13 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/13 3:07 下午
+ * @Description 用一句话说明文件功能
+ */
 object CustomEventMonitor {
 
     /**
@@ -23,30 +30,27 @@ object CustomEventMonitor {
      * @return param 自定义参数
      */
     fun onCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
-        val viewC12c = createViewC12c(view, eventType, param)
-        val actionId = RandomIdentityUtils.createAid()
-        val wsEvent = ControlEvent(
-            actionId,
-            EventType.WSE_CUSTOM_EVENT,
-            mutableMapOf(
-                "activityName" to if (view != null && view.context is Activity) {
-                    view.context::class.tagName
-                } else {
-                    ActivityUtils.getTopActivity()::class.tagName
-                }
-            ),
-            viewC12c,
-            ""
+        if (DoKitTestManager.isHostMode()) {
+            val activity = ViewPathUtil.getActivity(view)
+            val actionId = ControlEventManager.createNextEventId()
+            val viewC12c = createViewC12c(view, eventType, param)
 
-        )
-        ActionEventManager.updateActionId(actionId)
-        DoKitMcEventDispatcher.send(wsEvent)
+            val controlEvent = ControlEvent(
+                actionId,
+                EventType.WSE_CUSTOM_EVENT,
+                mutableMapOf(
+                    "activityName" to activity::class.tagName
+                ),
+                viewC12c
+            )
+            ControlEventManager.onControlEventAction(activity, view, controlEvent)
+        }
     }
 
     private fun createViewC12c(view: View?, eventType: String, param: Map<String, String>?): ViewC12c {
         var viewRootImplIndex: Int = -1
         if (view != null) {
-            McXposedHookUtils.ROOT_VIEWS?.let {
+            XposedHookUtils.ROOT_VIEWS?.let {
                 viewRootImplIndex = if (view.rootView.parent == null) {
                     it.size - 1
                 } else {

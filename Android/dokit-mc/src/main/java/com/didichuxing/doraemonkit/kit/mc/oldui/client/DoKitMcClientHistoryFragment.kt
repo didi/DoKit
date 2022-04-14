@@ -16,7 +16,6 @@ import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.test.util.McXposedHookUtils
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcClient
 import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.ui.*
@@ -205,9 +204,8 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
             withContext(Dispatchers.Main) {
                 when (code) {
                     DoKitMcClient.CONNECT_SUCCEED -> {
-                        McXposedHookUtils.hookWindowManagerGlobal()
                         DoKitMcManager.HOST_INFO = hostInfo
-                        DoKitTestManager.WS_MODE = TestMode.CLIENT
+                        DoKitTestManager.startTest(TestMode.CLIENT)
                         DoKitMcManager.WS_MODE = TestMode.CLIENT
 
                         DokitMcConnectManager.currentClientHistory = clientHistory
@@ -216,8 +214,8 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                         DoKit.launchFloating(ClientDokitView::class)
                     }
                     DoKitMcClient.CONNECT_FAIL -> {
-                        DoKitTestManager.WS_MODE = TestMode.UNKNOW
-                        DoKitMcManager.WS_MODE = TestMode.UNKNOW
+                        DoKitTestManager.closeTest()
+                        DoKitMcManager.WS_MODE = TestMode.UNKNOWN
                         LogHelper.e(TAG, "message===>$hostInfo")
                         ToastUtils.showShort(hostInfo.toString())
                         DokitMcConnectManager.currentClientHistory = null

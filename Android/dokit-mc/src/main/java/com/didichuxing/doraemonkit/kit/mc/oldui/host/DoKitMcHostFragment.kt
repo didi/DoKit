@@ -48,7 +48,7 @@ class DoKitMcHostFragment : BaseFragment() {
         btnClose.setOnClickListener {
             lifecycleScope.launch(exceptionHandler) {
                 DoKitMcHostServer.stop {
-                    DoKitMcManager.WS_MODE = TestMode.UNKNOW
+                    DoKitMcManager.WS_MODE = TestMode.UNKNOWN
                     DoKit.removeFloating(HostDokitView::class)
                     if (activity is DoKitMcActivity) {
                         (activity as DoKitMcActivity).onBackPressed()

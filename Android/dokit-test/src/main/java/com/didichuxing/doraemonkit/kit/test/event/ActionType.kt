@@ -13,6 +13,7 @@ package com.didichuxing.doraemonkit.kit.test.event
  */
 
 enum class ActionType(private val id: Int, private val nameText: String) {
+
     UNKNOWN(0, "未知"),
     ON_CLICK(1, "点击"),
     ON_LONG_CLICK(2, "长按"),
@@ -26,6 +27,8 @@ enum class ActionType(private val id: Int, private val nameText: String) {
     ON_DBL_CLICK(10, "双击"),
     ON_CUSTOM_EVENT(30, "自定义");
 
+
+    val map:Map<Int,ActionType> = mutableMapOf()
 
     fun getID(): Int {
         return id

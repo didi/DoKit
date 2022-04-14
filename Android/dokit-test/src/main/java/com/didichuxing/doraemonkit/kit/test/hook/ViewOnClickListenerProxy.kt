@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test.hook
 
 import android.view.View
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +29,7 @@ class ViewOnClickListenerProxy(private val listener: View.OnClickListener?) : Vi
 
     override fun onClick(v: View?) {
         //人为的制造延迟解决AccessibilityEvent被中断的问题
-        if (DoKitTestManager.WS_MODE == TestMode.HOST) {
+        if (DoKitTestManager.isHostMode()) {
             doKitGlobalScope.launch {
                 withContext(Dispatchers.IO) {
                     delay(100)

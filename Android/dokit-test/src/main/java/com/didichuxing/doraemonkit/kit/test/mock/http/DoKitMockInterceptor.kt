@@ -40,7 +40,7 @@ class DoKitMockInterceptor : AbsDoKitInterceptor() {
         val request = chain.request()
         val response = chain.proceed(request)
         try {
-            if (DoKitTestManager.WS_MODE == TestMode.UNKNOW) {
+            if (DoKitTestManager.isClose()) {
                 return response
             }
             val url = request.url()
@@ -87,7 +87,7 @@ class DoKitMockInterceptor : AbsDoKitInterceptor() {
             val k = "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
             LogHelper.i(TAG, "originKey===>$k")
             val key = ByteString.encodeUtf8(k).md5().hex()
-            when (DoKitTestManager.WS_MODE) {
+            when (DoKitTestManager.getTestMode()) {
 //                TestMode.RECORDING -> {
 //                    //数据采集
 //                    // val responseBody4Base64 = String(EncodeUtils.base64Encode(strResponseBody))

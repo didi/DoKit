@@ -29,7 +29,7 @@ object MCRecordManager {
         EventType.APP_ON_FOREGROUND,
         EventType.APP_ON_BACKGROUND,
         EventType.ACTIVITY_BACK_PRESSED,
-        EventType.WSE_COMM_EVENT
+        EventType.WSE_COMMON_EVENT
     )
 
     /**
