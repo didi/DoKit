@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.kit.test.mock.proxy
 
-import com.didichuxing.doraemonkit.kit.connect.DoKitSConnectManager
+import com.didichuxing.doraemonkit.kit.connect.DoKitConnectManager
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 
@@ -30,11 +30,11 @@ class ProxyMockManager {
     fun requestStart(request: ProxyRequest) {
         LogHelper.d(TAG, "PROXY requestStart() request=$request")
         val textPackage = TextPackage(
-            pid = RandomIdentityUtils.createPid(),
+            pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
             data = GsonUtils.toJson(request),
             contentType = "request",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }
@@ -42,17 +42,17 @@ class ProxyMockManager {
     fun requestStop(response: ProxyResponse) {
         LogHelper.d(TAG, "PROXY requestStop() response=$response")
         val textPackage = TextPackage(
-            pid = RandomIdentityUtils.createPid(),
+            pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
             data = GsonUtils.toJson(response),
             contentType = "response",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }
 
     fun requestQuery(request: ProxyRequest, callback: ProxyCallback) {
-        requestQueryNow(ProxyQueryData(RandomIdentityUtils.createPid(), request, callback))
+        requestQueryNow(ProxyQueryData(RandomIdentityUtil.createPid(), request, callback))
     }
 
 
@@ -68,7 +68,7 @@ class ProxyMockManager {
             type = PackageType.DATA,
             data = GsonUtils.toJson(request),
             contentType = "query",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }

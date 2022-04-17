@@ -8,14 +8,14 @@ import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.AccessibilityEventNode
 import com.didichuxing.doraemonkit.kit.test.event.DoKitViewNode
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
-import com.didichuxing.doraemonkit.kit.test.util.WindowPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 
@@ -98,7 +98,7 @@ object AccessibilityEventMonitor {
 
     private fun createViewC12c(view: View, acc: AccessibilityEvent): ViewC12c {
         var viewRootImplIndex: Int = -1
-        var viewParents = WindowPathUtil.filterViewRoot(XposedHookUtils.ROOT_VIEWS);
+        var viewParents = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS);
         viewParents?.let {
             viewRootImplIndex = if (view.rootView.parent == null) {
                 it.size - 1

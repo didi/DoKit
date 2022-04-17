@@ -5,11 +5,11 @@ import android.widget.TextView
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
 
 /**
  * didi Create on 2022/4/13 .
@@ -50,7 +50,7 @@ object CustomEventMonitor {
     private fun createViewC12c(view: View?, eventType: String, param: Map<String, String>?): ViewC12c {
         var viewRootImplIndex: Int = -1
         if (view != null) {
-            XposedHookUtils.ROOT_VIEWS?.let {
+            XposedHookUtil.ROOT_VIEWS?.let {
                 viewRootImplIndex = if (view.rootView.parent == null) {
                     it.size - 1
                 } else {

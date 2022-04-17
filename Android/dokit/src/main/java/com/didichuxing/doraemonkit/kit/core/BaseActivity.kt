@@ -70,14 +70,15 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun doBack(fragment: BaseFragment) {
-        if (mFragments.contains(fragment)) {
-            mFragments.remove(fragment)
-            val fm = supportFragmentManager
-            fm.popBackStack()
-            if (mFragments.isEmpty()) {
-                finish()
-            }
-        }
+        onBackPressed()
+//        if (mFragments.contains(fragment)) {
+//            mFragments.remove(fragment)
+//            val fm = supportFragmentManager
+//            fm.popBackStack()
+//            if (mFragments.isEmpty()) {
+//                finish()
+//            }
+//        }
     }
 
 }

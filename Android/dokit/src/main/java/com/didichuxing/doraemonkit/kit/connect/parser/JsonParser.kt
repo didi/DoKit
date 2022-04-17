@@ -7,6 +7,16 @@ import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.RandomUtils
 
+/**
+ * didi Create on 2022/4/12 .
+ *
+ * Copyright (c) 2022/4/12 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/12 6:07 下午
+ * @Description 用一句话说明文件功能
+ */
 object JsonParser {
 
     fun toTextPackage(text: String): TextPackage {
@@ -22,11 +32,16 @@ object JsonParser {
     }
 
     fun toJson(type: PackageType, data: Any): String {
+        return toJson(type, data, "text")
+    }
+
+    fun toJson(type: PackageType, data: Any, contentType: String): String {
         val text = toJson(data)
         val textPackage = TextPackage(
-            RandomUtils.random32HexString(),
-            type,
-            text,
+            pid = RandomUtils.random32HexString(),
+            type = type,
+            data = text,
+            contentType = contentType,
             channelSerial = ConnectConfig.getConnectSerial()
         )
         return toJson(textPackage)

@@ -21,6 +21,7 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
     override var onWebSocketStatusChangeListener: OnWebSocketStatusChangeListener? = null
     override var onWebSocketMessageListener: OnWebSocketMessageListener? = null
     override var onWebSocketBytesMessageListener: OnWebSocketBytesMessageListener? = null
+    override var onWebSocketQueueSizeOutListener: OnWebSocketQueueSizeOutListener? = null
     override var connectStatus: ConnectStatus = ConnectStatus.OFF_LINE
 
     private var request: Request? = null
@@ -39,7 +40,7 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
 
     override fun reConnect() {
         if (webSocket != null) {
-            webSocket?.close(1000, "close")
+            webSocket?.close(1001, "close")
             webSocket = mClient.newWebSocket(request, webSocketListener)
             connectStatus = ConnectStatus.PREPARE
         }
@@ -47,6 +48,10 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
 
     override fun send(text: String): Boolean {
         webSocket?.let {
+            if (it.queueSize() > 20) {
+                onWebSocketQueueSizeOutListener?.onWebSocketQueueSizeOut()
+                return false
+            }
             return it.send(text)
         }
         return false
@@ -54,6 +59,10 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
 
     override fun send(bytes: ByteString): Boolean {
         webSocket?.let {
+            if (it.queueSize() > 20) {
+                onWebSocketQueueSizeOutListener?.onWebSocketQueueSizeOut()
+                return false
+            }
             return it.send(bytes)
         }
         return false
@@ -63,8 +72,6 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
         webSocket?.let {
             return it.close(code, reason)
         }
-
-
         return false
     }
 
@@ -89,7 +96,6 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosed(webSocket, code, reason)
             connectStatus = ConnectStatus.OFF_LINE
-
             onWebSocketStatusChangeListener?.onClosed(webSocketSession, code, reason)
         }
 

@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.test.event
 
 import android.app.Activity
 import android.view.View
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 
 /**
  * didi Create on 2022/4/13 .
@@ -17,8 +17,10 @@ import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 
 object ControlEventManager {
 
+    private const val MAX_DIFF_TIME: Long = 15 * 1000
 
     private var currentEventId: String = ""
+    private var lastEventDateTime: Long = System.currentTimeMillis()
 
     private val onControlEventActionListenerSet: MutableSet<OnControlEventActionListener> = mutableSetOf()
     private val onControlEventActionProcessListenerSet: MutableSet<OnControlEventActionProcessListener> = mutableSetOf()
@@ -38,7 +40,7 @@ object ControlEventManager {
     }
 
     fun createNextEventId(): String {
-        return RandomIdentityUtils.createAid()
+        return RandomIdentityUtil.createAid()
     }
 
     /**
@@ -47,8 +49,22 @@ object ControlEventManager {
      */
     fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent) {
         updateEventId(controlEvent.eventId)
+        controlEvent.diffTime = getEventDiffTime()
         onControlEventActionListenerSet.forEach {
             it.onControlEventAction(activity, view, controlEvent)
+        }
+    }
+
+    private fun getEventDiffTime(): Long {
+        val currentTime = System.currentTimeMillis()
+        val diffTime = currentTime - lastEventDateTime
+        lastEventDateTime = currentTime
+        return if (diffTime > MAX_DIFF_TIME) {
+            MAX_DIFF_TIME
+        } else if (diffTime < 0) {
+            0
+        } else {
+            diffTime
         }
     }
 

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.test.util
+package com.didichuxing.doraemonkit.kit.test.utils
 
 import android.content.Context
 import android.view.View
@@ -22,7 +22,7 @@ import java.lang.reflect.Method
  * ================================================
  * hook 实现
  */
-object XposedHookUtils {
+object XposedHookUtil {
 
     var ROOT_VIEWS: List<ViewParent>? = null
 
@@ -43,7 +43,7 @@ object XposedHookUtils {
      */
     fun startRunTimeHook(context: Context? = Utils.getApp()) {
         runTimeHookEnable = true
-        ReflectHookUtils.hookAccessibilityManager(context, true)
+        ReflectHookUtil.hookAccessibilityManager(context, true)
         hookAccessibilityEvent()
     }
 
@@ -51,7 +51,7 @@ object XposedHookUtils {
      * 停止运行时 hook
      */
     fun stopRunTimeHook(context: Context? = Utils.getApp()) {
-        ReflectHookUtils.hookAccessibilityManager(context, false)
+        ReflectHookUtil.hookAccessibilityManager(context, false)
         unHookAccessibilityEvent()
         runTimeHookEnable = false
     }
@@ -107,6 +107,6 @@ object XposedHookUtils {
     }
 
     private fun hookWindowManagerGlobal() {
-        ROOT_VIEWS = ReflectHookUtils.getRootViewsFromWindowManageGlobal()
+        ROOT_VIEWS = ReflectHookUtil.getRootViewsFromWindowManageGlobal()
     }
 }

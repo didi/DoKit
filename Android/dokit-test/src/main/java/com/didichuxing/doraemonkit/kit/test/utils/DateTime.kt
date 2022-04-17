@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.test.util
+package com.didichuxing.doraemonkit.kit.test.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

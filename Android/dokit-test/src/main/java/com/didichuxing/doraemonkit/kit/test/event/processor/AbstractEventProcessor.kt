@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.test.event.*
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
-import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
-import com.didichuxing.doraemonkit.kit.test.util.WindowPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
+import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.ReflectUtils
 
@@ -99,10 +99,10 @@ abstract class AbstractEventProcessor {
 
 
     private fun findWindowRootView(viewC12c: ViewC12c): ViewParent? {
-        if (XposedHookUtils.ROOT_VIEWS == null || viewC12c.windowIndex == -1) {
+        if (XposedHookUtil.ROOT_VIEWS == null || viewC12c.windowIndex == -1) {
             return null
         }
-        val viewParent: ViewParent? = WindowPathUtil.findViewRoot(XposedHookUtils.ROOT_VIEWS, viewC12c.windowIndex)
+        val viewParent: ViewParent? = WindowPathUtil.findViewRoot(XposedHookUtil.ROOT_VIEWS, viewC12c.windowIndex)
 
         return viewParent
     }

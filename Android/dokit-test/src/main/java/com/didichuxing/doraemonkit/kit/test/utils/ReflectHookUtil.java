@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.test.util;
+package com.didichuxing.doraemonkit.kit.test.utils;
 
 import android.content.Context;
 import android.view.ViewParent;
@@ -18,7 +18,7 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class ReflectHookUtils {
+public class ReflectHookUtil {
     public static final String TAG = "McUtil";
 
     /**

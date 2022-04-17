@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.test.util
+package com.didichuxing.doraemonkit.kit.test.utils
 
 import com.didichuxing.doraemonkit.util.RandomUtils
 
@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.util.RandomUtils
  * @Date 2022/3/10 7:45 下午
  * @Description 用一句话说明文件功能
  */
-object RandomIdentityUtils {
+object RandomIdentityUtil {
 
 
     fun createPid(): String {

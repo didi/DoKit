@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test.event
 
-import com.didichuxing.doraemonkit.kit.test.util.DateTime
+import com.didichuxing.doraemonkit.kit.test.utils.DateTime
 
 /**
  * ================================================
@@ -12,10 +12,10 @@ import com.didichuxing.doraemonkit.kit.test.util.DateTime
  * ================================================
  */
 data class ControlEvent(
-    var eventId: String = "",
+    val eventId: String = "",
     val eventType: EventType,
     val params: Map<String, String>? = null,
     val viewC12c: ViewC12c? = null,
     val dateTime: String = DateTime.nowTime(),
-    val diffTIme: Long = 0
+    var diffTime: Long = 0
 )

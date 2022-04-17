@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.test.util
+package com.didichuxing.doraemonkit.kit.test.utils
 
 import android.app.Activity
 import android.view.View

@@ -21,7 +21,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
  * @Description 用一句话说明文件功能
  */
 
-public class DokitAutotestActivity extends BaseActivity {
+public class DoKitAutotestActivity extends BaseActivity {
 
     private HomeTitleBar homeTitleBar;
 
@@ -62,11 +62,13 @@ public class DokitAutotestActivity extends BaseActivity {
     public void changeFragment(AutotestPage page, boolean push) {
         BaseFragment fragment;
         switch (page) {
-            case HOME:
-                fragment = new DoKitAutotestFragment();
+            case CONNECT:
+                fragment = new DoKitAutotestConnectFragment();
                 break;
             case RECORD:
             case CASE_LIST:
+
+            case HOME:
             default:
                 fragment = new DoKitAutotestFragment();
         }

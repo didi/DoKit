@@ -4,7 +4,7 @@ import com.didichuxing.doraemonkit.kit.test.mock.proxy.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -38,7 +38,7 @@ class DoKitProxyMockInterceptor : AbsDoKitInterceptor() {
             if (!ProxyMockUtils.filterRequest(request)) {
                 if (DoKitTestManager.isHostMode()) {
                     //主机处理方式
-                    val did = RandomIdentityUtils.createDid()
+                    val did = RandomIdentityUtil.createDid()
                     val proxyRequest = ProxyMockUtils.createProxyRequest(did, request)
                     MockManager.requestStart(proxyRequest)
                     var response: Response

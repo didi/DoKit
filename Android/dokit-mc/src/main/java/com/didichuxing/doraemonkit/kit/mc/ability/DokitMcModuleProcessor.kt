@@ -11,9 +11,8 @@ import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitMockInterceptor
 import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SPUtils
 
@@ -78,7 +77,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         )
                     }
                     "global_hook" -> {
-                        XposedHookUtils.globalHook()
+                        XposedHookUtil.globalHook()
                     }
                     "dokit_mc_connect_url" -> {
                         val map = mutableMapOf<String, String>()
