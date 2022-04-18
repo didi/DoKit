@@ -174,16 +174,17 @@ class LeaksMsgNode {
 class LeaksMsgInfo {
   List<LeaksMsgNode>? retainingPathList = [];
   int? leaksInstanceCounts;
+  int? expectedTotalCount;
   String? leaksClsName;
   String? gcRootType;
 
   LeaksMsgInfo(
       List<LeaksMsgNode> this.retainingPathList, String this.gcRootType,
-      {this.leaksInstanceCounts, this.leaksClsName});
+      {this.leaksInstanceCounts, this.leaksClsName, this.expectedTotalCount});
 
   @override
   String toString() {
-    return '$leaksClsName : {\nleaksInstanceCounts: $leaksInstanceCounts, \nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
+    return '$leaksClsName : {\nleaksInstanceCounts: $leaksInstanceCounts, \nexpectedTotalCount: $expectedTotalCount, \nretainingPath: $retainingPathList, \ngcRootType: "$gcRootType" \n}';
   }
 }
 

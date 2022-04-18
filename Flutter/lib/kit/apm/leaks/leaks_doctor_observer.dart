@@ -53,17 +53,16 @@ class LeaksDoctorObserver extends NavigatorObserver {
             if (_isHitWhiteList(element)) {
               return true;
             }
-            final key = _getRouteKey(route, element.widget.toStringShort());
 
             // 人为制造泄漏
-            // LeaksCache.cache.add(element.widget);
+            // LeaksCache.cache.add(element);
 
             var _className = element.widget.toStringShort();
             var _expectedTotalCount = _checkPolicy(_className);
             if (_expectedTotalCount != null) {
-              _ObservedElement(element, key, expectedTotalCount: _expectedTotalCount);
+              _ObservedElement(route, element, expectedTotalCount: _expectedTotalCount);
             } else {
-              _ObservedElement(element,key);
+              _ObservedElement(route, element);
             }            
           }
         });
@@ -82,10 +81,16 @@ class LeaksDoctorObserver extends NavigatorObserver {
           return true;
         }
 
-        final key = _getRouteKey(route, element.widget.toStringShort());
         if (element is StatefulElement || element is StatelessElement) {
-          LeaksDoctor()
-              .memoryLeakScan(group: key, delay: checkLeakDelay);
+          final elementKey = _getKey(route, GenerateKeyType.Element, element);
+          LeaksDoctor().memoryLeakScan(group: elementKey, delay: checkLeakDelay);
+
+          final widgetKey = _getKey(route, GenerateKeyType.Widget, element);
+          LeaksDoctor().memoryLeakScan(group: widgetKey, delay: checkLeakDelay);
+          if (element is StatefulElement) {
+            final stateKey = _getKey(route, GenerateKeyType.State, element);
+            LeaksDoctor().memoryLeakScan(group: stateKey, delay: checkLeakDelay);
+          }
         }
       }
 
@@ -121,11 +126,16 @@ class LeaksDoctorObserver extends NavigatorObserver {
     }());
   }
 
-  void _ObservedElement(Element element, String key, {int? expectedTotalCount = 0}) {
-    _addObserved(element, key); //Element
-    _addObserved(element.widget, key); //Widget
+  void _ObservedElement(Route route, Element element, {int? expectedTotalCount = 0}) { 
+    final elementKey = _getKey(route, GenerateKeyType.Element, element);
+    _addObserved(element, elementKey); //Element
+
+    final widgetKey = _getKey(route, GenerateKeyType.Widget, element);
+    _addObserved(element.widget, widgetKey); //Widget
+
     if (element is StatefulElement) {
-      _addObserved(element.state, key); //State
+      final stateKey = _getKey(route, GenerateKeyType.State, element);
+      _addObserved(element.state, stateKey); //State
     }
   }
 
@@ -149,17 +159,40 @@ class LeaksDoctorObserver extends NavigatorObserver {
     return element;
   }
 
-  // 通过 [Route] 生成 key
-  String _getRouteKey(Route route, String openPageName) {
-    final hasCode = route.hashCode.toString();
-    var key = route.settings.name;
-    if (key == null || key.isEmpty) {
-      key = '$openPageName($hasCode)';
-    } else {
-      key = '$key->$openPageName($hasCode)';
+  // 通过 [Route] 生成 key 
+  String _getKey(Route route, GenerateKeyType type, Element element) {
+    var key;
+
+    var routeName = route.settings.name??'';
+    var openPageName = element.widget.toStringShort();
+    
+    var hasCode = '';
+    var keyType = '';
+    switch (type) {
+      case GenerateKeyType.Element: {
+        hasCode = element.hashCode.toString();
+        keyType = 'Element';
+      }break;
+      case GenerateKeyType.Widget:{
+        hasCode = element.widget.hashCode.toString();
+        keyType = 'Widget';
+      }break;
+      default: {
+        hasCode = (element.hashCode.toString()+'state').hashCode.toString();
+        keyType = 'State';
+      }
     }
+    
+    key = '$routeName-$openPageName-$keyType-$hasCode';
+  
     return key;
   }
+}
+
+enum GenerateKeyType {
+  Element,
+  Widget,
+  State
 }
 
 class LeaksCache {

@@ -1,15 +1,16 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'dart:async';
-import 'dart:collection';
 import 'dart:ffi';
 
+import 'package:dokit/kit/apm/leaks/leaks_doctor_conf.dart';
 import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
 import 'package:flutter/material.dart';
 
+import 'leaks_doctor_controller.dart';
 import 'leaks_doctor_data.dart';
 
-import 'leaks_doctor_task.dart';
+import 'leaks_doctor_event.dart';
 import 'leaks_doctor_widget.dart';
 
 typedef GetBuildContext = BuildContext Function();
@@ -18,33 +19,17 @@ typedef GetBuildContext = BuildContext Function();
 class LeaksDoctor {
   static LeaksDoctor? _instance;
 
-  static int? maxRetainingPathLimit;
-
   GetBuildContext? getBuildContext;
+
+  final LeaksDoctorController  _leakController = LeaksDoctorController();
 
   // Expando缓存 : 通过navigator动态的添加
   // manual
   final Map<String, Expando> _dynamicWatchGroup = {};
 
-  // 策略池 存储期望类对象实例个数
-  final Map<String, int> _policyCachePool = {};
+  Stream<LeaksMsgInfo?> get onLeakedStream => _leakController.onLeakedStream;
 
-  // Queue 检测内存泄漏，先进先出
-  final Queue<LeaksDoctorTask> _checkTaskQueue = Queue();
-
-  // memory leak监听控制器
-  final StreamController<LeaksMsgInfo?> _onLeakedStreamCtrl =
-      StreamController.broadcast();
-  final StreamController<LeaksDoctorEvent> _onEventStreamCtrl =
-      StreamController.broadcast();
-
-  LeaksDoctorTask? _currentTask;
-
-  Stream<LeaksMsgInfo?> get onLeakedStream => _onLeakedStreamCtrl.stream;
-
-  Stream<LeaksDoctorEvent> get onEventStream => _onEventStreamCtrl.stream;
-
-  bool isRunning = false;
+  Stream<LeaksDoctorEvent> get onEventStream => _leakController.onEventStream;
 
   factory LeaksDoctor() {
     _instance ??= LeaksDoctor._();
@@ -107,23 +92,10 @@ class LeaksDoctor {
   // 泄漏结果信息到数据池为空？
   static bool isEmpty() => LeaksDoctor()._leaksInfoStorePool.isEmpty;
 
-  // 查询设置的策略
-  int? searchePolicy(String clsName) => _policyCachePool[clsName];
-
-  // 存储策略
-  void savePolicy(String clsName, int expectedTotalCount) =>
-      _policyCachePool[clsName] = expectedTotalCount;
-
   void init(BuildContext Function()? func, {int maxRetainingPathLimit = 300}) {
-    LeaksDoctor.maxRetainingPathLimit = maxRetainingPathLimit;
     getBuildContext = func;
-
+    LeaksDoctorConf().maxRetainingPathLimit = maxRetainingPathLimit;
     onEventStream.listen((LeaksDoctorEvent event) {
-      if (event.type == LeaksDoctorEventType.AddObject || event.type == LeaksDoctorEventType.AllEnd) {
-        isRunning = false;
-      } else {
-        isRunning = true;
-      }
       if (!isEmpty()) {
         showLeaksPage(event);
       }
@@ -134,77 +106,34 @@ class LeaksDoctor {
   // 使用Timer是为了延时检测，有些state会在页面退出之后延迟释放，这并不表示就一定是内存泄漏。
   // 比如runZone就会延时释放
   void memoryLeakScan({String? group, int delay = 0}) async {
-    if (isRunning == true) {
-      print('LeaksDoctor is running');
-      return;
-    }
     bool isNotEmpty = _dynamicWatchGroup.isNotEmpty;
-    if (group == null && isNotEmpty) {
-      Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
-      _dynamicWatchGroup.clear();
-      Timer(Duration(milliseconds: delay), () async {
-        tmpMap.forEach((key, expando) {
-          _addTask(expando);
-        });
-        _initTask();
-      });
-    } else if (isNotEmpty) {
+    // if (group == null && isNotEmpty) {
+    //   Map<String, Expando> tmpMap = Map.from(_dynamicWatchGroup);
+    //   _dynamicWatchGroup.clear();
+    //   tmpMap.forEach((key, expando) {
+    //       _leakController.addTask(expando);
+    //     });
+    // } else 
+    if (isNotEmpty) {
       Expando? expando = _dynamicWatchGroup[group];
       _dynamicWatchGroup.remove(group);
       if (expando != null) {
         Timer(Duration(milliseconds: delay), () async {
-          _addTask(expando);
-          _initTask();
+          _leakController.addTask(expando, group);
+          _leakController.runTask();
         });
       }
     }
-  }
-
-  // 添加任务
-  void _addTask(Expando expando) {
-    _checkTaskQueue.add(
-      LeaksDoctorTask(expando,
-          sink: _onEventStreamCtrl.sink,
-          onCompleted: () {
-            _currentTask = null;
-            _initTask();
-          },
-          searchPolicy: (clsName) => searchePolicy(clsName),
-          onLeaked: (leakInfo) {
-            if (leakInfo != null) {
-              LeaksDoctor.add(leakInfo);
-            }
-            _onLeakedStreamCtrl.add(leakInfo);
-          },
-          maxRetainingPathLimit: maxRetainingPathLimit),
-    );
-  }
-
-  // 初始化task
-  void _initTask() {
-    if (_checkTaskQueue.isNotEmpty && _currentTask == null) {
-      _currentTask = _checkTaskQueue.removeFirst();
-      _currentTask?.start();
-    }
+    
   }
 
   // [group] 认为可以在一块释放的对象组
   // 如果缺省,默认值’manual‘
   // [expectedTotalCount] 期望被观察对象的创建的实例个数
   void addObserved(Object obj,
-      {String group = 'manual', int? expectedTotalCount}) {
-    if (LeaksDoctor.maxRetainingPathLimit == null) return;
-    if (objHasAdded(group, obj) == true) return ;
-
-    // 存储策略
-    if (expectedTotalCount != null) {
-      VmserviceToolset().getInstanceByObject(obj).then((value) {
-        final clsName = value!.classRef!.name;
-        if (clsName != null) {
-          savePolicy(clsName, expectedTotalCount);
-        }
-      });
-    }
+      {String group = 'manual', int? expectedTotalCount, String? className}) {
+    if (_objHasAdded(group, obj) == true) return ;
+    _savePolicy(obj, expectedTotalCount, className);
 
     if ((obj is num) ||
         (obj is bool) ||
@@ -215,8 +144,7 @@ class LeaksDoctor {
           'Expandos 不允许用于下类型: strings, numbers, booleans, null, Pointers, Structs or Unions.');
     }
 
-    _onEventStreamCtrl
-        .add(LeaksDoctorEvent(LeaksDoctorEventType.AddObject, data: group));
+    _leakController.postLeaksEvent(LeaksDoctorEvent(LeaksDoctorEventType.AddObject, data: group));
 
     String key = group;
     Expando? expando = _dynamicWatchGroup[key];
@@ -225,7 +153,7 @@ class LeaksDoctor {
     _dynamicWatchGroup[key] = expando;
   }
 
-  bool objHasAdded(String key, Object obj) {
+  bool _objHasAdded(String key, Object obj) {
     Expando? expando = _dynamicWatchGroup[key];
     if (expando != null) {
       final ret = expando[obj];
@@ -235,26 +163,20 @@ class LeaksDoctor {
     }
     return false;
   }
-}
 
-// 事件节点
-class LeaksDoctorEvent {
-  final LeaksDoctorEventType type;
-  final dynamic data;
-
-  @override
-  String toString() {
-    return '$type, ${data ?? ''}';
+  // 存储自定义的策略
+  void _savePolicy(Object obj, int? expectedTotalCount, String? className) {
+    if (expectedTotalCount != null) {
+      if (className != null) {
+        LeaksDoctorConf().savePolicy(className, expectedTotalCount);
+      } else {
+        VmserviceToolset().getInstanceByObject(obj).then((value) {
+          final clsName = value!.classRef!.name;
+          if (clsName != null) {
+            LeaksDoctorConf().savePolicy(clsName, expectedTotalCount);
+          }
+        });
+      }
+    }
   }
-
-  LeaksDoctorEvent(this.type, {this.data});
-}
-
-enum LeaksDoctorEventType {
-  AddObject,
-  GcStart,
-  GcEnd,
-  AnalyzeStart,
-  AnalyzeEnd,
-  AllEnd
 }

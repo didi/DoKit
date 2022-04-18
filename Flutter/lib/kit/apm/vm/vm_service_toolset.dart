@@ -1,7 +1,6 @@
 // ignore_for_file: omit_local_variable_types
 
 import 'dart:developer';
-import 'dart:isolate' as iso; // 这里避免和dart:isolate中的Isolate对象应用二义性
 import 'package:vm_service/utils.dart';
 import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
@@ -12,7 +11,6 @@ const String _vmToolsetLibrary =
 class VmserviceToolset {
   static VmserviceToolset? _instance;
   static VmService? _service;
-  static String? _isolateId;
 
   factory VmserviceToolset() {
     _instance ??= VmserviceToolset._();
@@ -41,30 +39,26 @@ class VmserviceToolset {
     return vmService.getVM();
   }
 
-  String? get isolateId {
-    if (_isolateId != null) {
-      return _isolateId;
+  Future<Isolate?> getMainIsolate() async{
+    IsolateRef? ref;
+    final vm = await getVM();
+    if (vm == null) return null;
+    vm.isolates?.forEach((isolate) {
+      if (isolate.name == 'main') {
+        ref = isolate;
+      }
+    });
+    final vms = await getVMService();
+    if (ref?.id != null) {
+      return vms.getIsolate(ref!.id!);
     }
-    // 这里的Isolate.current是main Isolate
-    _isolateId = Service.getIsolateID(iso.Isolate.current);
-    return _isolateId;
-  }
-
-  // 用于按其id查找Isolate对象。
-  // 如果isolateId指已退出的Isolate，则返回收集的哨兵。
-  Future<Isolate> getIsolate(String id) async {
-    VmService vmService = await getVMService();
-    return vmService.getIsolate(id);
-  }
-
-  Future<Isolate> getMainIsolate() {
-    return getIsolate(isolateId!);
+    return null;
   }
 
   // Isolate的所有库的列表。
   Future<List<LibraryRef>?> getLibraries() async {
-    Isolate isolate = await getMainIsolate();
-    return isolate.libraries;
+    Isolate? isolate = await getMainIsolate();
+    return isolate?.libraries;
   }
 
   // 通过uri查找 [Library] on [Isolate]
@@ -89,7 +83,8 @@ class VmserviceToolset {
   // 如果isolateId指已退出的Isolate，则返回收集的哨兵。
   Future<InstanceSet> getInstances(String objectId, int limit) async {
     VmService vmService = await getVMService();
-    return vmService.getInstances(isolateId!, objectId, limit);
+    final mainIsolate = await getMainIsolate();
+    return vmService.getInstances(mainIsolate!.id!, objectId, limit);
   }
 
   // 用于根据对象id从某个对象中查找对象。
@@ -102,7 +97,8 @@ class VmserviceToolset {
   Future<Obj?> getObject(String objectId, {int? offset, int? count}) async {
     VmService? vmService = await getVMService();
     if (vmService != null) {
-      return vmService.getObject(isolateId!, objectId,
+      final mainIsolate = await getMainIsolate();
+      return vmService.getObject(mainIsolate!.id!, objectId,
           offset: offset, count: count);
     }
     return null;
@@ -124,13 +120,13 @@ class VmserviceToolset {
     VmService vmService = await getVMService();
 
     final mainIsolate = await getMainIsolate();
-    if (mainIsolate.id == null) return null;
+    if (mainIsolate?.id == null) return null;
 
     // 通过invoke进行方法调用 返回Response
     // 可以用来执行某个常规函数（getter、setter、构造函数、私有函数属于非常规函数），
     // 其中如果 targetId 是 Library 的 id，那么 invoke 执行的就是 Library 的顶级函数。
     Response keyResponse =
-        await vmService.invoke(mainIsolate.id!, library.id!, 'generateKey', []);
+        await vmService.invoke(mainIsolate!.id!, library.id!, 'generateKey', []);
     final keyRef = InstanceRef.parse(keyResponse.json);
     String? key = keyRef?.valueAsString;
     if (key == null) return null;
@@ -154,11 +150,11 @@ class VmserviceToolset {
     VmService vmService = await getVMService();
 
     final mainIsolate = await getMainIsolate();
-    if (mainIsolate.id != null) {
+    if (mainIsolate?.id != null) {
       try {
         final objId = await getObjectId(obj);
         if (objId != null) {
-          Obj object = await vmService.getObject(mainIsolate.id!, objId);
+          Obj object = await vmService.getObject(mainIsolate!.id!, objId);
           final instance = Instance.parse(object.json);
           return instance;
         }
@@ -174,9 +170,9 @@ class VmserviceToolset {
     final vmService = await getVMService();
 
     final mainIsolate = await getMainIsolate();
-    if (mainIsolate.id != null) {
+    if (mainIsolate?.id != null) {
       try {
-        Obj object = await vmService.getObject(mainIsolate.id!, objId);
+        Obj object = await vmService.getObject(mainIsolate!.id!, objId);
         return object;
       } catch (e) {
         print('getObjectInstanceById error:$e');
@@ -185,9 +181,14 @@ class VmserviceToolset {
     return null;
   }
 
-  Future<RetainingPath> getRetainingPath(String targetId, int limit) async {
+  Future<RetainingPath?> getRetainingPath(String targetId, int limit) async {
     VmService vmService = await getVMService();
-    return vmService.getRetainingPath(isolateId!, targetId, limit);
+    if (vmService == null) return null;
+    final mainIsolate = await getMainIsolate();
+    if (mainIsolate != null && mainIsolate.id != null) {
+      return vmService.getRetainingPath(mainIsolate.id!, targetId, limit);
+    }
+    return null;
   }
 
   Future<String?> invokeMethod(
@@ -195,10 +196,10 @@ class VmserviceToolset {
     VmService vmService = await getVMService();
 
     final mainIsolate = await getMainIsolate();
-    if (mainIsolate.id != null) {
+    if (mainIsolate?.id != null) {
       try {
         Response valueResponse = await vmService.invoke(
-            mainIsolate.id!, targetId, method, argumentIds);
+            mainIsolate!.id!, targetId, method, argumentIds);
         final valueRef = InstanceRef.parse(valueResponse.json);
         return valueRef?.valueAsString;
       } catch (e) {}
@@ -210,9 +211,9 @@ class VmserviceToolset {
   Future<void> forceGC() async {
     VmService vmService = await VmserviceToolset().getVMService();
 
-    final isolate = await VmserviceToolset().getMainIsolate();
-    if (isolate.id != null) {
-      await vmService.getAllocationProfile(isolate.id!, gc: true);
+    Isolate? isolate = await VmserviceToolset().getMainIsolate();
+    if (isolate?.id != null) {
+      await vmService.getAllocationProfile(isolate!.id!, gc: true);
     }
   }
 }

@@ -2,26 +2,28 @@
 
 import 'dart:async';
 
+import 'package:dokit/kit/apm/leaks/leaks_doctor_conf.dart';
 import 'package:dokit/kit/apm/vm/vm_service_toolset.dart';
+import 'package:flutter/foundation.dart';
 import 'package:vm_service/vm_service.dart';
 
-import 'leaks_doctor.dart';
 import 'leaks_doctor_data.dart';
+import 'leaks_doctor_event.dart';
 
 abstract class _Task<T> {
   void start() async {
+    T? result;
     try {
-      run();
+      result = await run();
     } catch (e) {
       print('_Task $e');
     } finally {
-      done();
+      done(result);
     }
   }
 
-  void run();
-
-  void done();
+  Future<T?> run();
+  void done(T? result);
 }
 
 class LeaksDoctorTask extends _Task {
@@ -29,39 +31,35 @@ class LeaksDoctorTask extends _Task {
 
   final Function()? onCompleted;
   final Function(LeaksMsgInfo? leakInfo)? onLeaked;
-  final int? Function(String clsName)? searchPolicy;
   final StreamSink<LeaksDoctorEvent>? sink;
-  final int? maxRetainingPathLimit;
+  final String? group;
 
-  LeaksDoctorTask(this.expando,
+  LeaksDoctorTask(this.expando,this.group,
       {required this.onCompleted,
       required this.onLeaked,
-      this.searchPolicy,
-      this.sink,
-      this.maxRetainingPathLimit});
+      this.sink});
 
   @override
-  void done() {
+  void done(Object? result) {
     onCompleted?.call();
   }
 
   @override
-  void run() async {
+  Future<LeaksMsgInfo?> run() async {
     if (expando != null) {
-      if (await _isLeaked()) {
+      if (await _maybeLeaked()) {
         // 强制GC，确保对象Release
-        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart));
+        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcStart,data: group));
         await VmserviceToolset().forceGC(); //GC
-        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd));
+        sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.GcEnd,data: group));
         return _afterGC();
       }
     }
-    sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd));
     return null;
   }
 
   //完全GC后，检查是否存在泄漏，
-  void _afterGC() async {
+  Future<LeaksMsgInfo?> _afterGC() async {
     List<dynamic> weakPropertyList = await _getWeakPropertys(expando!);
     expando = null; //一定要释放引用
     for (var weakProperty in weakPropertyList) {
@@ -69,22 +67,24 @@ class LeaksDoctorTask extends _Task {
         final leakedInstance = await _getWeakPropertyKey(weakProperty.id);
         if (leakedInstance != null) {
           final start = DateTime.now();
-          sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AnalyzeStart));
+          sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AnalyzeStart,data: '$group : ${DateTime.now()}'));
 
-          LeaksMsgInfo? leaksMsgInfo = await _analyzeLeaks(leakedInstance);
+          LeaksMsgInfo? leaksMsgInfo = await compute(analyzeLeaks,leakedInstance); 
+
           sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AnalyzeEnd,
-              data: DateTime.now().difference(start)));
+              data: '$group : ${DateTime.now()} diff = ${DateTime.now().difference(start)}'));
 
           onLeaked?.call(leaksMsgInfo);
         }
       }
     }
-
-    sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd));
+    sink?.add(LeaksDoctorEvent(LeaksDoctorEventType.AllEnd,data: group));
   }
 
-  Future<bool> _isLeaked() async {
-    List<dynamic> weakPropertyList = await _getWeakPropertys(expando!);
+  // 可能有泄漏
+  Future<bool> _maybeLeaked() async {
+    List<dynamic> weakPropertyList =
+        await _getWeakPropertys(expando!);
     for (var weakProperty in weakPropertyList) {
       if (weakProperty != null) {
         final leakedInstance = await _getWeakPropertyKey(weakProperty.id);
@@ -128,11 +128,10 @@ class LeaksDoctorTask extends _Task {
     return null;
   }
 
-  Future<LeaksMsgInfo?> _analyzeLeaks(InstanceRef? leakedInstance) async {
-    if (leakedInstance?.id != null && maxRetainingPathLimit != null) {
-      final retainingPath = await VmserviceToolset()
-          .getRetainingPath(leakedInstance!.id!, maxRetainingPathLimit!);
-      if (retainingPath.elements != null &&
+  static Future<LeaksMsgInfo?> analyzeLeaks(InstanceRef? leakedInstance) async {
+    if (leakedInstance?.id != null) {
+      RetainingPath? retainingPath = await _getRetainPath(leakedInstance!);
+      if (retainingPath != null && retainingPath.elements != null &&
           retainingPath.elements!.isNotEmpty) {
         final retainObjList = retainingPath.elements!;
 
@@ -151,25 +150,77 @@ class LeaksDoctorTask extends _Task {
         });
 
         // 支持用户自定义设定条件
-        if (searchPolicy != null && clzName != null) {
-          final ret = searchPolicy!(clzName) ?? 0;
+        var expectedTotalCount = 0;
+        if (clzName != null) {
+          final ret = LeaksDoctorConf().searchPolicy(clzName) ?? 0;
           if (ret > 0 && leaksInstanceCounts != null) {
             // 如果期望的对象数和实际对象数相同或者期望对象数大于实际对象数，符号预期，不认为是一次泄漏
             if (ret >= leaksInstanceCounts) {
               return null;
             }
+            expectedTotalCount = ret;
           }
         }
 
         return LeaksMsgInfo(retainingPathList, retainingPath.gcRootType!,
-            leaksInstanceCounts: leaksInstanceCounts, leaksClsName: clzName);
+            leaksInstanceCounts: leaksInstanceCounts, leaksClsName: clzName, expectedTotalCount: expectedTotalCount);
       }
     }
     return null;
   }
 
-  Future<LeaksMsgNode?> _buildAnalyzeNode(
+   static Future<RetainingPath?> _getRetainPath(InstanceRef ref) async {
+    try {
+      final maxRetainingPathLimit = LeaksDoctorConf().maxRetainingPathLimit!;
+      return await VmserviceToolset()
+          .getRetainingPath(ref.id!, maxRetainingPathLimit);
+    } on SentinelException catch (e) {
+      // 有可能已经被回收了 ~
+      if (e.sentinel.kind == SentinelKind.kCollected || e.sentinel.kind == SentinelKind.kExpired) {
+        return null;
+      }
+      // 其它错误
+      rethrow;
+    }
+  }
+
+  static void _analyzeRetainingObject(RetainingObject ele) {
+    // 引用路径其中一个节点
+    ObjRef ref = ele.value!;
+    String name = ref.id!;
+    if (ref is InstanceRef) {
+      // 函数引用，如匿名函数 <anonymous closure>
+      if (ref.kind == InstanceKind.kClosure) {
+        List<String?> chain = [ref.closureFunction!.name];
+        var owner = ref.closureFunction!.owner;
+        while (owner is FuncRef) {
+          chain.add(owner.name);
+          owner = owner.owner;
+        }
+        if (owner != null) {
+          chain.add(owner.name);
+        }
+        name = chain.reversed.join('.');
+      }
+    } else if (ref is FieldRef) {
+      if (ref.isStatic == true) {
+        // 这是个全局静态field
+        name = '${ref.name} (static)';
+      }
+    } else if (ref is ContextRef) {
+      // 匿名函数的 context
+      name = '<Closure Context>';
+    }
+    // 引用路径节点的父节点 field
+    final String parentField = ele.parentField ?? '';
+    // print('+ $name   $parentField');
+}
+
+  static Future<LeaksMsgNode?> _buildAnalyzeNode(
       RetainingObject retainingObject) async {
+
+    _analyzeRetainingObject(retainingObject); 
+      
     if (retainingObject.value is InstanceRef) {
       InstanceRef instanceRef = retainingObject.value as InstanceRef;
       final String name = instanceRef.classRef?.name ?? '';
@@ -239,7 +290,7 @@ class LeaksDoctorTask extends _Task {
     }
   }
 
-  Future<String?> _getKeyInfo(RetainingObject retainingObject) async {
+  static Future<String?> _getKeyInfo(RetainingObject retainingObject) async {
     String? keyString;
     if (retainingObject.parentMapKey?.id != null) {
       Obj? keyObj = await VmserviceToolset()
@@ -263,7 +314,7 @@ class LeaksDoctorTask extends _Task {
     return keyString;
   }
 
-  Future<LeakedNodeType> _getObjectType(Class? clazz) async {
+  static Future<LeakedNodeType> _getObjectType(Class? clazz) async {
     if (clazz?.name == null) return LeakedNodeType.unknown;
     if (clazz!.name == 'Widget') {
       return LeakedNodeType.widget;
@@ -279,7 +330,7 @@ class LeaksDoctorTask extends _Task {
     }
   }
 
-  Future<CodeLocation?> _getCodeLocation(
+  static Future<CodeLocation?> _getCodeLocation(
       SourceLocation? location, String? clazzName) async {
     if (location == null) {
       return null;
@@ -303,7 +354,7 @@ class LeaksDoctorTask extends _Task {
     return codeLocation;
   }
 
-  Future<ClosureNode?> _getClosureNode(Instance? instance) async {
+  static Future<ClosureNode?> _getClosureNode(Instance? instance) async {
     if (instance != null && instance.kind == 'Closure') {
       final name = instance.closureFunction?.name;
       final owner = instance.closureFunction?.owner;
@@ -314,7 +365,7 @@ class LeaksDoctorTask extends _Task {
     return null;
   }
 
-  Future<void> _getClosureOwner(dynamic ref, ClosureNode node) async {
+  static Future<void> _getClosureOwner(dynamic ref, ClosureNode node) async {
     if (ref?.id == null) return;
     if (ref is LibraryRef) {
       Library? library = (await VmserviceToolset()
