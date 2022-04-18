@@ -37,6 +37,11 @@ enum class PackageType(name: String, ordinal: Int) {
     DATA("data", 4),
 
     /**
+     * 自动化测试
+     */
+    AUTOTEST("autotest", 5),
+
+    /**
      * 心跳
      */
     HEART_BEAT("heart_beat", 1),

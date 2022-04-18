@@ -13,10 +13,12 @@ import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.autotest.AutoTestManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.widget.FlashImageView
 import com.didichuxing.doraemonkit.kit.test.widget.FlashTextView
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 
 
 /**
@@ -60,8 +62,14 @@ class RecordingCaseDoKitView : AbsDokitView() {
             activity.startActivity(intent)
         }
         rootView?.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
-            AutoTestManager.stopConnect()
-            DoKit.removeFloating(RecordingCaseDoKitView::class)
+
+            if (AutoTestManager.getMode() == TestMode.UNKNOWN) {
+                AutoTestManager.stopConnect()
+                DoKit.removeFloating(RecordingCaseDoKitView::class)
+            } else {
+                ToastUtils.showShort("正在测试或录制，请先停止")
+            }
+
         }
 
         mRedDot?.startFlash()

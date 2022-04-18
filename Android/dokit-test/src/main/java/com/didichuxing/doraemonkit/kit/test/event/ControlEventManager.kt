@@ -24,6 +24,7 @@ object ControlEventManager {
 
     private val onControlEventActionListenerSet: MutableSet<OnControlEventActionListener> = mutableSetOf()
     private val onControlEventActionProcessListenerSet: MutableSet<OnControlEventActionProcessListener> = mutableSetOf()
+    private val onControlEventInterceptorSet: MutableSet<OnControlEventInterceptor> = mutableSetOf()
 
     private val controlEventProcessor: ControlEventProcessor = ControlEventProcessor()
 
@@ -48,11 +49,22 @@ object ControlEventManager {
      * 来自与事件监听
      */
     fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent) {
-        updateEventId(controlEvent.eventId)
-        controlEvent.diffTime = getEventDiffTime()
-        onControlEventActionListenerSet.forEach {
-            it.onControlEventAction(activity, view, controlEvent)
+        if (!onControlEventActionIntercept(activity, view, controlEvent)) {
+            updateEventId(controlEvent.eventId)
+            controlEvent.diffTime = getEventDiffTime()
+            onControlEventActionListenerSet.forEach {
+                it.onControlEventAction(activity, view, controlEvent)
+            }
         }
+    }
+
+    private fun onControlEventActionIntercept(activity: Activity?, view: View?, controlEvent: ControlEvent): Boolean {
+        onControlEventInterceptorSet.forEach {
+            if (it.onControlEventAction(activity, view, controlEvent)) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun getEventDiffTime(): Long {
@@ -67,6 +79,15 @@ object ControlEventManager {
             diffTime
         }
     }
+
+    fun addOnControlEventInterceptor(eventInterceptor: OnControlEventInterceptor) {
+        onControlEventInterceptorSet.add(eventInterceptor)
+    }
+
+    fun removeOnControlEventInterceptor(eventInterceptor: OnControlEventInterceptor) {
+        onControlEventInterceptorSet.remove(eventInterceptor)
+    }
+
 
     fun addOnControlEventActionListener(actionListener: OnControlEventActionListener) {
         onControlEventActionListenerSet.add(actionListener)
@@ -83,6 +104,14 @@ object ControlEventManager {
      */
     fun onReceiveControlEventAction(controlEvent: ControlEvent) {
         controlEventProcessor.processControlEvent(controlEvent)
+    }
+
+    fun addOnControlEventActionProcessListener(processListener: OnControlEventActionProcessListener) {
+        onControlEventActionProcessListenerSet.add(processListener)
+    }
+
+    fun removeOnControlEventActionProcessListener(processListener: OnControlEventActionProcessListener) {
+        onControlEventActionProcessListenerSet.add(processListener)
     }
 
     /**
