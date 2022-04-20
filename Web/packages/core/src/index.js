@@ -73,7 +73,7 @@ export class Dokit {
   }
 
   startMultiControl(url, role) {
-    if(role==='client'||role==='host'){
+    if(role==='client'||role==='host') {
       role === 'host'&&(Store.state.isHost = true);
       Store.state.socketUrl = url;
       Store.state.socketConnect = true;

@@ -99,7 +99,7 @@ export default class EventPlayback {
                                     case "ON_INPUT_CHANGE":
                                         event = document.createEvent('Events');
                                         event.initEvent('input', true, true);
-                                        node.value = data.viewC12c.text
+                                        node.value = data.viewC12c.inputValue;
                                         node.dispatchEvent(event);
                                         break;
                                     case "ON_SCROLL":
