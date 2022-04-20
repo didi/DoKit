@@ -67,6 +67,13 @@ object ControlEventManager {
         return false
     }
 
+    /**
+     * 重新设置开始时间
+     */
+    fun resetLastEventDateTime() {
+        lastEventDateTime = System.currentTimeMillis()
+    }
+
     private fun getEventDiffTime(): Long {
         val currentTime = System.currentTimeMillis()
         val diffTime = currentTime - lastEventDateTime

@@ -76,7 +76,7 @@ object AutoTestManager {
         }
     }
 
-    private var screenShotManager: ScreenShotManager = ScreenShotManager("/doKit/autotest/screen")
+    private var screenShotManager: ScreenShotManager = ScreenShotManager("doKit/autotest/screen")
     private var fileUploadManager: FileUploadManager = FileUploadManager(screenShotManager)
 
     private val autoTestStateSet: MutableMap<String, AutoTestState> = mutableMapOf()
@@ -140,6 +140,7 @@ object AutoTestManager {
     }
 
     fun startRecord() {
+        ControlEventManager.resetLastEventDateTime()
         ControlEventManager.addOnControlEventInterceptor(eventActionInterceptor)
         ControlEventManager.addOnControlEventActionListener(eventActionListener)
         MockManager.proxyMockCallback = proxyMockCallback
@@ -395,7 +396,10 @@ object AutoTestManager {
 
                                 }
                             }
+                        } else if (textPackage.type == PackageType.DATA) {
+                            MockManager.receiveQueryResponse(textPackage)
                         }
+
 
                     }
                 })

@@ -42,7 +42,7 @@ object JsonParser {
             type = type,
             data = text,
             contentType = contentType,
-            channelSerial = ConnectConfig.getConnectSerial()
+            connectSerial = ConnectConfig.getConnectSerial()
         )
         return toJson(textPackage)
     }

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.view.View;
 
+import com.didichuxing.doraemonkit.util.FileIOUtils;
+import com.didichuxing.doraemonkit.util.FileManager;
+import com.didichuxing.doraemonkit.util.FileUtils;
 import com.didichuxing.doraemonkit.util.RandomUtils;
 import com.didichuxing.doraemonkit.util.Utils;
 
@@ -53,6 +56,15 @@ public class ScreenShotManager {
     public String saveBitmap(Bitmap bitmap, String fileName) {
         String fullFilepath = screenFileDir + "/" + fileName + ".jpeg";
         try {
+            File file = new File(screenFileDir);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+
+            File file2 = new File(fullFilepath);
+            if (!file2.exists()) {
+                file2.createNewFile();
+            }
             //保存图片
             FileOutputStream outputStream = new FileOutputStream(fullFilepath);
             boolean ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
