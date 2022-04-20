@@ -34,7 +34,7 @@
 import ElementTree from './elementTree.vue';
 import ElementDetails from './elementDetails.vue';
 import ElementSnippet from './elementSnippet.vue';
-import MutationObserver from 'mutation-observer';
+// import MutationObserver from 'mutation-observer';
 import { guid, $bus } from '../../assets/util';
 import { toggleElement } from '@dokit/web-core';
 export default {

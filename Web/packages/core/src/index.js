@@ -1,30 +1,52 @@
-import {createApp} from 'vue'
+import {
+  createApp
+} from 'vue'
 import App from './components/app'
 import DokitUi from './common/components/dokit-ui'
 import Store from './store'
-import {applyLifecyle, LifecycleHooks} from './common/js/lifecycle' 
-import {getRouter} from './router'
-export class Dokit{
+import {
+  applyLifecyle,
+  LifecycleHooks
+} from './common/js/lifecycle'
+import {
+  getRouter
+} from './router'
+import toast from './common/components/toast/index'
+export class Dokit {
   options = null
-  constructor(options){
+  constructor(options) {
     this.options = options
     let app = createApp(App);
-    let {features} = options;
+    let {
+      features
+    } = options;
     app.use(DokitUi);
     app.use(getRouter(features));
     app.use(Store);
+    if (document.readyState === "loading") {
+      // window.addEventListener("load", function (_event) {
+      //   app.use(toast);
+      // });
+      document.addEventListener("readystatechange", function () {
+        if (document.readyState === "interactive") {
+          app.use(toast);
+        }
+      });
+    }else{
+      app.use(toast);
+    }
     Store.state.features = features;
     this.app = app;
     this.init();
     this.onLoad();
   }
 
-  onLoad(){
+  onLoad() {
     // Lifecycle Load
     applyLifecyle(this.options.features, LifecycleHooks.LOAD)
   }
 
-  onUnload(){
+  onUnload() {
     // Lifecycle UnLoad
     applyLifecyle(this.options.features, LifecycleHooks.UNLOAD)
   }
@@ -33,7 +55,7 @@ export class Dokit{
     applyLifecyle(this.options.features, LifecycleHooks.PRODUCT_READY)
   }
 
-  init(){
+  init() {
     let dokitRoot = document.createElement('div')
     dokitRoot.id = "dokit-root"
     document.documentElement.appendChild(dokitRoot);
@@ -48,6 +70,26 @@ export class Dokit{
     this.productId = productId
     Store.state.productId = productId
     this.onProductReady()
+  }
+
+  startMultiControl(url, role) {
+    if(role==='client'||role==='host') {
+      role === 'host'&&(Store.state.isHost = true);
+      Store.state.socketUrl = url;
+      Store.state.socketConnect = true;
+    }
+  }
+
+  stopMultiControl(){
+    Store.state.socketConnect = false;
+  }
+
+  isNativeContainer(){
+    if(!Store.state.socketConnect){
+      Store.state.isNative = true;
+      let nativeConnectSerial = localStorage.getItem('nativeConnectSerial')
+      nativeConnectSerial&&(Store.state.connectSerial = nativeConnectSerial)
+    }
   }
 }
 

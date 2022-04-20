@@ -44,10 +44,10 @@ export default {
   watch: {
     showHighlightElement(val) {
       if (val) {
-        document.body.addEventListener("click", this.elementClick, false);
+        document.body.addEventListener("click", this.elementClick, true);
         window.addEventListener("scroll", this.onScroll);
       } else {
-        document.body.removeEventListener("click", this.elementClick, false);
+        document.body.removeEventListener("click", this.elementClick, true);
         window.removeEventListener("scroll", this.onScroll);
       }
     },
@@ -62,6 +62,7 @@ export default {
     },
     elementClick(e) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       if (e.target !== this.highlightElement) {
         toggleElement(e.target);
       }

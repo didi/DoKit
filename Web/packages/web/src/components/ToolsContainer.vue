@@ -1,10 +1,10 @@
 <template>
-  <div class="tools-container">
-    <div class="tools-tabs">
+  <div class="dokit-tools-container">
+    <div class="dokit-tools-tabs">
       <div
         v-for="tab in tabs"
         v-bind:key="tab.displayName"
-        v-bind:class="['tab-button', { active: currentTab === tab.component }]"
+        v-bind:class="['dokit-tab-button', { active: currentTab === tab.component }]"
         v-on:click="currentTab = tab.component"
       >
         {{ tab.displayName }}
@@ -53,7 +53,7 @@ export default {
 }
 </script>
 <style lang="less">
-.tools-container {
+.dokit-tools-container {
   height: 61.8%;
   width: 100%;
   overflow: hidden;
@@ -62,7 +62,7 @@ export default {
   box-shadow:0px 0px 10px 5px #ddd;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  .tools-tabs{
+  .dokit-tools-tabs{
     // position: absolute;
     // top: 0;
     width: 100%;
@@ -71,7 +71,7 @@ export default {
     text-align: left;
     border-bottom: 1px solid #ddd;
     padding: 0;
-    .tab-button{
+    .dokit-tab-button{
       font-size: 14px;
       display: inline-block;
       height: 30px;

@@ -1,40 +1,37 @@
 export class EventEmitter{
   constructor(){
-    this._events = {}
+      this._events = {};
   }
 
-  once(event, listener){
-    let _this = this
-    let tempListener = function(){
-      listener.apply(_this, arguments)
-      _this.off(event, tempListener)
-    }
-    _this.on(event, tempListener)
-    return this
-  }
-  on(event, listener){
-    this._events[event] = this._events[event] || []
-    this._events[event].push(listener)
-
-    return this
+  on(eventName, callback){
+      // if(this._events[eventName]){
+      //     if(this.eventName !== "newListener"){
+      //         this.emit("newListener", eventName)
+      //     }
+      // }
+      const callbacks = this._events[eventName] || [];
+      callbacks.push(callback);
+      this._events[eventName] = callbacks
   }
 
-  off(event, listener){
-    if(!this._events[event] || this._events[event].length === 0){
-      return
-    }
-    let index = this._events[event].indexOf(listener);
-    if(index >= 0){
-      this._events[event].splice(index, 1)
-    }
+  emit(eventName, ...args){
+      const callbacks = this._events[eventName] || [];
+      callbacks.forEach(cb => cb(...args))
   }
-  emit(event, info){
-    if(!this._events[event] || this._events[event].length === 0){
-      return
-    }
-    this._events[event].forEach(listener => {
-      listener.call(this, info)
-    })
-    return this
+
+  once(eventName, callback){
+      const one = (...args)=>{
+          callback(...args)
+          this.off(eventName, one)
+      }
+      one.initialCallback = callback;
+      this.on(eventName, one)
+  }
+
+   off(eventName, callback){
+      const callbacks = this._events[eventName] || []
+      const newCallbacks = callbacks.filter(fn => fn != callback && fn.initialCallback != callback /* 用于once的取消订阅 */)
+      this._events[eventName] = newCallbacks;
   }
 }
+

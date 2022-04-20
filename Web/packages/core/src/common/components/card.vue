@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="card-title">
-      <span class="card-title-text"> {{title}} </span>
+  <div class="dokit-card">
+    <div class="dokit-card-title">
+      <span class="dokit-card-title-text"> {{title}} </span>
     </div>
-    <div class="item-list">
+    <div class="dokit-item-list">
       <div class="item" v-for="(item,index) in list" :key="index" @click="handleClickItem(item)">
         <div class="item-icon">
           <img
@@ -40,16 +40,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.card {
+.dokit-card {
   margin-bottom: 10px;
   padding: 10px;
   background-color: white;
 }
-.card-title-text {
+.dokit-card-title-text {
   font-size: 16px;
   color: #333333;
 }
-.item-list {
+.dokit-item-list {
   display: flex;
   flex-wrap: wrap;
   margin-top: 5px;

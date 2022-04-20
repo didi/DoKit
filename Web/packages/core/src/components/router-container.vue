@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="dokit-container">
     <top-bar :title="title" :canBack="canBack"></top-bar>
-    <div class="router-container">
+    <div class="dokit-router-container">
       <keep-alive>
         <component :is="component" />
       </keep-alive>
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.container{
+.dokit-container{
   position: fixed;
   left: 0;
   right: 0;
@@ -44,7 +44,7 @@ export default {
   z-index: 999;
   border-radius: 10px 10px 0 0;
 }
-.router-container{
+.dokit-router-container{
   margin-top: 5px;
   background-color: white;
   flex: 1;

@@ -43,7 +43,8 @@ export const createRouter = function({routes:mainRoutes}){
   }
 
   function back(){
-    let index = history[history.length - 2]
+    history.pop();
+    let index = history.length - 1
     updateCurrentRoute({
       name: history[index]
     })

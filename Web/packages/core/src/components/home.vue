@@ -1,5 +1,5 @@
 <template>
-  <div class="index-container">
+  <div class="dokit-index-container">
     <card
       v-for="(item, index) in features"
       :key="index"
@@ -53,7 +53,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.index-container {
+.dokit-index-container {
   background-color: #f5f6f7;
 }
 </style>

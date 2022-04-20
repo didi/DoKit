@@ -1,8 +1,8 @@
 <template>
-  <div class="log-ltem" :class="logType">
-    <div class="log-preview" v-html="logPreview" @click="toggleDetail"></div>
+  <div class="dokit-log-ltem" :class="logType">
+    <div class="dokit-log-preview" v-html="logPreview" @click="toggleDetail"></div>
     <div v-if="canShowDetail">
-      <div class="list-item" v-for="(key, index) in value" :key="index">
+      <div class="dokit-list-item" v-for="(key, index) in value" :key="index">
         <Detail :detailValue="key" :detailIndex="index"></Detail>
       </div>
     </div>
@@ -82,7 +82,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .log-ltem{
+  .dokit-log-ltem{
     padding: 5px;
     padding-left: 20px;
     border-top: 1px solid #eee;
@@ -139,15 +139,15 @@ export default {
   .log-ltem:first-child {
     border: none;
   }
-  .log-preview{
-    .data-type{
+  .dokit-log-preview{
+    & >>> .data-type{
       margin-left: 5px;
       margin-right: 5px;
       font-style: italic;
       font-weight: bold;
       color: #aaa;
     }
-    .data-structure{
+    & >>> .data-structure{
       display: inline-block;
       max-width: 100%;
       font-style: italic;

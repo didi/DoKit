@@ -1,6 +1,9 @@
-import { EventEmitter } from './eventEmiter'
-import { guid } from './utils'
-
+import {
+  EventEmitter
+} from './eventEmiter'
+import {
+  guid,completionUrlProtocol
+} from './utils'
 const getAllResponseHeadersMap = function (xhr) {
   let headers = xhr.getAllResponseHeaders();
   let arr = headers.trim().split(/[\r\n]+/);
@@ -14,14 +17,15 @@ const getAllResponseHeadersMap = function (xhr) {
   });
 }
 
-export class Request extends EventEmitter{
-  constructor(){
+export class Request extends EventEmitter {
+  constructor() {
     super()
     this.hookFetchConfig = {}
     this.hookXhrConfig = {}
+    this.multiControlhookConfig = {}
     this.initialize()
   }
-  initialize(){
+  initialize() {
     let Req = this
     // const {send:originSend, open:originOpen, setRequestHeader: originSetRequestHeader} = window.XMLHttpRequest.prototype;
 
@@ -30,9 +34,13 @@ export class Request extends EventEmitter{
     const originSend = winXhrProto.send;
     const originOpen = winXhrProto.open;
     const originSetRequestHeader = winXhrProto.setRequestHeader;
+    const getResponseHeader = winXhrProto.getResponseHeader;
+    const getAllResponseHeaders = winXhrProto.getAllResponseHeaders;
     // XMLHttp
-    window.XMLHttpRequest.prototype.setRequestHeader = function(...args){
-      if(Req.hookXhrConfig.onBeforeSetRequestHeader) {
+    window.XMLHttpRequest.prototype.setRequestHeader = function (...args) {
+      this.reqConf.requestHeaders||(this.reqConf.requestHeaders = {})
+      this.reqConf.requestHeaders[args[0]] = args[1]
+      if (Req.hookXhrConfig.onBeforeSetRequestHeader) {
         args = Req.hookXhrConfig.onBeforeSetRequestHeader(args, this.reqConf);
         // 返回false则取消设置请求头 （api-mock拦截接口，会将post改为get 此时设置请求头Content-Type会报跨域错误）
         args && originSetRequestHeader.apply(this, args);
@@ -40,31 +48,44 @@ export class Request extends EventEmitter{
         originSetRequestHeader.apply(this, args);
       }
     }
+    window.addEventListener('xhrSendStart', function (e) {
+      console.log('xhrSendStart', e);
+    });
     window.XMLHttpRequest.prototype.open = function (...args) {
-      let originArgs = {...args}
+      console.log('open', args);
+      let originArgs = {
+        ...args
+      }
       args = Req.hookXhrConfig.onBeforeOpen && Req.hookXhrConfig.onBeforeOpen(args) || args
       const xhr = this;
+      
       this.reqConf = {
         id: guid(),
         type: 'xhr',
         requestInfo: {
           method: args[0].toUpperCase(),
-          url: args[1]
+          url: completionUrlProtocol(args[1])
         },
         originRequestInfo: {
           method: originArgs[0].toUpperCase(),
-          url: originArgs[1]
+          url: completionUrlProtocol(originArgs[1])
         }
       }
 
       xhr.addEventListener('readystatechange', function (e) {
-        switch (xhr.readyState) {
-          case 2:
-            // this.headersReceived();
-          break;
-          case 4:
-            Req.handleDone(xhr);
-          break;
+        try {
+          switch (xhr.readyState) {
+            case 2:
+              // this.headersReceived();
+              Req.multiControlhookConfig?.xhrHostRequest?.call(Req,xhr);
+              break;
+            case 4:
+              Req.handleDone(xhr);
+              Req.multiControlhookConfig?.xhrHostResponse?.call(Req,xhr);
+              break;
+          }         
+        } catch (error) {
+            console.log(error)
         }
       });
 
@@ -76,38 +97,68 @@ export class Request extends EventEmitter{
           }
         })
       });
-  
+      xhr.getResponseHeader = (name) => {
+        if(Req.multiControlhookConfig?.getResponseHeader){
+          return Req.multiControlhookConfig?.getResponseHeader.call(this, getResponseHeader,name);
+        }else{
+          return getResponseHeader.call(this, name);
+        }
+      }
+      xhr.getAllResponseHeaders = ()=> {
+        if(Req.multiControlhookConfig?.getAllResponseHeaders){
+          return Req.multiControlhookConfig?.getAllResponseHeaders.apply(this, [getAllResponseHeaders,...arguments]);
+        }else{
+          return getAllResponseHeaders.call(this, args);
+        }
+      }
       originOpen.apply(this, args);
     };
 
-    window.XMLHttpRequest.prototype.send = function(){
-      if (arguments.length) {
-        this.reqConf.requestInfo.body = arguments[0]
+    window.XMLHttpRequest.prototype.send = function () {
+      try {
+        if (arguments.length) {
+          this.reqConf.requestInfo.body = arguments[0]
+        }
+        Req.multiControlhookConfig?.xhrClientQuery?.apply(this, [originSend,...arguments]);
+        Req.emit('REQUEST.SEND', this.reqConf)
+        if(Req.multiControlhookConfig?.isOriginSend){
+          Req.multiControlhookConfig?.isOriginSend.apply(this, [originSend,...arguments]);
+        }else{
+          originSend.apply(this, arguments);
+        }
+      } catch (error) {
+        console.log(error)
       }
-      Req.emit('REQUEST.SEND', this.reqConf)
-      originSend.apply(this, arguments);
     }
 
     // fetch
     const origFetch = window.fetch;
-    window.fetch = function (...args) {
-      let reqId = guid()
-      args = Req.hookFetchConfig.onBeforeFetch && Req.hookFetchConfig.onBeforeFetch(args) || args
-
-      Req.emit('REQUEST.SEND', {
-        id: reqId,
-        type: 'fetch',
-        requestInfo: {
-          url: args[0],
-          method: (args.length > 1 ? (args[1].method || 'get') : 'get').toUpperCase(),
-          headers: args.length > 1 ? (args[1].headers || {}) : {},
-          body: args.length > 1 ? (args[1].body || '') : ''
-        }
-      })
-      const fetchResult = origFetch(...args);
-
-      fetchResult.then(res => {
-        res.clone().text().then(r=> {
+    window.fetch = async function (...args) {
+      try {
+        let did = guid();
+        let pid = guid();
+        let reqId = guid()
+        let fetchResult = null;
+        console.log('fetchHostRequest:',Req.multiControlhookConfig?.fetchHostRequest)
+        Req.multiControlhookConfig?.fetchHostRequest?.apply(Req, [did,pid,...arguments]);
+        fetchResult = Req.multiControlhookConfig?.fetchResult?.apply(Req, [pid,reqId,origFetch,...arguments]);
+        Req.multiControlhookConfig?.fetchClientQuery?.apply(Req, [pid,...arguments]);
+        args = Req.hookFetchConfig.onBeforeFetch && Req.hookFetchConfig.onBeforeFetch(args) || args
+        Req.emit('REQUEST.SEND', {
+          id: reqId,
+          type: 'fetch',
+          requestInfo: {
+            url: args[0],
+            method: (args.length > 1 ? (args[1].method || 'get') : 'get').toUpperCase(),
+            headers: args.length > 1 ? (args[1].headers || {}) : {},
+            body: args.length > 1 ? (args[1].body || '') : ''
+          }
+        })
+        if (!fetchResult) {
+          fetchResult = origFetch(...args);
+          const res = await fetchResult
+          const r = await res.clone().text()
+          Req.multiControlhookConfig?.fetchHostResponse?.apply(Req, [did,res,r]);
           Req.emit('REQUEST.DONE', {
             id: reqId,
             responseInfo: {
@@ -115,11 +166,13 @@ export class Request extends EventEmitter{
               status: res.status,
               resRaw: r
             }
-          })
-        })
-      })
-      return fetchResult;
-    };    
+          })     
+        }
+        return fetchResult;
+      } catch (error) {
+        console.error(error)
+      }
+    };
   }
 
   hookXhr(hookXhrConfig) {
@@ -136,15 +189,15 @@ export class Request extends EventEmitter{
         type: 'unknown',
         subType: 'unknown',
       };
-  
+
     const type = contentType.split(';')[0].split('/');
-  
+
     return {
       type: type[0],
       subType: type[type.length - 1],
     };
   }
-  
+
   readBlobAsText(blob, callback) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -188,5 +241,7 @@ export class Request extends EventEmitter{
       update();
     }
   }
-
+  multiControlhook(multiControlhookConfig) {
+    this.multiControlhookConfig = multiControlhookConfig
+  }
 }

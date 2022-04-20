@@ -105,10 +105,10 @@ export default {
       return names.indexOf(tagName) > -1 ? true : false;
     },
     unfoldDetail() {
-      this.unfold = !this.unfold;
+      this.canFold()&&(this.unfold = !this.unfold);
     },
     canFold() {
-      if (node.childNodes.length > 0) {
+      if (this.node.childNodes.length > 0) {
         return true;
       }
       return false;

@@ -6,7 +6,19 @@ const store = new Store({
     showHighlightElement:false,
     highlightElement:null,
     independPlugins: [],
-    features: []
+    interfaceList:[],
+    features: [],
+    socketUrl:'',
+    isHost:false,
+    socketConnect: false,
+    socketHistoryList:new Map(),
+    mcClientWaitRequestQueue:[],
+    mcHostWaitRequestQueue:[],
+    mcHostWaitResponseQueue:[],
+    mcClientWaitFetchRequestQueue:[],
+    mcHostWaitFetchRequestQueue:[],
+    mcHostWaitFetchResponseQueue:[],
+    isNative:false,
   }
 })
 
