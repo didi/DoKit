@@ -6,6 +6,6 @@ target 'Demo' do
   use_frameworks!
 
   # Pods for Demo
-  pod 'DoraemonKit', :path => '..', :subspecs => ['Hook', 'EventSynthesize']
+  pod 'DoraemonKit', :path => '..', :subspecs => ['Foundation', 'CoreNG']
 
 end

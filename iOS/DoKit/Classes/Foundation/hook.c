@@ -49,7 +49,7 @@ typedef struct nlist nlist_t;
 struct RebindingEntry {
     SLIST_ENTRY(RebindingEntry) node;
     size_t length;
-    struct DKRebinding rebinding[0];
+    struct DKRebinding *rebinding;
 };
 
 static SLIST_HEAD(, RebindingEntry) rebindingEntryHead = SLIST_HEAD_INITIALIZER();
