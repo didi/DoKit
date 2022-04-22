@@ -28,8 +28,8 @@
           </span> </i
         >&gt;
       </span>
-      <template v-if="canFold">
-        <div v-show="unfold" v-for="child in node.childNodes" :key="child.key">
+      <template v-if="canFold&&unfold">
+        <div v-for="child in node.childNodes" :key="child.key">
           <ElementTree :node="child" :parentIsUnfold="unfold"></ElementTree>
         </div>
       </template>
