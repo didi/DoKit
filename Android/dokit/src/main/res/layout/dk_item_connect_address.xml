@@ -15,7 +15,7 @@
         android:layout_alignBottom="@+id/tv_name"
         android:layout_marginBottom="4dp"
         android:layout_toRightOf="@+id/tv_name"
-        android:background="@drawable/dk_dokitview_mc_connect"
+        android:background="@drawable/dk_dokitview_studio_connect"
         android:visibility="gone"
         tools:visibility="visible" />
 
