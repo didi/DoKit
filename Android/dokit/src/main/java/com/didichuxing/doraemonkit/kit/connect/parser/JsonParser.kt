@@ -47,6 +47,17 @@ object JsonParser {
         return toJson(textPackage)
     }
 
+    fun toTextPackage(type: PackageType, data: Any, contentType: String): TextPackage {
+        val text = toJson(data)
+        return TextPackage(
+            pid = RandomUtils.random32HexString(),
+            type = type,
+            data = text,
+            contentType = contentType,
+            connectSerial = ConnectConfig.getConnectSerial()
+        )
+    }
+
     fun toLoginJson(data: LoginData): String {
         return toJson(PackageType.LOGIN, data)
     }

@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcHostServer
 import com.didichuxing.doraemonkit.kit.mc.utils.CodeUtils
 import com.didichuxing.doraemonkit.mc.R
@@ -69,7 +69,6 @@ class DoKitMcHostFragment : BaseFragment() {
                 DoKitMcManager.WS_MODE = TestMode.HOST
                 //启动悬浮窗
                 DoKit.launchFloating(HostDokitView::class)
-                DoKitMcManager.startHostMode()
             }
         }
     }

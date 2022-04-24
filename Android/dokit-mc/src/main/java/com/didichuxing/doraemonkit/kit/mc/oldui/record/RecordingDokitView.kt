@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.mc.R

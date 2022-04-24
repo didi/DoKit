@@ -6,8 +6,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientHistoryFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.connect.DoKitMcConnectFragment
-import com.didichuxing.doraemonkit.kit.mc.ui.connect.DoKitMcConnectHistoryFragment
+import com.didichuxing.doraemonkit.kit.mc.ui.connect.MultiControlAllFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.host.DoKitMcHostFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.main.DoKitMcMainFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.record.DoKitMcDatasFragment
@@ -70,13 +69,9 @@ class DoKitMcActivity : BaseActivity() {
                 mTitlebar.setTitle("一机多控（原）")
                 DoKitMcMainFragment()
             }
-            McPages.CONNECT -> {
-                mTitlebar.setTitle("一机多控（联网")
-                DoKitMcConnectFragment()
-            }
             McPages.CONNECT_HISTORY -> {
                 mTitlebar.setTitle("一机多控")
-                DoKitMcConnectHistoryFragment()
+                MultiControlAllFragment()
             }
             McPages.HOST -> {
                 mTitlebar.setTitle("一机多控（主机")

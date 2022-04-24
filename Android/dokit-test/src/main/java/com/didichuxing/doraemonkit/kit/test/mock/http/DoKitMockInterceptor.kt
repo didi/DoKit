@@ -30,6 +30,7 @@ import java.util.*
  * 修订历史：
  * ================================================
  */
+@Deprecated("DoKitProxyMockInterceptor")
 class DoKitMockInterceptor : AbsDoKitInterceptor() {
     private val mExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         LogHelper.e(TAG, "error message: ${throwable.message}")
@@ -122,7 +123,7 @@ class DoKitMockInterceptor : AbsDoKitInterceptor() {
 
                                 val interceptor: HttpMockInterceptor? = MockManager.httpMockInterceptor
                                 if (interceptor != null) {
-                                    result = interceptor.intercept(McMockKey(key,k,strQuery,strRequestBody), result)
+                                    result = interceptor.intercept(McMockKey(key, k, strQuery, strRequestBody), result)
 
                                 }
                                 LogHelper.i(TAG, "MCMOCKLOG OK key=$key,code=${result.code} originKey===>$k data=${result.data}")

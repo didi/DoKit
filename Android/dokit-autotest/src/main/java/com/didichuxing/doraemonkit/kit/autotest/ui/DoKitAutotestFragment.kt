@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.autotest.AutoTestManager
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.test.TestMode
+import com.didichuxing.doraemonkit.kit.test.report.ScreenShotManager
 import com.didichuxing.doraemonkit.util.ToastUtils
 
 
@@ -47,8 +48,14 @@ class DoKitAutotestFragment : BaseFragment() {
             stopTest()
         }
         view.findViewById<View>(R.id.caseList).setOnClickListener {
-            ToastUtils.showShort("开发中")
+            ToastUtils.showShort("不支持")
         }
+    }
+
+    private var screenShotManager: ScreenShotManager = ScreenShotManager("doKit/autotest/screen2")
+
+    private fun test() {
+        val bitmap = screenShotManager.screenshotBitmap(activity)
     }
 
     private fun starConnect() {
@@ -100,7 +107,7 @@ class DoKitAutotestFragment : BaseFragment() {
 
     private fun stopTest() {
         when (AutoTestManager.getMode()) {
-            TestMode.HOST -> {
+            TestMode.CLIENT -> {
                 AutoTestManager.stopAutoTest()
             }
             else -> {

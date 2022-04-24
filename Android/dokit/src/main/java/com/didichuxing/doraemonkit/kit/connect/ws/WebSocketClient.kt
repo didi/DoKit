@@ -125,6 +125,10 @@ class WebSocketClient {
         return webSocketSession.send(text)
     }
 
+    fun send(bytes: ByteString): Boolean {
+        return webSocketSession.send(bytes)
+    }
+
     fun startAutoConnect() {
         autoConnect = true
         keepConnectEnable = true

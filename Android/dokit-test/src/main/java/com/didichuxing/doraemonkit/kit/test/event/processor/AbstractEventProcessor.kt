@@ -45,11 +45,25 @@ abstract class AbstractEventProcessor {
             val viewC12c = it
             val viewRoot: ViewParent? = findWindowRootView(it)
             if (viewRoot == null) {
-                onControlEventProcessFailed(
-                    controlEvent = controlEvent,
-                    code = EventErrorCode.WINDOW_NOT_FIND,
-                    message = "window 找不到"
-                )
+//                onControlEventProcessFailed(
+//                    controlEvent = controlEvent,
+//                    code = EventErrorCode.WINDOW_NOT_FIND,
+//                    message = "window 找不到"
+//                )
+
+                val decorView: ViewGroup = ActivityUtils.getTopActivity().window.decorView as ViewGroup
+                val targetView: View? = ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
+                val activity = ViewPathUtil.getActivity(targetView)
+                if (targetView == null) {
+                    onControlEventProcessFailed(
+                        activity = activity,
+                        controlEvent = controlEvent,
+                        code = EventErrorCode.VIEW_NOT_FIND,
+                        message = "view 找不到"
+                    )
+                } else {
+                    onSimulationEventAction(activity, targetView, viewC12c, controlEvent)
+                }
             } else {
 
                 val decorView: ViewGroup = ReflectUtils.reflect(viewRoot).field("mView").get<View>() as ViewGroup

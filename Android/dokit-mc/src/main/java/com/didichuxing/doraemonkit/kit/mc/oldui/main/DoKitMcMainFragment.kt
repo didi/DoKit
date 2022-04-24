@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.test.mock.http.HttpMockServer
 import com.didichuxing.doraemonkit.kit.test.mock.http.HttpMockServer.RESPONSE_OK
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McCaseInfoDialogProvider
 import com.didichuxing.doraemonkit.kit.mc.ui.McPages

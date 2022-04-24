@@ -67,6 +67,7 @@ public class ScreenShotManager {
             }
             //保存图片
             FileOutputStream outputStream = new FileOutputStream(fullFilepath);
+            outputStream.close();
             boolean ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             if (ok) {
                 return fileName;
@@ -74,7 +75,7 @@ public class ScreenShotManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return fullFilepath;
     }
 
     public String screenshot(Activity activity) {

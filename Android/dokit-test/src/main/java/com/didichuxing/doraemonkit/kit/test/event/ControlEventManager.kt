@@ -139,14 +139,6 @@ object ControlEventManager {
         }
     }
 
-    fun addOnControlEventActionListener(processListener: OnControlEventActionProcessListener) {
-        onControlEventActionProcessListenerSet.add(processListener)
-    }
-
-    fun removeOnControlEventActionListener(processListener: OnControlEventActionProcessListener) {
-        onControlEventActionProcessListenerSet.remove(processListener)
-    }
-
     fun getControlEventProcessor(): ControlEventProcessor {
         return controlEventProcessor
     }

@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * @author <a href="realonlyone@126.com">zhangjun</a>
  * @version 1.0
  * @Date 2022/3/10 7:45 下午
- * @Description 用一句话说明文件功能
+ * @Description 代理数据mock接口管理
  */
 
 class ProxyMockManager {
@@ -28,7 +28,7 @@ class ProxyMockManager {
     private val mutableMap: MutableMap<String, ProxyQueryData> = mutableMapOf()
 
     fun requestStart(request: ProxyRequest) {
-        LogHelper.d(TAG, "PROXY requestStart() request=$request")
+        LogHelper.d(TAG, "requestStart() request=$request")
         val textPackage = TextPackage(
             pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
@@ -40,7 +40,7 @@ class ProxyMockManager {
     }
 
     fun requestStop(response: ProxyResponse) {
-        LogHelper.d(TAG, "PROXY requestStop() response=$response")
+        LogHelper.d(TAG, "requestStop() response=$response")
         val textPackage = TextPackage(
             pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
@@ -62,7 +62,7 @@ class ProxyMockManager {
     }
 
     private fun requestQueryLine(pid: String, request: ProxyRequest) {
-        LogHelper.d(TAG, "PROXY requestQueryLine() request=$request")
+        LogHelper.d(TAG, "requestQueryLine() request=$request")
         val textPackage = TextPackage(
             pid = pid,
             type = PackageType.DATA,
@@ -75,6 +75,7 @@ class ProxyMockManager {
 
 
     fun receiveQueryResponse(textPackage: TextPackage, response: ProxyResponse) {
+        LogHelper.d(TAG, "receiveQueryResponse() response=$response")
         val queryData = mutableMap[textPackage.pid]
         if (queryData != null) {
             queryData.proxyCallback.onResponse(response)

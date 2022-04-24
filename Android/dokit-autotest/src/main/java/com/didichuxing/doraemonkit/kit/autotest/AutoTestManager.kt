@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.autotest
 
 import android.app.Activity
+import android.graphics.Bitmap
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import com.didichuxing.doraemonkit.DoKit
@@ -9,6 +10,7 @@ import com.didichuxing.doraemonkit.kit.autotest.ui.RecordingCaseDoKitView
 import com.didichuxing.doraemonkit.kit.connect.ConnectAddress
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
+import com.didichuxing.doraemonkit.kit.connect.parser.ByteParser
 import com.didichuxing.doraemonkit.kit.connect.parser.JsonParser
 import com.didichuxing.doraemonkit.kit.connect.ws.*
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
@@ -19,10 +21,10 @@ import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.test.mock.ProxyMockCallback
 import com.didichuxing.doraemonkit.kit.test.report.ScreenShotManager
 import com.didichuxing.doraemonkit.util.*
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
+import kotlinx.coroutines.*
+import okio.ByteString
+import java.io.ByteArrayOutputStream
+import java.lang.Runnable
 
 /**
  * didi Create on 2022/4/6 .
@@ -38,14 +40,21 @@ import kotlinx.coroutines.plus
 object AutoTestManager {
 
     private val mainScope = MainScope() + CoroutineName(this.toString())
+    private val uploadScope = CoroutineScope(SupervisorJob() + Dispatchers.IO) + CoroutineName("upload")
+
     private var connectAddress: ConnectAddress? = null
-    private var webSocketClient: WebSocketClient? = null
+
+    private var webSocketClient: WebSocketClient = WebSocketClient()
 
     private val recordingCaseDoKitViewList: MutableList<RecordingCaseDoKitView> = mutableListOf()
 
     private var mode: TestMode = TestMode.UNKNOWN
 
     private val delayHandler: DelayHandler = DelayHandler()
+
+    private var screenShotManager: ScreenShotManager = ScreenShotManager("doKit/autotest/screen")
+
+    private val autoTestStateSet: MutableMap<String, AutoTestState> = mutableMapOf()
 
     private val eventActionInterceptor = object : OnControlEventInterceptor {
         override fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent): Boolean {
@@ -76,11 +85,6 @@ object AutoTestManager {
         }
     }
 
-    private var screenShotManager: ScreenShotManager = ScreenShotManager("doKit/autotest/screen")
-    private var fileUploadManager: FileUploadManager = FileUploadManager(screenShotManager)
-
-    private val autoTestStateSet: MutableMap<String, AutoTestState> = mutableMapOf()
-
 
     private val actionProcessListener = object : OnControlEventActionProcessListener {
         override fun onControlEventProcessSuccess(activity: Activity?, view: View?, controlEvent: ControlEvent) {
@@ -99,6 +103,8 @@ object AutoTestManager {
         override fun onControlEventProcessFailed(activity: Activity?, view: View?, controlEvent: ControlEvent, code: Int, message: String) {
             val msg = AutoTestMessage(command = "action_response", message = "failed")
             msg.params["eventId"] = controlEvent.eventId
+            msg.params["message"] = message
+            msg.params["code"] = "" + code
             if (isDiffTimeEvent(controlEvent)) {
                 diffEventTask?.let {
                     delayHandler.removeCallbacks(it)
@@ -122,15 +128,18 @@ object AutoTestManager {
                 if (bitmap != null) {
                     val name = screenShotManager.createNextFileName()
                     message.params["imageName"] = name
-                    fileUploadManager.uploadBitmap(bitmap, name)
+                    message.params["type"] = "jpeg"
                 } else {
                     message.params["imageName"] = ""
+                    message.params["type"] = ""
                 }
-                onResponseAutoTestAction(message)
+                onResponseAutoTestAction(message, bitmap)
             } ?: run {
-                val msg = AutoTestMessage(command = "action_response", message = "failed")
-                msg.params["eventId"] = event.eventId
-                onResponseAutoTestAction(msg)
+                val message = AutoTestMessage(command = "action_response", message = "failed")
+                message.params["eventId"] = event.eventId
+                message.params["imageName"] = ""
+                message.params["type"] = ""
+                onResponseAutoTestAction(message)
             }
         }
     }
@@ -144,6 +153,7 @@ object AutoTestManager {
         ControlEventManager.addOnControlEventInterceptor(eventActionInterceptor)
         ControlEventManager.addOnControlEventActionListener(eventActionListener)
         MockManager.proxyMockCallback = proxyMockCallback
+        MockManager.startTest(TestMode.HOST)
         DoKitTestManager.startTest(TestMode.HOST)
         changeToRecordView()
 
@@ -152,6 +162,7 @@ object AutoTestManager {
 
 
     fun stopRecord() {
+        MockManager.closeTest()
         DoKitTestManager.closeTest()
         MockManager.proxyMockCallback = null
         ControlEventManager.removeOnControlEventActionListener(eventActionListener)
@@ -165,12 +176,14 @@ object AutoTestManager {
 
         MockManager.proxyMockCallback = proxyMockCallback
         ControlEventManager.addOnControlEventActionProcessListener(actionProcessListener)
+        MockManager.startTest(TestMode.CLIENT)
         DoKitTestManager.startTest(TestMode.CLIENT)
         changeToTestView()
         ToastUtils.showShort("已开始测试")
     }
 
     fun stopAutoTest() {
+        MockManager.closeTest()
         DoKitTestManager.closeTest()
         MockManager.proxyMockCallback = null
         ControlEventManager.removeOnControlEventActionProcessListener(actionProcessListener)
@@ -186,6 +199,14 @@ object AutoTestManager {
     fun stopConnect() {
         webSocketClient?.close()
         recordingCaseDoKitViewList.clear()
+    }
+
+    fun send(bytes: ByteString): Boolean {
+        webSocketClient?.let {
+            it.send(bytes)
+            return true
+        }
+        return false
     }
 
     fun addRecordingCaseDoKitView(view: RecordingCaseDoKitView) {
@@ -305,9 +326,30 @@ object AutoTestManager {
         }
     }
 
+    /**
+     * 自动化测试行为事件响应
+     */
+    private fun onResponseAutoTestAction(autoTestMessage: AutoTestMessage, bitmap: Bitmap) {
+        uploadScope.launch {
+            val stream = ByteArrayOutputStream(2048)
+            val ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+            val bytes = stream.toByteArray()
+
+            val textPackage = JsonParser.toTextPackage(PackageType.AUTOTEST, autoTestMessage, "action")
+            val byteString = ByteParser.toByteString(textPackage, bytes)
+            webSocketClient.send(byteString)
+        }
+
+//        webSocketClient?.let {
+//            it.send(JsonParser.toJson(PackageType.AUTOTEST, autoTestMessage, "action"))
+//        }
+    }
+
     private fun isDiffTimeEvent(event: ControlEvent): Boolean {
         when (event.eventType) {
-            EventType.WSE_CUSTOM_EVENT,
+            EventType.WSE_CUSTOM_EVENT->{
+                return false
+            }
             EventType.APP_ON_FOREGROUND,
             EventType.APP_ON_BACKGROUND,
             EventType.ACTIVITY_BACK_PRESSED -> {
@@ -367,12 +409,14 @@ object AutoTestManager {
         }
     }
 
+    private var webSocketClientCreate = false
+
     private fun connect() {
         if (connectAddress == null) {
             return
         }
-        if (webSocketClient == null) {
-            webSocketClient = WebSocketClient()
+        if (!webSocketClientCreate) {
+            webSocketClientCreate = true
 
             webSocketClient?.let {
                 it.addOnWebSocketLoginSuccessListener(object : OnWebSocketLoginSuccessListener {

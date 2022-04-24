@@ -9,8 +9,7 @@ import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.MultiControlManager
 import com.didichuxing.doraemonkit.kit.mc.ui.McPages
 import com.didichuxing.doraemonkit.kit.mc.utils.McPageUtils
 import com.didichuxing.doraemonkit.mc.R
@@ -25,15 +24,25 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
  * 修订历史：
  * ================================================
  */
-class ConnectDokitView : AbsDokitView() {
+class MultiControlDoKitView : AbsDokitView() {
 
-    val HOST = "主机"
-    val CLIENT = "从机"
+    companion object {
+        private val HOST = R.string.dk_kit_multi_control_host
+        private val CLIENT = R.string.dk_kit_multi_control_client
+        private val doKitViewSet: MutableSet<MultiControlDoKitView> = mutableSetOf()
 
-    var textView: TextView? = null
+        fun updateConnectMode() {
+            doKitViewSet.forEach {
+                it.updateConnectMode()
+            }
+        }
+    }
+
+
+    private var textView: TextView? = null
 
     override fun onCreate(context: Context?) {
-
+        doKitViewSet.add(this)
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
@@ -48,32 +57,29 @@ class ConnectDokitView : AbsDokitView() {
             McPageUtils.startFragment(McPages.CONNECT_HISTORY)
         }
         updateConnectMode()
-
-        DokitMcConnectManager.dokitFloatViews.add(this)
-
     }
 
     fun updateConnectMode() {
         textView.let {
-            if (DoKitMcManager.CONNECT_MODE == TestMode.HOST) {
-                textView?.text = HOST
+            if (MultiControlManager.getMode() == TestMode.HOST) {
+                textView?.text = getString(HOST)
             } else {
-                textView?.text = CLIENT
+                textView?.text = getString(CLIENT)
             }
         }
     }
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.width = ConvertUtils.dp2px(70.0f)
-        params.height = ConvertUtils.dp2px(70.0f)
+        params.width = ConvertUtils.dp2px(65.0f)
+        params.height = ConvertUtils.dp2px(65.0f)
         params.gravity = Gravity.TOP or Gravity.LEFT
         params.x = ConvertUtils.dp2px(280f)
         params.y = ConvertUtils.dp2px(25f)
     }
 
     override fun onDestroy() {
+        doKitViewSet.remove(this)
         super.onDestroy()
-        DokitMcConnectManager.dokitFloatViews.remove(this)
     }
 
 }

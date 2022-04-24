@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil
 
 /**
  * didi Create on 2022/4/13 .
@@ -50,14 +51,14 @@ object CustomEventMonitor {
     private fun createViewC12c(view: View?, eventType: String, param: Map<String, String>?): ViewC12c {
         var viewRootImplIndex: Int = -1
         if (view != null) {
-            XposedHookUtil.ROOT_VIEWS?.let {
+            val viewParents = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS);
+            viewParents?.let {
                 viewRootImplIndex = if (view.rootView.parent == null) {
                     it.size - 1
                 } else {
                     it.indexOf(view.rootView.parent)
                 }
             }
-
         }
 
         return ViewC12c(

@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="70dp"
-    android:layout_height="70dp"
-    android:background="@drawable/dk_dokitview_mc"
-    android:backgroundTint="@color/background_verbose"
+    android:layout_width="65dp"
+    android:layout_height="65dp"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:text="从机"
-        android:textColor="@color/dk_color_FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        app:cardBackgroundColor="#ff3CBCA3"
+        app:cardCornerRadius="@dimen/dk_dp_30"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="true">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="从机"
+            android:textColor="@color/dk_color_FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

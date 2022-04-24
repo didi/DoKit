@@ -4,13 +4,14 @@ import android.view.View
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleEventMonitor
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
-import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.MultiControlConfig
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitMockInterceptor
 import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
+import com.didichuxing.doraemonkit.kit.test.event.monitor.CustomEventMonitor
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
 import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -25,7 +26,7 @@ import com.didichuxing.doraemonkit.util.SPUtils
  * 修订历史：
  * ================================================
  */
-class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
+class DoKitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
         return mapOf(
@@ -70,7 +71,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                         return mapOf(Pair("mode", mode))
                     }
                     "mc_custom_event" -> {
-                        DoKitMcManager.sendCustomEvent(
+                        CustomEventMonitor.onCustomEvent(
                             actions["eventType"] as String,
                             actions["view"] as View?,
                             actions["param"] as Map<String, String>?
@@ -81,7 +82,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                     }
                     "dokit_mc_connect_url" -> {
                         val map = mutableMapOf<String, String>()
-                        val history = DokitMcConnectManager.currentConnectHistory
+                        val history = MultiControlConfig.currentConnectHistory
                         map["url"] = history?.url ?: ""
                     }
 

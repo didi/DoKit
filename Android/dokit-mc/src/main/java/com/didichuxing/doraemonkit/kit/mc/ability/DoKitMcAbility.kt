@@ -16,9 +16,9 @@ import com.google.auto.service.AutoService
  * 模块能力相关代码
  */
 @AutoService(DokitAbility::class)
-class DokitMcAbility : DokitAbility {
+class DoKitMcAbility : DokitAbility {
 
-    private val TAG = "DokitMcAbility"
+    private val TAG = "DoKitMcAbility"
     override fun init() {
         LogHelper.i(TAG, "init()")
     }
@@ -28,7 +28,7 @@ class DokitMcAbility : DokitAbility {
     }
 
     override fun getModuleProcessor(): DokitAbility.DokitModuleProcessor {
-        return DokitMcModuleProcessor()
+        return DoKitMcModuleProcessor()
     }
 
 }
