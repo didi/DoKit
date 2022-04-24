@@ -21,6 +21,8 @@ RES="\033[0m"
 ./gradlew :dokit-util:assembleRelease --stacktrace
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
+./gradlew :dokit-test:assembleRelease --stacktrace
+./gradlew :dokit-autotest:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 #publish
@@ -31,6 +33,8 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-v3:publish
 ./gradlew :dokit-okhttp-v4:publish
 ./gradlew :dokit-ft:publish
+./gradlew :dokit-test:publish
+./gradlew :dokit-autotest:publish
 ./gradlew :dokit-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
