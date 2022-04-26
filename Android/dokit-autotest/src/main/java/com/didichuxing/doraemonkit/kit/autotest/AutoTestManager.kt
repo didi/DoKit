@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.autotest
 import android.app.Activity
 import android.graphics.Bitmap
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.autotest.ui.RecordingCaseDoKitView
@@ -116,9 +115,9 @@ object AutoTestManager {
         }
     }
 
-    private var diffEventTask: EventTask? = null
+    private var diffEventTask: EventScreenShotTask? = null
 
-    class EventTask(private val event: ControlEvent) : Runnable {
+    class EventScreenShotTask(private val event: ControlEvent) : Runnable {
         override fun run() {
             val state = autoTestStateSet[event.eventId]
             state?.let {
@@ -344,16 +343,18 @@ object AutoTestManager {
             webSocketClient.send(byteString)
             stream.close()
         }
-
-//        webSocketClient?.let {
-//            it.send(JsonParser.toJson(PackageType.AUTOTEST, autoTestMessage, "action"))
-//        }
     }
 
     private fun isDiffTimeEvent(event: ControlEvent): Boolean {
         when (event.eventType) {
-            EventType.WSE_CUSTOM_EVENT->{
-                return false
+            EventType.WSE_CUSTOM_EVENT -> {
+                event.params?.let {
+                    var testRecording: String? = it["testRecording"]
+                    if (testRecording == "false") {
+                        return false
+                    }
+                }
+                return true
             }
             EventType.APP_ON_FOREGROUND,
             EventType.APP_ON_BACKGROUND,
@@ -362,22 +363,10 @@ object AutoTestManager {
             }
             EventType.WSE_COMMON_EVENT -> {
                 event.viewC12c?.let {
-                    when (it.accEventType) {
-                        //点击
-                        AccessibilityEvent.TYPE_VIEW_CLICKED,
-                            //长按
-                        AccessibilityEvent.TYPE_VIEW_LONG_CLICKED,
-                            //滚动
-                        AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
-                            return true
-                        }
-                        else -> {
-
-                        }
-                    }
                     when (it.actionType) {
                         ActionType.ON_LONG_CLICK,
                         ActionType.ON_SCROLL,
+                        ActionType.ON_INPUT_CHANGE,
                         ActionType.ON_CLICK -> {
                             return true
                         }
@@ -391,6 +380,29 @@ object AutoTestManager {
         return false
     }
 
+
+    private fun getDiffTimeByEvent(event: ControlEvent, diffTime: Long): Long {
+        when (event.eventType) {
+            EventType.WSE_COMMON_EVENT -> {
+                event.viewC12c?.let {
+                    when (it.actionType) {
+                        ActionType.ON_SCROLL,
+                        ActionType.ON_INPUT_CHANGE -> {
+                            return  if (diffTime > 100){
+                                 diffTime
+                            }else{
+                                 100
+                            }
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+        }
+        return 1000
+    }
+
     /**
      * 接收到自动化测试事件
      */
@@ -400,11 +412,11 @@ object AutoTestManager {
 
         if (isDiffTimeEvent(event)) {
             val diff: Long = if (event.diffTime < 1000) {
-                1000
+                getDiffTimeByEvent(event, event.diffTime)
             } else {
                 event.diffTime
             }
-            val eventTask = EventTask(event)
+            val eventTask = EventScreenShotTask(event)
             diffEventTask = eventTask
             delayHandler.postDelayed(eventTask, diff)
         }

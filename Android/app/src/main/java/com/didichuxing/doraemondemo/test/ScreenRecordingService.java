@@ -1,5 +1,6 @@
 package com.didichuxing.doraemondemo.test;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -86,6 +87,7 @@ public class ScreenRecordingService extends Service {
         DoKit.removeFloating(ScreenRecordingDoKitView.class);
     }
 
+    @SuppressLint("WrongConstant")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -127,7 +129,12 @@ public class ScreenRecordingService extends Service {
         int windowHeight = metrics.heightPixels;
         float mScreenDensity = metrics.density;
 
-        ImageReader mImageReader = ImageReader.newInstance(windowWidth, windowHeight, PixelFormat.RGBA_8888, 2, HardwareBuffer.USAGE_CPU_WRITE_OFTEN); //ImageFormat.RGB_565
+        ImageReader mImageReader = null; //ImageFormat.RGB_565
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            mImageReader = ImageReader.newInstance(windowWidth, windowHeight, PixelFormat.RGBA_8888, 2, HardwareBuffer.USAGE_CPU_WRITE_OFTEN);
+        } else {
+            mImageReader = ImageReader.newInstance(windowWidth, windowHeight, PixelFormat.RGBA_8888, 2);
+        }
         VirtualDisplay mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
             windowWidth, windowHeight, (int) mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
             mImageReader.getSurface(), null, null);

@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc
 
 import android.graphics.Bitmap
-import android.view.accessibility.AccessibilityEvent
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.parser.ByteParser
 import com.didichuxing.doraemonkit.kit.connect.parser.JsonParser
@@ -52,8 +51,30 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
             lastControlEvent = controlEvent
             val task = EventTask(controlEvent)
             screenShotEventTask = task
-            delayHandler.postDelayed(task, 1000)
+            delayHandler.postDelayed(task, getDiffTimeByEvent(controlEvent,0))
         }
+    }
+
+    private fun getDiffTimeByEvent(event: ControlEvent, diffTime: Long): Long {
+        when (event.eventType) {
+            EventType.WSE_COMMON_EVENT -> {
+                event.viewC12c?.let {
+                    when (it.actionType) {
+                        ActionType.ON_SCROLL,
+                        ActionType.ON_INPUT_CHANGE -> {
+                            return  if (diffTime > 100){
+                                diffTime
+                            }else{
+                                100
+                            }
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
+        }
+        return 1000
     }
 
     /**
@@ -97,7 +118,15 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
 
     private fun isDiffTimeEvent(controlEvent: ControlEvent): Boolean {
         when (controlEvent.eventType) {
-            EventType.WSE_CUSTOM_EVENT,
+            EventType.WSE_CUSTOM_EVENT -> {
+                controlEvent.params?.let {
+                    var testRecording: String? = it["testRecording"]
+                    if (testRecording == "false") {
+                        return false
+                    }
+                }
+                return true
+            }
             EventType.APP_ON_FOREGROUND,
             EventType.APP_ON_BACKGROUND,
             EventType.ACTIVITY_BACK_PRESSED -> {
@@ -105,22 +134,10 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
             }
             EventType.WSE_COMMON_EVENT -> {
                 controlEvent.viewC12c?.let {
-                    when (it.accEventType) {
-                        //点击
-                        AccessibilityEvent.TYPE_VIEW_CLICKED,
-                            //长按
-                        AccessibilityEvent.TYPE_VIEW_LONG_CLICKED,
-                            //滚动
-                        AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
-                            return true
-                        }
-                        else -> {
-
-                        }
-                    }
                     when (it.actionType) {
                         ActionType.ON_LONG_CLICK,
                         ActionType.ON_SCROLL,
+                        ActionType.ON_INPUT_CHANGE,
                         ActionType.ON_CLICK -> {
                             return true
                         }

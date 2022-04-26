@@ -64,7 +64,10 @@ class MCActivity : AppCompatActivity() {
                 DoKit.sendCustomEvent(
                     "un_lock",
                     view,
-                    mapOf("unlock" to "custom unlock")
+                    mapOf(
+                        "unlock" to "custom unlock",
+                        "testRecording" to "true"
+                    )
                 )
             }
 
@@ -72,10 +75,12 @@ class MCActivity : AppCompatActivity() {
                 DoKit.sendCustomEvent(
                     "lock_process",
                     view,
-                    mapOf("progress" to "$leftMargin")
+                    mapOf(
+                        "progress" to "$leftMargin",
+                        "testRecording" to "false"
+                    )
                 )
             }
-
         })
 
         val spinner = findViewById<Spinner>(R.id.spinner)

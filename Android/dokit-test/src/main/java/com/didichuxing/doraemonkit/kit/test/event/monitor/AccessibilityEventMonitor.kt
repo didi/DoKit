@@ -7,13 +7,8 @@ import android.widget.*
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
+import com.didichuxing.doraemonkit.kit.test.event.*
 import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
-import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.event.AccessibilityEventNode
-import com.didichuxing.doraemonkit.kit.test.event.DoKitViewNode
-import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
-import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
 import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ConvertUtils
@@ -79,7 +74,6 @@ object AccessibilityEventMonitor {
     }
 
     private fun onViewHandleEvent(view: View, accessibilityEvent: AccessibilityEvent) {
-
         val activity = ViewPathUtil.getActivity(view)
         val actionId = ControlEventManager.createNextEventId()
         val viewC12c: ViewC12c = createViewC12c(view, accessibilityEvent)
@@ -106,7 +100,10 @@ object AccessibilityEventMonitor {
                 it.indexOf(view.rootView.parent)
             }
         }
+        val actionType: ActionType = ActionType.valueOf(acc)
         return ViewC12c(
+            actionType = actionType,
+            actionName = actionType.getDesc(),
             accEventType = acc.eventType,
             windowIndex = viewRootImplIndex,
             viewPaths = ViewPathUtil.createViewPathOfWindow(view),
