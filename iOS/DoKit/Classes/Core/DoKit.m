@@ -19,6 +19,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+API_AVAILABLE(ios(13.0))
+static NSArray<UIWindowScene *> *_Nullable getAllForgroundApplicationWindowScene(void) {
+    __block NSMutableArray<UIWindowScene *> *windowSceneArray = nil;
+    [UIApplication.sharedApplication.connectedScenes enumerateObjectsUsingBlock:^(UIScene *_Nonnull obj, BOOL *_Nonnull __attribute__((unused)) stop) {
+        if ([obj.session.role isEqualToString:UIWindowSceneSessionRoleApplication] && [obj isKindOfClass:UIWindowScene.class]) {
+//            *stop = YES;
+            if (!windowSceneArray) {
+                windowSceneArray = NSMutableArray.array;
+            }
+            [windowSceneArray addObject:(UIWindowScene *) obj];
+        }
+    }];
+    
+    return windowSceneArray.copy;
+}
+
 static NSSet<UIWindow *> *_Nullable windowSet = nil;
 
 NS_ASSUME_NONNULL_END
@@ -27,24 +43,20 @@ NS_ASSUME_NONNULL_END
 
 + (void)installWithProductId:(NSString *)productId {
     UIWindow *trayWindow = nil;
-    if (@available(iOS 13, *)) {
-        __block UIWindowScene *windowScene = nil;
-        [UIApplication.sharedApplication.connectedScenes enumerateObjectsUsingBlock:^(UIScene *_Nonnull obj, BOOL *_Nonnull stop) {
-            // TODO(ChasonTang): Check obj.windows is contained DoKit tray window or not.
-            if ([obj.session.role isEqualToString:UIWindowSceneSessionRoleApplication] && [obj isKindOfClass:UIWindowScene.class]) {
-                *stop = YES;
-                windowScene = (UIWindowScene *) obj;
-            }
-        }];
-        if (__builtin_expect(!windowScene, NO)) {
+    CGRect trayWindowFrame;
+    if (@available(iOS 13.0, *)) {
+        UIWindowScene *windowScene = getAllForgroundApplicationWindowScene().firstObject;
+        if (!windowScene) {
             NSAssert(NO, @"UIWindowScene which is foreground and application type is not founded.");
 
             return;
         }
         trayWindow = [[UIWindow alloc] initWithWindowScene:windowScene];
+        trayWindowFrame = CGRectMake(0, windowScene.screen.bounds.size.height / 3, 58, 58);
+    } else {
+        trayWindowFrame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height / 3, 58, 58);
     }
-    CGRect trayWindowFrame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height / 3, 58, 58);
-    if (__builtin_expect(trayWindow != nil, YES)) {
+    if (trayWindow != nil) {
         trayWindow.frame = trayWindowFrame;
     } else {
         trayWindow = [[UIWindow alloc] initWithFrame:trayWindowFrame];

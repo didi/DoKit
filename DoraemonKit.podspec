@@ -42,7 +42,8 @@ iOS各式各样的工具集合
   s.subspec 'CoreNG' do |ss|
     ss.dependency 'DoraemonKit/Foundation'
     ss.source_files = 'iOS/DoKit/Classes/Core/*.{h,m}'
-    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror'
+    # language-extension-token warning be used to implement Objective-C typeof().
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-language-extension-token'
     ss.resource_bundle = {
       'DoKitResource' => [
         'iOS/DoKit/Assets/Assets.xcassets',
