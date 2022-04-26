@@ -34,7 +34,7 @@ import java.lang.Runnable
  * @author <a href="realonlyone@126.com">zhangjun</a>
  * @version 1.0
  * @Date 2022/4/6 5:14 下午
- * @Description 用一句话说明文件功能
+ * @Description 自动化测试管理
  */
 
 object AutoTestManager {
@@ -124,11 +124,11 @@ object AutoTestManager {
             state?.let {
                 val message = state.message
                 val activity = ActivityUtils.getTopActivity()
-                val bitmap = screenShotManager.screenshotBitmap(activity)
+                val bitmap = screenShotManager.screenshotBitmap()
                 if (bitmap != null) {
                     val name = screenShotManager.createNextFileName()
                     message.params["imageName"] = name
-                    message.params["type"] = "jpeg"
+                    message.params["type"] = "webp"
                 } else {
                     message.params["imageName"] = ""
                     message.params["type"] = ""
@@ -288,21 +288,25 @@ object AutoTestManager {
             "startRecord" -> {
                 startRecord()
                 val msg = AutoTestMessage(command = "control_response", message = "success")
+                msg.params["command"] = autoTestMessage.command
                 onResponseAutoTestMessage(msg)
             }
             "stopRecord" -> {
                 stopRecord()
                 val msg = AutoTestMessage(command = "control_response", message = "success")
+                msg.params["command"] = autoTestMessage.command
                 onResponseAutoTestMessage(msg)
             }
             "startAutoTest" -> {
                 startAutoTest()
                 val msg = AutoTestMessage(command = "control_response", message = "success")
+                msg.params["command"] = autoTestMessage.command
                 onResponseAutoTestMessage(msg)
             }
             "stopAutoTest" -> {
                 stopAutoTest()
                 val msg = AutoTestMessage(command = "control_response", message = "success")
+                msg.params["command"] = autoTestMessage.command
                 onResponseAutoTestMessage(msg)
             }
         }
@@ -332,12 +336,13 @@ object AutoTestManager {
     private fun onResponseAutoTestAction(autoTestMessage: AutoTestMessage, bitmap: Bitmap) {
         uploadScope.launch {
             val stream = ByteArrayOutputStream(2048)
-            val ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+            val ok = bitmap.compress(Bitmap.CompressFormat.WEBP, 10, stream)
             val bytes = stream.toByteArray()
 
             val textPackage = JsonParser.toTextPackage(PackageType.AUTOTEST, autoTestMessage, "action")
             val byteString = ByteParser.toByteString(textPackage, bytes)
             webSocketClient.send(byteString)
+            stream.close()
         }
 
 //        webSocketClient?.let {

@@ -2,8 +2,8 @@ package com.didichuxing.doraemonkit.kit.mc.ui
 
 import android.os.Bundle
 import android.text.TextUtils
-import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.NewBaseActivity
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientFragment
 import com.didichuxing.doraemonkit.kit.mc.oldui.client.DoKitMcClientHistoryFragment
 import com.didichuxing.doraemonkit.kit.mc.ui.connect.MultiControlAllFragment
@@ -22,7 +22,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  * 修订历史：
  * ================================================
  */
-class DoKitMcActivity : BaseActivity() {
+class DoKitMcActivity : NewBaseActivity() {
     private lateinit var mTitlebar: HomeTitleBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

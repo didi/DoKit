@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.autotest.R;
-import com.didichuxing.doraemonkit.kit.core.BaseActivity;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.NewBaseActivity;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -21,7 +21,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
  * @Description 用一句话说明文件功能
  */
 
-public class DoKitAutotestActivity extends BaseActivity {
+public class DoKitAutotestActivity extends NewBaseActivity {
 
     private HomeTitleBar homeTitleBar;
 

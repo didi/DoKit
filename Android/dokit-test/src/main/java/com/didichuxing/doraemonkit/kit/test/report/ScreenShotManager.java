@@ -2,16 +2,24 @@ package com.didichuxing.doraemonkit.kit.test.report;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewParent;
+import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.util.FileIOUtils;
-import com.didichuxing.doraemonkit.util.FileManager;
-import com.didichuxing.doraemonkit.util.FileUtils;
+import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil;
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.RandomUtils;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 import com.didichuxing.doraemonkit.util.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * didi Create on 2022/4/1 .
@@ -48,6 +56,76 @@ public class ScreenShotManager {
         return null;
     }
 
+
+    /**
+     * 创建各个可见Window的图像
+     * 备注按需要调整图层顺序
+     */
+    public List<MyWindowBitmap> createMyWindowBitmap(List<ViewParent> parents) {
+        List<MyWindowBitmap> pageBitmaps = new ArrayList<>();
+        List<MyWindowBitmap> otherBitmaps = new ArrayList<>();
+        List<MyWindowBitmap> doKitBitmaps = new ArrayList<>();
+
+        for (ViewParent parent : parents) {
+            View view = ReflectUtils.reflect(parent).field("mView").get();
+            Bitmap bitmap = getViewBitmap(parent);
+            Rect winFrame = ReflectUtils.reflect(parent).field("mWinFrame").get();
+            boolean appVisible = ReflectUtils.reflect(parent).field("mAppVisible").get();
+            boolean page = WindowPathUtil.isPageViewRoot(parent);
+            boolean doKit = WindowPathUtil.isDoKitViewRoot(parent);
+
+            MyWindowBitmap windowBitmap = new MyWindowBitmap(parent, view, bitmap, winFrame, appVisible, page, doKit);
+
+            if (doKit) {
+                doKitBitmaps.add(windowBitmap);
+                continue;
+            }
+            if (page) {
+                pageBitmaps.add(windowBitmap);
+                continue;
+            }
+            otherBitmaps.add(windowBitmap);
+
+        }
+        pageBitmaps.addAll(otherBitmaps);
+        pageBitmaps.addAll(doKitBitmaps);
+        return pageBitmaps;
+    }
+
+    /**
+     * 使用图像合成方式生成截图
+     * 备注：无需权限，但是仅可以获取到应用内的图像
+     */
+    public Bitmap screenshotBitmap() {
+        List<ViewParent> parents = XposedHookUtil.INSTANCE.getROOT_VIEWS();
+        List<ViewParent> showParents = WindowPathUtil.filterShowViewRoot(parents);
+        List<MyWindowBitmap> myWindowBitmaps = createMyWindowBitmap(showParents);
+
+        Paint paint = new Paint();
+        if (myWindowBitmaps.size() <= 1) {
+            return screenshotBitmap(ActivityUtils.getTopActivity());
+        }
+        Bitmap canvasBitmap = myWindowBitmaps.get(0).getBitmap();
+        Canvas canvas = new Canvas(canvasBitmap);
+        int size = myWindowBitmaps.size();
+        for (int i = 1; i < size; i++) {
+            MyWindowBitmap bitmap = myWindowBitmaps.get(i);
+            Rect out = bitmap.getWinFrame();
+            if (!bitmap.getDoKitView() && bitmap.getDecorView()) {
+                canvas.drawARGB(128, 0, 0, 0);
+            }
+            canvas.drawBitmap(bitmap.getBitmap(), out.left, out.top, paint);
+        }
+        return canvasBitmap;
+    }
+
+    private Bitmap getViewBitmap(ViewParent viewParent) {
+        View view = ReflectUtils.reflect(viewParent).field("mView").get();
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
+
     public String getScreenFile(String fileName) {
         String fullFilepath = screenFileDir + "/" + fileName + ".jpeg";
         return fullFilepath;
@@ -67,11 +145,13 @@ public class ScreenShotManager {
             }
             //保存图片
             FileOutputStream outputStream = new FileOutputStream(fullFilepath);
-            outputStream.close();
-            boolean ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+            boolean ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
             if (ok) {
-                return fileName;
+                return fullFilepath;
+            } else {
+                file2.delete();
             }
+            outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

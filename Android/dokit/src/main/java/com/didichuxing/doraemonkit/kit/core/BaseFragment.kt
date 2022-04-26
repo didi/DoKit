@@ -85,8 +85,15 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun finish() {
-        val activity = activity as BaseActivity?
-        activity?.doBack(this)
+        if (activity is BaseActivity) {
+            val activity = activity as BaseActivity?
+            activity?.doBack(this)
+        }
+
+        if (activity is NewBaseActivity) {
+            val activity = activity as NewBaseActivity?
+            activity?.doBack(this)
+        }
     }
 
 

@@ -81,11 +81,11 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
     private fun screenShotNow(controlEvent: ControlEvent) {
         val message = buildAutoTestMessage(controlEvent)
         val activity = ActivityUtils.getTopActivity()
-        val bitmap = screenShotManager.screenshotBitmap(activity)
+        val bitmap = screenShotManager.screenshotBitmap()
         if (bitmap != null) {
             val name = screenShotManager.createNextFileName()
             message.params["imageName"] = name
-            message.params["type"] = "jpeg"
+            message.params["type"] = "webp"
             onResponseAutoTestAction(message, bitmap)
         } else {
             message.params["errorMessage"] = "screenShot error."
@@ -148,15 +148,16 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
      * 自动化测试行为事件响应
      */
     private fun onResponseAutoTestAction(autoTestMessage: AutoTestMessage, bitmap: Bitmap) {
-//        uploadScope.launch {
-//            val stream = ByteArrayOutputStream(2048)
-//            val ok = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
-//            val bytes = stream.toByteArray()
-//
-//            val textPackage = JsonParser.toTextPackage(PackageType.AUTOTEST, autoTestMessage, "action")
-//            val byteString = ByteParser.toByteString(textPackage, bytes)
-//            webSocketClient.send(byteString)
-//        }
+        uploadScope.launch {
+            val stream = ByteArrayOutputStream(2048)
+            val ok = bitmap.compress(Bitmap.CompressFormat.WEBP, 30, stream)
+            val bytes = stream.toByteArray()
+
+            val textPackage = JsonParser.toTextPackage(PackageType.AUTOTEST, autoTestMessage, "action")
+            val byteString = ByteParser.toByteString(textPackage, bytes)
+            webSocketClient.send(byteString)
+            stream.close()
+        }
     }
 
     inner class EventTask(private val controlEvent: ControlEvent) : Runnable {

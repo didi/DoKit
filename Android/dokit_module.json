@@ -3,6 +3,8 @@
   "dokit-ft": "dokitx-ft",
   "dokit-leakcanary": "dokitx-leakcanary",
   "dokit-mc": "dokitx-mc",
+  "dokit-test": "dokitx-test",
+  "dokit-autotest": "dokitx-autotest",
   "dokit-no-op": "dokitx-no-op",
   "dokit-okhttp-api": "dokitx-okhttp-api",
   "dokit-okhttp-v3": "dokitx-okhttp-v3",
