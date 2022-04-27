@@ -31,7 +31,10 @@
 
 static const char *const SEG_DATA_CONST = "__DATA_CONST";
 
+#ifndef NDEBUG
 static char *const VM_PROTECT_ERROR = "vm_protect() error.";
+#endif
+
 #ifdef __LP64__
 typedef struct mach_header_64 mach_header_t;
 typedef struct segment_command_64 segment_command_t;
@@ -49,7 +52,9 @@ typedef struct nlist nlist_t;
 struct RebindingEntry {
     SLIST_ENTRY(RebindingEntry) node;
     size_t length;
-    struct DKRebinding *rebinding;
+    // [] is correct?
+    // or should we use [0]?
+    struct DKRebinding rebinding[];
 };
 
 static SLIST_HEAD(, RebindingEntry) rebindingEntryHead = SLIST_HEAD_INITIALIZER();

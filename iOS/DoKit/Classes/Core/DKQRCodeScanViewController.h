@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DKQRCodeScanViewController : UIViewController
 
+@property(nonatomic, nullable, copy) void (^completionBlock)(NSString *_Nullable decodedString);
+
 @end
 
 NS_ASSUME_NONNULL_END

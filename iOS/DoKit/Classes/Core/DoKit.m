@@ -47,7 +47,9 @@ NS_ASSUME_NONNULL_END
     if (@available(iOS 13.0, *)) {
         UIWindowScene *windowScene = getAllForgroundApplicationWindowScene().firstObject;
         if (!windowScene) {
+#ifndef NS_BLOCK_ASSERTIONS
             NSAssert(NO, @"UIWindowScene which is foreground and application type is not founded.");
+#endif
 
             return;
         }
@@ -63,7 +65,9 @@ NS_ASSUME_NONNULL_END
     }
     NSURL *resourceBundleUrl = [[NSBundle bundleForClass:self.class] URLForResource:@"DoKitResource" withExtension:@"bundle"];
     if (!resourceBundleUrl) {
+#ifndef NS_BLOCK_ASSERTIONS
         NSAssert(NO, @"DoKitResource.bundle not found.");
+#endif
 
         return;
     }
