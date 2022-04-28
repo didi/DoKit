@@ -69,13 +69,18 @@ export default {
         $bus.off(this.node.key + "refreshChild", this.refreshSon);
       }
     },
-    parentIsUnfold(val) {
-      if (val) {
-        $bus.on(this.node.key + "refreshMy", this.refresh);
-      } else {
-        $bus.off(this.node.key + "refreshMy", this.refresh);
-      }
-    },
+    parentIsUnfold:{
+      handler: function (val) {
+        if(this.node?.key){
+          if (val) {
+            $bus.on(this.node.key + "refreshMy", this.refresh);
+          } else {
+            $bus.off(this.node.key + "refreshMy", this.refresh);
+          }
+        }
+      },
+      immediate: true,
+    }
   },
   created() {
     if (this?.node?.tagName === "HTML") {
@@ -94,6 +99,7 @@ export default {
       });
     },
     refresh() {
+      console.log('refresh');
       this.isShow = false;
       this.$nextTick(() => {
         this.isShow = true;
