@@ -51,6 +51,7 @@ iOS各式各样的工具集合
       ]
     }
     ss.dependency 'SocketRocket', '~> 0.6'
+    ss.dependency 'Mantle', '~> 2.2'
   end
 
   s.subspec 'EventSynthesize' do |ss|
