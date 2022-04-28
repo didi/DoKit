@@ -31,15 +31,15 @@
   <script src="../packages/web/dist/dokit.js"></script>
   <script>
     Dokit.startMultiControl('ws://172.23.165.79:8000/proxy/multicontrol/OYZGTSEL', window.location.href.split("?asd=")[1])
-    axios({
-      url: 'https://thor.weidian.com/skittles/share.getConfig/1.0?wdtoken=4000fcea&_=1649759524263',
-    }).then((res) => {
-      console.log('axios:',res)
-      // changeNode.style.color = "blue"
-      weatherInfoNode.innerText = `接口数据:${JSON.stringify(res)}`
-    }).catch((err) => {
-      console.log(err)
-    });
+    // axios({
+    //   url: 'https://thor.weidian.com/skittles/share.getConfig/1.0?wdtoken=4000fcea&_=1649759524263',
+    // }).then((res) => {
+    //   console.log('axios:',res)
+    //   // changeNode.style.color = "blue"
+    //   weatherInfoNode.innerText = `接口数据:${JSON.stringify(res)}`
+    // }).catch((err) => {
+    //   console.log(err)
+    // });
     Dokit.setProductId('749a0600b5e48dd77cf8ee680be7b1b7')
   </script>
 </head>
