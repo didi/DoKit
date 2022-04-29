@@ -11,8 +11,8 @@ import android.widget.TextView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.autotest.AutoTestManager
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.widget.FlashImageView
 import com.didichuxing.doraemonkit.kit.test.widget.FlashTextView
@@ -32,7 +32,29 @@ import com.didichuxing.doraemonkit.util.ToastUtils
  * @Description 用一句话说明文件功能
  */
 
-class RecordingCaseDoKitView : AbsDokitView() {
+class RecordingCaseDoKitView : AbsDoKitView() {
+
+    companion object {
+        val doKitViews: MutableSet<RecordingCaseDoKitView> = mutableSetOf()
+
+        fun changeText(text: String) {
+            doKitViews.forEach {
+                it.changeText(text)
+            }
+        }
+
+        fun changeDotColor(id: Int) {
+            doKitViews.forEach {
+                it.changeDotColor(id)
+            }
+        }
+
+        fun changeMode(mode: TestMode) {
+            doKitViews.forEach {
+                it.changeMode(mode)
+            }
+        }
+    }
 
     private var mRedDot: FlashImageView? = null
     private var mExtend: FlashTextView? = null
@@ -75,21 +97,44 @@ class RecordingCaseDoKitView : AbsDokitView() {
         mRedDot?.startFlash()
         mExtend?.startFlash()
 
-        AutoTestManager.addRecordingCaseDoKitView(this)
+        changeMode(AutoTestManager.getMode())
+
+        doKitViews.add(this)
 
     }
 
-    fun changeText(text: String) {
+    private fun changeText(text: String) {
         mText?.text = text
     }
 
-    fun changeDotColor(id: Int) {
+    private fun changeDotColor(id: Int) {
         mRedDot?.setBackgroundResource(id)
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.width = DokitViewLayoutParams.WRAP_CONTENT
-        params.height = DokitViewLayoutParams.WRAP_CONTENT
+    fun changeMode(mode: TestMode) {
+        var dotColor = R.drawable.dk_autotest_flash_red_bg
+        var text = "待链接"
+        when (mode) {
+            TestMode.UNKNOWN -> {
+                dotColor = R.drawable.dk_autotest_flash_red_bg
+                text = "已链接"
+            }
+            TestMode.HOST -> {
+                dotColor = R.drawable.dk_autotest_flash_green_bg
+                text = "录制中"
+            }
+            TestMode.CLIENT -> {
+                dotColor = R.drawable.dk_autotest_flash_blue_bg
+                text = "测试中"
+            }
+        }
+        changeText(text)
+        changeDotColor(dotColor)
+    }
+
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
+        params.width = DoKitViewLayoutParams.WRAP_CONTENT
+        params.height = DoKitViewLayoutParams.WRAP_CONTENT
         params.gravity = Gravity.TOP or Gravity.LEFT
         params.x = ConvertUtils.dp2px(25f)
         params.y = ConvertUtils.dp2px(25f)
@@ -100,6 +145,6 @@ class RecordingCaseDoKitView : AbsDokitView() {
         mRedDot?.cancelFlash()
         mExtend?.cancelFlash()
 
-        AutoTestManager.removeRecordingCaseDoKitView(this)
+        doKitViews.remove(this)
     }
 }

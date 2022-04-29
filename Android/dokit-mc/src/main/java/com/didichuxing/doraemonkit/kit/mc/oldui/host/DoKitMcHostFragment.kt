@@ -49,7 +49,7 @@ class DoKitMcHostFragment : BaseFragment() {
             lifecycleScope.launch(exceptionHandler) {
                 DoKitMcHostServer.stop {
                     DoKitMcManager.WS_MODE = TestMode.UNKNOWN
-                    DoKit.removeFloating(HostDokitView::class)
+                    DoKit.removeFloating(HostDoKitView::class)
                     if (activity is DoKitMcActivity) {
                         (activity as DoKitMcActivity).onBackPressed()
                     }
@@ -68,7 +68,7 @@ class DoKitMcHostFragment : BaseFragment() {
             DoKitMcHostServer.start {
                 DoKitMcManager.WS_MODE = TestMode.HOST
                 //启动悬浮窗
-                DoKit.launchFloating(HostDokitView::class)
+                DoKit.launchFloating(HostDoKitView::class)
             }
         }
     }

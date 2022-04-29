@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.kit.test.mock.tcp.TcpMockManager
  */
 class TcpMessageEventProcessor : AbstractEventProcessor() {
 
-    override fun onSimulationEventAction(activity: Activity, view: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+    override fun onSimulationEventAction(activity: Activity, view: View?, viewC12c: ViewC12c, controlEvent: ControlEvent) {
 
     }
 

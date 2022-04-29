@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
-import android.content.BroadcastReceiver;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-
-import com.didichuxing.doraemonkit.datapick.DataPickManager;
 
 /**
  * ================================================
@@ -19,7 +16,7 @@ public class ColorPickManager {
     private MediaProjectionManager mMediaProjectionManager;
     private MediaProjection mMediaProjection;
 
-    private ColorPickerDokitView mColorPickerDokitView;
+    private ColorPickerDoKitView mColorPickerDokitView;
 
     private static class Holder {
         private static ColorPickManager INSTANCE = new ColorPickManager();
@@ -38,11 +35,11 @@ public class ColorPickManager {
         this.mMediaProjection = mMediaProjection;
     }
 
-    public ColorPickerDokitView getColorPickerDokitView() {
+    public ColorPickerDoKitView getColorPickerDokitView() {
         return mColorPickerDokitView;
     }
 
-    public void setColorPickerDokitView(ColorPickerDokitView mColorPickerDokitView) {
+    public void setColorPickerDokitView(ColorPickerDoKitView mColorPickerDokitView) {
         this.mColorPickerDokitView = mColorPickerDokitView;
     }
 }

@@ -211,7 +211,7 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                         DokitMcConnectManager.currentClientHistory = clientHistory
                         updateHistoryView()
                         //启动悬浮窗
-                        DoKit.launchFloating(ClientDokitView::class)
+                        DoKit.launchFloating(ClientDoKitView::class)
                     }
                     DoKitMcClient.CONNECT_FAIL -> {
                         DoKitTestManager.closeTest()

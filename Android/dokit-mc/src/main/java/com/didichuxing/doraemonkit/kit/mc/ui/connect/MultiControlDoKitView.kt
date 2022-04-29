@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.test.TestMode
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.mc.MultiControlManager
 import com.didichuxing.doraemonkit.kit.mc.ui.McPages
 import com.didichuxing.doraemonkit.kit.mc.utils.McPageUtils
@@ -24,7 +24,7 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
  * 修订历史：
  * ================================================
  */
-class MultiControlDoKitView : AbsDokitView() {
+class MultiControlDoKitView : AbsDoKitView() {
 
     companion object {
         private val HOST = R.string.dk_kit_multi_control_host
@@ -69,7 +69,7 @@ class MultiControlDoKitView : AbsDokitView() {
         }
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
         params.width = ConvertUtils.dp2px(65.0f)
         params.height = ConvertUtils.dp2px(65.0f)
         params.gravity = Gravity.TOP or Gravity.LEFT

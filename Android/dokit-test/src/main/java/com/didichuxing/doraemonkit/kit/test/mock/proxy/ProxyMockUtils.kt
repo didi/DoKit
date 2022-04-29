@@ -113,6 +113,11 @@ object ProxyMockUtils {
         } else if (host.equals(NetworkManager.DOKIT_HOST, ignoreCase = true)) {
             return true
         }
+        val wsKey: String? = request.header("Sec-WebSocket-Key")
+        val wsVersion: String? = request.header("Sec-WebSocket-Version")
+        if (wsKey != null && wsVersion != null) {
+            return true
+        }
         return false
     }
 

@@ -6,10 +6,10 @@ import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.test.event.monitor.LifecycleEventMonitor
 import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.MultiControlConfig
-import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDoKitView
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitMockInterceptor
-import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDokitView
-import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.host.HostDoKitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDoKitView
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.monitor.CustomEventMonitor
 import com.didichuxing.doraemonkit.kit.test.mock.http.DoKitProxyMockInterceptor
@@ -41,18 +41,18 @@ class DoKitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
             actions?.let {
                 when (actions["action"]) {
                     "launch_host_view" -> {
-                        DoKit.launchFloating(HostDokitView::class)
+                        DoKit.launchFloating(HostDoKitView::class)
 
                     }
                     "launch_client_view" -> {
-                        DoKit.launchFloating(ClientDokitView::class)
+                        DoKit.launchFloating(ClientDoKitView::class)
                     }
                     "launch_recoding_view" -> {
                         if (DoKitMcManager.IS_MC_RECODING ||
                             SPUtils.getInstance()
                                 .getBoolean(DoKitMcManager.MC_CASE_RECODING_KEY, false)
                         ) {
-                            DoKit.launchFloating(RecordingDokitView::class)
+                            DoKit.launchFloating(RecordingDoKitView::class)
                             DoKitMcManager.IS_MC_RECODING = true
                             DoKitMcManager.MC_CASE_ID =
                                 SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)

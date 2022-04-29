@@ -8,12 +8,10 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.withContext as withContext1
 
 /**
  * ================================================
@@ -36,7 +34,7 @@ class CountDownDoKitView : AbsCountDownDoKitView() {
             }
         }.flowOn(Dispatchers.IO)
             .onCompletion {
-                withContext(Dispatchers.Main) {
+                doKitViewScope.launch {
                     DoKit.removeFloating(CountDownDoKitView::class)
                 }
             }
@@ -85,9 +83,9 @@ class CountDownDoKitView : AbsCountDownDoKitView() {
         startCountDown()
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.height = DokitViewLayoutParams.WRAP_CONTENT
-        params.width = DokitViewLayoutParams.WRAP_CONTENT
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
+        params.height = DoKitViewLayoutParams.WRAP_CONTENT
+        params.width = DoKitViewLayoutParams.WRAP_CONTENT
         params.gravity = Gravity.TOP or Gravity.LEFT
         params.x = ConvertUtils.dp2px(280f)
         params.y = ConvertUtils.dp2px(25f)

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.*
 import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
@@ -45,7 +45,7 @@ object AccessibilityEventMonitor {
             }
             //针对dokit悬浮窗
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                if (view is DokitFrameLayout) {
+                if (view is DoKitFrameLayout) {
                     onViewHandleEvent(view, event)
                 }
             }
@@ -63,9 +63,9 @@ object AccessibilityEventMonitor {
             AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED -> {
                 onViewHandleEvent(view, event)
             }
-
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
             AccessibilityEvent.TYPE_VIEW_SELECTED -> {
-                LogHelper.i(TAG, "TYPE_VIEW_SELECTED ,class=${view.javaClass},view=$view")
+                LogHelper.i(TAG, "TYPE_VIEW_SELECTED or TYPE_WINDOW_STATE_CHANGED ,class=${view.javaClass},view=$view")
             }
             else -> {
                 LogHelper.e(TAG, "type=${event.eventType},class=${view.javaClass},view=$view")
@@ -113,16 +113,25 @@ object AccessibilityEventMonitor {
             } else {
                 ""
             },
+            doKitViewPanelNode = createDoKitViewPanel(view),
             doKitViewNode = createDoKitViewInfo(view)
         )
     }
 
+    private fun createDoKitViewPanel(view: View): DoKitViewPanelNode? {
+        if (view.rootView is DoKitFrameLayout) {
+            val viewParents = WindowPathUtil.filterDoKitViewRoot(XposedHookUtil.ROOT_VIEWS)
+            val windowIndex = viewParents.indexOf(view.rootView.parent)
+            return DoKitViewPanelNode(windowIndex = windowIndex, className = (view.rootView as DoKitFrameLayout).title)
+        }
+        return null
+    }
 
     /**
      * 创建dokitview info
      */
     private fun createDoKitViewInfo(view: View): DoKitViewNode? {
-        if (view !is DokitFrameLayout) {
+        if (view !is DoKitFrameLayout) {
             return null
         }
 

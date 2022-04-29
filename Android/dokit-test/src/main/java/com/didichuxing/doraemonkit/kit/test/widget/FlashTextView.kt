@@ -59,7 +59,6 @@ class FlashTextView : androidx.appcompat.widget.AppCompatTextView {
                             2 -> text = ".."
                             3 -> text = "..."
                         }
-
                     }
             }
         }

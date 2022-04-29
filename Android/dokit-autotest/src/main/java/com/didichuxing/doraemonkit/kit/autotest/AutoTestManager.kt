@@ -4,7 +4,6 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.view.View
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.autotest.ui.RecordingCaseDoKitView
 import com.didichuxing.doraemonkit.kit.connect.ConnectAddress
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
@@ -12,7 +11,7 @@ import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.kit.connect.parser.ByteParser
 import com.didichuxing.doraemonkit.kit.connect.parser.JsonParser
 import com.didichuxing.doraemonkit.kit.connect.ws.*
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.test.event.*
@@ -39,90 +38,31 @@ import java.lang.Runnable
 object AutoTestManager {
 
     private val mainScope = MainScope() + CoroutineName(this.toString())
+
     private val uploadScope = CoroutineScope(SupervisorJob() + Dispatchers.IO) + CoroutineName("upload")
+
+    private val delayHandler: DelayHandler = DelayHandler()
+
+    private val autoTestStateSet: MutableMap<String, AutoTestState> = mutableMapOf()
 
     private var connectAddress: ConnectAddress? = null
 
     private var webSocketClient: WebSocketClient = WebSocketClient()
 
-    private val recordingCaseDoKitViewList: MutableList<RecordingCaseDoKitView> = mutableListOf()
-
     private var mode: TestMode = TestMode.UNKNOWN
-
-    private val delayHandler: DelayHandler = DelayHandler()
 
     private var screenShotManager: ScreenShotManager = ScreenShotManager("doKit/autotest/screen")
 
-    private val autoTestStateSet: MutableMap<String, AutoTestState> = mutableMapOf()
-
-    private val eventActionInterceptor = object : OnControlEventInterceptor {
-        override fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent): Boolean {
-            if (view is DokitFrameLayout) {
-                return true
-            }
-            return false
-        }
-    }
-
-    private val eventActionListener = object : OnControlEventActionListener {
-        override fun onControlEventAction(activity: Activity?, view: View?, event: ControlEvent) {
-            webSocketClient?.let {
-                it.send(JsonParser.toJson(PackageType.BROADCAST, event, "action"))
-            } ?: run {
-                LogHelper.e("Autotest", "webSocketClient is null by send. ACTION")
-            }
-        }
-    }
-
-    private val proxyMockCallback = object : ProxyMockCallback {
-        override fun send(data: String) {
-            webSocketClient?.let {
-                it.send(data)
-            } ?: run {
-                LogHelper.e("Autotest", "webSocketClient is null by send. MOCK")
-            }
-        }
-    }
-
-
-    private val actionProcessListener = object : OnControlEventActionProcessListener {
-        override fun onControlEventProcessSuccess(activity: Activity?, view: View?, controlEvent: ControlEvent) {
-            val msg = AutoTestMessage(command = "action_response", message = "success")
-            msg.params["eventId"] = controlEvent.eventId
-
-            if (isDiffTimeEvent(controlEvent)) {
-                val state = AutoTestState(activity, view, controlEvent, msg)
-                autoTestStateSet[controlEvent.eventId] = state
-
-            } else {
-                onResponseAutoTestAction(msg)
-            }
-        }
-
-        override fun onControlEventProcessFailed(activity: Activity?, view: View?, controlEvent: ControlEvent, code: Int, message: String) {
-            val msg = AutoTestMessage(command = "action_response", message = "failed")
-            msg.params["eventId"] = controlEvent.eventId
-            msg.params["message"] = message
-            msg.params["code"] = "" + code
-            if (isDiffTimeEvent(controlEvent)) {
-                diffEventTask?.let {
-                    delayHandler.removeCallbacks(it)
-                }
-                onResponseAutoTestAction(msg)
-            } else {
-                onResponseAutoTestAction(msg)
-            }
-        }
-    }
-
     private var diffEventTask: EventScreenShotTask? = null
+
+    private var webSocketClientCreate = false
+
 
     class EventScreenShotTask(private val event: ControlEvent) : Runnable {
         override fun run() {
-            val state = autoTestStateSet[event.eventId]
+            val state = autoTestStateSet.remove(event.eventId)
             state?.let {
                 val message = state.message
-                val activity = ActivityUtils.getTopActivity()
                 val bitmap = screenShotManager.screenshotBitmap()
                 if (bitmap != null) {
                     val name = screenShotManager.createNextFileName()
@@ -132,7 +72,11 @@ object AutoTestManager {
                     message.params["imageName"] = ""
                     message.params["type"] = ""
                 }
-                onResponseAutoTestAction(message, bitmap)
+                if (event.eventType == EventType.WSE_TCP_EVENT && event.diffTime < 1000) {
+                    onResponseAutoTestAction(message, bitmap)
+                } else {
+                    onResponseAutoTestAction(message, bitmap)
+                }
             } ?: run {
                 val message = AutoTestMessage(command = "action_response", message = "failed")
                 message.params["eventId"] = event.eventId
@@ -197,7 +141,6 @@ object AutoTestManager {
 
     fun stopConnect() {
         webSocketClient?.close()
-        recordingCaseDoKitViewList.clear()
     }
 
     fun send(bytes: ByteString): Boolean {
@@ -208,74 +151,24 @@ object AutoTestManager {
         return false
     }
 
-    fun addRecordingCaseDoKitView(view: RecordingCaseDoKitView) {
-
-        when (mode) {
-            TestMode.UNKNOWN -> {
-                mainScope.launch {
-                    view?.let {
-                        it.changeText("已链接")
-                        it.changeDotColor(R.drawable.dk_autotest_flash_red_bg)
-                    }
-                }
-            }
-            TestMode.HOST -> {
-                mainScope.launch {
-                    view?.let {
-                        it.changeText("录制中")
-                        it.changeDotColor(R.drawable.dk_autotest_flash_green_bg)
-                    }
-                }
-            }
-            TestMode.CLIENT -> {
-                mainScope.launch {
-                    view?.let {
-                        it.changeText("测试中")
-                        it.changeDotColor(R.drawable.dk_autotest_flash_blue_bg)
-                    }
-                }
-            }
-        }
-        recordingCaseDoKitViewList.add(view)
-    }
-
-    fun removeRecordingCaseDoKitView(view: RecordingCaseDoKitView) {
-        recordingCaseDoKitViewList.remove(view)
-    }
-
     private fun changeToRecordView() {
         mode = TestMode.HOST
         mainScope.launch {
-            recordingCaseDoKitViewList.forEach { recordingCaseDoKitView ->
-                recordingCaseDoKitView?.let {
-                    it.changeText("录制中")
-                    it.changeDotColor(R.drawable.dk_autotest_flash_green_bg)
-                }
-            }
+            RecordingCaseDoKitView.changeMode(mode)
         }
     }
 
     private fun changeToConnectView() {
         mode = TestMode.UNKNOWN
         mainScope.launch {
-            recordingCaseDoKitViewList.forEach { recordingCaseDoKitView ->
-                recordingCaseDoKitView?.let {
-                    it.changeText("已链接")
-                    it.changeDotColor(R.drawable.dk_autotest_flash_red_bg)
-                }
-            }
+            RecordingCaseDoKitView.changeMode(mode)
         }
     }
 
     private fun changeToTestView() {
         mode = TestMode.CLIENT
         mainScope.launch {
-            recordingCaseDoKitViewList.forEach { recordingCaseDoKitView ->
-                recordingCaseDoKitView?.let {
-                    it.changeText("测试中")
-                    it.changeDotColor(R.drawable.dk_autotest_flash_blue_bg)
-                }
-            }
+            RecordingCaseDoKitView.changeMode(mode)
         }
     }
 
@@ -303,12 +196,21 @@ object AutoTestManager {
                 onResponseAutoTestMessage(msg)
             }
             "stopAutoTest" -> {
+                onStopAutoTest(autoTestMessage)
+            }
+        }
+    }
+
+    private fun onStopAutoTest(autoTestMessage: AutoTestMessage) {
+        delayHandler.postDelayed(object : Runnable {
+            override fun run() {
                 stopAutoTest()
                 val msg = AutoTestMessage(command = "control_response", message = "success")
                 msg.params["command"] = autoTestMessage.command
                 onResponseAutoTestMessage(msg)
             }
-        }
+        }, 3000)
+
     }
 
     /**
@@ -356,6 +258,7 @@ object AutoTestManager {
                 }
                 return true
             }
+            EventType.WSE_TCP_EVENT,
             EventType.APP_ON_FOREGROUND,
             EventType.APP_ON_BACKGROUND,
             EventType.ACTIVITY_BACK_PRESSED -> {
@@ -383,15 +286,18 @@ object AutoTestManager {
 
     private fun getDiffTimeByEvent(event: ControlEvent, diffTime: Long): Long {
         when (event.eventType) {
+            EventType.WSE_TCP_EVENT -> {
+                return diffTime
+            }
             EventType.WSE_COMMON_EVENT -> {
                 event.viewC12c?.let {
                     when (it.actionType) {
                         ActionType.ON_SCROLL,
                         ActionType.ON_INPUT_CHANGE -> {
-                            return  if (diffTime > 100){
-                                 diffTime
-                            }else{
-                                 100
+                            return if (diffTime > 100) {
+                                diffTime
+                            } else {
+                                100
                             }
                         }
                         else -> {
@@ -426,7 +332,6 @@ object AutoTestManager {
         }
     }
 
-    private var webSocketClientCreate = false
 
     private fun connect() {
         if (connectAddress == null) {
@@ -477,8 +382,62 @@ object AutoTestManager {
             }
         } else {
             webSocketClient?.let {
+                it.startAutoConnect()
                 it.reConnect(connectAddress!!.url)
             }
         }
     }
+
+    private val eventActionInterceptor = object : OnControlEventInterceptor {
+        override fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent): Boolean {
+            if (view is DoKitFrameLayout) {
+                return true
+            }
+            return false
+        }
+    }
+
+    private val eventActionListener = object : OnControlEventActionListener {
+        override fun onControlEventAction(activity: Activity?, view: View?, event: ControlEvent) {
+            webSocketClient.send(JsonParser.toJson(PackageType.BROADCAST, event, "action"))
+        }
+    }
+
+    private val proxyMockCallback = object : ProxyMockCallback {
+        override fun send(data: String) {
+            webSocketClient.send(data)
+        }
+    }
+
+
+    private val actionProcessListener = object : OnControlEventActionProcessListener {
+        override fun onControlEventProcessSuccess(activity: Activity?, view: View?, controlEvent: ControlEvent) {
+            val msg = AutoTestMessage(command = "action_response", message = "success")
+            msg.params["eventId"] = controlEvent.eventId
+
+            if (isDiffTimeEvent(controlEvent)) {
+                val state = AutoTestState(activity, view, controlEvent, msg)
+                autoTestStateSet[controlEvent.eventId] = state
+
+            } else {
+                onResponseAutoTestAction(msg)
+            }
+        }
+
+        override fun onControlEventProcessFailed(activity: Activity?, view: View?, controlEvent: ControlEvent, code: Int, message: String) {
+            val msg = AutoTestMessage(command = "action_response", message = "failed")
+            msg.params["eventId"] = controlEvent.eventId
+            msg.params["message"] = message
+            msg.params["code"] = "" + code
+            if (isDiffTimeEvent(controlEvent)) {
+                diffEventTask?.let {
+                    delayHandler.removeCallbacks(it)
+                }
+                onResponseAutoTestAction(msg)
+            } else {
+                onResponseAutoTestAction(msg)
+            }
+        }
+    }
+
 }

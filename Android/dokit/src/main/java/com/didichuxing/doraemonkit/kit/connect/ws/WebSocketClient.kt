@@ -177,8 +177,8 @@ class WebSocketClient {
     }
 
     private fun bindTask() {
-        timer.schedule(KeepConnectTimerTask(), 2000, 2000)
-        timer.schedule(HeartTimerTask(), 3000, 5 * 1000)
+        timer.schedule(KeepConnectTimerTask(), 5000, 2000)
+        timer.schedule(HeartTimerTask(), 5000, 30 * 1000)
     }
 
     private fun bindSession() {

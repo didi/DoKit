@@ -50,7 +50,7 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
         webSocket?.let {
             if (it.queueSize() > 20) {
                 onWebSocketQueueSizeOutListener?.onWebSocketQueueSizeOut()
-                return false
+                return it.send(text)
             }
             return it.send(text)
         }
@@ -61,7 +61,7 @@ class OkHttpWebSocketSession(val mClient: OkHttpClient) : WebSocketSession {
         webSocket?.let {
             if (it.queueSize() > 20) {
                 onWebSocketQueueSizeOutListener?.onWebSocketQueueSizeOut()
-                return false
+                return it.send(bytes)
             }
             return it.send(bytes)
         }

@@ -42,7 +42,7 @@ class DoKitMcClientFragment : BaseFragment() {
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
                 DoKitMcManager.WS_MODE = TestMode.UNKNOWN
-                DoKit.removeFloating(ClientDokitView::class)
+                DoKit.removeFloating(ClientDoKitView::class)
                 DoKitMcClient.close()
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).onBackPressed()

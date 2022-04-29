@@ -26,5 +26,6 @@ data class ViewC12c(
     var scrollY: Long = -1,
     var inputValue: String = "",
     var position: Position? = null,
-    val doKitViewNode: DoKitViewNode? = null
+    val doKitViewNode: DoKitViewNode? = null,
+    val doKitViewPanelNode:DoKitViewPanelNode? = null
 )

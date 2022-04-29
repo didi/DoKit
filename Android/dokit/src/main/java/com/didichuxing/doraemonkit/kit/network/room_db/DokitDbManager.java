@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.util.ThreadUtils;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.DoKitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import org.json.JSONException;
@@ -83,7 +83,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<List<T>>() {
             @Override
             public List<T> doInBackground() throws Throwable {
-                DokitDatabase db = DokitViewManager.getINSTANCE().getDb();
+                DokitDatabase db = DoKitViewManager.getINSTANCE().getDb();
                 if (db.mockApiDao() != null) {
                     return (List<T>) db.mockApiDao().getAllInterceptApi();
                 } else {
@@ -112,7 +112,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<List<T>>() {
             @Override
             public List<T> doInBackground() throws Throwable {
-                DokitDatabase db = DokitViewManager.getINSTANCE().getDb();
+                DokitDatabase db = DoKitViewManager.getINSTANCE().getDb();
                 if (db.mockApiDao() != null) {
                     return (List<T>) db.mockApiDao().getAllTemplateApi();
                 } else {
@@ -139,7 +139,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * 数据库中获取指定的 template api
      */
     public T getTemplateApiByIdInDb(String id) {
-        return (T) DokitViewManager.getINSTANCE().getDb().mockApiDao().findTemplateApiById(id);
+        return (T) DoKitViewManager.getINSTANCE().getDb().mockApiDao().findTemplateApiById(id);
     }
 
 
@@ -147,7 +147,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * 数据库中获取指定的mock intercept api
      */
     public T getInterceptApiByIdInDb(String id) {
-        return (T) DokitViewManager.getINSTANCE().getDb().mockApiDao().findInterceptApiById(id);
+        return (T) DoKitViewManager.getINSTANCE().getDb().mockApiDao().findInterceptApiById(id);
     }
 
     /**
@@ -219,7 +219,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
-                DokitViewManager.getINSTANCE().getDb().mockApiDao().insertAllInterceptApi(mockApis);
+                DoKitViewManager.getINSTANCE().getDb().mockApiDao().insertAllInterceptApi(mockApis);
                 //更新本地数据
                 getAllInterceptApis();
                 return null;
@@ -242,7 +242,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Void>() {
             @Override
             public Void doInBackground() throws Throwable {
-                DokitViewManager.getINSTANCE().getDb().mockApiDao().insertAllTemplateApi(mockApis);
+                DoKitViewManager.getINSTANCE().getDb().mockApiDao().insertAllTemplateApi(mockApis);
                 return null;
             }
 
@@ -265,7 +265,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Void>() {
             @Override
             public Void doInBackground() throws Throwable {
-                DokitViewManager.getINSTANCE().getDb().mockApiDao().updateInterceptApi(mockApi);
+                DoKitViewManager.getINSTANCE().getDb().mockApiDao().updateInterceptApi(mockApi);
 
                 return null;
             }
@@ -290,7 +290,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
-                DokitViewManager.getINSTANCE().getDb().mockApiDao().updateTemplateApi(mockApi);
+                DoKitViewManager.getINSTANCE().getDb().mockApiDao().updateTemplateApi(mockApi);
                 //更新本地数据
                 getAllTemplateApis();
                 return null;

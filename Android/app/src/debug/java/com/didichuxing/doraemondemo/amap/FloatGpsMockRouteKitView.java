@@ -10,10 +10,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.didichuxing.doraemondemo.R;
-import com.didichuxing.doraemondemo.dokit.SimpleDokitView;
+import com.didichuxing.doraemondemo.dokit.SimpleDoKitView;
 import com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsRouteMockCache;
 
-public class FloatGpsMockRouteKitView extends SimpleDokitView {
+public class FloatGpsMockRouteKitView extends SimpleDoKitView {
     public static final String TAG = "FloatGpsMockRoutKitView";
     private View mRootView;
     private static int sMockSpeed = 10;

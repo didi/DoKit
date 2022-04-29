@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.Switch
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.connect.ConnectAddress
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.MultiControlConfig
 import com.didichuxing.doraemonkit.kit.mc.MultiControlManager
+import com.didichuxing.doraemonkit.kit.mc.OnMultiControlModeChangeListener
 import com.didichuxing.doraemonkit.kit.mc.utils.ConnectHistoryUtils
 import com.didichuxing.doraemonkit.kit.mc.ui.*
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McClientHistory
@@ -47,30 +49,51 @@ class MultiControlAllFragment : BaseFragment() {
         private const val REQUEST_CODE_SCAN = 0x108
     }
 
+    private lateinit var switch: Switch
     private lateinit var mRv: RecyclerView
     private lateinit var mAdapter: McClientHistoryAdapter
     private lateinit var histories: MutableList<McClientHistory>
+
+
+    private val checkedChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+        if (isChecked) {
+            MultiControlManager.changeMode(TestMode.HOST)
+        } else {
+            MultiControlManager.changeMode(TestMode.CLIENT)
+        }
+    }
+
+    private val modeChangeListener = object : OnMultiControlModeChangeListener {
+        override fun onMultiControlModeChanged(testMode: TestMode) {
+            if (testMode == TestMode.HOST) {
+                changeSwitchChecked(true)
+            } else {
+                changeSwitchChecked(false)
+            }
+        }
+    }
+
+    private fun changeSwitchChecked(isChecked: Boolean) {
+        switch.setOnCheckedChangeListener(null)
+        switch.isChecked = isChecked
+        switch.setOnCheckedChangeListener(checkedChangeListener)
+    }
 
 
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_connect_history
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val switch: Switch = findViewById(R.id.dokit_mode_switch_btn)
+        switch = findViewById(R.id.dokit_mode_switch_btn)
 
         switch.isChecked = MultiControlManager.getMode() == TestMode.HOST
-        switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                MultiControlManager.changeMode(TestMode.HOST)
-            } else {
-                MultiControlManager.changeMode(TestMode.CLIENT)
-            }
-        }
+        switch.setOnCheckedChangeListener(checkedChangeListener)
 
         val add: Button = findViewById(R.id.add)
-        add.setOnClickListener { view ->
+        add.setOnClickListener {
             startScan()
         }
 
@@ -117,6 +140,8 @@ class MultiControlAllFragment : BaseFragment() {
 
         updateHistoryView()
 
+        MultiControlManager.addOnMultiControlModeChangeListener(modeChangeListener)
+
     }
 
 
@@ -147,8 +172,14 @@ class MultiControlAllFragment : BaseFragment() {
         updateHistoryView()
     }
 
+
     override fun onStart() {
         super.onStart()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MultiControlManager.removeOnMultiControlModeChangeListener(modeChangeListener)
     }
 
     private fun updateHistoryView() {

@@ -38,20 +38,23 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
 
     private val delayHandler: DelayHandler = DelayHandler()
 
-    private var screenShotEventTask: EventTask? = null
+    private var screenShotEventTask: ScreenShotEventTask? = null
 
     private var lastControlEvent: ControlEvent? = null
 
     fun screenShotForEvent(controlEvent: ControlEvent) {
+        if (controlEvent.eventType == EventType.WSE_TCP_EVENT) {
+            return
+        }
         lastControlEvent?.let {
             screenShotNow(it)
         }
+        lastControlEvent = controlEvent
 
         if (isDiffTimeEvent(controlEvent)) {
-            lastControlEvent = controlEvent
-            val task = EventTask(controlEvent)
+            val task = ScreenShotEventTask(controlEvent)
             screenShotEventTask = task
-            delayHandler.postDelayed(task, getDiffTimeByEvent(controlEvent,0))
+            delayHandler.postDelayed(task, getDiffTimeByEvent(controlEvent, 0))
         }
     }
 
@@ -62,9 +65,9 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
                     when (it.actionType) {
                         ActionType.ON_SCROLL,
                         ActionType.ON_INPUT_CHANGE -> {
-                            return  if (diffTime > 100){
+                            return if (diffTime > 100) {
                                 diffTime
-                            }else{
+                            } else {
                                 100
                             }
                         }
@@ -81,15 +84,19 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
      * 从机事件处理结果
      */
     fun onControlEventProcessState(autoTestState: AutoTestState) {
-        lastControlEvent?.let {
-            if (it.eventId == autoTestState.controlEvent.eventId) {
-                autoTestStateSet[autoTestState.controlEvent.eventId] = autoTestState
-            }
+        val controlEvent = autoTestState.controlEvent
+        val message = autoTestState.message
+        if (isDiffTimeEvent(controlEvent)) {
+            autoTestStateSet[autoTestState.controlEvent.eventId] = autoTestState
+        } else {
+            message.params["imageName"] = ""
+            message.params["type"] = ""
+            onResponseAutoTestAction(message)
         }
     }
 
     private fun buildAutoTestMessage(controlEvent: ControlEvent): AutoTestMessage {
-        val state: AutoTestState? = autoTestStateSet[controlEvent.eventId]
+        val state: AutoTestState? = autoTestStateSet.remove(controlEvent.eventId)
         state?.let {
             autoTestStateSet.remove(controlEvent.eventId)
             return state.message
@@ -99,9 +106,9 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
         return message
     }
 
+
     private fun screenShotNow(controlEvent: ControlEvent) {
         val message = buildAutoTestMessage(controlEvent)
-        val activity = ActivityUtils.getTopActivity()
         val bitmap = screenShotManager.screenshotBitmap()
         if (bitmap != null) {
             val name = screenShotManager.createNextFileName()
@@ -177,7 +184,7 @@ abstract class AbstractMultiController(private val webSocketClient: WebSocketCli
         }
     }
 
-    inner class EventTask(private val controlEvent: ControlEvent) : Runnable {
+    inner class ScreenShotEventTask(private val controlEvent: ControlEvent) : Runnable {
 
         private fun isCurrentEvent(): Boolean {
             lastControlEvent?.let {

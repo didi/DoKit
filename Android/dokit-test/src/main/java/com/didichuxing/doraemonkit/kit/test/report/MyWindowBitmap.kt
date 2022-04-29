@@ -20,7 +20,7 @@ import android.view.ViewParent
 data class MyWindowBitmap(
     val parent: ViewParent,
     val view: View,
-    val bitmap: Bitmap,
+    val bitmap: Bitmap?,
     val winFrame: Rect,
     val appVisible: Boolean,
     val decorView: Boolean = false,

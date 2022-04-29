@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.extension
 import android.app.Activity
 import android.util.Log
 import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.EncodeUtils
 import com.didichuxing.doraemonkit.util.GsonUtils
@@ -41,7 +41,7 @@ val Activity.tagName: String
         return this.javaClass.canonicalName ?: ""
     }
 
-val AbsDokitView.tagName: String
+val AbsDoKitView.tagName: String
     get() {
         return this.javaClass.canonicalName ?: ""
     }

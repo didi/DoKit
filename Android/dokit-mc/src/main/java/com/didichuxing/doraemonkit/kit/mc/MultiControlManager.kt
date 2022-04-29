@@ -47,39 +47,44 @@ object MultiControlManager {
 
     private var mode: TestMode = TestMode.UNKNOWN
 
+    private val onModeChangeListeners: MutableSet<OnMultiControlModeChangeListener> = mutableSetOf()
+
     fun getMode(): TestMode {
         return mode
     }
 
     fun startHostMode(connectAddress: ConnectAddress) {
         this.connectAddress = connectAddress
+        mode = TestMode.HOST
         connect()
         clientMultiController.close()
         hostMultiController.start()
+        onNotifyMultiControlModeChange(mode)
     }
 
     private fun startHostMode() {
         mode = TestMode.HOST
         clientMultiController.close()
         hostMultiController.start()
-
         sendChangeHostMode()
-
+        onNotifyMultiControlModeChange(mode)
         ToastUtils.showShort("主机模式")
     }
 
     fun startClientMode(connectAddress: ConnectAddress) {
         this.connectAddress = connectAddress
+        mode = TestMode.CLIENT
         connect()
-        clientMultiController.start()
         hostMultiController.close()
+        clientMultiController.start()
+        onNotifyMultiControlModeChange(mode)
     }
 
     private fun startClientMode() {
         mode = TestMode.CLIENT
-        clientMultiController.start()
         hostMultiController.close()
-
+        clientMultiController.start()
+        onNotifyMultiControlModeChange(mode)
         ToastUtils.showShort("从机模式")
     }
 
@@ -102,9 +107,12 @@ object MultiControlManager {
     }
 
     fun closeWorkMode() {
+        mode = TestMode.UNKNOWN
         clientMultiController.close()
         hostMultiController.close()
         stopConnect()
+
+        onNotifyMultiControlModeChange(mode)
     }
 
     private fun sendChangeHostMode() {
@@ -114,8 +122,24 @@ object MultiControlManager {
     }
 
     private fun onReceiveHostModeChange() {
-        if (mode == TestMode.HOST) {
-            changeMode(TestMode.CLIENT)
+        mainScope.launch {
+            if (mode == TestMode.HOST) {
+                changeMode(TestMode.CLIENT)
+            }
+        }
+    }
+
+    fun addOnMultiControlModeChangeListener(listener: OnMultiControlModeChangeListener) {
+        onModeChangeListeners.add(listener)
+    }
+
+    fun removeOnMultiControlModeChangeListener(listener: OnMultiControlModeChangeListener) {
+        onModeChangeListeners.remove(listener)
+    }
+
+    private fun onNotifyMultiControlModeChange(mode: TestMode) {
+        onModeChangeListeners.forEach {
+            it.onMultiControlModeChanged(mode)
         }
     }
 
@@ -170,7 +194,7 @@ object MultiControlManager {
                     override fun onReceiveTextPackage(webSocket: OkHttpWebSocketSession, textPackage: TextPackage) {
                         if (textPackage.type == PackageType.AUTOTEST || textPackage.type == PackageType.BROADCAST) {
                             when (textPackage.contentType) {
-                                "mc_host"->{
+                                "mc_host" -> {
                                     onReceiveHostModeChange()
                                 }
                                 "auto_test_control" -> {
@@ -221,6 +245,7 @@ object MultiControlManager {
                 it.connect(connectAddress!!.url)
             }
         } else {
+            webSocketClient.startAutoConnect()
             webSocketClient.reConnect(connectAddress!!.url)
         }
 

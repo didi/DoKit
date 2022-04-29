@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import javax.annotation.Nullable;
 public class WindowPathUtil {
 
     private static final String DECOR_VIEW = "com.android.internal.policy.DecorView";
-    private static final String DO_KIT_VIEW = "com.didichuxing.doraemonkit.kit.core.AbsDokitView$performCreate$1";
 
     /**
      * 查找Window上页面根视图
@@ -69,6 +69,22 @@ public class WindowPathUtil {
         return parents;
     }
 
+
+    /**
+     * 过滤出Window上的Activity 和Dialog
+     */
+    public static List<ViewParent> filterDoKitViewRoot(List<ViewParent> viewParents) {
+        List<ViewParent> parents = new ArrayList<>();
+        if (viewParents != null) {
+            for (ViewParent parent : viewParents) {
+                if (isDoKitViewRoot(parent)) {
+                    parents.add(parent);
+                }
+            }
+        }
+        return parents;
+    }
+
     /**
      * 找出当前屏幕上可见的视图
      */
@@ -99,11 +115,21 @@ public class WindowPathUtil {
     public static boolean isDoKitViewRoot(ViewParent viewParent) {
         if (viewParent != null) {
             View view = ReflectUtils.reflect(viewParent).field("mView").get();
-            if (isClass(view, DO_KIT_VIEW)) {
+            if (view instanceof DoKitFrameLayout) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static String getsDoKitViewRootTitle(ViewParent viewParent) {
+        if (viewParent != null) {
+            View view = ReflectUtils.reflect(viewParent).field("mView").get();
+            if (view instanceof DoKitFrameLayout) {
+                return ((DoKitFrameLayout) view).getTitle();
+            }
+        }
+        return "";
     }
 
 

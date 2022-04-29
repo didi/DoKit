@@ -2,8 +2,7 @@ package com.didichuxing.doraemonkit.kit.test.hook
 
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import com.didichuxing.doraemonkit.kit.test.TestMode
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.monitor.AccessibilityEventMonitor
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -41,7 +40,7 @@ class ViewOnInitializeAccessibilityEventHook : XC_MethodHook() {
             val accessibilityEvent = it.args[0] as AccessibilityEvent
             LogHelper.i(TAG, "view==>${view},accessibilityEvent=${accessibilityEvent},eventType===${Integer.toHexString(accessibilityEvent.eventType)}")
 
-            if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
+            if (view is DoKitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return
             }
             AccessibilityEventMonitor.onAccessibilityEvent(view, accessibilityEvent)

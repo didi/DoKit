@@ -9,8 +9,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemondemo.test.ScreenRecordingService
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.test.widget.FlashImageView
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
@@ -32,7 +32,7 @@ import kotlinx.coroutines.plus
  * @Description 用一句话说明文件功能
  */
 
-class ScreenRecordingDoKitView : AbsDokitView() {
+class ScreenRecordingDoKitView : AbsDoKitView() {
 
     companion object {
         private val mainScope = MainScope() + CoroutineName(this.toString())
@@ -85,7 +85,7 @@ class ScreenRecordingDoKitView : AbsDokitView() {
     }
 
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
         params.width = UIUtils.getWidthPixels() / 2
         params.height = UIUtils.getRealHeightPixels() / 2
         params.gravity = Gravity.TOP or Gravity.LEFT

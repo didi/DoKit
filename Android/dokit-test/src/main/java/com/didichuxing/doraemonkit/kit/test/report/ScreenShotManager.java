@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewParent;
-import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil;
 import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil;
@@ -110,11 +109,14 @@ public class ScreenShotManager {
         int size = myWindowBitmaps.size();
         for (int i = 1; i < size; i++) {
             MyWindowBitmap bitmap = myWindowBitmaps.get(i);
-            Rect out = bitmap.getWinFrame();
-            if (!bitmap.getDoKitView() && bitmap.getDecorView()) {
-                canvas.drawARGB(128, 0, 0, 0);
+            Bitmap map = bitmap.getBitmap();
+            if (map != null){
+                Rect out = bitmap.getWinFrame();
+                if (!bitmap.getDoKitView() && bitmap.getDecorView()) {
+                    canvas.drawARGB(90, 0, 0, 0);
+                }
+                canvas.drawBitmap(map, out.left, out.top, paint);
             }
-            canvas.drawBitmap(bitmap.getBitmap(), out.left, out.top, paint);
         }
         return canvasBitmap;
     }

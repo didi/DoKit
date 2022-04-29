@@ -7,15 +7,15 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.mc.R
 
 /**
  * Created by jintai on 2019/09/26.
  * 在相应的界面上弹出提示框
  */
-class McDialogDoKitView : AbsDokitView() {
+class McDialogDoKitView : AbsDoKitView() {
 
     lateinit var mTvExceptionType: TextView
     lateinit var mTvOk: TextView
@@ -29,11 +29,11 @@ class McDialogDoKitView : AbsDokitView() {
         return LayoutInflater.from(context).inflate(R.layout.dk_dokitview_dialog, null)
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE_AND_NOT_TOUCHABLE
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
+        params.flags = DoKitViewLayoutParams.FLAG_NOT_FOCUSABLE_AND_NOT_TOUCHABLE
         params.gravity = Gravity.CENTER
-        params.width = DokitViewLayoutParams.MATCH_PARENT
-        params.height = DokitViewLayoutParams.MATCH_PARENT
+        params.width = DoKitViewLayoutParams.MATCH_PARENT
+        params.height = DoKitViewLayoutParams.MATCH_PARENT
     }
 
     override fun onViewCreated(view: FrameLayout) {

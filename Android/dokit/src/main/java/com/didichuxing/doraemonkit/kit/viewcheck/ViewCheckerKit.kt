@@ -18,9 +18,9 @@ class ViewCheckerKit : AbstractKit() {
         get() = R.mipmap.dk_view_check
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating<ViewCheckDokitView>()
-        DoKit.launchFloating<ViewCheckDrawDokitView>()
-        DoKit.launchFloating<ViewCheckInfoDokitView>()
+        DoKit.launchFloating<ViewCheckDoKitView>()
+        DoKit.launchFloating<ViewCheckDrawDoKitView>()
+        DoKit.launchFloating<ViewCheckInfoDoKitView>()
         return true
     }
 

@@ -39,7 +39,7 @@ class DoKitConnectFragment : BaseFragment() {
 
 
     companion object {
-        private const val REQUEST_CODE_SCAN = 0x10898
+        private const val REQUEST_CODE_SCAN = 0x1008
     }
 
 
