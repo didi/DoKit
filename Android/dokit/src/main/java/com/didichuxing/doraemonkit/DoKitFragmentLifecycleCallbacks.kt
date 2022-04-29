@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.util.LifecycleListenerUtil
  * 修订历史：
  * ================================================
  */
-class DokitFragmentLifecycleCallbacks : FragmentManager.FragmentLifecycleCallbacks() {
+class DoKitFragmentLifecycleCallbacks : FragmentManager.FragmentLifecycleCallbacks() {
     override fun onFragmentAttached(fm: FragmentManager, fragment: Fragment, context: Context) {
         super.onFragmentAttached(fm, fragment, context)
         for (listener in LifecycleListenerUtil.LIFECYCLE_LISTENERS) {

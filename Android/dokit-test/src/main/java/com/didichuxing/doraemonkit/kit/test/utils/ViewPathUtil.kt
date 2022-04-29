@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.extension.tagName
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.kit.test.event.SystemViewNode
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -180,6 +181,13 @@ object ViewPathUtil {
             if (index == viewParentInfos.size - 1) {
                 if (viewParentInfo.viewClassName == decorView::class.tagName) {
                     viewParent = decorView.getChildAt(viewParentInfo.childIndexOfViewParent)
+                }
+                if (decorView is DoKitFrameLayout) {
+                    if (viewParentInfos.size == 1) {
+                        targetView = decorView
+                    } else {
+                        viewParent = decorView.getChildAt(viewParentInfo.childIndexOfViewParent)
+                    }
                 }
             } else {
                 viewParent?.let {
