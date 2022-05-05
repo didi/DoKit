@@ -17,5 +17,6 @@ data class ControlEvent(
     val params: Map<String, String>? = null,
     val viewC12c: ViewC12c? = null,
     val dateTime: String = DateTime.nowTime(),
+    val dateTimeMillis: Long = DateTime.nowTimeMillis(),
     var diffTime: Long = 0
 )

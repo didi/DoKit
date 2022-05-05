@@ -39,16 +39,8 @@ object ProxyMockUtils {
         return Headers.of(map)
     }
 
-
-    private fun nowTime(): String {
-        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS")
-        return df.format(Date())
-    }
-
-
     fun createProxyRequest(did: String, request: Request): ProxyRequest {
         val aid = ControlEventManager.getCurrentEventId()
-        val time = nowTime()
         val url = request.url()
         val scheme = url.scheme()
         val host = url.host()
@@ -65,19 +57,18 @@ object ProxyMockUtils {
         val clientProtocol = "http"
         return ProxyRequest(
             did, aid, url.toString(), scheme, host, path, query, fragment,
-            time, headers, contentType, contentLength, bodyString, searchKey, method, clientProtocol
+            headers, contentType, contentLength, bodyString, searchKey, method, clientProtocol
         )
     }
 
     fun createEmptyProxyResponse(did: String): ProxyResponse {
         return ProxyResponse(
-            did, nowTime(), "",
+            did, "",
             "", 0, "", 404, false, "data", "local"
         )
     }
 
     fun createProxyResponse(did: String, response: Response): ProxyResponse {
-        val time = nowTime()
         val headers = createHeaders(response.headers())
         val code = response.code()
         val body = response.peekBody(Long.MAX_VALUE)
@@ -99,10 +90,7 @@ object ProxyMockUtils {
 
         val protocol = response.protocol().toString()
 
-        return ProxyResponse(
-            did, time, headers,
-            contentType, contentLength, bodyString, code, image, source, protocol
-        )
+        return ProxyResponse(did, headers, contentType, contentLength, bodyString, code, image, source, protocol)
     }
 
     fun filterRequest(request: Request): Boolean {

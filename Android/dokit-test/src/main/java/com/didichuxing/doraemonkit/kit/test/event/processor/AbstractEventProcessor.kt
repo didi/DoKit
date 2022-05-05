@@ -96,7 +96,9 @@ abstract class AbstractEventProcessor {
     private fun checkActivityNow(controlEvent: ControlEvent): Boolean {
         controlEvent.params?.let {
             val activityName = it["activityName"]
-            if (activityName != null && activityName != ActivityUtils.getTopActivity()::class.tagName) {
+            val nowActivity: Activity? = ActivityUtils.getTopActivity()
+            val nowActivityName: String = nowActivity?.tagName ?: ""
+            if (activityName != null && activityName != nowActivityName) {
                 return false
             }
         }
