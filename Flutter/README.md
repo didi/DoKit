@@ -1,62 +1,83 @@
+**目录**
+- [DoKit Flutter版](#doKit-flutter版)
+- [支持 Flutter 版本](#支持flutter版本)
+- [Pub地址](#pub地址)
+- [接入](#接入)
+- [功能简介](#功能简介)
+  - [全部组件](#全部组件)
+  - [日志查看](#日志查看)
+  - [网络请求](#网络请求)
+  - [Method Channel信息](#method-channel信息)
+  - [路由信息](#路由信息)
+  - [帧率](#帧率)
+  - [内存](#内存)
+  - [基本信息](#基本信息)
+  - [控件检查](#控件检查)
+  - [颜色拾取](#颜色拾取)
+  - [Widget层级](#widget层级)
+  - [页面源码查看](#页面源码查看)
+  - [页面启动耗时](#页面启动耗时)
+  - [自定义入口](#自定义入口)
+
 # DoKit Flutter版
 
-内测版本，目前提供了日志、method channel信息、路由信息、网络抓包、帧率、设备与内存信息查看、控件信息查看、颜色拾取、启动耗时、查看源码、查看widget的build链以及对齐标尺的功能.
+内测版本，目前提供了日志、method channel 信息、路由信息、网络抓包、帧率、设备与内存信息查看、控件信息查看、颜色拾取、启动耗时、查看源码、查看 widget 的 build 链以及对齐标尺的功能.
 
-## 支持flutter版本
-version>=1.17.5，其余版本未做过兼容性测试。支持flutter2.0的分支为`0.8.0-nullsafety.0`，后期维护主要会基于该版本进行。
+## 支持Flutter版本
+
+version>=1.17.5，其余版本未做过兼容性测试。支持 flutter2.0 的分支为`0.8.0-nullsafety.0`，后期维护主要会基于该版本进行。
 
 ## Pub地址
+
 [DoKit For Flutter](https://pub.dev/packages/dokit)
 
 ## 接入
-在pubspect.yaml文件的dependencies节点添加pub依赖
+1.在pubspect.yaml文件的dependencies节点添加pub依赖
 
-```
+```yaml
 dependencies:
   dokit: ^0.8.0-nullsafety.0
 ```
 
-在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。
+2.在 main 函数入口初始化。 DoKit 使用 runZone 的方式进行日志捕获，方法通道的捕获，如果你的 app 需要使用同样的方式会有冲突。
 
-```
+```dart
 void main() => {
-
-      DoKit.runApp(app:DoKitApp(MyApp()),
-          // 是否在release包内使用，默认release包会禁用
-          useInRelease: true,
-          // 选择性控制是否使用dokit中的runZonedGuarded,false: 禁用；true: 启用
-          useRunZoned: false,
-          releaseAction: () => {
-              // release模式下执行该函数，一些用到runZone之类实现的可以放到这里，该值为空则会直接调用系统的runApp(MyApp())，
-              })
-    };
+  DoKit.runApp(
+    app: DoKitApp(const MyApp()),
+    // 是否在release包内使用，默认release包会禁用
+    useInRelease: true,
+    // 选择性控制是否使用dokit中的runZonedGuarded,false: 禁用；true: 启用
+    useRunZoned: false,
+    releaseAction: () => {
+      // release模式下执行该函数，一些用到runZone之类实现的可以放到这里，该值为空则会直接调用系统的runApp(MyApp())，
+    },
+  );
 }
 
 ```
 
-**注：谷歌提供的DevTool会折叠非主工程内实例化的widget（根据source file是否属于当前工程），DoKit需要实例化一个wrapper widget用以展示各种overlay，
-      如果在package内去声明这个wrapper，会导致左边树全部被折叠。故这里要求在main文件内使用DoKitApp(MyApp())的方式来初始化入口**
+**注：谷歌提供的 DevTool 会折叠非主工程内实例化的widget（根据source file 是否属于当前工程），DoKit 需要实例化一个 wrapper widget 用以展示各种 overlay，
+如果在 package 内去声明这个 wrapper，会导致左边树全部被折叠。故这里要求在main文件内使用 DoKitApp(MyApp())的方式来初始化入口**
+另外提供了一个异步创建入口 Widget的方式，需要异步构建widget的情况。(有些库会在异步构建 Widget 的时候调用 WidgetFlutterBinding.ensureInitialized()，影响 DoKit的 method channel 监控和日志监控，需要延迟到 runZone 内执行)
+s
+```dart
+void main() {
+  DoKit.runApp(
+    appCreator: () async => DoKitApp(
+      await crateApp(),
+    ),
+  );
+}
 
-
- 另外提供了一个异步创建入口Widget的方式，需要异步构建widget的情况。(有些库会在异步构建Widget的时候调用WidgetFlutterBinding.ensureInitialized()，影响DoKit的method channel监控
- 和日志监控，需要延迟到runZone内执行)
-```
-void main() => {
-       DoKit.runApp(
-             appCreator: () async =>
-                 DoKitApp(await crateApp())));
-    };
-
- Widget crateApp() async{
-   // 一些初始化操作
-   await ...
-   return MyApp();
- }
+Future<Widget> crateApp() async {
+  // 一些初始化操作
+  return MyApp();
 }
 ```
 
 
-### 参数说明
+**参数说明**
 
 
 参数 | 返回类型 | 说明 | 是否必须
