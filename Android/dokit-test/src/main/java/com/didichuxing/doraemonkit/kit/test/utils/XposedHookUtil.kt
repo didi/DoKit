@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.test.utils
 
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
@@ -66,24 +67,28 @@ object XposedHookUtil {
     }
 
     private fun hookAccessibilityEvent() {
-        try {
-            DexposedBridge.findAndHookMethod(
-                View::class.java,
-                "onInitializeAccessibilityEvent",
-                AccessibilityEvent::class.java,
-                accessibilityEventHook
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            try {
+                DexposedBridge.findAndHookMethod(
+                    View::class.java,
+                    "onInitializeAccessibilityEvent",
+                    AccessibilityEvent::class.java,
+                    accessibilityEventHook
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     private fun unHookAccessibilityEvent() {
-        try {
-            val method: Method = View::class.java.getDeclaredMethod("onInitializeAccessibilityEvent", AccessibilityEvent::class.java)
-            DexposedBridge.unhookMethod(method, accessibilityEventHook)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            try {
+                val method: Method = View::class.java.getDeclaredMethod("onInitializeAccessibilityEvent", AccessibilityEvent::class.java)
+                DexposedBridge.unhookMethod(method, accessibilityEventHook)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -98,12 +103,14 @@ object XposedHookUtil {
     }
 
     private fun hookViewOnClickListener() {
-        DexposedBridge.findAndHookMethod(
-            View::class.java,
-            "setOnClickListener",
-            View.OnClickListener::class.java,
-            ViewOnClickListenerEventHook()
-        )
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            DexposedBridge.findAndHookMethod(
+                View::class.java,
+                "setOnClickListener",
+                View.OnClickListener::class.java,
+                ViewOnClickListenerEventHook()
+            )
+        }
     }
 
     private fun hookWindowManagerGlobal() {
