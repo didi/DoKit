@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-@main
-private class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var window: UIWindow?
+NS_ASSUME_NONNULL_BEGIN
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoKit.install(withProductId: nil)
-        
-        return true
-    }
+typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString *_Nullable responseString);
 
-}
+@interface DKWebSocketSession : NSObject
 
+@property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+
+//- (void)sendString:(NSString *)string completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+
+@end
+
+NS_ASSUME_NONNULL_END

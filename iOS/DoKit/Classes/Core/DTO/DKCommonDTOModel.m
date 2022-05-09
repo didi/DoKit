@@ -20,8 +20,9 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-        @"requestId": @"pid",
-        @"method": @"type"
+            @"requestId": @"pid",
+            @"method": @"type",
+            @"data": @"data"
     };
 }
 

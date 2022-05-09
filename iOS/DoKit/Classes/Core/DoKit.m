@@ -19,54 +19,38 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-API_AVAILABLE(ios(13.0))
-static NSArray<UIWindowScene *> *_Nullable getAllForgroundApplicationWindowScene(void) {
-    __block NSMutableArray<UIWindowScene *> *windowSceneArray = nil;
-    [UIApplication.sharedApplication.connectedScenes enumerateObjectsUsingBlock:^(UIScene *_Nonnull obj, BOOL *_Nonnull __attribute__((unused)) stop) {
-        if ([obj.session.role isEqualToString:UIWindowSceneSessionRoleApplication] && [obj isKindOfClass:UIWindowScene.class]) {
-//            *stop = YES;
-            if (!windowSceneArray) {
-                windowSceneArray = NSMutableArray.array;
-            }
-            [windowSceneArray addObject:(UIWindowScene *) obj];
-        }
-    }];
-    
-    return windowSceneArray.copy;
+static inline CGRect getInitialTrayWindowFrame(CGFloat screenHeight) {
+    return CGRectMake(0, screenHeight / 3, 58, 58);
+}
+
+API_AVAILABLE(ios(13.0)) static inline UIWindow *createTrayWindow(UIWindowScene *_Nullable windowScene) {
+    UIWindow *trayWindow = [[UIWindow alloc] initWithWindowScene:windowScene];
+    trayWindow.frame = getInitialTrayWindowFrame(windowScene.screen.bounds.size.height);
+
+    return trayWindow;
+}
+
+static inline UIWindow *createTrayWindowLegacy() {
+    return [[UIWindow alloc] initWithFrame:getInitialTrayWindowFrame(UIScreen.mainScreen.bounds.size.height)];
 }
 
 static NSSet<UIWindow *> *_Nullable windowSet = nil;
+
+@interface DoKit ()
+
++ (void)initWithTrayWindow:(UIWindow *)trayWindow;
+
+@end
 
 NS_ASSUME_NONNULL_END
 
 @implementation DoKit
 
-+ (void)installWithProductId:(NSString *)productId {
-    UIWindow *trayWindow = nil;
-    CGRect trayWindowFrame;
-    if (@available(iOS 13.0, *)) {
-        UIWindowScene *windowScene = getAllForgroundApplicationWindowScene().firstObject;
-        if (!windowScene) {
-#ifndef NS_BLOCK_ASSERTIONS
-            NSAssert(NO, @"UIWindowScene which is foreground and application type is not founded.");
-#endif
-
-            return;
-        }
-        trayWindow = [[UIWindow alloc] initWithWindowScene:windowScene];
-        trayWindowFrame = CGRectMake(0, windowScene.screen.bounds.size.height / 3, 58, 58);
-    } else {
-        trayWindowFrame = CGRectMake(0, UIScreen.mainScreen.bounds.size.height / 3, 58, 58);
-    }
-    if (trayWindow != nil) {
-        trayWindow.frame = trayWindowFrame;
-    } else {
-        trayWindow = [[UIWindow alloc] initWithFrame:trayWindowFrame];
-    }
++ (void)initWithTrayWindow:(UIWindow *)trayWindow {
     NSURL *resourceBundleUrl = [[NSBundle bundleForClass:self.class] URLForResource:@"DoKitResource" withExtension:@"bundle"];
     if (!resourceBundleUrl) {
 #ifndef NS_BLOCK_ASSERTIONS
-        NSAssert(NO, @"DoKitResource.bundle not found.");
+        NSCAssert(NO, @"DoKitResource.bundle not found.");
 #endif
 
         return;
@@ -84,6 +68,29 @@ NS_ASSUME_NONNULL_END
     }
     [mutableWindowSet addObject:trayWindow];
     windowSet = mutableWindowSet.copy;
+}
+
+
++ (void)installWithWindowScene:(UIWindowScene *)windowScene productId:(nullable NSString *)productId {
+    [self initWithTrayWindow:createTrayWindow(windowScene)];
+}
+
++ (void)installWithProductId:(NSString *)productId {
+    if (@available(iOS 13.0, *)) {
+//        NSAssert(NO, @"Please use +[DoKit installWithWindowScene:productId: instead].");
+        __block UIWindowScene *windowScene = nil;
+        [UIApplication.sharedApplication.connectedScenes enumerateObjectsUsingBlock:^(UIScene *obj, BOOL *stop) {
+            if ([obj.session.role isEqualToString:UIWindowSceneSessionRoleApplication] && [obj isKindOfClass:UIWindowScene.class]) {
+                *stop = YES;
+                windowScene = (UIWindowScene *) obj;
+            }
+        }];
+        if (windowScene) {
+            [self installWithWindowScene:windowScene productId:productId];
+        }
+    } else {
+        [self initWithTrayWindow:createTrayWindowLegacy()];
+    }
 }
 
 @end

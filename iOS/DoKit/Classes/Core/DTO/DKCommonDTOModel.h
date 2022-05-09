@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable, copy) NSString *method;
 
+@property(nonatomic, nullable, copy) NSString *data;
+
 @end
 
 NS_ASSUME_NONNULL_END

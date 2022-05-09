@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DoKit : NSObject
 
++ (void)installWithWindowScene:(UIWindowScene *)windowScene productId:(nullable NSString *)productId API_AVAILABLE(ios(13.0));
+
 + (void)installWithProductId:(nullable NSString *)productId;
 
 @end
