@@ -28,7 +28,7 @@ typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString 
 
 - (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
 
-//- (void)sendString:(NSString *)string completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+- (void)sendString:(NSString *)string requestId:(NSString *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
 
 @end
 

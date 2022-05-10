@@ -27,9 +27,15 @@ static NSString *const DOKIT_WEBSOCKET_SESSION = @"DOKIT_WEBSOCKET_SESSION";
 
 static NSString *const DEVICE_AUTHENTICATION_ERROR = @"Device authentication json error.";
 
-static NSString *const NSJSONSERIALIZATION_ERROR = @"Dictionary to json error.";
+static NSString *const JSON_SERIALIZATION_ERROR = @"Dictionary to json error.";
 
 @interface DKWebSocketSession () <SRWebSocketDelegate>
+
+/// Is Open/Connecting state.
+@property(readonly) BOOL isWebSocketRunning;
+
+/// Current is DeviceAuthentication state.
+@property(nonatomic, assign) BOOL isDeviceAuthenticating;
 
 @property(nonatomic, copy) NSURL *url;
 
@@ -41,13 +47,20 @@ static NSString *const NSJSONSERIALIZATION_ERROR = @"Dictionary to json error.";
 
 @property(nonatomic, nullable, copy) NSArray<DKWebSocketRequestBlock> *deferRequestQueue;
 
-@property(nonatomic, nullable, copy) DKWebSocketRequestBlock deviceAuthenticationRequestBlock;
-
 @property(nonatomic, nullable, copy) NSDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary;
 
+/// Make WebSocket connection available.
 - (void)connect;
 
 - (void)deviceAuthentication;
+
+- (void)handleWebSocketWithError:(nullable NSError *)error;
+
+- (void)addWithRequestId:(NSString *)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler;
+
+- (void)handleWithDeviceAuthenticationError:(nullable NSError *)deviceAuthenticationError;
+
+- (void)sendDeviceAuthenticationRequest;
 
 @end
 
@@ -55,9 +68,84 @@ NS_ASSUME_NONNULL_END
 
 @implementation DKWebSocketSession
 
+- (void)sendDeviceAuthenticationRequest {
+    NSAssert(self.isDeviceAuthenticating, @"State error.");
+    DKLoginDataDTOModel *loginDataDTOModel = [[DKLoginDataDTOModel alloc] init];
+    loginDataDTOModel.manufacturer = @"Apple";
+    // Load previous UUID.
+    loginDataDTOModel.connectSerial = self.sessionUUID;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:loginDataDTOModel error:&error];
+    NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSAssert(!error, JSON_SERIALIZATION_ERROR);
+    NSString *dataString = nil;
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.requestId = @(self.requestId++).stringValue;
+    commonDTOModel.data = dataString;
+    commonDTOModel.method = @"LOGIN";
+    jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
+    jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSAssert(!error, JSON_SERIALIZATION_ERROR);
+    dataString = nil;
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    [self.webSocket sendString:dataString error:nil];
+    // Add completionHandler to responseQueue.
+    __weak typeof(self) weakSelf = self;
+    DKWebSocketCompletionHandler webSocketCompletionHandler = ^(NSError *_Nullable error, NSString *_Nullable dataString) {
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:[(dataString ?: @"") dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+        typeof(weakSelf) self = weakSelf;
+        if (![jsonObject isKindOfClass:NSDictionary.class]) {
+            [self handleWithDeviceAuthenticationError:error];
+
+            return;
+        }
+        DKLoginDataDTOModel *loginDataDTOModel = [MTLJSONAdapter modelOfClass:DKLoginDataDTOModel.class fromJSONDictionary:jsonObject error:&error];
+        self.sessionUUID = loginDataDTOModel.connectSerial;
+
+        self.isDeviceAuthenticating = NO;
+        // Trigger deferred request.
+        [self.deferRequestQueue enumerateObjectsUsingBlock:^(DKWebSocketRequestBlock obj, NSUInteger __attribute__((unused)) idx, BOOL *__attribute__((unused)) stop) {
+            obj(nil, self);
+        }];
+        self.deferRequestQueue = nil;
+    };
+    [self addWithRequestId:commonDTOModel.requestId webSocketCompletionHandler:webSocketCompletionHandler];
+}
+
+- (void)addWithRequestId:(NSString *)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler {
+    NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
+    self.completionHandlerDictionary = nil;
+    if (!completionHandlerDictionary) {
+        completionHandlerDictionary = NSMutableDictionary.dictionary;
+    }
+    completionHandlerDictionary[requestId] = webSocketCompletionHandler;
+    self.completionHandlerDictionary = completionHandlerDictionary;
+}
+
+- (BOOL)isWebSocketRunning {
+    return _webSocket && (_webSocket.readyState == SR_CONNECTING || _webSocket.readyState == SR_OPEN);
+}
+
+- (void)handleWithDeviceAuthenticationError:(nullable NSError *)deviceAuthenticationError {
+    // Enumerate all request to tell that an error is happened.
+    [self.deferRequestQueue enumerateObjectsUsingBlock:^(DKWebSocketRequestBlock obj, NSUInteger __attribute__((unused)) idx, BOOL *__attribute__((unused)) stop) {
+        obj(deviceAuthenticationError, self);
+    }];
+    self.deferRequestQueue = nil;
+    self.isDeviceAuthenticating = NO;
+}
+
 - (instancetype)initWithUrl:(NSURL *)url {
     self = [super init];
     _url = url.copy;
+    _isDeviceAuthenticating = NO;
     _requestId = 0;
     id webSocketSession = [NSUserDefaults.standardUserDefaults objectForKey:DOKIT_WEBSOCKET_SESSION];
     if ([webSocketSession isKindOfClass:NSString.class]) {
@@ -69,7 +157,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)connect {
-    if (_webSocket && (_webSocket.readyState == SR_CONNECTING || _webSocket.readyState == SR_OPEN)) {
+    if (self.isWebSocketRunning) {
         return;
     }
     SRWebSocket *webSocket = [[SRWebSocket alloc] initWithURL:_url];
@@ -79,78 +167,62 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)deviceAuthentication {
-    if (_webSocket.readyState != SR_OPEN) {
-        [self connect];
+    [self connect];
+    if (_isDeviceAuthenticating) {
+        return;
     }
-    if (!_sessionUUID) {
-        DKWebSocketRequestBlock webSocketRequestBlock = ^(NSError *_Nullable error, DKWebSocketSession *_Nullable webSocketSession) {
-            if (error || !webSocketSession) {
-                return;
-            }
-            DKLoginDataDTOModel *loginDataDTOModel = [[DKLoginDataDTOModel alloc] init];
-            loginDataDTOModel.manufacturer = nil;
-            loginDataDTOModel.connectSerial = webSocketSession.sessionUUID;
-            NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:loginDataDTOModel error:&error];
-            NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
-            NSAssert(!error, NSJSONSERIALIZATION_ERROR);
-            NSString *dataString = nil;
-            if (jsonData) {
-                dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            }
-            DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
-            commonDTOModel.requestId = @(webSocketSession.requestId++).stringValue;
-            commonDTOModel.data = dataString;
-            commonDTOModel.method = @"LOGIN";
-            jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
-            NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
-            jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
-            NSAssert(!error, NSJSONSERIALIZATION_ERROR);
-            dataString = nil;
-            if (jsonData) {
-                dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            }
-            [webSocketSession.webSocket sendString:dataString error:nil];
-            // Add completionHandler to responseQueue.
-            __weak typeof(webSocketSession) weakWebSocketSession = webSocketSession;
-            DKWebSocketCompletionHandler webSocketCompletionHandler = ^(NSError *_Nullable error, NSString *_Nullable dataString) {
-                id jsonObject = [NSJSONSerialization JSONObjectWithData:[(dataString ?: @"") dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-                if (![jsonObject isKindOfClass:NSDictionary.class]) {
-                    return;
-                }
-                DKLoginDataDTOModel *loginDataDTOModel = [MTLJSONAdapter modelOfClass:DKLoginDataDTOModel.class fromJSONDictionary:jsonObject error:&error];
-                typeof(weakWebSocketSession) self = weakWebSocketSession;
-                self.sessionUUID = loginDataDTOModel.connectSerial;
-            };
-            NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = webSocketSession.completionHandlerDictionary.mutableCopy;
-            webSocketSession.completionHandlerDictionary = nil;
-            if (!completionHandlerDictionary) {
-                completionHandlerDictionary = NSMutableDictionary.dictionary;
-            }
-            completionHandlerDictionary[commonDTOModel.requestId] = webSocketCompletionHandler;
-            webSocketSession.completionHandlerDictionary = completionHandlerDictionary;
-        };
-        if (_webSocket.readyState == SR_OPEN) {
-            webSocketRequestBlock(nil, self);
-        } else {
-            // SR_CONNECTING
-            // Add request to deferRequestQueue.
-            self.deviceAuthenticationRequestBlock = webSocketRequestBlock;
-//            NSMutableArray<DKWebSocketRequestBlock> *deferRequestQueue = _deferRequestQueue.mutableCopy;
-//            _deferRequestQueue = nil;
-//            if (!deferRequestQueue) {
-//                deferRequestQueue = NSMutableArray.array;
-//            }
-//            [deferRequestQueue addObject:webSocketRequestBlock];
-//            _deferRequestQueue = deferRequestQueue.copy;
-        }
+    _isDeviceAuthenticating = YES;
+    if (_webSocket.readyState == SR_OPEN) {
+        // SR_CONNECTING, defer request.
+        [self sendDeviceAuthenticationRequest];
     }
 }
 
+- (void)sendString:(NSString *)string requestId:(NSString *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler {
+    if (!(self.isWebSocketRunning && self.isDeviceAuthenticating)) {
+        [self deviceAuthentication];
+        // Add to deferRequestQueue.
+        DKWebSocketRequestBlock webSocketRequestBlock = ^(NSError *_Nullable error, DKWebSocketSession *_Nullable webSocketSession) {
+            if (error || !webSocketSession) {
+                completionHandler ? completionHandler(error, nil) : (void) nil;
+
+                return;
+            }
+            [webSocketSession.webSocket sendString:string error:nil];
+            [webSocketSession addWithRequestId:requestId webSocketCompletionHandler:completionHandler];
+        };
+        NSMutableArray<DKWebSocketRequestBlock> *deferRequestQueue = self.deferRequestQueue.mutableCopy;
+        self.deferRequestQueue = nil;
+        if (!deferRequestQueue) {
+            deferRequestQueue = NSMutableArray.array;
+        }
+        [deferRequestQueue addObject:webSocketRequestBlock];
+        self.deferRequestQueue = deferRequestQueue;
+    } else {
+        // Send request.
+        [self.webSocket sendString:string error:nil];
+    }
+}
+
+- (void)setSessionUUID:(NSUUID *)sessionUUID {
+    _sessionUUID = sessionUUID.copy;
+    [NSUserDefaults.standardUserDefaults setObject:sessionUUID.UUIDString forKey:DOKIT_WEBSOCKET_SESSION];
+}
+
 - (void)dealloc {
-    [NSUserDefaults.standardUserDefaults setObject:self.sessionUUID.UUIDString forKey:DOKIT_WEBSOCKET_SESSION];
-    [NSUserDefaults.standardUserDefaults synchronize];
-    [self.webSocket close];
+    [_webSocket close];
+}
+
+- (void)handleWebSocketWithError:(nullable NSError *)error {
+    if (self.isDeviceAuthenticating) {
+        [self handleWithDeviceAuthenticationError:error];
+        self.completionHandlerDictionary = nil;
+    } else {
+        [self.completionHandlerDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *__attribute__((unused)) key, DKWebSocketCompletionHandler obj, BOOL *__attribute__((unused)) stop) {
+            obj(error, nil);
+        }];
+        self.completionHandlerDictionary = nil;
+    }
 }
 
 #pragma mark - SRWebSocketDelegate
@@ -168,6 +240,9 @@ NS_ASSUME_NONNULL_END
             NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
             self.completionHandlerDictionary = nil;
             completionHandlerDictionary[commonDTOModel.requestId] = nil;
+            if (completionHandlerDictionary.count == 0) {
+                completionHandlerDictionary = nil;
+            }
             self.completionHandlerDictionary = completionHandlerDictionary;
             webSocketCompletionHandler(nil, commonDTOModel.data);
         }
@@ -175,23 +250,16 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-    if (self.deviceAuthenticationRequestBlock) {
-        self.deviceAuthenticationRequestBlock(error, nil);
-        self.deviceAuthenticationRequestBlock = nil;
-    }
+    [self handleWebSocketWithError:error];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-    if (self.deviceAuthenticationRequestBlock) {
-        self.deviceAuthenticationRequestBlock(nil, nil);
-        self.deviceAuthenticationRequestBlock = nil;
-    }
+    [self handleWebSocketWithError:nil];
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
-    if (!self.sessionUUID) {
-        self.deviceAuthenticationRequestBlock(nil, self);
-        self.deviceAuthenticationRequestBlock = nil;
+    if (self.isDeviceAuthenticating) {
+        [self sendDeviceAuthenticationRequest];
     }
 }
 
