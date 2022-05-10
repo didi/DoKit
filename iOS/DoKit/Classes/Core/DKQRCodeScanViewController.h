@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <UIKit/UIKit.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface DKQRCodeScanViewController : UIViewController
+
+@property(nonatomic, nullable, copy) void (^completionBlock)(NSString *_Nullable decodedString);
+
+@end
+
+NS_ASSUME_NONNULL_END

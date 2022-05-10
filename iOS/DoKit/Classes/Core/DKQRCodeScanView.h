@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <UIKit/UIKit.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, DKQRCodeScanResult) {
+    DKQRCodeScanResultSuccess = 0,
+    DKQRCodeScanResultAuthorityError
+};
+
+@interface DKQRCodeScanView : UIView
+
+- (void)startScanQRCodeWithCompletionBlock:(void (^)(DKQRCodeScanResult qrCodeScanResult, NSString *_Nullable decodedString))completionBlock;
+
+@end
+
+NS_ASSUME_NONNULL_END

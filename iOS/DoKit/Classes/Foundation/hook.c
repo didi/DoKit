@@ -31,7 +31,10 @@
 
 static const char *const SEG_DATA_CONST = "__DATA_CONST";
 
+#ifndef NDEBUG
 static char *const VM_PROTECT_ERROR = "vm_protect() error.";
+#endif
+
 #ifdef __LP64__
 typedef struct mach_header_64 mach_header_t;
 typedef struct segment_command_64 segment_command_t;
@@ -49,19 +52,21 @@ typedef struct nlist nlist_t;
 struct RebindingEntry {
     SLIST_ENTRY(RebindingEntry) node;
     size_t length;
-    struct DKRebinding rebinding[0];
+    // [] is correct?
+    // or should we use [0]?
+    struct DKRebinding rebinding[];
 };
 
 static SLIST_HEAD(, RebindingEntry) rebindingEntryHead = SLIST_HEAD_INITIALIZER();
 
 static bool appendRebinding(const struct DKRebinding rebinding[], size_t length) {
-    if (__builtin_expect(!rebinding || !length, false)) {
+    if (!rebinding || !length) {
         assert(false && "appendRebinding() parameter must be non-null.");
 
         return true;
     }
     struct RebindingEntry *rebindingEntry = malloc(sizeof(struct RebindingEntry) + length * sizeof(struct DKRebinding));
-    if (__builtin_expect(!rebindingEntry, false)) {
+    if (!rebindingEntry) {
         return false;
     }
     rebindingEntry->length = length;
@@ -73,7 +78,7 @@ static bool appendRebinding(const struct DKRebinding rebinding[], size_t length)
 
 static void performRebindingWithSection(const section_t *section, uintptr_t slide, const nlist_t *symbolTable, const char *stringTable, const uint32_t *indirectSymbolTable) {
     // section->size could be zero?
-    if (__builtin_expect(!section || !symbolTable || !stringTable || !indirectSymbolTable || !section->size, false)) {
+    if (!section || !symbolTable || !stringTable || !indirectSymbolTable || !section->size) {
         assert(false && "performRebindingWithSection() parameter error.");
 
         return;
@@ -96,7 +101,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
     kern_return_t kernReturn = vm_region(mach_task_self(), &vmAddress, &vmSize, VM_REGION_BASIC_INFO, (vm_region_info_t) &vmRegionBasicInfoData, &machMsgTypeNumber, &memoryObject);
 #endif
     assert(vmAddress <= (vm_address_t) got && vmSize >= section->size && "vmAddress <= got < got + size <= vmAddress + vmSize.");
-    if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
+    if (kernReturn != KERN_SUCCESS) {
         assert(false && "vm_region_64() error.");
 
         return;
@@ -111,7 +116,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
     if (newProtection != VM_PROT_NONE) {
         // got and section->size will be Page-Aligned
         kernReturn = vm_protect(mach_task_self(), (vm_address_t) got, section->size, false, newProtection);
-        if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
+        if (kernReturn != KERN_SUCCESS) {
             assert(false && VM_PROTECT_ERROR);
 
             return;
@@ -146,7 +151,7 @@ static void performRebindingWithSection(const section_t *section, uintptr_t slid
 
     if (vmRegionBasicInfoData.protection == VM_PROT_READ) {
         kernReturn = vm_protect(mach_task_self(), (vm_address_t) got, section->size, false, vmRegionBasicInfoData.protection);
-        if (__builtin_expect(kernReturn != KERN_SUCCESS, false)) {
+        if (kernReturn != KERN_SUCCESS) {
             assert(false && VM_PROTECT_ERROR);
 
             return;
@@ -177,7 +182,7 @@ static void dyldAddImageCallback(const struct mach_header *machHeader, intptr_t 
             dynamicSymbolTableCommand = (struct dysymtab_command *) currentSegmentCommand;
         }
     }
-    if (__builtin_expect(!symbolTableCommand || !dynamicSymbolTableCommand || !linkEditCommand, false)) {
+    if (!symbolTableCommand || !dynamicSymbolTableCommand || !linkEditCommand) {
         assert(false && "SYMBOL or DYNAMIC_SYMBOL or LINK_EDIT error.");
 
         return;
@@ -212,7 +217,7 @@ static void dyldAddImageCallback(const struct mach_header *machHeader, intptr_t 
 
 bool DKRebindSymbols(struct DKRebinding rebinding[], size_t length) {
     bool retVal = appendRebinding(rebinding, length);
-    if (__builtin_expect(!retVal, false)) {
+    if (!retVal) {
         return false;
     }
     if (SLIST_NEXT(SLIST_FIRST(&rebindingEntryHead), node)) {

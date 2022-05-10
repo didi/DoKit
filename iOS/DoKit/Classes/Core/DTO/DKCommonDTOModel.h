@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Mantle/Mantle.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface DKCommonDTOModel : MTLModel <MTLJSONSerializing>
+
+@property(nonatomic, nullable, copy) NSString *requestId;
+
+@property(nonatomic, nullable, copy) NSString *method;
+
+@property(nonatomic, nullable, copy) NSString *data;
+
+@end
+
+NS_ASSUME_NONNULL_END

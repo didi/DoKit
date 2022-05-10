@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface DoKit : NSObject
+
++ (void)installWithWindowScene:(UIWindowScene *)windowScene productId:(nullable NSString *)productId API_AVAILABLE(ios(13.0));
+
++ (void)installWithProductId:(nullable NSString *)productId;
+
+@end
+
+NS_ASSUME_NONNULL_END

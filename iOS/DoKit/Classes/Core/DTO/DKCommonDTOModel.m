@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import "DKCommonDTOModel.h"
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
+@implementation DKCommonDTOModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+            @"requestId": @"pid",
+            @"method": @"type",
+            @"data": @"data"
+    };
 }
+
+@end

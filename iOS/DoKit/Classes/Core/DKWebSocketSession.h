@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString *_Nullable responseString);
+
+@interface DKWebSocketSession : NSObject
+
+@property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+
+- (void)sendString:(NSString *)string requestId:(NSString *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+
+@end
+
+NS_ASSUME_NONNULL_END

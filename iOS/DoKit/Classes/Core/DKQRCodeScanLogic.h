@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+@class AVCaptureVideoPreviewLayer;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface DKQRCodeScanLogic : NSObject
+
+@property(nonatomic, nullable, copy) void (^completionBlock)(NSString *_Nullable decodedString);
+
+- (void)startScanQRCodeWithCompletionBlock:(void (^)(AVCaptureVideoPreviewLayer *_Nullable captureVideoPreviewLayer))completionBlock;
+
+@end
+
+NS_ASSUME_NONNULL_END

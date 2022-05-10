@@ -1,21 +1,26 @@
 PODS:
-  - DoraemonKit/Common (3.1.2)
-  - DoraemonKit/EventSynthesize (3.1.2):
-    - DoraemonKit/Common
-  - DoraemonKit/Hook (3.1.2):
-    - DoraemonKit/Common
+  - DoraemonKit/CoreNG (3.1.2):
+    - DoraemonKit/Foundation
+    - SocketRocket (~> 0.6)
+  - DoraemonKit/Foundation (3.1.2)
+  - SocketRocket (0.6.0)
 
 DEPENDENCIES:
-  - DoraemonKit/EventSynthesize (from `..`)
-  - DoraemonKit/Hook (from `..`)
+  - DoraemonKit/CoreNG (from `..`)
+  - DoraemonKit/Foundation (from `..`)
+
+SPEC REPOS:
+  trunk:
+    - SocketRocket
 
 EXTERNAL SOURCES:
   DoraemonKit:
     :path: ".."
 
 SPEC CHECKSUMS:
-  DoraemonKit: aa228d6cc263888f68dab6bd14507657397474c1
+  DoraemonKit: 4c570f7741978c2b5299a8d2aaa60edbb3ab1fac
+  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
 
-PODFILE CHECKSUM: c3fb81830bea0d193ce89ec021d6016a61ac10b1
+PODFILE CHECKSUM: 28297a0c8f0a9a2a15247276af0b511e880e6472
 
 COCOAPODS: 1.11.3

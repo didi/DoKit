@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <UIKit/UIKit.h>
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface DKTrayViewController : UIViewController
+
+@property(nonatomic, nullable, copy) void (^tapHandler)(void);
+
+@end
+
+NS_ASSUME_NONNULL_END

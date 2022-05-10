@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import "DKLoginDataDTOModel.h"
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        DoKit.install(withProductId: nil)
-    }
-    
+@implementation DKLoginDataDTOModel
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+        @"manufacturer": @"manufacturer",
+        @"connectSerial": @"connectSerial"
+    };
 }
+
+@end
