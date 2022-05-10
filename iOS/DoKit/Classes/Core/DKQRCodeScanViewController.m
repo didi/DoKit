@@ -54,8 +54,6 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
         }
         typeof(weakSelf) self = weakSelf;
         void (^completionBlock)(NSString *_Nullable decodedString) = ^(NSString *_Nullable decodedString) {
-            typeof(weakSelf) self = weakSelf;
-            self.completionBlock ? self.completionBlock(decodedString) : (void) nil;
             UIViewController *efficientViewContainer = nil;
             UIViewController *currentViewController = self;
             while (!efficientViewContainer) {
@@ -77,6 +75,8 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
             } else if (efficientViewContainer) {
                 [currentViewController dismissViewControllerAnimated:YES completion:nil];
             }
+            typeof(weakSelf) self = weakSelf;
+            self.completionBlock ? self.completionBlock(decodedString) : (void) nil;
         };
         if (qrCodeScanResult == DKQRCodeScanResultAuthorityError) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"相机权限未开启，请到「设置-隐私-相机」中允许访问您的相机" message:nil preferredStyle:UIAlertControllerStyleAlert];
