@@ -20,9 +20,62 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-        @"manufacturer": @"manufacturer",
-        @"connectSerial": @"connectSerial"
+            @"manufacturer": @"manufacturer",
+            @"connectSerial": @"connectSerial"
     };
+}
+
++ (NSValueTransformer *)connectSerialJSONTransformer {
+    return [MTLValueTransformer
+            transformerUsingForwardBlock:^id(NSString *string, BOOL *success, NSError **__attribute__((unused)) error) {
+                if (string == nil) return nil;
+
+                if (![string isKindOfClass:NSString.class]) {
+//                    if (error) {
+//                        NSDictionary *userInfo = @{
+//                                NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to UUID", @""),
+//                                NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSString, got: %@.", @""), string],
+//                                MTLTransformerErrorHandlingInputValueErrorKey: string
+//                        };
+//                        *error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+//                    }
+                    *success = NO;
+                    return nil;
+                }
+
+                NSUUID *result = [[NSUUID alloc] initWithUUIDString:string];
+
+                if (result == nil) {
+//                    if (error) {
+//                        NSDictionary *userInfo = @{
+//                                NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert string to UUID", @""),
+//                                NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Input UUID string %@ was malformed", @""), string],
+//                                MTLTransformerErrorHandlingInputValueErrorKey: string
+//                        };
+//                        *error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+//                    }
+                    *success = NO;
+                    return nil;
+                }
+
+                return result;
+            }
+                            reverseBlock:^id(NSUUID *uuid, BOOL *success, NSError **__attribute__((unused)) error) {
+                                if (uuid == nil) return nil;
+
+                                if (![uuid isKindOfClass:NSUUID.class]) {
+//                                    if (error != NULL) {
+//                                        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"Could not convert UUID to string", @""),
+//                                                NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Expected an NSUUID, got: %@.", @""), uuid],
+//                                                MTLTransformerErrorHandlingInputValueErrorKey: uuid};
+//                                        *error = [NSError errorWithDomain:MTLTransformerErrorHandlingErrorDomain code:MTLTransformerErrorHandlingErrorInvalidInput userInfo:userInfo];
+//                                    }
+                                    *success = NO;
+                                    return nil;
+                                }
+
+                                return uuid.UUIDString.localizedLowercaseString;
+                            }];
 }
 
 @end

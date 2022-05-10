@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable, copy) NSUUID *connectSerial;
 
++ (nullable NSValueTransformer *)connectSerialJSONTransformer;
+
 @end
 
 NS_ASSUME_NONNULL_END
