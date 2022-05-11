@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-@main
-private class AppDelegate: UIResponder, UIApplicationDelegate {
+NS_ASSUME_NONNULL_BEGIN
 
-    var window: UIWindow?
+typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
+    DKMultiControlStreamManagerStateClosed = 0,
+    DKMultiControlStreamManagerStateRunning
+};
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoraemonManager.shareInstance().install()
+typedef void (^DKMultiControlSteamManagerListener)(DKMultiControlStreamManagerState state);
 
-        return true
-    }
+@interface DKMultiControlStreamManager : NSObject
 
-}
++ (instancetype)sharedInstance;
 
+- (void)registerMultiControlStreamManagerStateListener:(DKMultiControlSteamManagerListener)listener;
+
+- (void)enableMultiControl;
+
+@end
+
+NS_ASSUME_NONNULL_END

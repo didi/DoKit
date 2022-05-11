@@ -34,26 +34,35 @@ iOS各式各样的工具集合
     'DEFINES_MODULE' => 'YES'
   }
   
-  s.subspec 'Foundation' do |ss|
-    ss.source_files = 'iOS/DoKit/Classes/Foundation/*.{h,c}'
+  s.subspec 'CFoundation' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/CFoundation/*.{h,c}'
     ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden'
   end
   
-  s.subspec 'CoreNG' do |ss|
-    ss.dependency 'DoraemonKit/Foundation'
-    ss.source_files = 'iOS/DoKit/Classes/Core/**/*.{h,m}'
+  s.subspec 'Foundation' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/Foundation/**/*.{h,m}'
     # language-extension-token warning be used to implement Objective-C typeof().
     # ?: grammar
     ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-language-extension-token', '-Wno-gnu-conditional-omitted-operand'
-    ss.resource_bundle = {
-      'DoKitResource' => [
-        'iOS/DoKit/Assets/Assets.xcassets',
-        'iOS/DoKit/Assets/*.xib'
-      ]
-    }
     ss.dependency 'SocketRocket', '~> 0.6'
     ss.dependency 'Mantle', '~> 2.2'
   end
+  
+#  s.subspec 'CoreNG' do |ss|
+#    ss.dependency 'DoraemonKit/Foundation'
+#    ss.source_files = 'iOS/DoKit/Classes/Core/**/*.{h,m}'
+#    # language-extension-token warning be used to implement Objective-C typeof().
+#    # ?: grammar
+#    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-language-extension-token', '-Wno-gnu-conditional-omitted-operand'
+#    ss.resource_bundle = {
+#      'DoKitResource' => [
+#        'iOS/DoKit/Assets/Assets.xcassets',
+#        'iOS/DoKit/Assets/*.xib'
+#      ]
+#    }
+#    ss.dependency 'SocketRocket', '~> 0.6'
+#    ss.dependency 'Mantle', '~> 2.2'
+#  end
 
   s.subspec 'EventSynthesize' do |ss|
     ss.source_files = 'iOS/DoKit/Classes/EventSynthesize/*.{h,m}'
@@ -72,6 +81,7 @@ iOS各式各样的工具集合
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
     ss.dependency 'AFNetworking'
+    ss.dependency 'JSONModel'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -136,8 +146,11 @@ iOS各式各样的工具集合
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMultiControl'
     }
     ss.dependency 'DoraemonKit/Core'
+    ss.dependency 'DoraemonKit/Foundation'
     ss.dependency 'CocoaLumberjack'
     ss.dependency 'CocoaHTTPServer'
     ss.dependency 'SocketRocket'
+    ss.dependency 'Masonry'
+    ss.dependency 'AFNetworking', '~> 3.0'
   end
 end
