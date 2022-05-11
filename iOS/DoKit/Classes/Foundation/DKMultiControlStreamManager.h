@@ -23,15 +23,26 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
     DKMultiControlStreamManagerStateRunning
 };
 
-typedef void (^DKMultiControlSteamManagerListener)(DKMultiControlStreamManagerState state);
+@protocol DKMultiControlStreamManagerStateListener
+
+@required
+- (void)changeToState:(DKMultiControlStreamManagerState)state;
+
+@end
 
 @interface DKMultiControlStreamManager : NSObject
 
+@property(readonly) BOOL isEnabled;
+
 + (instancetype)sharedInstance;
 
-- (void)registerMultiControlStreamManagerStateListener:(DKMultiControlSteamManagerListener)listener;
+- (void)registerMultiControlStreamManagerStateListener:(id <DKMultiControlStreamManagerStateListener>)listener;
 
-- (void)enableMultiControl;
+- (void)unregisterWithListener:(id <DKMultiControlStreamManagerStateListener>)listener;
+
+- (void)enableMultiControlWithUrl:(NSURL *)url;
+
+- (void)disableMultiControl;
 
 @end
 

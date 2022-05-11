@@ -15,14 +15,15 @@
  */
 
 #import "DKMultiControlStreamManager.h"
+#import <DoraemonKit/DKWebSocketSession.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DKMultiControlStreamManager ()
 
-@property (nonatomic, nullable, )
+@property(nonatomic, nullable, strong) DKWebSocketSession *webSocketSession;
 
-@property(nonatomic, nullable, copy) NSArray<DKMultiControlSteamManagerListener> *listenerArray;
+@property(nonatomic, nullable, strong) NSHashTable<id <DKMultiControlStreamManagerStateListener>> *listenerArray;
 
 @end
 
@@ -40,18 +41,43 @@ NS_ASSUME_NONNULL_END
     return _sharedInstance;
 }
 
-- (void)registerMultiControlStreamManagerStateListener:(DKMultiControlSteamManagerListener)listener {
-    NSMutableArray<DKMultiControlSteamManagerListener> *listenerArray = self.listenerArray.mutableCopy;
-    self.listenerArray = nil;
-    if (!listenerArray) {
-        listenerArray = NSMutableArray.array;
+- (void)registerMultiControlStreamManagerStateListener:(id <DKMultiControlStreamManagerStateListener>)listener {
+    if (!self.listenerArray) {
+        self.listenerArray = NSHashTable.weakObjectsHashTable;
     }
-    [listenerArray addObject:listener];
-    self.listenerArray = listenerArray;
+    [self.listenerArray addObject:listener];
+    [listener changeToState:self.webSocketSession ? DKMultiControlStreamManagerStateRunning : DKMultiControlStreamManagerStateClosed];
 }
 
-- (void)enableMultiControl {
+- (void)unregisterWithListener:(id)listener {
+    [self.listenerArray removeObject:listener];
+    if (!self.listenerArray.count) {
+        self.listenerArray = nil;
+    }
+}
 
+- (void)enableMultiControlWithUrl:(NSURL *)url {
+    if (self.webSocketSession) {
+        return;
+    }
+    self.webSocketSession = [[DKWebSocketSession alloc] initWithUrl:url];
+    for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+        [listener changeToState:DKMultiControlStreamManagerStateRunning];
+    }
+}
+
+- (BOOL)isEnabled {
+    return (BOOL) self.webSocketSession;
+}
+
+- (void)disableMultiControl {
+    if (!self.webSocketSession) {
+        return;
+    }
+    self.webSocketSession = nil;
+    for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+        [listener changeToState:DKMultiControlStreamManagerStateClosed];
+    }
 }
 
 @end
