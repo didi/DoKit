@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)commonInit {
-
+    self.backgroundColor = UIColor.blackColor;
 }
 
 - (void)layoutSubviews {
