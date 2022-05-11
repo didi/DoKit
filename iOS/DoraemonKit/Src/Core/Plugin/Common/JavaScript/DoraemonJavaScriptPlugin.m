@@ -12,8 +12,8 @@
 @implementation DoraemonJavaScriptPlugin
 
 - (void)pluginDidLoad {
-    [[DoraemonJavaScriptManager shareInstance] show];
     [[DoraemonHomeWindow shareInstance] hide];
+    [[DoraemonJavaScriptManager shareInstance] show];
 }
 
 @end
