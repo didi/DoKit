@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="border_margin">12dp</dimen>
+    <dimen name="border_padding">8dp</dimen>
+    <dimen name="title_text_size">18dp</dimen>
+    <dimen name="edt_height">36dp</dimen>
+    <dimen name="confirm_btn_height">40dp</dimen>
+    <dimen name="confirm_btn_width">60dp</dimen>
+    <dimen name="edt_text_size">16dp</dimen>
+    <dimen name="pos_edt_text_size">12dp</dimen>
+    <dimen name="edt_text_margin_left">5dp</dimen>
+    <dimen name="des_text_size">14dp</dimen>
+    <dimen name="common_margin_top">20dp</dimen>
+    <dimen name="common_margin_top1">10dp</dimen>
+    <dimen name="common_margin_left_right">6dp</dimen>
+    <dimen name="seek_range_bar_indicator_text_size">12dp</dimen>
+    <dimen name="seek_range_bar_height">6dp</dimen>
+    <dimen name="seek_range_bar_indicator_size">25dp</dimen>
+    <dimen name="map_loc_iv_size">36dp</dimen>
+    <dimen name="map_loc_iv_size_radius">18dp</dimen>
+
+</resources>

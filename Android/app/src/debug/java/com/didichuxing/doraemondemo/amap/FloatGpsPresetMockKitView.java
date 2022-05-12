@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemondemo.R;
 import com.didichuxing.doraemondemo.dokit.SimpleDoKitView;
-import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
-import com.didichuxing.doraemonkit.kit.lbs.manual.FloatGpsMockCache;
-import com.didichuxing.doraemonkit.kit.lbs.preset.FloatGpsPresetMockCache;
-import com.didichuxing.doraemonkit.kit.lbs.preset.MockLocList;
+import com.didichuxing.doraemonkit.gps_mock.lbs.common.LocInfo;
+import com.didichuxing.doraemonkit.gps_mock.lbs.manual.FloatGpsMockCache;
+import com.didichuxing.doraemonkit.gps_mock.lbs.preset.FloatGpsPresetMockCache;
+import com.didichuxing.doraemonkit.gps_mock.lbs.preset.MockLocList;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;

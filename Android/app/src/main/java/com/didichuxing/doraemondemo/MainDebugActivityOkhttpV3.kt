@@ -23,7 +23,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
+import com.amap.api.navi.AMapNavi
+import com.amap.api.navi.AMapNaviListener
+import com.amap.api.navi.enums.PathPlanningStrategy
+import com.amap.api.navi.model.*
 import com.blankj.utilcode.util.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -55,6 +61,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.*
 import java.net.*
+import java.util.HashMap
 import kotlin.coroutines.resume
 
 /**
@@ -106,6 +113,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
         "模拟内存泄漏",
         "函数调用耗时(TAG:MethodCostUtil)",
         "获取位置信息(系统)",
+        "获取位置信息(高德)",
         "高德路径规划",
         "OkHttp Mock",
         "HttpURLConnection Mock",
@@ -219,6 +227,9 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
                 }
                 "获取位置信息(系统)" -> {
                     startNormaLocation()
+                }
+                "获取位置信息(高德)" ->{
+                    startAMapLocation()
                 }
                 "高德路径规划" -> {
                     CommLauncher.startActivity(AMapRouterFragment::class.java, this)
@@ -380,6 +391,36 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
             0f,
             mLocationListener
         )
+    }
+
+    /**
+     * 启动高德定位
+     */
+    private fun startAMapLocation() {
+        // 确保调用SDK任何接口前先调用更新隐私合规updatePrivacyShow、updatePrivacyAgree两个接口并且参数值都为true，若未正确设置有崩溃风险
+        AMapLocationClient.updatePrivacyShow(this, true, true)
+        AMapLocationClient.updatePrivacyAgree(this, true)
+
+        //声明mLocationOption对象
+        var mLocationOption: AMapLocationClientOption? = null
+        val mlocationClient = AMapLocationClient(this)
+
+        //初始化定位参数
+        mLocationOption = AMapLocationClientOption()
+        //设置定位监听
+        mlocationClient!!.setLocationListener(mapLocationListener)
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.interval = 2000
+        //设置定位参数
+        mlocationClient!!.setLocationOption(mLocationOption)
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mlocationClient!!.startLocation()
     }
 
     /**

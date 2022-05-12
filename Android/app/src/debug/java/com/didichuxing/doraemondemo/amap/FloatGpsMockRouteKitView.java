@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemondemo.R;
 import com.didichuxing.doraemondemo.dokit.SimpleDoKitView;
-import com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsRouteMockCache;
+import com.didichuxing.doraemonkit.gps_mock.lbs.route.FloatGpsRouteMockCache;
 
 public class FloatGpsMockRouteKitView extends SimpleDoKitView {
     public static final String TAG = "FloatGpsMockRoutKitView";

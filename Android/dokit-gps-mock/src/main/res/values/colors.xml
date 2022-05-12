@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_bg_gray">#ebebe8</color>
+    <color name="color_bold_text_black">#333333</color>
+    <color name="color_bold_text_normal">#777777</color>
+    <color name="color_confirm_btn_text">#CEFFFFFF</color>
+    <color name="color_bold_text_hint">#999999</color>
+    <color name="color_edt_stroke_line">#ceccca</color>
+    <color name="color_seek_bar_indicator">#FF419EF8</color>
+    <color name="color_seek_bar_indicator_text">#FF419EF8</color>
+    <color name="color_btn_press">#8F419EF8</color>
+    <color name="color_seek_bar_background">#ceccca</color>
+    <color name="color_btn_disable">#e2e0de</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_white_translucent">#F0FFFFFF</color>
+
+</resources>

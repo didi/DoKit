@@ -3,23 +3,20 @@ package com.didichuxing.doraemonkit
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.didichuxing.doraemonkit.config.GlobalConfig
-import com.didichuxing.doraemonkit.config.GpsMockConfig
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.extension.doKitGlobalExceptionHandler
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.*
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
-import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BigFileBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
@@ -87,11 +84,12 @@ object DoKitReal {
         checkLargeImgIsOpen()
         registerNetworkStatusChangedListener()
         startAppHealth()
-        checkGPSMock()
-        //Hook WIFI GPS Telephony系统服务
-        ServiceHookManager.install(app)
-        //全局运行时hook
-        globalRunTimeHook()
+        initGpsMock()
+        // 临时处理, Android S(31) 上Sand hook必崩
+        if (Build.VERSION.SDK_INT <= 30) {
+            //全局运行时hook
+            globalRunTimeHook()
+        }
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DoKitActivityLifecycleCallbacks())
@@ -269,13 +267,11 @@ object DoKitReal {
         }
         return ""
     }
-
-    private fun checkGPSMock() {
-        if (GpsMockConfig.isGPSMockOpen()) {
-            GpsMockManager.getInstance().startMock()
-        }
-        val latLng = GpsMockConfig.getMockLocation() ?: return
-        GpsMockManager.getInstance().mockLocationWithNotify(latLng.latitude, latLng.longitude)
+    private fun initGpsMock(){
+        val map = mapOf(
+            "action" to "init_gps_mock"
+        )
+        DoKitManager.getModuleProcessor(DoKitModule.MODULE_GPS_MOCK)?.proceed(map)
     }
 
     /**
