@@ -17,26 +17,26 @@ internal object SimpleDoKitLauncher {
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
     fun launchFloating(
-        targetClass: Class<out AbsDokitView>,
+        targetClass: Class<out AbsDoKitView>,
         mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
         bundle: Bundle? = null
     ) {
-        val doKitIntent = DokitIntent(targetClass)
+        val doKitIntent = DoKitIntent(targetClass)
         doKitIntent.mode = mode
         doKitIntent.bundle = bundle
-        DokitViewManager.INSTANCE.attach(doKitIntent)
+        DoKitViewManager.INSTANCE.attach(doKitIntent)
     }
 
     fun removeFloating(
-        targetClass: Class<out AbsDokitView>
+        targetClass: Class<out AbsDoKitView>
     ) {
-        DokitViewManager.INSTANCE.detach(targetClass.tagName)
+        DoKitViewManager.INSTANCE.detach(targetClass.tagName)
     }
 
     fun removeFloating(
-        dokitView:  AbsDokitView
+        dokitView:  AbsDoKitView
     ) {
-        DokitViewManager.INSTANCE.detach(dokitView)
+        DoKitViewManager.INSTANCE.detach(dokitView)
     }
 
 

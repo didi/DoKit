@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.kit.test.mock.proxy
 
-import com.didichuxing.doraemonkit.kit.connect.DoKitSConnectManager
+import com.didichuxing.doraemonkit.kit.connect.DoKitConnectManager
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 
@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * @author <a href="realonlyone@126.com">zhangjun</a>
  * @version 1.0
  * @Date 2022/3/10 7:45 下午
- * @Description 用一句话说明文件功能
+ * @Description 代理数据mock接口管理
  */
 
 class ProxyMockManager {
@@ -28,31 +28,31 @@ class ProxyMockManager {
     private val mutableMap: MutableMap<String, ProxyQueryData> = mutableMapOf()
 
     fun requestStart(request: ProxyRequest) {
-        LogHelper.d(TAG, "PROXY requestStart() request=$request")
+        LogHelper.d(TAG, "requestStart() request=$request")
         val textPackage = TextPackage(
-            pid = RandomIdentityUtils.createPid(),
+            pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
             data = GsonUtils.toJson(request),
             contentType = "request",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }
 
     fun requestStop(response: ProxyResponse) {
-        LogHelper.d(TAG, "PROXY requestStop() response=$response")
+        LogHelper.d(TAG, "requestStop() response=$response")
         val textPackage = TextPackage(
-            pid = RandomIdentityUtils.createPid(),
+            pid = RandomIdentityUtil.createPid(),
             type = PackageType.DATA,
             data = GsonUtils.toJson(response),
             contentType = "response",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }
 
     fun requestQuery(request: ProxyRequest, callback: ProxyCallback) {
-        requestQueryNow(ProxyQueryData(RandomIdentityUtils.createPid(), request, callback))
+        requestQueryNow(ProxyQueryData(RandomIdentityUtil.createPid(), request, callback))
     }
 
 
@@ -62,19 +62,20 @@ class ProxyMockManager {
     }
 
     private fun requestQueryLine(pid: String, request: ProxyRequest) {
-        LogHelper.d(TAG, "PROXY requestQueryLine() request=$request")
+        LogHelper.d(TAG, "requestQueryLine() request=$request")
         val textPackage = TextPackage(
             pid = pid,
             type = PackageType.DATA,
             data = GsonUtils.toJson(request),
             contentType = "query",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         MockManager.sendMockTextPackage(textPackage)
     }
 
 
     fun receiveQueryResponse(textPackage: TextPackage, response: ProxyResponse) {
+        LogHelper.d(TAG, "receiveQueryResponse() response=$response")
         val queryData = mutableMap[textPackage.pid]
         if (queryData != null) {
             queryData.proxyCallback.onResponse(response)

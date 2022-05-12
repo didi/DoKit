@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcHostServer
 import com.didichuxing.doraemonkit.kit.mc.utils.CodeUtils
 import com.didichuxing.doraemonkit.mc.R
@@ -49,7 +49,7 @@ class DoKitMcHostFragment : BaseFragment() {
             lifecycleScope.launch(exceptionHandler) {
                 DoKitMcHostServer.stop {
                     DoKitMcManager.WS_MODE = TestMode.UNKNOWN
-                    DoKit.removeFloating(HostDokitView::class)
+                    DoKit.removeFloating(HostDoKitView::class)
                     if (activity is DoKitMcActivity) {
                         (activity as DoKitMcActivity).onBackPressed()
                     }
@@ -68,8 +68,7 @@ class DoKitMcHostFragment : BaseFragment() {
             DoKitMcHostServer.start {
                 DoKitMcManager.WS_MODE = TestMode.HOST
                 //启动悬浮窗
-                DoKit.launchFloating(HostDokitView::class)
-                DoKitMcManager.startHostMode()
+                DoKit.launchFloating(HostDoKitView::class)
             }
         }
     }

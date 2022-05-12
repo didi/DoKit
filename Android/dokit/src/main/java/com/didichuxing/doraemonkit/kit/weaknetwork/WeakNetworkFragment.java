@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
@@ -35,7 +34,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
     private View mTimeoutOptionView;
     private View mSpeedLimitView;
     private EditText mTimeoutValueView, mRequestSpeedView, mResponseSpeedView;
-    private AbsDokitView mNetWorkDokitView;
+    private AbsDoKitView mNetWorkDokitView;
 
     @Override
     protected int onRequestLayout() {
@@ -87,7 +86,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
                 }
 
                 if (mNetWorkDokitView == null) {
-                    mNetWorkDokitView = DoKit.getDoKitView(getActivity(), NetWokDokitView.class);
+                    mNetWorkDokitView = DoKit.getDoKitView(getActivity(), NetWokDoKitView.class);
                 }
                 if (mNetWorkDokitView != null) {
                     //重新调用刷新
@@ -139,9 +138,9 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
         WeakNetworkManager.get().setActive(enabled);
         updateUIState();
         if (enabled) {
-            DoKit.launchFloating(NetWokDokitView.class);
+            DoKit.launchFloating(NetWokDoKitView.class);
         } else {
-            DoKit.removeFloating(NetWokDokitView.class);
+            DoKit.removeFloating(NetWokDoKitView.class);
         }
     }
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McClientHistory
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcClient
@@ -42,9 +42,8 @@ class DoKitMcClientFragment : BaseFragment() {
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
                 DoKitMcManager.WS_MODE = TestMode.UNKNOWN
-                DoKit.removeFloating(ClientDokitView::class)
+                DoKit.removeFloating(ClientDoKitView::class)
                 DoKitMcClient.close()
-                DoKitMcManager.closeWorkMode()
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).onBackPressed()
                 }

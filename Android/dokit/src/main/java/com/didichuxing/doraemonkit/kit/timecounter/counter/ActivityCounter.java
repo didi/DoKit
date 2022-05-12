@@ -8,9 +8,8 @@ import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
-import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDoKitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +136,7 @@ public class ActivityCounter {
 
         mCounterInfos.add(counterInfo);
 
-        TimeCounterDokitView dokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class);
+        TimeCounterDoKitView dokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), TimeCounterDoKitView.class);
         if (dokitView != null) {
             dokitView.showInfo(counterInfo);
         }

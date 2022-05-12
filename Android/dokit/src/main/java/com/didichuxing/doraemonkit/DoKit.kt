@@ -92,7 +92,7 @@ object DoKit {
      */
     @JvmStatic
     @JvmOverloads
-    fun launchFloating(targetClass: Class<out AbsDokitView>, mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
+    fun launchFloating(targetClass: Class<out AbsDoKitView>, mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
         DoKitReal.launchFloating(targetClass, mode, bundle)
     }
 
@@ -103,14 +103,14 @@ object DoKit {
         "Use launchFloating(DoKitViewLaunchMode, Bundle) directly",
         ReplaceWith("Dokit.launchFloating(mode, bundle)")
     )
-    fun launchFloating(targetClass: KClass<out AbsDokitView>, mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
+    fun launchFloating(targetClass: KClass<out AbsDoKitView>, mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
         launchFloating(targetClass.java, mode, bundle)
     }
 
     /**
      * 启动悬浮窗
      */
-    inline fun <reified T : AbsDokitView> launchFloating(mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
+    inline fun <reified T : AbsDoKitView> launchFloating(mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE, bundle: Bundle? = null) {
         DoKitReal.launchFloating(T::class.java, mode, bundle)
     }
 
@@ -120,7 +120,7 @@ object DoKit {
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
     @JvmStatic
-    fun removeFloating(targetClass: Class<out AbsDokitView>) {
+    fun removeFloating(targetClass: Class<out AbsDoKitView>) {
         DoKitReal.removeFloating(targetClass)
     }
 
@@ -130,7 +130,7 @@ object DoKit {
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
     @Deprecated("Use removeFloating(Class) directly", ReplaceWith("Dokit.removeFloating(class)"))
-    fun removeFloating(targetClass: KClass<out AbsDokitView>) {
+    fun removeFloating(targetClass: KClass<out AbsDoKitView>) {
         removeFloating(targetClass.java)
     }
 
@@ -140,7 +140,7 @@ object DoKit {
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
     @JvmStatic
-    fun removeFloating(dokitView: AbsDokitView) {
+    fun removeFloating(dokitView: AbsDoKitView) {
         DoKitReal.removeFloating(dokitView)
     }
 
@@ -169,16 +169,16 @@ object DoKit {
     }
 
     @JvmStatic
-    fun <T : AbsDokitView> getDoKitView(activity: Activity?, clazz: Class<out T>): T? {
+    fun <T : AbsDoKitView> getDoKitView(activity: Activity?, clazz: Class<out T>): T? {
         return DoKitReal.getDoKitView<T>(activity, clazz)
     }
 
     @Deprecated("Use getDoKitView(activity) directly", ReplaceWith("DoKit.getDoKitView(activity)"))
-    fun <T : AbsDokitView> getDoKitView(activity: Activity?, clazz: KClass<out T>): T? {
+    fun <T : AbsDoKitView> getDoKitView(activity: Activity?, clazz: KClass<out T>): T? {
         return getDoKitView(activity, clazz.java)
     }
 
-    inline fun <reified T : AbsDokitView> getDoKitView(activity: Activity): T? = DoKitReal.getDoKitView(activity, T::class.java)
+    inline fun <reified T : AbsDoKitView> getDoKitView(activity: Activity): T? = DoKitReal.getDoKitView(activity, T::class.java)
 
     /**
      * 发送自定义一机多控事件

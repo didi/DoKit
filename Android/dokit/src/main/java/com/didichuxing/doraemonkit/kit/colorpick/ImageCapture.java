@@ -37,10 +37,10 @@ public class ImageCapture {
     private ImageReader mImageReader;
     private boolean isCapturing;
     private Bitmap mBitmap;
-    private ColorPickerDokitView mColorPickerDokitView;
+    private ColorPickerDoKitView mColorPickerDokitView;
 
 
-    public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
+    public void init(Context context, Bundle bundle, ColorPickerDoKitView colorPickerDokitView) throws Exception {
         this.mColorPickerDokitView = colorPickerDokitView;
         PackageManager packageManager = DoKitEnv.requireApp().getPackageManager();
         ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);

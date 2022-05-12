@@ -13,7 +13,6 @@ import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +119,7 @@ public class TimeCounterManager {
         mIsRunning = true;
         DoKit.hideToolPanel();
 
-        DoKit.launchFloating(TimeCounterDokitView.class);
+        DoKit.launchFloating(TimeCounterDoKitView.class);
 
     }
 
@@ -134,7 +133,7 @@ public class TimeCounterManager {
         }
         Looper.getMainLooper().setMessageLogging(null);
         mIsRunning = false;
-        DoKit.removeFloating(TimeCounterDokitView.class);
+        DoKit.removeFloating(TimeCounterDoKitView.class);
 
     }
 

@@ -27,7 +27,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/tv_connect"
+                android:id="@+id/connect"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
@@ -39,7 +39,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/tv_host"
+                android:id="@+id/record"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
@@ -50,8 +50,47 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+
             <Button
-                android:id="@+id/tv_client"
+                android:id="@+id/record_stop"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/dk_btn_autotest_bg"
+                android:text="停止录制"
+                android:textAllCaps="false"
+                android:textColor="@color/dk_color_FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/test"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/dk_btn_autotest_bg"
+                android:text="开始测试"
+                android:textAllCaps="false"
+                android:textColor="@color/dk_color_FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/test_stop"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/dk_btn_autotest_bg"
+                android:text="停止测试"
+                android:textAllCaps="false"
+                android:textColor="@color/dk_color_FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/caseList"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"

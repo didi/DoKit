@@ -21,7 +21,7 @@
             app:dkTitle="@string/dk_kit_dokit_for_web" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
