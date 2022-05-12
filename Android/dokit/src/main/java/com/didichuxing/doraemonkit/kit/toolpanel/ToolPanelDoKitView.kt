@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.datapick.DataPickManager
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.DoKitViewManager
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
@@ -23,7 +23,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
  * Created by jintai on 2019/09/26.
  * 新的工具面板弹窗
  */
-class ToolPanelDoKitView : AbsDokitView() {
+class ToolPanelDoKitView : AbsDoKitView() {
     private lateinit var mAdapter: ToolPanelAdapter
     private var mKits: MutableList<KitWrapItem> = mutableListOf()
 
@@ -124,7 +124,7 @@ class ToolPanelDoKitView : AbsDokitView() {
                         //常规模式下点击常用工具不隐藏工具面板
                         it.onClick(ActivityUtils.getTopActivity())
                         if (it.onClickWithReturn(ActivityUtils.getTopActivity())) {
-                            DokitViewManager.INSTANCE.detachToolPanel()
+                            DoKitViewManager.INSTANCE.detachToolPanel()
                         }
 
                         //添加埋点
@@ -147,11 +147,11 @@ class ToolPanelDoKitView : AbsDokitView() {
     }
 
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
         params.x = 0
         params.y = 0
-        params.width = DokitViewLayoutParams.MATCH_PARENT
-        params.height = DokitViewLayoutParams.MATCH_PARENT
+        params.width = DoKitViewLayoutParams.MATCH_PARENT
+        params.height = DoKitViewLayoutParams.MATCH_PARENT
     }
 
     override fun onBackPressed(): Boolean {

@@ -6,7 +6,7 @@ import android.content.Intent
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.autotest.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.autotest.ui.DokitAutotestActivity
+import com.didichuxing.doraemonkit.kit.autotest.ui.DoKitAutotestActivity
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.google.auto.service.AutoService
@@ -37,7 +37,7 @@ class AutoTestControlKit : AbstractKit() {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
             return false
         }
-        val intent = Intent(activity, DokitAutotestActivity::class.java)
+        val intent = Intent(activity, DoKitAutotestActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         activity.startActivity(intent)
 

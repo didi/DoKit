@@ -14,18 +14,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.gps_mock.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.gps_mock.lbs.route.FloatGpsRouteMockCache;
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView;
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
  * 定位微调悬浮窗
  * 功能缺陷
  */
-public class PosAdjustKitView extends AbsDokitView {
+public class PosAdjustKitView extends AbsDoKitView {
     public static final String TAG = "FloatGpsMockKitView";
     public static final int MIN_STEP = 5;
     public static final int MAX_STEP = 500;
@@ -53,9 +53,9 @@ public class PosAdjustKitView extends AbsDokitView {
     }
 
     @Override
-    public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
-        params.width = DokitViewLayoutParams.WRAP_CONTENT;
-        params.height = DokitViewLayoutParams.WRAP_CONTENT;
+    public void initDokitViewLayoutParams(DoKitViewLayoutParams params) {
+        params.width = DoKitViewLayoutParams.WRAP_CONTENT;
+        params.height = DoKitViewLayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.TOP | Gravity.LEFT;
         params.x = 200;
         params.y = 200;

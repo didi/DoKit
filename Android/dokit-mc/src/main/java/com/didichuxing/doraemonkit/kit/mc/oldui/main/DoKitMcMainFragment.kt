@@ -13,13 +13,13 @@ import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.test.mock.http.HttpMockServer
 import com.didichuxing.doraemonkit.kit.test.mock.http.HttpMockServer.RESPONSE_OK
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.kit.mc.ui.adapter.McCaseInfoDialogProvider
 import com.didichuxing.doraemonkit.kit.mc.ui.McPages
 import com.didichuxing.doraemonkit.kit.test.mock.data.McCaseInfo
 import com.didichuxing.doraemonkit.kit.test.mock.data.McConfigInfo
-import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.record.RecordingDoKitView
 import com.didichuxing.doraemonkit.kit.test.mock.data.CaseInfo
 import com.didichuxing.doraemonkit.kit.mc.utils.McCaseUtils
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
@@ -140,7 +140,7 @@ class DoKitMcMainFragment : BaseFragment() {
             lifecycleScope.launch(mExceptionHandler) {
                 val result = HttpMockServer.mockStop<Any>(mcCaseInfoDialog())
                 if (result.code == RESPONSE_OK) {
-                    DoKit.removeFloating(RecordingDokitView::class)
+                    DoKit.removeFloating(RecordingDoKitView::class)
                     SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
                     DoKitTestManager.closeTest()
                     DoKitMcManager.IS_MC_RECODING = false
@@ -203,7 +203,7 @@ class DoKitMcMainFragment : BaseFragment() {
     private fun saveRecodingStatus(configInfo: McCaseInfo?) {
         configInfo?.let {
             DoKitMcManager.MC_CASE_ID = it.caseId
-            DoKit.launchFloating(RecordingDokitView::class.java)
+            DoKit.launchFloating(RecordingDoKitView::class.java)
             DoKitTestManager.startTest(TestMode.HOST)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, DoKitMcManager.MC_CASE_ID)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, true)

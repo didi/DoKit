@@ -7,12 +7,10 @@ import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
 import com.didichuxing.doraemonkit.kit.connect.parser.JsonParser
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.util.DeviceUtils
-import com.didichuxing.doraemonkit.util.DokitDeviceUtils
-import com.didichuxing.doraemonkit.util.UIUtils
-import com.didichuxing.doraemonkit.util.Utils
+import com.didichuxing.doraemonkit.util.*
 import okhttp3.OkHttpClient
 import okio.ByteString
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -30,11 +28,16 @@ import java.util.concurrent.TimeUnit
 
 class WebSocketClient {
 
-    val onWebSocketStatusChangeListenerSet: MutableSet<OnWebSocketStatusChangeListener> = mutableSetOf()
-    val onWebSocketMessageListenerSet: MutableSet<OnWebSocketMessageListener> = mutableSetOf()
-    val onWebSocketTextPackageListenerSet: MutableSet<OnWebSocketTextPackageListener> = mutableSetOf()
-    val onWebSocketBytesMessageListenerSet: MutableSet<OnWebSocketBytesMessageListener> = mutableSetOf()
-    val onWebSocketLoginSuccessListenerSet = mutableSetOf<OnWebSocketLoginSuccessListener>()
+    private val onWebSocketStatusChangeListenerSet: MutableSet<OnWebSocketStatusChangeListener> = mutableSetOf()
+    private val onWebSocketMessageListenerSet: MutableSet<OnWebSocketMessageListener> = mutableSetOf()
+    private val onWebSocketTextPackageListenerSet: MutableSet<OnWebSocketTextPackageListener> = mutableSetOf()
+    private val onWebSocketBytesMessageListenerSet: MutableSet<OnWebSocketBytesMessageListener> = mutableSetOf()
+    private val onWebSocketLoginSuccessListenerSet = mutableSetOf<OnWebSocketLoginSuccessListener>()
+
+    private val onWebSocketCloseListenerSet = mutableSetOf<OnWebSocketCloseListener>()
+    private val onWebSocketQueueSizeOutListenerSet = mutableSetOf<OnWebSocketQueueSizeOutListener>()
+    private val onWebSocketReConnectListenerSet = mutableSetOf<OnWebSocketReConnectListener>()
+
 
     private var okHttpClient: OkHttpClient = OkHttpClient.Builder()
         .readTimeout(5, TimeUnit.SECONDS)
@@ -49,6 +52,7 @@ class WebSocketClient {
     private var autoConnect: Boolean = false
     private var heartBeatEnable: Boolean = false
     private var keepConnectEnable: Boolean = false
+    private var closed: Boolean = true
 
     constructor() {
         bindTask()
@@ -57,18 +61,21 @@ class WebSocketClient {
 
     fun connect(url: String) {
         WsLog.i("connect. ")
+        closed = false
         webSocketSession.connect(url)
     }
 
     fun reConnect() {
         WsLog.i("reConnect. ")
+        closed = false
         webSocketSession.reConnect()
     }
 
     fun reConnect(url: String) {
         WsLog.i("reConnect url=${url} ")
+        closed = false
         loginSuccess = false
-        webSocketSession.close(0, "close")
+        webSocketSession.close(1001, "close")
         webSocketSession.cancel()
         webSocketSession = OkHttpWebSocketSession(okHttpClient)
         bindSession()
@@ -80,8 +87,13 @@ class WebSocketClient {
         loginSuccess = false
         stopHeart()
         stopAutoConnect()
-        webSocketSession.close(0, "close")
+        webSocketSession.close(1000, "close")
         webSocketSession.cancel()
+        closed = true
+
+        onWebSocketCloseListenerSet.forEach {
+            it.onWebSocketClose()
+        }
     }
 
     /**
@@ -93,13 +105,28 @@ class WebSocketClient {
         stopTimer()
     }
 
-    fun send(text: String) {
-        if (webSocketSession.connectStatus != ConnectStatus.CONNECT
-            || webSocketSession.connectStatus != ConnectStatus.PREPARE
-        ) {
-            webSocketSession.reConnect()
-        }
-        webSocketSession.send(text)
+
+    fun isLoginSuccess(): Boolean {
+        return loginSuccess
+    }
+
+    /**
+     * 客户端是否在关闭状态，主动关闭
+     */
+    fun isClosed(): Boolean {
+        return closed
+    }
+
+    fun getConnectStatus(): ConnectStatus {
+        return webSocketSession.connectStatus
+    }
+
+    fun send(text: String): Boolean {
+        return webSocketSession.send(text)
+    }
+
+    fun send(bytes: ByteString): Boolean {
+        return webSocketSession.send(bytes)
     }
 
     fun startAutoConnect() {
@@ -150,8 +177,8 @@ class WebSocketClient {
     }
 
     private fun bindTask() {
-        timer.schedule(KeepConnectTimerTask(), 2000, 2000)
-        timer.schedule(HeartTimerTask(), 3000, 5 * 1000)
+        timer.schedule(KeepConnectTimerTask(), 5000, 2000)
+        timer.schedule(HeartTimerTask(), 5000, 30 * 1000)
     }
 
     private fun bindSession() {
@@ -180,6 +207,20 @@ class WebSocketClient {
                     e.printStackTrace()
                 }
                 dispatchTextMessage(webSocket, text)
+            }
+        }
+
+        webSocketSession.onWebSocketQueueSizeOutListener = object : OnWebSocketQueueSizeOutListener {
+
+            override fun onWebSocketQueueSizeOut() {
+                WsLog.i("onQueueSize out. ")
+                onWebSocketQueueSizeOutListenerSet.forEach {
+                    try {
+                        it.onWebSocketQueueSizeOut()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
         }
 
@@ -215,6 +256,7 @@ class WebSocketClient {
                 WsLog.i("onFailure. ")
                 loginSuccess = false
                 stopHeart()
+                checkKeepConnect()
                 onWebSocketStatusChangeListenerSet.forEach {
                     try {
                         it.onFailure(webSocket, t, response)
@@ -256,6 +298,71 @@ class WebSocketClient {
         webSocketSession.send(JsonParser.toLoginJson(loginData))
     }
 
+    fun addOnWebSocketReConnectListener(listener: OnWebSocketReConnectListener) {
+        onWebSocketReConnectListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketReConnectListener(listener: OnWebSocketReConnectListener) {
+        onWebSocketReConnectListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketQueueSizeOutListener(listener: OnWebSocketQueueSizeOutListener) {
+        onWebSocketQueueSizeOutListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketQueueSizeOutListener(listener: OnWebSocketQueueSizeOutListener) {
+        onWebSocketQueueSizeOutListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketCloseListener(listener: OnWebSocketCloseListener) {
+        onWebSocketCloseListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketCloseListener(listener: OnWebSocketCloseListener) {
+        onWebSocketCloseListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketLoginSuccessListener(listener: OnWebSocketLoginSuccessListener) {
+        onWebSocketLoginSuccessListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketLoginSuccessListener(listener: OnWebSocketLoginSuccessListener) {
+        onWebSocketLoginSuccessListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketBytesMessageListener(listener: OnWebSocketBytesMessageListener) {
+        onWebSocketBytesMessageListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketBytesMessageListener(listener: OnWebSocketBytesMessageListener) {
+        onWebSocketBytesMessageListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketTextPackageListener(listener: OnWebSocketTextPackageListener) {
+        onWebSocketTextPackageListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketTextPackageListener(listener: OnWebSocketTextPackageListener) {
+        onWebSocketTextPackageListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketMessageListener(listener: OnWebSocketMessageListener) {
+        onWebSocketMessageListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketMessageListener(listener: OnWebSocketMessageListener) {
+        onWebSocketMessageListenerSet.remove(listener)
+    }
+
+    fun addOnWebSocketStatusChangeListener(listener: OnWebSocketStatusChangeListener) {
+        onWebSocketStatusChangeListenerSet.add(listener)
+    }
+
+    fun removeOnWebSocketStatusChangeListener(listener: OnWebSocketStatusChangeListener) {
+        onWebSocketStatusChangeListenerSet.remove(listener)
+    }
+
+
     private fun startHeart() {
         heartBeatEnable = true
 
@@ -279,6 +386,9 @@ class WebSocketClient {
             && webSocketSession.connectStatus != ConnectStatus.PREPARE
         ) {
             webSocketSession.reConnect()
+            onWebSocketReConnectListenerSet.forEach {
+                it.onWebSocketReConnect()
+            }
         }
     }
 
@@ -287,7 +397,8 @@ class WebSocketClient {
             if (!heartBeatEnable) {
                 return
             }
-            val heartPackage = JsonParser.toJson(PackageType.HEART_BEAT, "")
+            val dateTime = TimeUtils.getNowString(SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS"))
+            val heartPackage = JsonParser.toJson(PackageType.HEART_BEAT, "{'dateTime':'${dateTime}}'")
             val success = webSocketSession.send(heartPackage)
             if (!success) {
                 WsLog.i("HeartTimerTask.send() not success. ")

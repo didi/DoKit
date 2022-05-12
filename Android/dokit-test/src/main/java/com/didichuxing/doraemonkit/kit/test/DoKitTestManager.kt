@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test
 
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
 
 
 /**
@@ -65,8 +65,8 @@ object DoKitTestManager {
      */
     fun closeTest() {
         testMode = TestMode.UNKNOWN
-        if (XposedHookUtils.isRunTimeHookEnable()) {
-            XposedHookUtils.stopRunTimeHook()
+        if (XposedHookUtil.isRunTimeHookEnable()) {
+            XposedHookUtil.stopRunTimeHook()
         }
     }
 
@@ -91,15 +91,15 @@ object DoKitTestManager {
 
     private fun startTestByHostMode() {
         testMode = TestMode.HOST
-        if (!XposedHookUtils.isRunTimeHookEnable()) {
-            XposedHookUtils.startRunTimeHook()
+        if (!XposedHookUtil.isRunTimeHookEnable()) {
+            XposedHookUtil.startRunTimeHook()
         }
     }
 
     private fun startTestByClientMode() {
         testMode = TestMode.CLIENT
-        if (XposedHookUtils.isRunTimeHookEnable()) {
-            XposedHookUtils.stopRunTimeHook()
+        if (XposedHookUtil.isRunTimeHookEnable()) {
+            XposedHookUtil.stopRunTimeHook()
         }
     }
 

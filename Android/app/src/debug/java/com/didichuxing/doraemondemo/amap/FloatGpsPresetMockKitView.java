@@ -8,7 +8,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.didichuxing.doraemondemo.R;
-import com.didichuxing.doraemondemo.dokit.SimpleDokitView;
+import com.didichuxing.doraemondemo.dokit.SimpleDoKitView;
 import com.didichuxing.doraemonkit.gps_mock.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.gps_mock.lbs.manual.FloatGpsMockCache;
 import com.didichuxing.doraemonkit.gps_mock.lbs.preset.FloatGpsPresetMockCache;
@@ -17,7 +17,7 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 
-public class FloatGpsPresetMockKitView extends SimpleDokitView {
+public class FloatGpsPresetMockKitView extends SimpleDoKitView {
     public static final String TAG = "FloatGpsPresetMockKitView";
     private View mRootView;
 

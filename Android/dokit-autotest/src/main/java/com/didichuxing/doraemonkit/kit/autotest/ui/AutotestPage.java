@@ -13,6 +13,7 @@ package com.didichuxing.doraemonkit.kit.autotest.ui;
 
 public enum AutotestPage {
 
+    CONNECT,
     HOME,
     RECORD,
     CASE_LIST

@@ -9,13 +9,13 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.gps_mock.R
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockFragment
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.ToastUtils
 
-class RouteMockDokitView : AbsDokitView() {
+class RouteMockDokitView : AbsDoKitView() {
     init {
         viewProps.edgePinned = true
     }
@@ -39,7 +39,7 @@ class RouteMockDokitView : AbsDokitView() {
         }
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams) {
         params.width = ConvertUtils.dp2px(50.0f)
         params.height = ConvertUtils.dp2px(50.0f)
         params.gravity = Gravity.TOP or Gravity.LEFT

@@ -13,9 +13,9 @@ import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlin.math.ceil
@@ -30,7 +30,7 @@ import kotlin.math.ceil
  * 修订历史：
  * ================================================
  */
-class AMapRealNavMockView : AbsDokitView() {
+class AMapRealNavMockView : AbsDoKitView() {
     companion object {
         const val TAG = "RouteKitView"
     }
@@ -107,10 +107,10 @@ class AMapRealNavMockView : AbsDokitView() {
 
     }
 
-    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams?) {
+    override fun initDokitViewLayoutParams(params: DoKitViewLayoutParams?) {
         params?.let {
             it.width = ConvertUtils.dp2px(300.0f)
-            it.height = DokitViewLayoutParams.WRAP_CONTENT
+            it.height = DoKitViewLayoutParams.WRAP_CONTENT
             it.gravity = Gravity.TOP or Gravity.LEFT
             it.x = 200
             it.y = 200

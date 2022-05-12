@@ -14,7 +14,7 @@ import com.kronos.dokit.pthread.dump
  *  @Since 2021/11/24
  *
  */
-class PThreadHookUiActivity : AppCompatActivity(R.layout.activity_pthread_hook) {
+class PThreadHookUiActivity : AppCompatActivity() {
 
     private lateinit var viewBinding :ActivityPthreadHookBinding
     private val threadAdapter by lazy {
@@ -23,6 +23,7 @@ class PThreadHookUiActivity : AppCompatActivity(R.layout.activity_pthread_hook) 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_pthread_hook)
         viewBinding = ActivityPthreadHookBinding.inflate(layoutInflater)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         viewBinding.recyclerView.adapter = threadAdapter

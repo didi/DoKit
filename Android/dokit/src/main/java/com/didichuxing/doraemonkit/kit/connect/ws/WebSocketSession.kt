@@ -19,6 +19,7 @@ interface WebSocketSession {
     var onWebSocketStatusChangeListener: OnWebSocketStatusChangeListener?
     var onWebSocketMessageListener: OnWebSocketMessageListener?
     var onWebSocketBytesMessageListener: OnWebSocketBytesMessageListener?
+    var onWebSocketQueueSizeOutListener:OnWebSocketQueueSizeOutListener?
     var connectStatus: ConnectStatus
 
     fun connect(url: String)

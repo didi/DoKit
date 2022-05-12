@@ -3,7 +3,7 @@ ext {
         //0:发布到到本地localRepoURL仓库
         //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
         //2:发布到maven_central远程仓库
-        archives_type: 1,
+        archives_type: 0,
         //0:依赖dokit本地module运行
         //1:依赖dokit远程aar运行
         run_type     : 0,
@@ -13,7 +13,7 @@ ext {
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : true,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.6.0.8'
+        version      : '3.6.10'
     ]
 
     android = [compileSdkVersion             : 29,
@@ -55,18 +55,18 @@ ext {
                     "coroutines-android_v13"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v13"]}",
                     "coroutines-android_v14"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v14"]}",
                     "core-ktx"                      : "androidx.core:core-ktx:1.3.0",
-                    "activity-ktx"                  : "androidx.activity:activity-ktx:1.2.3",
+                    "activity-ktx"                  : "androidx.activity:activity-ktx:1.1.0",
                     "webkit"                        : "androidx.webkit:webkit:1.3.0",
                     "volley"                        : "com.android.volley:volley:1.1.1",
-                    "fragment"                      : "androidx.fragment:fragment:1.3.5",
-                    "fragment-ktx"                  : "androidx.fragment:fragment-ktx:1.3.5",
+                    "fragment"                      : "androidx.fragment:fragment:1.2.0",
+                    "fragment-ktx"                  : "androidx.fragment:fragment-ktx:1.2.0",
                     "drawerlayout"                  : "androidx.drawerlayout:drawerlayout:1.1.1",
                     //constraintLayout
                     "constraintLayout"              : 'androidx.constraintlayout:constraintlayout:1.1.3',
 
                     //lifecycle
-                    "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1",
-                    "lifecycle-comm"                : "androidx.lifecycle:lifecycle-common-java8:2.3.1",
+                    "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0",
+                    "lifecycle-comm"                : "androidx.lifecycle:lifecycle-common-java8:2.2.0",
                     //test
                     "junit"                         : "junit:junit:4.12",
                     //第三方
@@ -128,8 +128,6 @@ ext {
                     "jsonviewer"                    : "com.yuyh.json:jsonviewer:1.0.6",
                     "room_runtime"                  : 'androidx.room:room-runtime:2.0.0',
                     "room_compile"                  : 'androidx.room:room-compiler:2.0.0',
-                    "um_analytics"                  : 'com.umeng.umsdk:analytics:8.0.0',
-                    "um_common"                     : 'com.umeng.umsdk:common:2.0.0',
                     "didi_http"                     : 'com.didichuxing.foundation:http:2.1.0.86',
                     "didi_rpc"                      : 'com.didichuxing.foundation:rpc:2.1.0.86',
                     "okgo"                          : "com.lzy.net:okgo:3.0.4",
