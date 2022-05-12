@@ -6,6 +6,9 @@
 
     <dist:module dist:instant="true" />
 
+    <uses-permission
+        android:name="android.permission.READ_FRAME_BUFFER"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- tencent Android Q新增权限，允许应用在后台发起定位，如应用target为Q，请添加此权限 -->
@@ -62,6 +65,12 @@
             android:enabled="true"
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
+
+        <service
+            android:name=".test.ScreenRecordingService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection" />
+
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AlertDialog
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.test.mock.data.HostInfo
-import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDokitView
+import com.didichuxing.doraemonkit.kit.mc.oldui.client.ClientDoKitView
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventType
 import com.didichuxing.doraemonkit.kit.mc.utils.WSPackageUtils
@@ -101,7 +101,7 @@ object DoKitMcClient {
                                             doKitGlobalScope.launch {
                                                 DoKitMcClient.close()
                                             }
-                                            DoKit.removeFloating(ClientDokitView::class)
+                                            DoKit.removeFloating(ClientDoKitView::class)
                                             if (ActivityUtils.getTopActivity() != null) {
                                                 AlertDialog.Builder(ActivityUtils.getTopActivity())
                                                     .setTitle("一机多控")

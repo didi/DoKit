@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.util.*
 class CustomEventProcessor : AbstractEventProcessor() {
 
 
-    override fun onSimulationEventAction(activity: Activity, view: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+    override fun onSimulationEventAction(activity: Activity, view: View?, viewC12c: ViewC12c, controlEvent: ControlEvent) {
         //执行自定义事件
         DoKitManager.MC_CLIENT_PROCESSOR?.process(
             ActivityUtils.getTopActivity(),
@@ -31,4 +31,7 @@ class CustomEventProcessor : AbstractEventProcessor() {
         onControlEventProcessSuccess(activity, view, controlEvent)
     }
 
+    override fun forceViewCheck(): Boolean {
+        return false
+    }
 }

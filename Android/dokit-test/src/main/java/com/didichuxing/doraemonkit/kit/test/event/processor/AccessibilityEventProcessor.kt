@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.extension.isFalse
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.test.event.EventErrorCode
@@ -28,8 +28,10 @@ import com.didichuxing.doraemonkit.util.*
 class AccessibilityEventProcessor : AbstractEventProcessor() {
 
 
-    override fun onSimulationEventAction(activity: Activity, view: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
-        dispatchSimulationEventAction(activity, view, viewC12c, controlEvent)
+    override fun onSimulationEventAction(activity: Activity, view: View?, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+        if (view != null){
+            dispatchSimulationEventAction(activity, view, viewC12c, controlEvent)
+        }
     }
 
     /**
@@ -147,13 +149,11 @@ class AccessibilityEventProcessor : AbstractEventProcessor() {
     }
 
     private fun onSimulationViewMoveEvent(activity: Activity, targetView: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
-        if (targetView is DokitFrameLayout && targetView.layoutParams is FrameLayout.LayoutParams) {
-            val layoutParams: FrameLayout.LayoutParams =
-                targetView.layoutParams as FrameLayout.LayoutParams
-            layoutParams.leftMargin =
-                viewC12c.doKitViewNode?.leftMargin!!
-            layoutParams.topMargin =
-                viewC12c.doKitViewNode.topMargin
+        if (targetView is DoKitFrameLayout && targetView.layoutParams is FrameLayout.LayoutParams) {
+            val layoutParams: FrameLayout.LayoutParams = targetView.layoutParams as FrameLayout.LayoutParams
+
+            layoutParams.leftMargin = viewC12c.doKitViewNode?.leftMargin!!
+            layoutParams.topMargin = viewC12c.doKitViewNode.topMargin
             targetView.layoutParams = layoutParams
         }
     }

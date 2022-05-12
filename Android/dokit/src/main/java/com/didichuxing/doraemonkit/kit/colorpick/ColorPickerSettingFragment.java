@@ -72,12 +72,12 @@ public class ColorPickerSettingFragment extends BaseFragment {
      */
     private void showColorPicker(Intent intent) {
 
-        DoKit.launchFloating(ColorPickerInfoDokitView.class);
+        DoKit.launchFloating(ColorPickerInfoDoKitView.class);
 
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", intent);
-        DoKit.launchFloating(ColorPickerDokitView.class, DoKitViewLaunchMode.SINGLE_INSTANCE, bundle);
+        DoKit.launchFloating(ColorPickerDoKitView.class, DoKitViewLaunchMode.SINGLE_INSTANCE, bundle);
 
     }
 

@@ -4,7 +4,7 @@ import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
 import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.util.ActivityUtils
 
@@ -28,7 +28,7 @@ object TcpMessageEventMonitor {
      */
     fun onTcpMessageEvent(eventType: String, message: String = "") {
         if (DoKitTestManager.isHostMode()) {
-            val actionId = RandomIdentityUtils.createAid()
+            val actionId = RandomIdentityUtil.createAid()
             val wsEvent = ControlEvent(
                 actionId,
                 EventType.WSE_TCP_EVENT,

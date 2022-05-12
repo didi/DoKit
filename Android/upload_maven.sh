@@ -20,6 +20,8 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
+./gradlew :dokit-test:assembleRelease --stacktrace
+./gradlew :dokit-autotest:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
@@ -32,6 +34,8 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-ft:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-test:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-autotest:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

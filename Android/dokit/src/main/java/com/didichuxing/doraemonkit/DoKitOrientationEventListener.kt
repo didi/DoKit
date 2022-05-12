@@ -3,8 +3,6 @@ package com.didichuxing.doraemonkit
 import android.app.Activity
 import android.content.res.Configuration
 import android.view.OrientationEventListener
-import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
 
 /**

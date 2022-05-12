@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dk_autotest_dialog_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+
+    <com.didichuxing.doraemonkit.kit.test.widget.FlashImageView
+        android:id="@+id/dot"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:background="@drawable/dk_autotest_flash_red_bg" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="已链接"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.didichuxing.doraemonkit.kit.test.widget.FlashTextView
+        android:id="@+id/tv_extend"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="..." />
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dk_dp_10"
+        android:src="@mipmap/dk_close_icon" />
+
+</LinearLayout>

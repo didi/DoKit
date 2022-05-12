@@ -13,15 +13,28 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemondemo.test.ScreenRecordingTest
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.constant.BundleKey
+import com.didichuxing.doraemonkit.kit.fileexplorer.ImageDetailFragment
+import com.didichuxing.doraemonkit.kit.test.report.ScreenShotManager
+import java.io.File
 
 /**
  * 一机多控Demo Activity
  */
 class MCActivity : AppCompatActivity() {
-    val TAG = "MCActivity"
+
+    companion object {
+        private const val TAG = "MCActivity"
+    }
 
     lateinit var mAdapter: RVAdapter
+
+    private val screenShotManager = ScreenShotManager("test/kk")
+
+    private val screenRecordingTest = ScreenRecordingTest()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +48,26 @@ class MCActivity : AppCompatActivity() {
             startActivity(Intent(this, WebViewActivity::class.java))
         }
 
+        findViewById<Button>(R.id.testPage).setOnClickListener {
+            startScreenShot()
+        }
+
+        findViewById<Button>(R.id.screenPage).setOnClickListener {
+            screenRecordingTest.start(this)
+        }
+
+
+
         findViewById<SlideBar>(R.id.unlock_bar).setOnUnlockListener(object :
             SlideBar.OnUnlockListener {
             override fun onUnlock(view: View?) {
                 DoKit.sendCustomEvent(
                     "un_lock",
                     view,
-                    mapOf("unlock" to "custom unlock")
+                    mapOf(
+                        "unlock" to "custom unlock",
+                        "testRecording" to "true"
+                    )
                 )
             }
 
@@ -49,10 +75,12 @@ class MCActivity : AppCompatActivity() {
                 DoKit.sendCustomEvent(
                     "lock_process",
                     view,
-                    mapOf("progress" to "$leftMargin")
+                    mapOf(
+                        "progress" to "$leftMargin",
+                        "testRecording" to "false"
+                    )
                 )
             }
-
         })
 
         val spinner = findViewById<Spinner>(R.id.spinner)
@@ -106,6 +134,17 @@ class MCActivity : AppCompatActivity() {
         initData()
 
     }
+
+
+    private fun startScreenShot() {
+        val map = screenShotManager.screenshotBitmap()
+        val fileName = screenShotManager.createNextFileName()
+        screenShotManager.saveBitmap(map, fileName)
+        val bundle = Bundle()
+        bundle.putSerializable(BundleKey.FILE_KEY, File(screenShotManager.getScreenFile(fileName)))
+        DoKit.launchFullScreen(ImageDetailFragment::class.java, this, bundle, false)
+    }
+
 
     private fun initData() {
 
@@ -161,4 +200,8 @@ class MCActivity : AppCompatActivity() {
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        screenRecordingTest.onActivityResult(requestCode, resultCode, data)
+    }
 }

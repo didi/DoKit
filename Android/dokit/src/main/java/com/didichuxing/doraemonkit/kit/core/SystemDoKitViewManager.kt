@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.util.DoKitSystemUtil
  * Created by wanglikun on 2018/10/23.
  * 系统悬浮窗管理类
  */
-internal class SystemDoKitViewManager : AbsDokitViewManager() {
+internal class SystemDoKitViewManager : AbsDoKitViewManager() {
 
     private val context: Context get() = DoKitEnv.requireApp()
 
@@ -24,17 +24,17 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      * https://blog.csdn.net/awenyini/article/details/78265284
      * https://yuqirong.me/2017/09/28/Window%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90(%E4%B8%80)%EF%BC%9A%E4%B8%8EDecorView%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
      */
-    private val windowManager = DokitViewManager.INSTANCE.windowManager
-    private val doKitViews: MutableList<AbsDokitView> by lazy { mutableListOf<AbsDokitView>() }
-    private val listeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf<DokitViewManager.DokitViewAttachedListener>() }
+    private val windowManager = DoKitViewManager.INSTANCE.windowManager
+    private val doKitViews: MutableList<AbsDoKitView> by lazy { mutableListOf<AbsDoKitView>() }
+    private val listeners: MutableList<DoKitViewManager.DokitViewAttachedListener> by lazy { mutableListOf<DoKitViewManager.DokitViewAttachedListener>() }
 
     /**
      * 获取页面上所有的dokitViews
      *
      * @return map
      */
-    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView> {
-        val doKitViewMaps: MutableMap<String, AbsDokitView> = mutableMapOf()
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDoKitView> {
+        val doKitViewMaps: MutableMap<String, AbsDoKitView> = mutableMapOf()
         for (doKitView in doKitViews) {
             doKitViewMaps[doKitView.tag] = doKitView
         }
@@ -101,7 +101,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
         //假如不存在全局的icon这需要全局显示主icon
         if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
-            attach(DokitIntent(MainIconDoKitView::class.java))
+            attach(DoKitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
             DoKitManager.MAIN_ICON_HAS_SHOW = false
@@ -113,7 +113,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     }
 
     override fun attachToolPanel(activity: Activity?) {
-        attach(DokitIntent(ToolPanelDoKitView::class.java))
+        attach(DoKitIntent(ToolPanelDoKitView::class.java))
     }
 
     override fun detachToolPanel() {
@@ -177,7 +177,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         if (dokitViews[MainIconDoKitView::class.tagName] == null) {
             if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
                 //添加main icon
-                val intent = DokitIntent(MainIconDoKitView::class.java)
+                val intent = DoKitIntent(MainIconDoKitView::class.java)
                 attach(intent)
                 DoKitManager.MAIN_ICON_HAS_SHOW = true
             }
@@ -203,7 +203,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      *
      * @param pageIntent
      */
-    override fun attach(pageIntent: DokitIntent) {
+    override fun attach(pageIntent: DoKitIntent) {
         try {
 
             for (dokitView in doKitViews) {
@@ -252,11 +252,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun detach(dokitView: AbsDokitView) {
-        detach(dokitView.tagName)
+    override fun detach(doKitView: AbsDoKitView) {
+        detach(doKitView.tagName)
     }
 
-    override fun detach(doKitViewClass: Class<out AbsDokitView>) {
+    override fun detach(doKitViewClass: Class<out AbsDoKitView>) {
         detach(doKitViewClass.tagName)
     }
 
@@ -271,10 +271,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun <T : AbsDokitView> getDoKitView(
+    override fun <T : AbsDoKitView> getDoKitView(
         activity: Activity?,
         clazz: Class<T>
-    ): AbsDokitView? {
+    ): AbsDoKitView? {
         if (TextUtils.isEmpty(clazz.tagName)) {
             return null
         }
@@ -297,11 +297,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      *
      * @param listener
      */
-    fun addListener(listener: DokitViewManager.DokitViewAttachedListener) {
+    fun addListener(listener: DoKitViewManager.DokitViewAttachedListener) {
         listeners.add(listener)
     }
 
-    fun removeListener(listener: DokitViewManager.DokitViewAttachedListener) {
+    fun removeListener(listener: DoKitViewManager.DokitViewAttachedListener) {
         listeners.remove(listener)
     }
 

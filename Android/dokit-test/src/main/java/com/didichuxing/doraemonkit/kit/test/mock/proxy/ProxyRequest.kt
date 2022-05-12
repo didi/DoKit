@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.test.mock.proxy
 
+import com.didichuxing.doraemonkit.kit.test.utils.DateTime
+
 
 /**
  * didi Create on 2022/3/10 .
@@ -21,12 +23,13 @@ data class ProxyRequest(
     val path: String,
     val query: String,
     val fragment: String,
-    val requestTime: String,
     val requestHeaders: String,
     val requestContentType: String,
     val requestBodyLength: Long,
     val requestBody: String,
     val searchKey: String,
     val method: String,
-    val clientProtocol: String
+    val clientProtocol: String,
+    val requestTime: String = DateTime.nowTime(),
+    val requestTimeMillis: Long = DateTime.nowTimeMillis()
 )

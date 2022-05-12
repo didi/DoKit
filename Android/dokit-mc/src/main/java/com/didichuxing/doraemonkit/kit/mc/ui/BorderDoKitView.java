@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView;
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.viewcheck.LayoutBorderView;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 
@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.model.ViewInfo;
  * Created by jintai on 2019/09/26.
  * 在相应的界面上绘制指定View的边框
  */
-public class BorderDoKitView extends AbsDokitView {
+public class BorderDoKitView extends AbsDoKitView {
     private LayoutBorderView mLayoutBorderView = null;
 
     @Override
@@ -36,10 +36,10 @@ public class BorderDoKitView extends AbsDokitView {
 
 
     @Override
-    public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
-        params.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE_AND_NOT_TOUCHABLE;
-        params.width = DokitViewLayoutParams.MATCH_PARENT;
-        params.height = DokitViewLayoutParams.MATCH_PARENT;
+    public void initDokitViewLayoutParams(DoKitViewLayoutParams params) {
+        params.flags = DoKitViewLayoutParams.FLAG_NOT_FOCUSABLE_AND_NOT_TOUCHABLE;
+        params.width = DoKitViewLayoutParams.MATCH_PARENT;
+        params.height = DoKitViewLayoutParams.MATCH_PARENT;
     }
 
 
