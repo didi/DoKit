@@ -39,6 +39,7 @@
 
 @property(nonatomic, nullable, weak) UIButton *webSocketButton;
 
+@property(nonatomic, nullable, weak) UISwitch *masterSwitch;
 
 @property (nonatomic , strong) UILabel *asssisTip;
 
@@ -55,6 +56,11 @@
 @property (nonatomic , strong) UIImageView *banner;
 
 @property (nonatomic , strong) UILabel *clientCountLabel;
+
+- (void)webSocketButtonHandler:(nullable id)sender;
+
+- (void)masterSwitchHandler:(nullable id)sender;
+
 @end
 
 @implementation DoraemonMCViewController
@@ -398,6 +404,7 @@
             self.asssisTip.hidden = NO;
 
             [self.webSocketButton removeFromSuperview];
+            [self.masterSwitch removeFromSuperview];
             [DKMultiControlStreamManager.sharedInstance unregisterWithListener:self];
             [DKMultiControlStreamManager.sharedInstance disableMultiControl];
 
@@ -451,6 +458,7 @@
             self.asssisTip.hidden = YES;
 
             [self.webSocketButton removeFromSuperview];
+            [self.masterSwitch removeFromSuperview];
             [DKMultiControlStreamManager.sharedInstance unregisterWithListener:self];
             [DKMultiControlStreamManager.sharedInstance disableMultiControl];
 
@@ -480,6 +488,10 @@
             webSocketButton.titleLabel.font = [UIFont systemFontOfSize:18];
             [webSocketButton addTarget:self action:@selector(webSocketButtonHandler:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:webSocketButton];
+            UISwitch *masterSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 49 / 2, CGRectGetMaxY(webSocketButton.frame) + 30, 49, 31)];
+            [self.view addSubview:masterSwitch];
+            self.masterSwitch = masterSwitch;
+            [masterSwitch addTarget:self action:@selector(masterSwitchHandler:) forControlEvents:UIControlEventValueChanged];
             [DKMultiControlStreamManager.sharedInstance registerMultiControlStreamManagerStateListener:self];
 
             break;
@@ -489,8 +501,16 @@
     }
 }
 
+- (void)masterSwitchHandler:(id)sender {
+    if (((UISwitch *) sender).isOn) {
+        [DKMultiControlStreamManager.sharedInstance changeToMaster];
+    } else {
+        [DKMultiControlStreamManager.sharedInstance changeToSlave];
+    }
+}
+
 - (void)webSocketButtonHandler:(id)sender {
-    if (!DKMultiControlStreamManager.sharedInstance.isEnabled) {
+    if (!DKMultiControlStreamManager.sharedInstance.state == DKMultiControlStreamManagerStateClosed) {
         DKQRCodeScanViewController *qrCodeScanViewController = [[DKQRCodeScanViewController alloc] init];
         qrCodeScanViewController.completionBlock = ^(NSString *decodedString) {
             if (!decodedString) {
@@ -509,10 +529,21 @@
 }
 
 - (void)changeToState:(DKMultiControlStreamManagerState)state {
-    if (state == DKMultiControlStreamManagerStateRunning) {
-        [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
-    } else {
-        [self.webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
+    switch (state) {
+        case DKMultiControlStreamManagerStateClosed:
+            [self.webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
+            break;
+        case DKMultiControlStreamManagerStateSlave:
+            self.masterSwitch.on = NO;
+            [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
+            break;
+        case DKMultiControlStreamManagerStateMaster:
+            self.masterSwitch.on = YES;
+            [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
+            break;
+            
+        default:
+            break;
     }
 }
 

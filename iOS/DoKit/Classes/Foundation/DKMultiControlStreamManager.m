@@ -15,13 +15,19 @@
  */
 
 #import "DKMultiControlStreamManager.h"
+#import <DoraemonKit/DKCommonDTOModel.h>
 #import <DoraemonKit/DKWebSocketSession.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const MULTI_CONTROL_HOST = @"mc_host";
+
 @interface DKMultiControlStreamManager ()
 
 @property(nonatomic, nullable, strong) DKWebSocketSession *webSocketSession;
+
+/// Default is NO.
+@property(nonatomic, assign) BOOL isMaster;
 
 @property(nonatomic, nullable, strong) NSHashTable<id <DKMultiControlStreamManagerStateListener>> *listenerArray;
 
@@ -46,7 +52,7 @@ NS_ASSUME_NONNULL_END
         self.listenerArray = NSHashTable.weakObjectsHashTable;
     }
     [self.listenerArray addObject:listener];
-    [listener changeToState:self.webSocketSession ? DKMultiControlStreamManagerStateRunning : DKMultiControlStreamManagerStateClosed];
+    [listener changeToState:self.webSocketSession ? (self.isMaster ? DKMultiControlStreamManagerStateMaster : DKMultiControlStreamManagerStateSlave) : DKMultiControlStreamManagerStateClosed];
 }
 
 - (void)unregisterWithListener:(id)listener {
@@ -61,13 +67,56 @@ NS_ASSUME_NONNULL_END
         return;
     }
     self.webSocketSession = [[DKWebSocketSession alloc] initWithUrl:url];
+    __weak typeof(self) weakSelf = self;
+    self.webSocketSession.notifyHandler = ^(DKCommonDTOModel *commonDTOModel) {
+        typeof(weakSelf) self = weakSelf;
+        if ([commonDTOModel.dataType isEqualToString:MULTI_CONTROL_HOST]) {
+            [self changeToSlave];
+        }
+    };
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
-        [listener changeToState:DKMultiControlStreamManagerStateRunning];
+        [listener changeToState:DKMultiControlStreamManagerStateSlave];
     }
 }
 
-- (BOOL)isEnabled {
-    return (BOOL) self.webSocketSession;
+- (void)changeToMaster {
+    if (!self.webSocketSession || self.isMaster) {
+        return;
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.dataType = MULTI_CONTROL_HOST;
+    commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
+    commonDTOModel.method = DK_WEBSOCKET_BROADCAST;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSString *jsonString = nil;
+    if (jsonData) {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    [self.webSocketSession sendString:jsonString requestId:nil completionHandler:nil];
+    self.isMaster = YES;
+    for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+        [listener changeToState:DKMultiControlStreamManagerStateMaster];
+    }
+}
+
+- (void)changeToSlave {
+    if (!self.webSocketSession || !self.isMaster) {
+        return;
+    }
+    self.isMaster = NO;
+    for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+        [listener changeToState:DKMultiControlStreamManagerStateSlave];
+    }
+}
+
+- (DKMultiControlStreamManagerState)state {
+    if (!self.webSocketSession) {
+        return DKMultiControlStreamManagerStateClosed;
+    }
+
+    return self.isMaster ? DKMultiControlStreamManagerStateMaster : DKMultiControlStreamManagerStateSlave;
 }
 
 - (void)disableMultiControl {

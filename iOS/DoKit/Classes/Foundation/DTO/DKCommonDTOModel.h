@@ -26,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable, copy) NSString *data;
 
+@property(nonatomic, nullable, copy) NSUUID *connectSerial;
+
+@property(nonatomic, nullable, copy) NSString *dataType;
+
 @end
 
 NS_ASSUME_NONNULL_END

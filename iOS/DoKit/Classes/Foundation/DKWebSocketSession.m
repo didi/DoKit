@@ -21,6 +21,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *DK_WEBSOCKET_BROADCAST = @"BROADCAST";
+
 typedef void (^DKWebSocketRequestBlock)(NSError *_Nullable error, DKWebSocketSession *_Nullable webSocketSession);
 
 static NSString *const DOKIT_WEBSOCKET_SESSION = @"DOKIT_WEBSOCKET_SESSION";
@@ -41,7 +43,7 @@ static NSString *const JSON_SERIALIZATION_ERROR = @"Dictionary to json error.";
 
 @property(nonatomic, nullable, weak) SRWebSocket *webSocket;
 
-@property(nonatomic, assign) int requestId;
+@property(nonatomic, assign) unsigned int requestId;
 
 @property(nonatomic, nullable, copy) NSUUID *sessionUUID;
 
@@ -87,6 +89,7 @@ NS_ASSUME_NONNULL_END
     commonDTOModel.requestId = @(self.requestId++).stringValue;
     commonDTOModel.data = dataString;
     commonDTOModel.method = @"LOGIN";
+    commonDTOModel.connectSerial = self.sessionUUID;
     jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
     NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
     jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
@@ -189,7 +192,9 @@ NS_ASSUME_NONNULL_END
                 return;
             }
             [webSocketSession.webSocket sendString:string error:nil];
-            [webSocketSession addWithRequestId:requestId webSocketCompletionHandler:completionHandler];
+            if (requestId) {
+                [webSocketSession addWithRequestId:requestId webSocketCompletionHandler:completionHandler];
+            }
         };
         NSMutableArray<DKWebSocketRequestBlock> *deferRequestQueue = self.deferRequestQueue.mutableCopy;
         self.deferRequestQueue = nil;
@@ -234,7 +239,9 @@ NS_ASSUME_NONNULL_END
         return;
     }
     DKCommonDTOModel *commonDTOModel = [MTLJSONAdapter modelOfClass:DKCommonDTOModel.class fromJSONDictionary:jsonObject error:&error];
-    if (commonDTOModel.requestId) {
+    if ([commonDTOModel.method isEqualToString:DK_WEBSOCKET_BROADCAST]) {
+        self.notifyHandler ? self.notifyHandler(commonDTOModel) : (void) nil;
+    } else if (commonDTOModel.requestId) {
         DKWebSocketCompletionHandler webSocketCompletionHandler = self.completionHandlerDictionary[commonDTOModel.requestId];
         if (webSocketCompletionHandler) {
             NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;

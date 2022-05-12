@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
     DKMultiControlStreamManagerStateClosed = 0,
-    DKMultiControlStreamManagerStateRunning
+    DKMultiControlStreamManagerStateSlave,
+    DKMultiControlStreamManagerStateMaster
 };
 
 @protocol DKMultiControlStreamManagerStateListener
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 
 @interface DKMultiControlStreamManager : NSObject
 
-@property(readonly) BOOL isEnabled;
+@property(readonly) DKMultiControlStreamManagerState state;
 
 + (instancetype)sharedInstance;
 
@@ -41,6 +42,10 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 - (void)unregisterWithListener:(id <DKMultiControlStreamManagerStateListener>)listener;
 
 - (void)enableMultiControlWithUrl:(NSURL *)url;
+
+- (void)changeToMaster;
+
+- (void)changeToSlave;
 
 - (void)disableMultiControl;
 
