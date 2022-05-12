@@ -40,9 +40,9 @@ public class HomeTitleBar extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        LayoutInflater.from(context).inflate(R.layout.dk_home_title_bar, this, true);
+        LayoutInflater.from(context).inflate(R.layout.dk_home_title_bar, this);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.HomeTitleBar);
-        int icon = a.getResourceId(R.styleable.HomeTitleBar_dkIcon, 0);
+        int icon = a.getResourceId(R.styleable.HomeTitleBar_dkIcon, R.mipmap.dk_close_icon_big);
         String title = a.getString(R.styleable.HomeTitleBar_dkTitle);
         a.recycle();
 

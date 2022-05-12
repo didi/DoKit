@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_seek_bar_indicator"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_btn_disable"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+<!--    <item android:state_pressed="true">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@color/color_btn_press"/>-->
+<!--            <corners android:radius="5dp"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+
+    <item android:state_hovered="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_btn_press"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+</selector>

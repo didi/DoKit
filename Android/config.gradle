@@ -14,7 +14,6 @@ ext {
         use_local    : true,
         group_id     : 'io.github.didi.dokit',
         version      : '3.6.0.8'
-
     ]
 
     android = [compileSdkVersion             : 29,
@@ -141,8 +140,6 @@ ext {
                     "amap_map3d"                    : 'com.amap.api:map3d:latest.integration',
                     "amap_search"                   : 'com.amap.api:search:latest.integration',
                     "amap_navi"                     : 'com.amap.api:navi-3dmap:latest.integration',
-                    //新四地图
-                    "dmap"                          : 'com.didi.nav.driving:sdk:0.0.2065',
                     //腾讯地图定位
                     "tencent_location"              : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
                     "tencent_map"                   : 'com.tencent.map:tencent-map-vector-sdk:4.4.0',

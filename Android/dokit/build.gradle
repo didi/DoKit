@@ -142,7 +142,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
 //    compileOnly rootProject.ext.dependencies["tencent_map"]
     //百度地图定位
-    compileOnly files('libs/BaiduLBS_Android.jar')
+//    compileOnly files('libs/BaiduLBS_Android.jar')
 
 }
 

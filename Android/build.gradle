@@ -160,12 +160,6 @@ task checkUploadConfig4Maven() {
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
-
-//        if (!modules.contains("dokit-dmap")) {
-//            throw new RuntimeException("未找到dokit-dmap module。。。")
-//        }
-
-
     }
 }
 
@@ -202,11 +196,6 @@ task checkUploadConfig4Local() {
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
-
-//        if (!modules.contains("dokit-dmap")) {
-//            throw new RuntimeException("未找到dokit-dmap module。。。")
-//        }
-
     }
 }
 
@@ -242,11 +231,6 @@ task checkUploadConfig4Didi() {
         if (!modules.contains("dokit-plugin")) {
             throw new RuntimeException("未找到dokit-plugin module。。。")
         }
-
-//        if (!modules.contains("dokit-dmap")) {
-//            throw new RuntimeException("未找到dokit-dmap module。。。")
-//        }
-
     }
 }
 

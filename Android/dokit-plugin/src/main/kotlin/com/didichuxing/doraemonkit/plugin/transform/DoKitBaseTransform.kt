@@ -24,7 +24,7 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
      * booster 的默认出炉逻辑 DoKit已重写自处理
      */
-    internal open val transformers = listOf<Transformer>()
+    open val transformers = listOf<Transformer>()
 
     internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
 

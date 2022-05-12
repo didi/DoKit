@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
-internal class DoKitCommTransformV34(project: Project) : DoKitBaseTransform(project) {
+class DoKitCommTransformV34(project: Project) : DoKitBaseTransform(project) {
 
 
     override val transformers = listOf<Transformer>(

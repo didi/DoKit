@@ -22,6 +22,7 @@ RES="\033[0m"
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
+./gradlew :dokit-gps-mock:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 #publish
 ./gradlew :dokit:publish --stacktrace
@@ -35,4 +36,5 @@ RES="\033[0m"
 ./gradlew :dokit-ft:publish --stacktrace
 ./gradlew :dokit-mc:publish --stacktrace
 ./gradlew :dokit-pthread-hook:publish --stacktrace
+./gradlew :dokit-gps-mock:publish --stacktrace
 echo -e "${GREEN_COLOR}本地打包完成！！！${RES}"
