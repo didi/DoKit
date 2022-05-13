@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.gps_mock.gpsmock;
 
-import android.util.Log;
-
 import com.baidu.mapapi.model.LatLng;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.ThreadUtils;
@@ -21,6 +19,7 @@ public class RouteMockThread extends Thread {
     List<com.baidu.mapapi.model.LatLng> mPoints = new ArrayList<>();
     // 坐标点移动间隔时间
     private long mIntervalTime;
+    private RouteMockStatusCallback mRouteMockStatusCallback;
 
     @Override
     public void run() {
@@ -58,6 +57,9 @@ public class RouteMockThread extends Thread {
         mIndex = 0;
         mIsMocking = false;
         ToastUtils.showShort("轨迹模拟已结束");
+        if (mRouteMockStatusCallback != null) {
+            ThreadUtils.runOnUiThread(() -> mRouteMockStatusCallback.onRouteMockFinish());
+        }
     }
 
     /**
@@ -94,11 +96,19 @@ public class RouteMockThread extends Thread {
         mPoints.addAll(points);
     }
 
+    public void setIntervalTime(long intervalTime) {
+        mIntervalTime = intervalTime;
+    }
+
     public long getIntervalTime() {
         return mIntervalTime;
     }
 
-    public void setIntervalTime(long intervalTime) {
-        mIntervalTime = intervalTime;
+    public void setRouteMockStatusCallback(RouteMockStatusCallback routeMockStatusCallback) {
+        mRouteMockStatusCallback = routeMockStatusCallback;
+    }
+
+    public interface RouteMockStatusCallback{
+        void onRouteMockFinish();
     }
 }
