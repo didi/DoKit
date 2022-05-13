@@ -24,6 +24,8 @@ object DoKitExtUtil {
 
     var HAS_DOKIT_TCP_HOOK_DJ = false
 
+    var DOKIT_GPS_MOCK_INCLUDE = false
+
     /**
      * 三方库版本信息
      */
