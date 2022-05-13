@@ -510,7 +510,7 @@
 }
 
 - (void)webSocketButtonHandler:(id)sender {
-    if (!DKMultiControlStreamManager.sharedInstance.state == DKMultiControlStreamManagerStateClosed) {
+    if (DKMultiControlStreamManager.sharedInstance.state == DKMultiControlStreamManagerStateClosed) {
         DKQRCodeScanViewController *qrCodeScanViewController = [[DKQRCodeScanViewController alloc] init];
         qrCodeScanViewController.completionBlock = ^(NSString *decodedString) {
             if (!decodedString) {
@@ -531,14 +531,15 @@
 - (void)changeToState:(DKMultiControlStreamManagerState)state {
     switch (state) {
         case DKMultiControlStreamManagerStateClosed:
+            [self.masterSwitch setOn:NO animated:YES];
             [self.webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
             break;
         case DKMultiControlStreamManagerStateSlave:
-            self.masterSwitch.on = NO;
+            [self.masterSwitch setOn:NO animated:YES];
             [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
             break;
         case DKMultiControlStreamManagerStateMaster:
-            self.masterSwitch.on = YES;
+            [self.masterSwitch setOn:YES animated:YES];
             [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
             break;
             

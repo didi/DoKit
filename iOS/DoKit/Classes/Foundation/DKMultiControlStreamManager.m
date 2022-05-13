@@ -80,7 +80,18 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)changeToMaster {
-    if (!self.webSocketSession || self.isMaster) {
+    if (!self.webSocketSession) {
+        for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+            [listener changeToState:DKMultiControlStreamManagerStateClosed];
+        }
+
+        return;
+    }
+    if (self.isMaster) {
+//        for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
+//            [listener changeToState:DKMultiControlStreamManagerStateMaster];
+//        }
+
         return;
     }
     DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
