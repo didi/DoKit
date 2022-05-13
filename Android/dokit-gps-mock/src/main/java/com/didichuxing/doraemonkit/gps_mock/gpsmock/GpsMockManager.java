@@ -169,7 +169,7 @@ public class GpsMockManager {
         GpsMockConfig.saveMockLocation(new LatLng(latLng.latitude, latLng.longitude));
     }
 
-    public void startMockRouteLine(List<com.baidu.mapapi.model.LatLng> points, double speed) {
+    public void startMockRouteLine(List<com.baidu.mapapi.model.LatLng> points, double speed, RouteMockThread.RouteMockStatusCallback statusCallback) {
         if (isMockingRoute()) return;
 
         if (isMockingRoute() && mRouteMockThread.isSuspend()){
@@ -184,6 +184,7 @@ public class GpsMockManager {
             mRouteMockThread = new RouteMockThread();
             mRouteMockThread.setIntervalTime(mIntervalTime);
             mRouteMockThread.setPoints(points);
+            mRouteMockThread.setRouteMockStatusCallback(statusCallback);
             mRouteMockThread.start();
         }
     }

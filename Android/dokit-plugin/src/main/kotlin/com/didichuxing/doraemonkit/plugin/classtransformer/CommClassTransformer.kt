@@ -67,7 +67,7 @@ class CommClassTransformer : AbsClassTransformer() {
         }
 
         //gps字节码操作
-        if (DoKitExtUtil.commExt.gpsSwitch) {
+        if (DoKitExtUtil.commExt.gpsSwitch && DoKitExtUtil.DOKIT_GPS_MOCK_INCLUDE) {
             //系统 gpsStatus hook
             klass.methods.forEach { method ->
                 method.instructions?.iterator()?.asIterable()

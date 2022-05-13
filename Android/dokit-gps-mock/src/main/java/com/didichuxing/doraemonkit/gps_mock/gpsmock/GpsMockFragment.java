@@ -82,7 +82,7 @@ import java.util.List;
 
 public class GpsMockFragment extends BaseFragment implements View.OnClickListener, PositionSelectRecyclerAdapter.IPositionItemSelectedCallback
     , CompoundButton.OnCheckedChangeListener, MotionLayout.TransitionListener, BaiduMap.OnMapStatusChangeListener, OnGetGeoCoderResultListener
-    , OnGetRoutePlanResultListener {
+    , OnGetRoutePlanResultListener, RouteMockThread.RouteMockStatusCallback {
     private static final String TAG = "GpsMockFragment";
 
     private HomeTitleBar mTitleBar;
@@ -470,9 +470,9 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
             }
             if (GpsMockManager.getInstance().getBdMockDrivingRouteLine() != null) {
                 if (mCurDriftTypeIndex == DriftType.DRIFT_TYPE_ROUTE.ordinal()) {
-                    GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getRouteDriftPoints(), getInputSpeed());
+                    GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getRouteDriftPoints(), getInputSpeed(), this);
                 } else {
-                    GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getRandomDriftPoints(), getInputSpeed());
+                    GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getRandomDriftPoints(), getInputSpeed(), this);
                 }
 
                 mBtnMockRoute1.setText(R.string.btn_text_stop_mock);
@@ -482,12 +482,18 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
             // 真实路径模拟
             if (GpsMockManager.getInstance().getBdMockDrivingRouteLine() != null) {
                 // 开始模拟
-                GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getAllPoints(), getInputSpeed());
+                GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getAllPoints(), getInputSpeed(), this);
                 mBtnMockRoute1.setText(R.string.btn_text_stop_mock);
                 mBtnMockRoute2.setText(R.string.btn_text_stop_mock);
             }
         }
         drawRoute();
+    }
+
+    @Override
+    public void onRouteMockFinish() {
+        mBtnMockRoute1.setText(R.string.btn_text_start_mock);
+        mBtnMockRoute2.setText(R.string.btn_text_start_mock);
     }
 
     @Override
