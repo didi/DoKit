@@ -17,6 +17,8 @@
 #import "DKMultiControlStreamManager.h"
 #import <DoraemonKit/DKCommonDTOModel.h>
 #import <DoraemonKit/DKWebSocketSession.h>
+#import <DoraemonKit/DKDataRequestDTOModel.h>
+#import <DoraemonKit/DKDataResponseDTOModel.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -95,15 +97,21 @@ NS_ASSUME_NONNULL_END
         return;
     }
     DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
     commonDTOModel.dataType = MULTI_CONTROL_HOST;
     commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
     commonDTOModel.method = DK_WEBSOCKET_BROADCAST;
+    commonDTOModel.requestId = nil;
+    commonDTOModel.data = nil;
     NSError *error = nil;
     NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
     NSString *jsonString = nil;
     if (jsonData) {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    if (!jsonString) {
+        return;
     }
     [self.webSocketSession sendString:jsonString requestId:nil completionHandler:nil];
     self.isMaster = YES;
@@ -137,6 +145,83 @@ NS_ASSUME_NONNULL_END
     self.webSocketSession = nil;
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
         [listener changeToState:DKMultiControlStreamManagerStateClosed];
+    }
+}
+
+- (NSString *)recordWithUrlRequest:(NSURLRequest *)urlRequest {
+    if (!self.webSocketSession) {
+        return nil;
+    }
+    DKDataRequestDTOModel *dataRequestDTOModel = [[DKDataRequestDTOModel alloc] init];
+    dataRequestDTOModel.behaviorId = @"68753A444D6F12269C600050E4C00067";
+    dataRequestDTOModel.dataId = [NSUUID.UUID.UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    dataRequestDTOModel.method = urlRequest.HTTPMethod;
+    dataRequestDTOModel.url = urlRequest.URL;
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:urlRequest.URL resolvingAgainstBaseURL:YES];
+    urlComponents.fragment = nil;
+    urlComponents.password = nil;
+    urlComponents.query = nil;
+    urlComponents.user = nil;
+    dataRequestDTOModel.searchId = urlComponents.string;
+    dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
+    dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:dataRequestDTOModel error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSString *dataString = nil;
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.requestId = nil;
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
+    commonDTOModel.data = dataString;
+    commonDTOModel.method = DK_METHOD_DATA;
+    commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
+    commonDTOModel.dataType = DK_DATA_REQUEST;
+    jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    if (!dataString) {
+        return nil;
+    }
+    [self.webSocketSession sendString:dataString requestId:nil completionHandler:nil];
+
+    return dataRequestDTOModel.dataId;
+}
+
+- (void)recordWithHTTPUrlResponse:(NSHTTPURLResponse *)httpUrlResponse dataId:(NSString *)dataId responseBody:(nullable NSString *)responseBody {
+    if (!self.webSocketSession) {
+        return;
+    }
+    DKDataResponseDTOModel *dataResponseDTOModel = [[DKDataResponseDTOModel alloc] init];
+    dataResponseDTOModel.dataId = dataId;
+    dataResponseDTOModel.responseCode = httpUrlResponse.statusCode;
+    dataResponseDTOModel.responseHeader = httpUrlResponse.allHeaderFields;
+    dataResponseDTOModel.responseBody = responseBody;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:dataResponseDTOModel error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSString *dataString = nil;
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.requestId = nil;
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
+    commonDTOModel.data = dataString;
+    commonDTOModel.method = DK_METHOD_DATA;
+    commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
+    commonDTOModel.dataType = DK_DATA_RESPONSE;
+    jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    if (!dataString) {
+        [self.webSocketSession sendString:dataString requestId:nil completionHandler:nil];
     }
 }
 

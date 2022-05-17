@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-
-@class DKCommonDTOModel;
+#import <Mantle/Mantle.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *DK_WEBSOCKET_BROADCAST;
+@interface DKDataRequestDTOModel : MTLModel <MTLJSONSerializing>
 
-typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString *_Nullable responseString);
+@property(nonatomic, nullable, copy) NSString *behaviorId;
 
-@interface DKWebSocketSession : NSObject
+@property(nonatomic, nullable, copy) NSString *dataId;
 
-@property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
+@property(nonatomic, nullable, copy) NSString *searchId;
 
-@property(nonatomic, nullable, copy) void (^notifyHandler)(DKCommonDTOModel *commonDTOModel);
+@property(nonatomic, nullable, copy) NSString *method;
 
-- (instancetype)init NS_UNAVAILABLE;
+@property(nonatomic, nullable, copy) NSURL *url;
 
-- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+@property(nonatomic, nullable, copy) NSDictionary<NSString *, NSString *> *requestHeader;
 
-- (void)sendString:(NSString *)string requestId:(nullable NSNumber *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+@property(nonatomic, nullable, copy) NSString *requestBody;
 
 @end
 

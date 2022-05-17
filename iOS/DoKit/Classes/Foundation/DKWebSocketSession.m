@@ -49,7 +49,7 @@ static NSString *const JSON_SERIALIZATION_ERROR = @"Dictionary to json error.";
 
 @property(nonatomic, nullable, copy) NSArray<DKWebSocketRequestBlock> *deferRequestQueue;
 
-@property(nonatomic, nullable, copy) NSDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary;
+@property(nonatomic, nullable, copy) NSDictionary<NSNumber *, DKWebSocketCompletionHandler> *completionHandlerDictionary;
 
 /// Make WebSocket connection available.
 - (void)connect;
@@ -58,7 +58,7 @@ static NSString *const JSON_SERIALIZATION_ERROR = @"Dictionary to json error.";
 
 - (void)handleWebSocketWithError:(nullable NSError *)error;
 
-- (void)addWithRequestId:(NSString *)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler;
+- (void)addWithRequestId:(unsigned int)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler;
 
 - (void)handleWithDeviceAuthenticationError:(nullable NSError *)deviceAuthenticationError;
 
@@ -86,10 +86,12 @@ NS_ASSUME_NONNULL_END
         dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
-    commonDTOModel.requestId = @(self.requestId++).stringValue;
+    commonDTOModel.requestId = @(self.requestId++);
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
     commonDTOModel.data = dataString;
-    commonDTOModel.method = @"LOGIN";
+    commonDTOModel.method = DK_METHOD_LOGIN;
     commonDTOModel.connectSerial = self.sessionUUID;
+    commonDTOModel.dataType = nil;
     jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
     NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
     jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
@@ -119,16 +121,16 @@ NS_ASSUME_NONNULL_END
         }];
         self.deferRequestQueue = nil;
     };
-    [self addWithRequestId:commonDTOModel.requestId webSocketCompletionHandler:webSocketCompletionHandler];
+    [self addWithRequestId:commonDTOModel.requestId.unsignedIntValue webSocketCompletionHandler:webSocketCompletionHandler];
 }
 
-- (void)addWithRequestId:(NSString *)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler {
-    NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
+- (void)addWithRequestId:(unsigned int)requestId webSocketCompletionHandler:(DKWebSocketCompletionHandler)webSocketCompletionHandler {
+    NSMutableDictionary<NSNumber *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
     self.completionHandlerDictionary = nil;
     if (!completionHandlerDictionary) {
         completionHandlerDictionary = NSMutableDictionary.dictionary;
     }
-    completionHandlerDictionary[requestId] = webSocketCompletionHandler;
+    completionHandlerDictionary[@(requestId)] = webSocketCompletionHandler;
     self.completionHandlerDictionary = completionHandlerDictionary;
 }
 
@@ -154,7 +156,7 @@ NS_ASSUME_NONNULL_END
     if ([webSocketSession isKindOfClass:NSString.class]) {
         _sessionUUID = [[NSUUID alloc] initWithUUIDString:webSocketSession];
     }
-    [self deviceAuthentication];
+//    [self deviceAuthentication];
 
     return self;
 }
@@ -181,8 +183,8 @@ NS_ASSUME_NONNULL_END
     }
 }
 
-- (void)sendString:(NSString *)string requestId:(NSString *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler {
-    if (!(self.isWebSocketRunning && self.isDeviceAuthenticating)) {
+- (void)sendString:(NSString *)string requestId:(NSNumber *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler {
+    if (!self.isWebSocketRunning) {
         [self deviceAuthentication];
         // Add to deferRequestQueue.
         DKWebSocketRequestBlock webSocketRequestBlock = ^(NSError *_Nullable error, DKWebSocketSession *_Nullable webSocketSession) {
@@ -192,8 +194,8 @@ NS_ASSUME_NONNULL_END
                 return;
             }
             [webSocketSession.webSocket sendString:string error:nil];
-            if (requestId) {
-                [webSocketSession addWithRequestId:requestId webSocketCompletionHandler:completionHandler];
+            if (requestId && completionHandler) {
+                [webSocketSession addWithRequestId:requestId.unsignedIntValue webSocketCompletionHandler:completionHandler];
             }
         };
         NSMutableArray<DKWebSocketRequestBlock> *deferRequestQueue = self.deferRequestQueue.mutableCopy;
@@ -223,7 +225,7 @@ NS_ASSUME_NONNULL_END
         [self handleWithDeviceAuthenticationError:error];
         self.completionHandlerDictionary = nil;
     } else {
-        [self.completionHandlerDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *__attribute__((unused)) key, DKWebSocketCompletionHandler obj, BOOL *__attribute__((unused)) stop) {
+        [self.completionHandlerDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber *__attribute__((unused)) key, DKWebSocketCompletionHandler obj, BOOL *__attribute__((unused)) stop) {
             obj(error, nil);
         }];
         self.completionHandlerDictionary = nil;
@@ -244,7 +246,7 @@ NS_ASSUME_NONNULL_END
     } else if (commonDTOModel.requestId) {
         DKWebSocketCompletionHandler webSocketCompletionHandler = self.completionHandlerDictionary[commonDTOModel.requestId];
         if (webSocketCompletionHandler) {
-            NSMutableDictionary<NSString *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
+            NSMutableDictionary<NSNumber *, DKWebSocketCompletionHandler> *completionHandlerDictionary = self.completionHandlerDictionary.mutableCopy;
             self.completionHandlerDictionary = nil;
             completionHandlerDictionary[commonDTOModel.requestId] = nil;
             if (completionHandlerDictionary.count == 0) {

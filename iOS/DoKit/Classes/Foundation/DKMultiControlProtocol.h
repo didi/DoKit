@@ -16,25 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class DKCommonDTOModel;
-
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *DK_WEBSOCKET_BROADCAST;
-
-typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString *_Nullable responseString);
-
-@interface DKWebSocketSession : NSObject
-
-@property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
-
-@property(nonatomic, nullable, copy) void (^notifyHandler)(DKCommonDTOModel *commonDTOModel);
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
-
-- (void)sendString:(NSString *)string requestId:(nullable NSNumber *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+@interface DKMultiControlProtocol : NSURLProtocol
 
 @end
 

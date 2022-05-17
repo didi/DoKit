@@ -49,6 +49,10 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 
 - (void)disableMultiControl;
 
+- (nullable NSString *)recordWithUrlRequest:(NSURLRequest *)urlRequest;
+
+- (void)recordWithHTTPUrlResponse:(NSHTTPURLResponse *)httpUrlResponse dataId:(NSString *)dataId responseBody:(nullable NSString *)responseBody;
+
 @end
 
 NS_ASSUME_NONNULL_END
