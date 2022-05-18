@@ -28,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable, copy) NSString *dataId;
 
+@property(nonatomic, nullable, copy) NSHTTPURLResponse *httpUrlResponse;
+
+@property(nonatomic, nullable, copy) NSString *responseBody;
+
 @end
 
 NS_ASSUME_NONNULL_END
@@ -82,12 +86,12 @@ NS_ASSUME_NONNULL_END
     if ([NSURLProtocol propertyForKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:self.request]) {
         self.urlSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration delegate:self delegateQueue:clientOperationQueue];
         [[self.urlSession dataTaskWithRequest:self.request] resume];
-        NSURLRequest *urlRequest = self.request.copy;
-        __weak typeof(self) weakSelf = self;
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(weakSelf) self = weakSelf;
-            self.dataId = [DKMultiControlStreamManager.sharedInstance recordWithUrlRequest:urlRequest];
+            self.dataId = [DKMultiControlStreamManager.sharedInstance recordWithUrlRequest:self.request.copy];
+            dispatch_semaphore_signal(semaphore);
         });
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     } else {
         // TODO(ChasonTang): Slave device send request through websocket.
     }
@@ -100,18 +104,14 @@ NS_ASSUME_NONNULL_END
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
     completionHandler(NSURLSessionResponseAllow);
+    if ([response isKindOfClass:NSHTTPURLResponse.class]) {
+        self.httpUrlResponse = (NSHTTPURLResponse *) response;
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     [self.client URLProtocol:self didLoadData:data];
-    if ([dataTask.response isKindOfClass:NSHTTPURLResponse.class] && self.dataId) {
-        NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSHTTPURLResponse *httpUrlResponse = (NSHTTPURLResponse *) dataTask.response.copy;
-        NSString *dataId = self.dataId.copy;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [DKMultiControlStreamManager.sharedInstance recordWithHTTPUrlResponse:httpUrlResponse dataId:dataId responseBody:responseBody];
-        });
-    }
+    self.responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
@@ -126,6 +126,14 @@ NS_ASSUME_NONNULL_END
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     if (!error) {
         [self.client URLProtocolDidFinishLoading:self];
+        if (self.httpUrlResponse && self.dataId) {
+            NSHTTPURLResponse *httpUrlResponse = self.httpUrlResponse.copy;
+            NSString *dataId = self.dataId.copy;
+            NSString *responseBody = self.responseBody.copy;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [DKMultiControlStreamManager.sharedInstance recordWithHTTPUrlResponse:httpUrlResponse dataId:dataId responseBody:responseBody];
+            });
+        }
     } else {
         [self.client URLProtocol:self didFailWithError:error];
     }

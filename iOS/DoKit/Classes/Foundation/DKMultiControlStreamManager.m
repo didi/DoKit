@@ -19,6 +19,7 @@
 #import <DoraemonKit/DKWebSocketSession.h>
 #import <DoraemonKit/DKDataRequestDTOModel.h>
 #import <DoraemonKit/DKDataResponseDTOModel.h>
+#import <DoraemonKit/DKMultiControlProtocol.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -79,6 +80,7 @@ NS_ASSUME_NONNULL_END
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
         [listener changeToState:DKMultiControlStreamManagerStateSlave];
     }
+    [NSURLProtocol registerClass:DKMultiControlProtocol.class];
 }
 
 - (void)changeToMaster {
@@ -146,6 +148,7 @@ NS_ASSUME_NONNULL_END
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
         [listener changeToState:DKMultiControlStreamManagerStateClosed];
     }
+    [NSURLProtocol unregisterClass:DKMultiControlProtocol.class];
 }
 
 - (NSString *)recordWithUrlRequest:(NSURLRequest *)urlRequest {
@@ -220,7 +223,7 @@ NS_ASSUME_NONNULL_END
     if (jsonData) {
         dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
-    if (!dataString) {
+    if (dataString) {
         [self.webSocketSession sendString:dataString requestId:nil completionHandler:nil];
     }
 }
