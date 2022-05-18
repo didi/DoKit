@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.gps_mock.widget;
 
-import android.util.Log;
-
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -327,7 +325,7 @@ public class DrivingRouteOverlay extends OverlayManager {
 
     @Override
     public final boolean onMarkerClick(Marker marker) {
-        for (Overlay mMarker : mOverlayList) {
+        for (Overlay mMarker : mOriginRouteOverlayList) {
             if (mMarker instanceof Marker && mMarker.equals(marker)) {
                 if (marker.getExtraInfo() != null) {
                     onRouteNodeClick(marker.getExtraInfo().getInt("index"));
@@ -340,7 +338,7 @@ public class DrivingRouteOverlay extends OverlayManager {
     @Override
     public boolean onPolylineClick(Polyline polyline) {
         boolean flag = false;
-        for (Overlay mPolyline : mOverlayList) {
+        for (Overlay mPolyline : mOriginRouteOverlayList) {
             if (mPolyline instanceof Polyline && mPolyline.equals(polyline)) {
                 // 选中
                 flag = true;
@@ -353,7 +351,7 @@ public class DrivingRouteOverlay extends OverlayManager {
 
     public void setFocus(boolean flag) {
         focus = flag;
-        for (Overlay mPolyline : mOverlayList) {
+        for (Overlay mPolyline : mOriginRouteOverlayList) {
             if (mPolyline instanceof Polyline) {
                 // 选中
                 ((Polyline) mPolyline).setFocus(flag);
