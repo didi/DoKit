@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import "DKDataRequestDTOModel.h"
 
-@main
-private class AppDelegate: UIResponder, UIApplicationDelegate {
+@implementation DKDataRequestDTOModel
 
-    var window: UIWindow?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoraemonManager.shareInstance().install()
-
-        return true
-    }
-
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+            @"behaviorId": @"aid",
+            @"dataId": @"did",
+            @"searchId": @"searchKey",
+            @"method": @"method",
+            @"url": @"url",
+            @"requestHeader": @"requestHeader",
+            @"requestBody": @"requestBody"
+    };
 }
 
+@end

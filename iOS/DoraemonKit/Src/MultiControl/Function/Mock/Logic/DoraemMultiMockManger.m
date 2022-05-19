@@ -23,8 +23,6 @@
 
 @interface DoraemMultiMockManger() 
 
-@property (nonatomic, strong)NSMutableArray * uploadApiArray;
-
 @end
 
 
@@ -35,7 +33,6 @@
     static DoraemMultiMockManger *instance;
     dispatch_once(&once, ^{
         instance = [[DoraemMultiMockManger alloc] init];
-        instance.uploadApiArray = [NSMutableArray new];
     });
     return instance;
 }
@@ -61,8 +58,6 @@
     }
     
     DoraemMultiItem  *item = [self getDoraemMultiItemWithData:data request:request response:response];
-
-    [[DoraemMultiMockManger sharedInstance].uploadApiArray addObject:item];
     
     [DoraemonMultiNetWorkSerivce uploadApiInfoWithItem:item sus:^(id  _Nonnull responseObject) {
         

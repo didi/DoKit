@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import "DKDataResponseDTOModel.h"
 
-@main
-private class AppDelegate: UIResponder, UIApplicationDelegate {
+@implementation DKDataResponseDTOModel
 
-    var window: UIWindow?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoraemonManager.shareInstance().install()
-
-        return true
-    }
-
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+            @"dataId": @"did",
+            @"responseCode": @"responseCode",
+            @"responseHeader": @"responseHeader",
+            @"responseBody": @"responseBody"
+    };
 }
 
+@end

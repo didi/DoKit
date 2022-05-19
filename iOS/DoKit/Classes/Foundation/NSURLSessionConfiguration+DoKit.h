@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-import UIKit
-import DoraemonKit
+#import <Foundation/Foundation.h>
 
-@main
-private class AppDelegate: UIResponder, UIApplicationDelegate {
+NS_ASSUME_NONNULL_BEGIN
 
-    var window: UIWindow?
+@interface NSURLSessionConfiguration (DoKit)
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoraemonManager.shareInstance().install()
++ (NSURLSessionConfiguration *)dk_defaultSessionConfiguration;
 
-        return true
-    }
+@end
 
-}
-
+NS_ASSUME_NONNULL_END

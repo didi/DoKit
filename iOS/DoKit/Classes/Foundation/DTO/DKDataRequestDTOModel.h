@@ -18,13 +18,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DKCommonDTOModel : MTLModel <MTLJSONSerializing>
+@interface DKDataRequestDTOModel : MTLModel <MTLJSONSerializing>
 
-@property(nonatomic, nullable, copy) NSString *requestId;
+@property(nonatomic, nullable, copy) NSString *behaviorId;
+
+/// query will set dataId to nil.
+@property(nonatomic, nullable, copy) NSString *dataId;
+
+@property(nonatomic, nullable, copy) NSString *searchId;
 
 @property(nonatomic, nullable, copy) NSString *method;
 
-@property(nonatomic, nullable, copy) NSString *data;
+@property(nonatomic, nullable, copy) NSURL *url;
+
+@property(nonatomic, nullable, copy) NSDictionary<NSString *, NSString *> *requestHeader;
+
+@property(nonatomic, nullable, copy) NSString *requestBody;
 
 @end
 

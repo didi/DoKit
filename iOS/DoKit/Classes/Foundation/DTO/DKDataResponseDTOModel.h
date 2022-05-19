@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-#import "DKLoginDataDTOModel.h"
+#import <Mantle/Mantle.h>
 
-@implementation DKLoginDataDTOModel
+NS_ASSUME_NONNULL_BEGIN
 
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{
-        @"manufacturer": @"manufacturer",
-        @"connectSerial": @"connectSerial"
-    };
-}
+@interface DKDataResponseDTOModel : MTLModel <MTLJSONSerializing>
+
+@property(nonatomic, nullable, copy) NSString *dataId;
+
+@property(nonatomic, assign) NSInteger responseCode;
+
+@property(nonatomic, nullable, copy) NSDictionary<NSString *, NSString *> *responseHeader;
+
+@property(nonatomic, nullable, copy) NSString *responseBody;
 
 @end
+
+NS_ASSUME_NONNULL_END

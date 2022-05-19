@@ -17,8 +17,10 @@
 #import "DoraemMultiMockLogic.h"
 #import "DoraemonMultiCaseListViewController.h"
 #import <AFNetworking/AFNetworking.h>
-@interface DoraemonMCViewController ()<DoraemonQRScanDelegate>
+#import <DoraemonKit/DKQRCodeScanViewController.h>
+#import <DoraemonKit/DKMultiControlStreamManager.h>
 
+@interface DoraemonMCViewController () <DoraemonQRScanDelegate, DKMultiControlStreamManagerStateListener>
 
 @property (nonatomic, strong) DoraemonQRScanView *scanView;
 
@@ -35,7 +37,9 @@
 /// 用例列表
 @property (nonatomic , strong) UIButton *caseListBtn;
 
+@property(nonatomic, nullable, weak) UIButton *webSocketButton;
 
+@property(nonatomic, nullable, weak) UISwitch *masterSwitch;
 
 @property (nonatomic , strong) UILabel *asssisTip;
 
@@ -52,6 +56,11 @@
 @property (nonatomic , strong) UIImageView *banner;
 
 @property (nonatomic , strong) UILabel *clientCountLabel;
+
+- (void)webSocketButtonHandler:(nullable id)sender;
+
+- (void)masterSwitchHandler:(nullable id)sender;
+
 @end
 
 @implementation DoraemonMCViewController
@@ -393,6 +402,12 @@
             _assisDisConnectBtn.frame = CGRectMake(self.view.bounds.size.width/2.0 - 50, CGRectGetMaxY(self.asssisTip.frame) + 30, 100, 30);
 
             self.asssisTip.hidden = NO;
+
+            [self.webSocketButton removeFromSuperview];
+            [self.masterSwitch removeFromSuperview];
+            [DKMultiControlStreamManager.sharedInstance unregisterWithListener:self];
+            [DKMultiControlStreamManager.sharedInstance disableMultiControl];
+
             break;
         }
         case DoraemonMCViewControllerWorkModeServer:
@@ -441,6 +456,12 @@
             self.assisDisConnectBtn.hidden = YES;
             self.masterCloseBtn.hidden = NO;
             self.asssisTip.hidden = YES;
+
+            [self.webSocketButton removeFromSuperview];
+            [self.masterSwitch removeFromSuperview];
+            [DKMultiControlStreamManager.sharedInstance unregisterWithListener:self];
+            [DKMultiControlStreamManager.sharedInstance disableMultiControl];
+
             break;
         }
         case DoraemonMCViewControllerWorkModeNone:
@@ -457,6 +478,22 @@
             self.clientCountLabel.hidden = YES;
             self.masterCloseBtn.hidden = YES;
             self.asssisTip.hidden = YES;
+
+            UIButton *webSocketButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2.0 - 50, CGRectGetMaxY(self.caseListBtn.frame) + 30, 100, 30)];
+            self.webSocketButton = webSocketButton;
+            webSocketButton.layer.cornerRadius = 5;
+            webSocketButton.backgroundColor = UIColor.doraemon_blue;
+//            [webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
+            [webSocketButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+            webSocketButton.titleLabel.font = [UIFont systemFontOfSize:18];
+            [webSocketButton addTarget:self action:@selector(webSocketButtonHandler:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:webSocketButton];
+            UISwitch *masterSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 49 / 2, CGRectGetMaxY(webSocketButton.frame) + 30, 49, 31)];
+            [self.view addSubview:masterSwitch];
+            self.masterSwitch = masterSwitch;
+            [masterSwitch addTarget:self action:@selector(masterSwitchHandler:) forControlEvents:UIControlEventValueChanged];
+            [DKMultiControlStreamManager.sharedInstance registerMultiControlStreamManagerStateListener:self];
+
             break;
         }
         default:
@@ -464,6 +501,52 @@
     }
 }
 
+- (void)masterSwitchHandler:(id)sender {
+    if (((UISwitch *) sender).isOn) {
+        [DKMultiControlStreamManager.sharedInstance changeToMaster];
+    } else {
+        [DKMultiControlStreamManager.sharedInstance changeToSlave];
+    }
+}
+
+- (void)webSocketButtonHandler:(id)sender {
+    if (DKMultiControlStreamManager.sharedInstance.state == DKMultiControlStreamManagerStateClosed) {
+        DKQRCodeScanViewController *qrCodeScanViewController = [[DKQRCodeScanViewController alloc] init];
+        qrCodeScanViewController.completionBlock = ^(NSString *decodedString) {
+            if (!decodedString) {
+                return;
+            }
+            NSURL *url = [NSURL URLWithString:decodedString];
+            if (!url) {
+                return;
+            }
+            [DKMultiControlStreamManager.sharedInstance enableMultiControlWithUrl:url];
+        };
+        [self showViewController:qrCodeScanViewController sender:sender];
+    } else {
+        [DKMultiControlStreamManager.sharedInstance disableMultiControl];
+    }
+}
+
+- (void)changeToState:(DKMultiControlStreamManagerState)state {
+    switch (state) {
+        case DKMultiControlStreamManagerStateClosed:
+            [self.masterSwitch setOn:NO animated:YES];
+            [self.webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
+            break;
+        case DKMultiControlStreamManagerStateSlave:
+            [self.masterSwitch setOn:NO animated:YES];
+            [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
+            break;
+        case DKMultiControlStreamManagerStateMaster:
+            [self.masterSwitch setOn:YES animated:YES];
+            [self.webSocketButton setTitle:@"断开连接" forState:UIControlStateNormal];
+            break;
+            
+        default:
+            break;
+    }
+}
 
 - (UILabel *)errorLabel {
     if (!_errorLabel) {

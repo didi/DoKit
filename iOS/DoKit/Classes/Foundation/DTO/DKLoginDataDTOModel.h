@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-#import "DKCommonDTOModel.h"
+#import <Mantle/Mantle.h>
 
-@implementation DKCommonDTOModel
+NS_ASSUME_NONNULL_BEGIN
 
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{
-            @"requestId": @"pid",
-            @"method": @"type",
-            @"data": @"data"
-    };
-}
+@interface DKLoginDataDTOModel : MTLModel <MTLJSONSerializing>
+
+@property(nonatomic, nullable, copy) NSString *manufacturer;
+
+@property(nonatomic, nullable, copy) NSUUID *connectSerial;
+
++ (nullable NSValueTransformer *)connectSerialJSONTransformer;
 
 @end
+
+NS_ASSUME_NONNULL_END

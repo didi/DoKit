@@ -18,17 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString *_Nullable responseString);
-
-@interface DKWebSocketSession : NSObject
-
-@property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithUrl:(NSURL *)url NS_DESIGNATED_INITIALIZER;
-
-- (void)sendString:(NSString *)string requestId:(NSString *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler;
+@interface DKMultiControlProtocol : NSURLProtocol
 
 @end
 

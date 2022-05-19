@@ -23,6 +23,10 @@ static inline void removeViewController(UIViewController *viewController, BOOL i
 
 @interface DKQRCodeScanViewController ()
 
+@property(nonatomic, assign) BOOL originTranslucent;
+
+@property(nonatomic, assign) BOOL originNavigationBarIsHidden;
+
 @property(nonatomic, nullable, weak) DKQRCodeScanView *qrCodeScanView;
 
 @end
@@ -41,21 +45,34 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
 
 @implementation DKQRCodeScanViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    DKQRCodeScanView *qrCodeScanView = [[DKQRCodeScanView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:qrCodeScanView];
-    self.qrCodeScanView = qrCodeScanView;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.originNavigationBarIsHidden = self.navigationController.navigationBarHidden;
+    self.originTranslucent = self.navigationController.navigationBar.translucent;
+    if (self.navigationController.navigationBar.translucent) {
+        self.navigationController.navigationBar.translucent = NO;
+    }
+    if (self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.translucent = self.originTranslucent;
+    [self.navigationController setNavigationBarHidden:self.originNavigationBarIsHidden animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     __weak typeof(self) weakSelf = self;
-    [qrCodeScanView startScanQRCodeWithCompletionBlock:^(DKQRCodeScanResult qrCodeScanResult, NSString *decodedString) {
+    [self.qrCodeScanView startScanQRCodeWithCompletionBlock:^(DKQRCodeScanResult qrCodeScanResult, NSString *decodedString) {
         if (!weakSelf) {
             return;
         }
         typeof(weakSelf) self = weakSelf;
         void (^completionBlock)(NSString *_Nullable decodedString) = ^(NSString *_Nullable decodedString) {
-            typeof(weakSelf) self = weakSelf;
-            self.completionBlock ? self.completionBlock(decodedString) : (void) nil;
             UIViewController *efficientViewContainer = nil;
             UIViewController *currentViewController = self;
             while (!efficientViewContainer) {
@@ -77,6 +94,8 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
             } else if (efficientViewContainer) {
                 [currentViewController dismissViewControllerAnimated:YES completion:nil];
             }
+            typeof(weakSelf) self = weakSelf;
+            self.completionBlock ? self.completionBlock(decodedString) : (void) nil;
         };
         if (qrCodeScanResult == DKQRCodeScanResultAuthorityError) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"相机权限未开启，请到「设置-隐私-相机」中允许访问您的相机" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -104,6 +123,15 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
             completionBlock(decodedString);
         }
     }];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.title = @"二维码扫描";
+    DKQRCodeScanView *qrCodeScanView = [[DKQRCodeScanView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:qrCodeScanView];
+    self.qrCodeScanView = qrCodeScanView;
 }
 
 - (void)viewDidLayoutSubviews {
