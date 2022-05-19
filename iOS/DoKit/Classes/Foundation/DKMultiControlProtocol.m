@@ -17,12 +17,13 @@
 #import "DKMultiControlProtocol.h"
 #import <DoraemonKit/DKMultiControlStreamManager.h>
 
-static NSString *const MULTI_CONTROL_PROTOCOL_KEY = @"MULTI_CONTROL_PROTOCOL_KEY";
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DKMultiControlProtocol () <NSURLSessionDataDelegate>
+static NSString *const ERROR_DOMAIN = @"com.didi.dokit";
 
-//@property(nonatomic, nullable, weak) NSURLSessionDataTask *urlSessionDataTask;
+static NSString *const MULTI_CONTROL_PROTOCOL_KEY = @"MULTI_CONTROL_PROTOCOL_KEY";
+
+@interface DKMultiControlProtocol () <NSURLSessionDataDelegate>
 
 @property(nonatomic, nullable, weak) NSURLSession *urlSession;
 
@@ -88,12 +89,32 @@ NS_ASSUME_NONNULL_END
         [[self.urlSession dataTaskWithRequest:self.request] resume];
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.dataId = [DKMultiControlStreamManager.sharedInstance recordWithUrlRequest:self.request.copy];
+            self.dataId = [DKMultiControlStreamManager.sharedInstance recordWithUrlRequest:self.request];
             dispatch_semaphore_signal(semaphore);
         });
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     } else {
-        // TODO(ChasonTang): Slave device send request through websocket.
+        // Slave device send request through websocket.
+        NSURLRequest *urlRequest = self.request.copy;
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [DKMultiControlStreamManager.sharedInstance queryWithUrlRequest:urlRequest completionBlock:^(NSError *error, NSHTTPURLResponse *response, NSData *data) {
+                // Main thread.
+                [clientOperationQueue addOperationWithBlock:^{
+                    typeof(weakSelf) self = weakSelf;
+                    if (error || !response) {
+                        [self.client URLProtocol:self didFailWithError:error ?: [NSError errorWithDomain:ERROR_DOMAIN code:0 userInfo:nil]];
+
+                        return;
+                    }
+                    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
+                    if (data) {
+                        [self.client URLProtocol:self didLoadData:data];
+                    }
+                    [self.client URLProtocolDidFinishLoading:self];
+                }];
+            }];
+        });
     }
 }
 
@@ -111,6 +132,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     [self.client URLProtocol:self didLoadData:data];
+    // TODO(ChasonTang): Append data to `self.responseData`.
     self.responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 

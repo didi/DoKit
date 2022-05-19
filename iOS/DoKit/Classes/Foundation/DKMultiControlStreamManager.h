@@ -53,6 +53,8 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 
 - (void)recordWithHTTPUrlResponse:(NSHTTPURLResponse *)httpUrlResponse dataId:(NSString *)dataId responseBody:(nullable NSString *)responseBody;
 
+- (void)queryWithUrlRequest:(NSURLRequest *)urlRequest completionBlock:(void (^)(NSError *_Nullable error, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data))completionBlock;
+
 @end
 
 NS_ASSUME_NONNULL_END

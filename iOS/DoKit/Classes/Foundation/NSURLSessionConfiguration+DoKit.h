@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-#import <Mantle/Mantle.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DKDataRequestDTOModel : MTLModel <MTLJSONSerializing>
+@interface NSURLSessionConfiguration (DoKit)
 
-@property(nonatomic, nullable, copy) NSString *behaviorId;
-
-/// query will set dataId to nil.
-@property(nonatomic, nullable, copy) NSString *dataId;
-
-@property(nonatomic, nullable, copy) NSString *searchId;
-
-@property(nonatomic, nullable, copy) NSString *method;
-
-@property(nonatomic, nullable, copy) NSURL *url;
-
-@property(nonatomic, nullable, copy) NSDictionary<NSString *, NSString *> *requestHeader;
-
-@property(nonatomic, nullable, copy) NSString *requestBody;
++ (NSURLSessionConfiguration *)dk_defaultSessionConfiguration;
 
 @end
 

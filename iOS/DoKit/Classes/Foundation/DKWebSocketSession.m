@@ -43,8 +43,6 @@ static NSString *const JSON_SERIALIZATION_ERROR = @"Dictionary to json error.";
 
 @property(nonatomic, nullable, weak) SRWebSocket *webSocket;
 
-@property(nonatomic, assign) unsigned int requestId;
-
 @property(nonatomic, nullable, copy) NSUUID *sessionUUID;
 
 @property(nonatomic, nullable, copy) NSArray<DKWebSocketRequestBlock> *deferRequestQueue;
@@ -71,16 +69,22 @@ NS_ASSUME_NONNULL_END
 @implementation DKWebSocketSession
 
 - (void)sendDeviceAuthenticationRequest {
+#ifndef NS_BLOCK_ASSERTIONS
     NSAssert(self.isDeviceAuthenticating, @"State error.");
+#endif
     DKLoginDataDTOModel *loginDataDTOModel = [[DKLoginDataDTOModel alloc] init];
     loginDataDTOModel.manufacturer = @"Apple";
     // Load previous UUID.
     loginDataDTOModel.connectSerial = self.sessionUUID;
     NSError *error = nil;
     NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:loginDataDTOModel error:&error];
+#ifndef NS_BLOCK_ASSERTIONS
     NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
+#endif
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+#ifndef NS_BLOCK_ASSERTIONS
     NSAssert(!error, JSON_SERIALIZATION_ERROR);
+#endif
     NSString *dataString = nil;
     if (jsonData) {
         dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -93,9 +97,13 @@ NS_ASSUME_NONNULL_END
     commonDTOModel.connectSerial = self.sessionUUID;
     commonDTOModel.dataType = nil;
     jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+#ifndef NS_BLOCK_ASSERTIONS
     NSAssert(!error, DEVICE_AUTHENTICATION_ERROR);
+#endif
     jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+#ifndef NS_BLOCK_ASSERTIONS
     NSAssert(!error, JSON_SERIALIZATION_ERROR);
+#endif
     dataString = nil;
     if (jsonData) {
         dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

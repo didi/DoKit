@@ -28,6 +28,8 @@ typedef void (^DKWebSocketCompletionHandler)(NSError *_Nullable error, NSString 
 
 @property(nullable, readonly, nonatomic, copy) NSUUID *sessionUUID;
 
+@property(nonatomic, assign) unsigned int requestId;
+
 @property(nonatomic, nullable, copy) void (^notifyHandler)(DKCommonDTOModel *commonDTOModel);
 
 - (instancetype)init NS_UNAVAILABLE;

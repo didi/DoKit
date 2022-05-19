@@ -28,6 +28,8 @@ extern NSString *DK_DATA_REQUEST;
 
 extern NSString *DK_DATA_RESPONSE;
 
+extern NSString *DK_DATA_QUERY;
+
 @interface DKCommonDTOModel : MTLModel <MTLJSONSerializing>
 
 @property(nonatomic, nullable, copy) NSNumber *requestId;

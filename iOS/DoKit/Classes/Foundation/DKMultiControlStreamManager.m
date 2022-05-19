@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString *const MULTI_CONTROL_HOST = @"mc_host";
 
+static NSString *const BEHAVIOR_ID = @"68753A444D6F12269C600050E4C00067";
+
 @interface DKMultiControlStreamManager ()
 
 @property(nonatomic, nullable, strong) DKWebSocketSession *webSocketSession;
@@ -156,7 +158,7 @@ NS_ASSUME_NONNULL_END
         return nil;
     }
     DKDataRequestDTOModel *dataRequestDTOModel = [[DKDataRequestDTOModel alloc] init];
-    dataRequestDTOModel.behaviorId = @"68753A444D6F12269C600050E4C00067";
+    dataRequestDTOModel.behaviorId = BEHAVIOR_ID;
     dataRequestDTOModel.dataId = [NSUUID.UUID.UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""];
     dataRequestDTOModel.method = urlRequest.HTTPMethod;
     dataRequestDTOModel.url = urlRequest.URL;
@@ -226,6 +228,78 @@ NS_ASSUME_NONNULL_END
     if (dataString) {
         [self.webSocketSession sendString:dataString requestId:nil completionHandler:nil];
     }
+}
+
+- (void)queryWithUrlRequest:(NSURLRequest *)urlRequest completionBlock:(void (^)(NSError *, NSHTTPURLResponse *, NSData *))completionBlock {
+    if (!self.webSocketSession || !urlRequest.URL) {
+        completionBlock(nil, nil, nil);
+
+        return;
+    }
+    DKDataRequestDTOModel *dataRequestDTOModel = [[DKDataRequestDTOModel alloc] init];
+    dataRequestDTOModel.behaviorId = BEHAVIOR_ID;
+    dataRequestDTOModel.dataId = nil;
+    dataRequestDTOModel.method = urlRequest.HTTPMethod;
+    dataRequestDTOModel.url = urlRequest.URL;
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:urlRequest.URL resolvingAgainstBaseURL:YES];
+    urlComponents.fragment = nil;
+    urlComponents.password = nil;
+    urlComponents.query = nil;
+    urlComponents.user = nil;
+    dataRequestDTOModel.searchId = urlComponents.string;
+    dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
+    dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:dataRequestDTOModel error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSString *dataString = nil;
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.requestId = @(self.webSocketSession.requestId++);
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
+    commonDTOModel.data = dataString;
+    commonDTOModel.method = DK_METHOD_DATA;
+    commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
+    commonDTOModel.dataType = DK_DATA_QUERY;
+    jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    if (!dataString) {
+        completionBlock(nil, nil, nil);
+
+        return;
+    }
+    [self.webSocketSession sendString:dataString requestId:commonDTOModel.requestId completionHandler:^(NSError *_Nullable error, NSString *_Nullable responseString) {
+        if (error) {
+            completionBlock(error, nil, nil);
+
+            return;
+        }
+        NSData *data = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if (!responseString) {
+            completionBlock(nil, nil, nil);
+
+            return;
+        }
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if (error) {
+            completionBlock(error, nil, nil);
+
+            return;
+        }
+        DKDataResponseDTOModel *dataResponseDTOModel = [MTLJSONAdapter modelOfClass:DKDataResponseDTOModel.class fromJSONDictionary:jsonDictionary ?: @{} error:&error];
+        if (error) {
+            completionBlock(error, nil, nil);
+
+            return;
+        }
+        NSHTTPURLResponse *httpUrlResponse = [[NSHTTPURLResponse alloc] initWithURL:urlRequest.URL statusCode:dataResponseDTOModel.responseCode ?: 404 HTTPVersion:@"HTTP/1.1" headerFields:dataResponseDTOModel.responseHeader];
+        completionBlock(nil, httpUrlResponse, [dataResponseDTOModel.responseBody dataUsingEncoding:NSUTF8StringEncoding]);
+    }];
 }
 
 @end
