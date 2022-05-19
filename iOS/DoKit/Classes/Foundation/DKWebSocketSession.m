@@ -216,6 +216,9 @@ NS_ASSUME_NONNULL_END
     } else {
         // Send request.
         [self.webSocket sendString:string error:nil];
+        if (requestId && completionHandler) {
+            [self addWithRequestId:requestId.unsignedIntValue webSocketCompletionHandler:completionHandler];
+        }
     }
 }
 
