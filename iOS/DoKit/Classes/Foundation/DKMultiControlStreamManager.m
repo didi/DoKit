@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (NSString *)recordWithUrlRequest:(NSURLRequest *)urlRequest {
-    if (!self.webSocketSession) {
+    if (!self.webSocketSession || !urlRequest.URL) {
         return nil;
     }
     DKDataRequestDTOModel *dataRequestDTOModel = [[DKDataRequestDTOModel alloc] init];
