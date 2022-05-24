@@ -15,16 +15,12 @@
  */
 
 import UIKit
-//import DoraemonKit
 
 class ViewController: UIViewController {
-
-//    var networkManager: DKWebSocketSession? = nil
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        networkManager = DKWebSocketSession(url: URL(string: "ws://172.23.161.126:8000/proxy/multicontrol/EYUHLKMG")!)
     }
 
 }

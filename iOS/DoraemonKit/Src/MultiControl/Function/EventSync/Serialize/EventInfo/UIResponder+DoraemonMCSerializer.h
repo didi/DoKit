@@ -7,9 +7,9 @@
 
 #import <UIKit/UIKit.h>
 
-UIKIT_EXTERN NSString const *kUIResponderDoraemonMCSerializerWrapperKey;
-
 NS_ASSUME_NONNULL_BEGIN
+
+UIKIT_EXTERN NSString const *kUIResponderDoraemonMCSerializerWrapperKey;
 
 @interface UIResponder (DoraemonMCSerializer)
 

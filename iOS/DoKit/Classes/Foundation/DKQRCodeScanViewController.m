@@ -34,9 +34,8 @@ static inline void removeViewController(UIViewController *viewController, BOOL i
 NS_ASSUME_NONNULL_END
 
 void removeViewController(UIViewController *viewController, BOOL isAnimated) {
-#ifndef NS_BLOCK_ASSERTIONS
+
     NSCAssert(viewController.navigationController.viewControllers.count > 1, @"viewController.navigationController.viewControllers.count <= 1.");
-#endif
     // No COW.
     NSMutableArray<__kindof UIViewController *> *viewControllerArray = viewController.navigationController.viewControllers.mutableCopy;
     [viewControllerArray removeObject:viewController];
@@ -83,9 +82,8 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
                 } else if (currentViewController && currentViewController.presentingViewController.presentedViewController == currentViewController) {
                     efficientViewContainer = currentViewController.presentingViewController;
                 } else {
-#ifndef NS_BLOCK_ASSERTIONS
+
                     NSCAssert(NO, @"currentViewController hasn't container.");
-#endif
                     break;
                 }
             }
