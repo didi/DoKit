@@ -31,7 +31,10 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 
 @end
 
+/// @brief Main thread.
 @interface DKMultiControlStreamManager : NSObject
+
+@property(nonatomic, nullable, copy) NSString *_Nullable (^searchIdConstructor)(NSURLRequest *request);
 
 @property(readonly) DKMultiControlStreamManagerState state;
 

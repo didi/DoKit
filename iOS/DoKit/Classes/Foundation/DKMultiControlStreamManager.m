@@ -168,6 +168,12 @@ NS_ASSUME_NONNULL_END
     urlComponents.query = nil;
     urlComponents.user = nil;
     dataRequestDTOModel.searchId = urlComponents.string;
+    if (self.searchIdConstructor) {
+        NSString *searchId = self.searchIdConstructor(urlRequest);
+        if (searchId.length > 0) {
+            dataRequestDTOModel.searchId = searchId;
+        }
+    }
     dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
     dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
     NSError *error = nil;
@@ -247,6 +253,12 @@ NS_ASSUME_NONNULL_END
     urlComponents.query = nil;
     urlComponents.user = nil;
     dataRequestDTOModel.searchId = urlComponents.string;
+    if (self.searchIdConstructor) {
+        NSString *searchId = self.searchIdConstructor(urlRequest);
+        if (searchId.length > 0) {
+            dataRequestDTOModel.searchId = searchId;
+        }
+    }
     dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
     dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
     NSError *error = nil;
