@@ -13,7 +13,7 @@ ext {
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : true,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.6.10'
+        version      : '3.7.1'
     ]
 
     android = [compileSdkVersion             : 29,
@@ -165,8 +165,7 @@ ext {
         String version = publish_config["version"]
         //分割字符串
         String[] vs = version.split("\\.")
-//        return vs.length == 3
-        return false
+        return vs.length == 3
     }
 
     usePrivateEnv = {
