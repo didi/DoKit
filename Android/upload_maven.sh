@@ -15,7 +15,6 @@ RES="\033[0m"
 ./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
-./gradlew :dokit-util:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
@@ -23,13 +22,14 @@ RES="\033[0m"
 ./gradlew :dokit-test:assembleRelease --stacktrace
 ./gradlew :dokit-autotest:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
+./gradlew :dokit-util:assembleRelease --stacktrace
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
+./gradlew :dokit-gps-mock:assembleRelease --stacktrace
 #publish
 ./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-no-op:publishReleasePublicationToMavenCentralRepository
-./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-api:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v3:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-okhttp-v4:publishReleasePublicationToMavenCentralRepository
@@ -38,4 +38,7 @@ RES="\033[0m"
 ./gradlew :dokit-autotest:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-mc:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-weex:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-pthread-hook:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-gps-mock:publishReleasePublicationToMavenCentralRepository
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

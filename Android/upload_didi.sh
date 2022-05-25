@@ -18,12 +18,12 @@ RES="\033[0m"
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v4:assembleRelease --stacktrace
-./gradlew :dokit-util:assembleRelease --stacktrace
-./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-ft:assembleRelease --stacktrace
 ./gradlew :dokit-test:assembleRelease --stacktrace
 ./gradlew :dokit-autotest:assembleRelease --stacktrace
 ./gradlew :dokit-mc:assembleRelease --stacktrace
+./gradlew :dokit-util:assembleRelease --stacktrace
+./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-gps-mock:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 #publish
@@ -39,5 +39,6 @@ RES="\033[0m"
 ./gradlew :dokit-mc:publish
 ./gradlew :dokit-util:publish
 ./gradlew :dokit-weex:publish
-./gradlew :dokit-gps-mock:publish --stacktrace
+./gradlew :dokit-pthread-hook:publish
+./gradlew :dokit-gps-mock:publish
 echo -e  "${GREEN_COLOR} 打包上传到滴滴内部仓库完成！！！${RES}"
