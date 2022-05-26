@@ -150,6 +150,5 @@ iOS各式各样的工具集合
     ss.dependency 'CocoaHTTPServer'
     ss.dependency 'SocketRocket'
     ss.dependency 'Masonry'
-    ss.dependency 'AFNetworking', '~> 3.0'
   end
 end
