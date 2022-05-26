@@ -69,7 +69,6 @@ NS_ASSUME_NONNULL_END
 @implementation DKWebSocketSession
 
 - (void)sendDeviceAuthenticationRequest {
-
     NSAssert(self.isDeviceAuthenticating, @"State error.");
     DKLoginDataDTOModel *loginDataDTOModel = [[DKLoginDataDTOModel alloc] init];
     loginDataDTOModel.manufacturer = @"Apple";
@@ -187,8 +186,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)sendString:(NSString *)string requestId:(NSNumber *)requestId completionHandler:(nullable DKWebSocketCompletionHandler)completionHandler {
-    if (!self.isWebSocketRunning) {
-        [self deviceAuthentication];
+    if (!self.isWebSocketRunning || self.isDeviceAuthenticating) {
+        if (!self.isWebSocketRunning) {
+            [self deviceAuthentication];
+        }
         // Add to deferRequestQueue.
         DKWebSocketRequestBlock webSocketRequestBlock = ^(NSError *_Nullable error, DKWebSocketSession *_Nullable webSocketSession) {
             if (error || !webSocketSession) {

@@ -146,6 +146,7 @@ NS_ASSUME_NONNULL_END
     if (!self.webSocketSession) {
         return;
     }
+    self.isMaster = NO;
     self.webSocketSession = nil;
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
         [listener changeToState:DKMultiControlStreamManagerStateClosed];
@@ -169,7 +170,7 @@ NS_ASSUME_NONNULL_END
     urlComponents.user = nil;
     dataRequestDTOModel.searchId = urlComponents.string;
     if (self.searchIdConstructor) {
-        NSString *searchId = self.searchIdConstructor(urlRequest);
+        NSString *searchId = self.searchIdConstructor(urlRequest.URL);
         if (searchId.length > 0) {
             dataRequestDTOModel.searchId = searchId;
         }
@@ -254,7 +255,7 @@ NS_ASSUME_NONNULL_END
     urlComponents.user = nil;
     dataRequestDTOModel.searchId = urlComponents.string;
     if (self.searchIdConstructor) {
-        NSString *searchId = self.searchIdConstructor(urlRequest);
+        NSString *searchId = self.searchIdConstructor(urlRequest.URL);
         if (searchId.length > 0) {
             dataRequestDTOModel.searchId = searchId;
         }
