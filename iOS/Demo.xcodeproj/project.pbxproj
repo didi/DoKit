@@ -354,6 +354,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SVRQ8JRK6Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "扫码需要开启您的摄像头权限，用于识别";
@@ -368,7 +369,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.acornsemi.pandora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -384,6 +385,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SVRQ8JRK6Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Demo/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "扫码需要开启您的摄像头权限，用于识别";
@@ -398,7 +400,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.acornsemi.pandora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
