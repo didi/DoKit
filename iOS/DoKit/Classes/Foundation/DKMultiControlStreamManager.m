@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (NSString *)recordWithUrlRequest:(NSURLRequest *)urlRequest {
-    if (!self.webSocketSession || !urlRequest.URL) {
+    if (!self.webSocketSession || !urlRequest.URL  || urlRequest.HTTPBodyStream.delegate) {
         return nil;
     }
     DKDataRequestDTOModel *dataRequestDTOModel = [[DKDataRequestDTOModel alloc] init];
@@ -176,7 +176,26 @@ NS_ASSUME_NONNULL_END
         }
     }
     dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
-    dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
+    if (urlRequest.HTTPBodyStream) {
+        NSInputStream *inputStream = urlRequest.HTTPBodyStream;
+        [inputStream open];
+        uint8_t buffer[10] = {0};
+        NSMutableData *data = nil;
+        while (inputStream.hasBytesAvailable) {
+            NSInteger length = [inputStream read:buffer maxLength:10];
+            if (length > 0) {
+                if (!data) {
+                    data = [NSMutableData dataWithBytes:buffer length:length];
+                } else {
+                    [data appendBytes:buffer length:length];
+                }
+            }
+        }
+        [inputStream close];
+        if (data) {
+            dataRequestDTOModel.requestBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+    }
     NSError *error = nil;
     NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:dataRequestDTOModel error:&error];
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
@@ -261,7 +280,7 @@ NS_ASSUME_NONNULL_END
         }
     }
     dataRequestDTOModel.requestHeader = urlRequest.allHTTPHeaderFields;
-    dataRequestDTOModel.requestBody = urlRequest.HTTPBody ? [[NSString alloc] initWithData:urlRequest.HTTPBody encoding:NSUTF8StringEncoding] : nil;
+    dataRequestDTOModel.requestBody = nil;
     NSError *error = nil;
     NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:dataRequestDTOModel error:&error];
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
