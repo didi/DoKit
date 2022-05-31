@@ -37,7 +37,7 @@
     NSString *url = @"http://www.dokit.cn/";
     url = [NSString stringWithFormat:@"%@%@",url, api];
     
-    [manager POST:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    [manager POST:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (sus) {
             sus(responseObject);
         }
@@ -77,7 +77,7 @@
     url = [NSString stringWithFormat:@"%@%@",url, api];
 
     
-    [manager GET:url parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    [manager GET:url parameters:params headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         if (sus) {
             sus(responseObject);
         }

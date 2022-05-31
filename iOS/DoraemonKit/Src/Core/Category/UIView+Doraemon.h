@@ -47,5 +47,7 @@
 
 - (UIViewController *)doraemon_viewController;
 
+- (NSArray *)doraemon_findViewsForClass:(Class)clazz;
+
 @end
 

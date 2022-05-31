@@ -48,6 +48,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonDatabasePlugin,
     // NSUserDefaults工具
     DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin,
+    // JS脚本
+    DoraemonManagerPluginType_DoraemonJavaScriptPlugin,
     
     #pragma mark - 性能检测
     // 帧率监控
