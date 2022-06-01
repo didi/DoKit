@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.module.leak.LeakActivity">
+    tools:context="com.didichuxing.doraemondemo.EmptyActivity">
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="当前activity关闭时会有内存泄漏" />
+        android:text="功能没有实现，期待你来完成！" />
+
 
 </RelativeLayout>

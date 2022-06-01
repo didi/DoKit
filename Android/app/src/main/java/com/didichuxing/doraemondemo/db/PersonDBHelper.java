@@ -17,7 +17,7 @@
  *
  */
 
-package com.didichuxing.doraemondemo.db.room;
+package com.didichuxing.doraemondemo.db;
 
 import android.content.ContentValues;
 import android.content.Context;

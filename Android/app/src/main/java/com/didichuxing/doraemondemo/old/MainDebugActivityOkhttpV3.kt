@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.old
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -6,51 +6,32 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.net.Uri
 import android.os.*
 import android.text.format.Formatter
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.imageLoader
-import coil.request.CachePolicy
-import coil.transform.CircleCropTransformation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
-import com.amap.api.navi.AMapNavi
-import com.amap.api.navi.AMapNaviListener
-import com.amap.api.navi.enums.PathPlanningStrategy
 import com.amap.api.navi.model.*
 import com.blankj.utilcode.util.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.didichuxing.doraemondemo.*
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
 import com.didichuxing.doraemondemo.databinding.ActivityMainBinding
+import com.didichuxing.doraemondemo.db.DatabaseHelper
 import com.didichuxing.doraemondemo.mc.MCActivity
-import com.didichuxing.doraemondemo.retrofit.GithubService
+import com.didichuxing.doraemondemo.module.leak.LeakActivity
+import com.didichuxing.doraemondemo.module.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
-import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
@@ -61,17 +42,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.*
 import java.net.*
-import java.util.HashMap
 import kotlin.coroutines.resume
 
 /**
  * @author jintai
  */
-class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, CoroutineScope by MainScope() {
+class MainDebugActivityOkhttpV3 : BaseActivity(), CoroutineScope by MainScope() {
 
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
-    private val UPDATE_UI = 100
+
     private lateinit var mAdapter: MainAdapter
 
     private val retrofit = Retrofit.Builder()
@@ -87,17 +67,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
 
     private var _binding: ActivityMainBinding? = null
 
-    @SuppressLint("HandlerLeak")
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            when (msg.what) {
-                100 -> _binding?.ivPicasso?.setImageBitmap(msg.obj as Bitmap)
-                else -> {
-                }
-            }
-        }
-    }
+
 
     val datas = mutableListOf(
         "显示/隐藏Dokit入口",
@@ -125,16 +95,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
     )
 
 
-    suspend fun sleep() = suspendCancellableCoroutine<String> {
-        Thread.sleep(5000)
-        it.resume("sleep 1000ms")
-    }
-
-    fun sleep2(): String {
-        Thread.sleep(5000)
-        return "sleep 1000ms"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -149,11 +109,13 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
 //                    bundle.putString("text", "测试同步异常")
 //                    DoKit.launchFloating<McDialogDoKitView>(bundle = bundle)
 
-                    lifecycleScope.launch {
-                        delay(15000)
-                        Log.i(TAG, "===inner===")
-                    }
-                    Log.i(TAG, "===out===")
+//                    lifecycleScope.launch {
+//                        delay(15000)
+//                        Log.i(TAG, "===inner===")
+//                    }
+//                    Log.i(TAG, "===out===")
+
+                    startActivity(Intent(this, MainDoKitActivity::class.java))
 
                 }
                 "系统反射测试" -> {
@@ -206,13 +168,13 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
 
                 }
                 "跳转其他Activity" -> {
-                    startActivity(Intent(this, SecondActivity::class.java))
+                    startActivity(Intent(this, EmptyActivity::class.java))
                 }
                 "一机多控" -> {
                     startActivity(Intent(this, MCActivity::class.java))
                 }
                 "NormalWebView" -> {
-                    startActivity(Intent(this, WebViewNormalActivity::class.java))
+                    startActivity(Intent(this, WebViewSystemActivity::class.java))
                 }
                 "X5WebView" -> {
                     startActivity(Intent(this, WebViewX5Activity::class.java))
@@ -228,7 +190,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
                 "获取位置信息(系统)" -> {
                     startNormaLocation()
                 }
-                "获取位置信息(高德)" ->{
+                "获取位置信息(高德)" -> {
                     startAMapLocation()
                 }
                 "高德路径规划" -> {
@@ -291,7 +253,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
                     checkNotNull(testCrash())
                 }
                 "创建数据库" -> {
-                    val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)
+                    val dbHelper = DatabaseHelper(this, "BookStore.db", null, 1)
                     dbHelper.writableDatabase
                     dbHelper.close()
                 }
@@ -319,10 +281,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ).build()
         )
-        //初始化
-        val config = ImageLoaderConfiguration.Builder(this)
-            .build()
-        ImageLoader.getInstance().init(config)
+
 
         githubService = retrofit.create(GithubService::class.java)
     }
@@ -331,7 +290,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
         tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
         rv.layoutManager = LinearLayoutManager(context)
         rv.adapter = mAdapter
-        btnLoadImg.setOnClickListener(this@MainDebugActivityOkhttpV3)
     }
 
     private fun test1() {
@@ -435,61 +393,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
         )
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onClick(v: View) {
-        when (v.id) {
-
-            R.id.btn_load_img -> {
-                //Glide 加载
-                val picassoImgUrl =
-                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F748%2FceZOdKgDAFsq2.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=850e537c70eaa7753e892bc8b4d05f57"
-                val glideImageUrl =
-                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F1812.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2009%2F11%2F18%2F18%2F8%2F125b6560a6ag214.jpg&refer=http%3A%2F%2F1812.img.pp.sohu.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=76d35d35d9c510f1c24a422e9e02fd46"
-                val frescoImageUrl =
-                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F035%2F063%2F726%2F3ea4031f045945e1843ae5156749d64c.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=7150aaa2071d512cf2f6b556e126dd66"
-                val imageLoaderImageUrl =
-                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F004%2F531%2F381%2F4339f96900344574a0c8ca272a7b8f27.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=b7e83ecc987c64cc31079469d292eb56"
-                val coilImageUrl =
-                    "https://cdn.nlark.com/yuque/0/2020/png/252337/1587091196083-assets/web-upload/62122ab5-986b-4662-be88-d3007a5e31c5.png"
-                Picasso.get().load(picassoImgUrl)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .placeholder(R.mipmap.cat)
-                    .error(R.mipmap.cat)
-                    .intoOrCancel(_binding?.ivPicasso)
-                Glide.with(this@MainDebugActivityOkhttpV3)
-                    .asBitmap()
-                    .load(glideImageUrl)
-                    .placeholder(R.mipmap.cat)
-                    .error(R.mipmap.cat)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .transform(CircleCrop())
-                    .intoOrCancel(_binding?.ivGlide)
-                //coil
-                _binding?.ivCoil?.apply {
-                    val request = coil.request.ImageRequest.Builder(this.context)
-                        .memoryCachePolicy(CachePolicy.DISABLED)
-                        .transformations(CircleCropTransformation())
-                        .diskCachePolicy(CachePolicy.DISABLED)
-                        .data(coilImageUrl)
-                        .target(this)
-                        .build()
-                    imageLoader.enqueue(request)
-                }
-                //imageLoader
-                val imageLoader = ImageLoader.getInstance()
-                imageLoader.displayImageOrNot(imageLoaderImageUrl, _binding?.ivImageloader)
-                //fresco
-                _binding?.ivFresco?.setImageURI(Uri.parse(frescoImageUrl))
-                val imagePipeline = Fresco.getImagePipeline()
-                // combines above two lines
-                imagePipeline.clearCaches()
-            }
-
-            else -> {
-            }
-        }
-    }
 
     private fun testCrash(): String? {
         return null
@@ -627,42 +530,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener, Coroutin
         super.onDestroy()
         okHttpClient!!.dispatcher().cancelAll()
         mLocationManager!!.removeUpdates(mLocationListener)
-    }
-
-    private fun requestImage(urlStr: String) {
-        try {
-            //
-            val url = URL(urlStr)
-            // http    https
-            // ftp
-            val urlConnection = url.openConnection() as HttpURLConnection
-            //http get post
-            urlConnection.requestMethod = "GET"
-            urlConnection.connectTimeout = 5000
-            urlConnection.readTimeout = 5000
-            val responseCode = urlConnection.responseCode
-            if (responseCode == 200) {
-                val bitmap = BitmapFactory.decodeStream(urlConnection.inputStream)
-                //更新 ui
-                mHandler.sendMessage(mHandler.obtainMessage(UPDATE_UI, bitmap))
-            }
-        } catch (e: MalformedURLException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun RequestCreator.intoOrCancel(target: ImageView?) {
-        target?.also { into(it) }
-    }
-
-    private fun RequestBuilder<*>.intoOrCancel(target: ImageView?) {
-        target?.also { into(it) }
-    }
-
-    private fun ImageLoader.displayImageOrNot(url: String, target: ImageView?) {
-        target?.also { displayImage(url, it) }
     }
 
     companion object {

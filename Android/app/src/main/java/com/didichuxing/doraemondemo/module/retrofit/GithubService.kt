@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo.retrofit
+package com.didichuxing.doraemondemo.module.retrofit
 
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.module.http
 
 import android.util.Log
 import okhttp3.Interceptor

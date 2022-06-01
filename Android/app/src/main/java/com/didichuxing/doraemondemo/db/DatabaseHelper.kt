@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -9,7 +9,7 @@ import android.widget.Toast
 /**
  * Created by wanglikun on 2019/5/4
  */
-class MyDatabaseHelper(private val mContext: Context, name: String?, factory: CursorFactory?, version: Int) : SQLiteOpenHelper(mContext, name, factory, version) {
+class DatabaseHelper(private val mContext: Context, name: String?, factory: CursorFactory?, version: Int) : SQLiteOpenHelper(mContext, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_BOOK)
         db.execSQL(INSERT_BOOK)

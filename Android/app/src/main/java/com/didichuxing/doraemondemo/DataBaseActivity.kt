@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.didichuxing.doraemondemo.db.room.PersonDBHelper
+import com.didichuxing.doraemondemo.db.PersonDBHelper
 import kotlinx.coroutines.*
 
-class SecondActivity : AppCompatActivity() {
+class DataBaseActivity : AppCompatActivity() {
     companion object {
         val TAG = "SecondActivity"
     }

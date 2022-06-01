@@ -1,9 +1,10 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.old
 
 import android.widget.Button
 import androidx.annotation.LayoutRes
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.didichuxing.doraemondemo.R
 
 /**
  * ================================================

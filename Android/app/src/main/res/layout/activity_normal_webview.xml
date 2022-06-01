@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.WebViewNormalActivity">
+    tools:context="com.didichuxing.doraemondemo.WebViewSystemActivity">
 
     <WebView
         android:id="@+id/normal_web_view"

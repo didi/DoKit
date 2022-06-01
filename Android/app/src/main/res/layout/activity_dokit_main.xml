@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/colorPrimary" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="18dp"
+                    app:cardBackgroundColor="@color/color_white"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:layout_width="65dp"
+                                android:layout_height="65dp"
+                                android:src="@mipmap/dk_dokit_big" />
+
+                        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="20dp"
+                            android:text="一款面向泛前端产品研发全生命周期的效率平台"
+                            android:textColor="@color/dk_color_333333"
+                            android:textSize="12dp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="工具入口"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="显示/隐藏快捷入口" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="打开工具窗口" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="平台工具"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="数据Mock测试" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="OkHttp 模拟请求" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="UrlConnection 模拟请求" />
+
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="retrofit 模拟请求" />
+
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="一机多控测试" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="自动化测试" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="常用工具"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="日志测试" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="系统:WebView" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="X5:Webview" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="LBS"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="位置模拟" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="路径模拟" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="性能工具"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="模拟内存泄漏" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="模拟耗时函数调用" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="崩溃模拟" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="数据库测试" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="文件上传模拟" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="文件下载模拟" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="大图检测模拟" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="视觉工具"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="取色器测试" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="标尺对齐测试" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="其他工具"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+            <com.didichuxing.doraemondemo.module.DoKitItemView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                app:itemText="旧版页面入口" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="26dp"
+                android:text="v3.7.1"
+                android:textColor="@color/dk_color_999999"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

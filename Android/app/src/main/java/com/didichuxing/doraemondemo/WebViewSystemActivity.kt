@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * Created by jintai on 2018/11/13.
  */
-class WebViewNormalActivity : AppCompatActivity() {
+class WebViewSystemActivity : AppCompatActivity() {
+
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-    val url = "https://jtsky.gitee.io/dokit-mock/index.html"
+    val url = "https://xingyun.xiaojukeji.com/docs/dokit"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class WebViewNormalActivity : AppCompatActivity() {
         webSettings.domStorageEnabled = true
         webSettings.cacheMode = WebSettings.LOAD_DEFAULT
         webSettings.javaScriptCanOpenWindowsAutomatically = false
-//        webSettings.allowFileAccessFromFileURLs = true
+        webSettings.allowFileAccessFromFileURLs = true
         webSettings.allowUniversalAccessFromFileURLs = true
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -82,12 +83,12 @@ class WebViewNormalActivity : AppCompatActivity() {
                 val sourceID = consoleMessage.sourceId()
                 val messageLevel = consoleMessage.message()
 
-//                Log.i(
-//                    TAG, String.format(
-//                        "[%s] sourceID: %s lineNumber: %n message: %s",
-//                        messageLevel, sourceID, lineNumber, message
-//                    )
-//                )
+                Log.i(
+                    TAG, String.format(
+                        "[%s] sourceID: %s lineNumber: %n message: %s",
+                        messageLevel, sourceID, lineNumber, message
+                    )
+                )
 
                 //Log.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
                 return super.onConsoleMessage(consoleMessage)
