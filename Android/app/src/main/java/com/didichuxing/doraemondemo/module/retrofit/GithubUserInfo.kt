@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo.retrofit
+package com.didichuxing.doraemondemo.module.retrofit
 
 /**
  * ================================================

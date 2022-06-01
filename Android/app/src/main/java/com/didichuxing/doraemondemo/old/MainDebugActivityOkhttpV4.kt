@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo//package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.old//package com.didichuxing.doraemondemo
 //
 //import android.Manifest
 //import android.annotation.SuppressLint
@@ -31,7 +31,7 @@ package com.didichuxing.doraemondemo//package com.didichuxing.doraemondemo
 //import com.bumptech.glide.Glide
 //import com.bumptech.glide.load.engine.DiskCacheStrategy
 //import com.bumptech.glide.load.resource.bitmap.CircleCrop
-//import com.didichuxing.doraemondemo.retrofit.GithubService
+//import com.didichuxing.doraemondemo.module.retrofit.GithubService
 //import com.didichuxing.doraemonkit.DoraemonKit
 //import com.facebook.drawee.backends.pipeline.Fresco
 //import com.facebook.drawee.view.SimpleDraweeView

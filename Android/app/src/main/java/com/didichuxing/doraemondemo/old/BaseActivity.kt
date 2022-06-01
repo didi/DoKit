@@ -1,4 +1,4 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.old
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

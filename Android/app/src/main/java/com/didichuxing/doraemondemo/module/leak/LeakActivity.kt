@@ -1,7 +1,9 @@
-package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo.module.leak
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.didichuxing.doraemondemo.App
+import com.didichuxing.doraemondemo.R
 
 /**
  * 模拟内存泄漏的activity

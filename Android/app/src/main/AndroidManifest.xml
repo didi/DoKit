@@ -32,34 +32,51 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".MainDoKitActivity"
+            android:theme="@style/NoTitleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".mc.NetMainActivity"
             android:exported="false" />
-        <activity android:name=".WebViewNormalActivity" />
+        <activity android:name=".WebViewSystemActivity" />
         <activity android:name=".WebViewX5Activity" />
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".LeakActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".EmptyActivity" />
+        <activity android:name=".module.bigbitmap.BigBitmapActivity" />
+        <activity android:name=".module.leak.LeakActivity" />
         <activity android:name=".mc.MCActivity" />
         <activity android:name="com.amap.api.navi.AmapRouteActivity" />
         <activity
             android:name=".comm.CommFragmentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- 高德定位服务 -->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 高德定位服务 -->
+
+
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="11f9728ee0c2a141663fc4b784c42a33" /> <!-- 腾讯定位服务 -->
+            android:value="11f9728ee0c2a141663fc4b784c42a33" />
+        <!-- 腾讯定位服务 -->
         <meta-data
             android:name="TencentMapSDK"
-            android:value="ECSBZ-ZDNCF-4K3J4-JNWQ2-TWW37-XOFNQ" /> <!-- 百度地图key -->
+            android:value="ECSBZ-ZDNCF-4K3J4-JNWQ2-TWW37-XOFNQ" />
+        <!-- 百度地图key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="UhPZI3aQQ7un6RP8evAkXxFCtlvItawi" /> <!-- 百度地图定位服务 -->
+            android:value="UhPZI3aQQ7un6RP8evAkXxFCtlvItawi" />
+        <!-- 百度地图定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" /> <!-- Dokit targetApi为 29 Android Q时截屏的前台服务 -->
+            android:process=":remote" />
+        <!-- Dokit targetApi为 29 Android Q时截屏的前台服务 -->
         <service
             android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
             android:enabled="true"
