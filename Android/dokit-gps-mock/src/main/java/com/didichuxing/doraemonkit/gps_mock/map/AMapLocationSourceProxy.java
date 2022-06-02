@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.gps_mock.map;
 
 import com.amap.api.maps.LocationSource;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * ================================================
@@ -21,6 +22,7 @@ public class AMapLocationSourceProxy implements LocationSource {
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
+        LogHelper.d("AMapLocationSourceProxy", "===amap===activate");
         if (mLocationSource != null) {
             onLocationChangedListener = new AMapLocationChangedListenerProxy(onLocationChangedListener);
             mLocationSource.activate(onLocationChangedListener);

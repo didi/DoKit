@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -112,6 +111,13 @@ public class PositionSelectDialogHelper implements IDialogHelper, TextWatcher, V
         mPositionDataList.clear();
         mPositionDataList.addAll(res.getAllSuggestions());
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mSuggestionSearch != null) {
+            mSuggestionSearch.destroy();
+        }
     }
 }
 
