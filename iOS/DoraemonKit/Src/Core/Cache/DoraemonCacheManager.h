@@ -78,6 +78,12 @@
 - (void)clearAllH5historicalRecord;
 - (void)clearH5historicalRecordWithText:(NSString *)text;
 
+/// JS历史脚本
+- (NSArray<NSDictionary *> *)jsHistoricalRecord;
+- (NSString *)jsHistoricalRecordForKey:(NSString *)key;
+- (void)saveJsHistoricalRecordWithText:(NSString *)text forKey:(NSString *)key;
+- (void)clearJsHistoricalRecordWithKey:(NSString *)key;
+
 /// 保存启动类
 - (void)saveStartClass : (NSString *)startClass;
 - (NSString *)startClass;

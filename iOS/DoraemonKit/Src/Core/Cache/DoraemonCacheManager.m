@@ -23,6 +23,7 @@ static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
 static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_key";
 static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image_detection_key";
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
+static NSString * const kDoraemonJsHistoricalRecord = @"doraemon_js_historical_record";
 static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
 static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
 static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
@@ -262,6 +263,68 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
     } else {
         [_defaults removeObjectForKey:kDoraemonH5historicalRecord];
     }
+    [_defaults synchronize];
+}
+
+- (NSArray<NSDictionary *> *)jsHistoricalRecord {
+    return [_defaults arrayForKey:kDoraemonJsHistoricalRecord];
+}
+
+- (NSString *)jsHistoricalRecordForKey:(NSString *)key {
+    NSArray *history = [self jsHistoricalRecord] ?: @[];
+    for (NSDictionary *dict in history) {
+        //是否同名配置
+        if ([[dict objectForKey:@"key"] isEqualToString:key]) {
+            return [dict objectForKey:@"value"];
+        }
+    }
+    return nil;
+}
+
+- (void)saveJsHistoricalRecordWithText:(NSString *)text forKey:(NSString *)key {
+    NSString *saveKey = [NSString stringWithFormat:@"%.0f", NSDate.date.timeIntervalSince1970];
+    if (key.length > 0) {
+        saveKey = key;
+    }
+    NSMutableArray *list = [NSMutableArray array];
+    BOOL matched = NO;
+    NSArray *history = [self jsHistoricalRecord] ?: @[];
+    for (NSDictionary *dict in history) {
+        //是否同名配置
+        if ([[dict objectForKey:@"key"] isEqualToString:saveKey]) {
+            [list addObject:@{
+                @"key": saveKey,
+                @"value": text
+            }];
+            matched = YES;
+            continue;
+        }
+        [list addObject:dict];
+    }
+    if (!matched) {
+        [list insertObject:@{
+            @"key": saveKey,
+            @"value": text
+        } atIndex:0];
+    }
+    [_defaults setObject:list forKey:kDoraemonJsHistoricalRecord];
+    [_defaults synchronize];
+}
+
+- (void)clearJsHistoricalRecordWithKey:(NSString *)key {
+    if (!key) {
+        return;
+    }
+    NSMutableArray *list = [NSMutableArray array];
+    NSArray *history = [self jsHistoricalRecord] ?: @[];
+    for (NSDictionary *dict in history) {
+        //是否同名配置
+        if ([[dict objectForKey:@"key"] isEqualToString:key]) {
+            continue;
+        }
+        [list addObject:dict];
+    }
+    [_defaults setObject:list forKey:kDoraemonJsHistoricalRecord];
     [_defaults synchronize];
 }
 

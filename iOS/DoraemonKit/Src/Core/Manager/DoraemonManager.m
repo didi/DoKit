@@ -242,6 +242,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 #if DoraemonWithDatabase
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDatabasePlugin];
 #endif
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonJavaScriptPlugin];
     
     #pragma mark - 性能检测
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonFPSPlugin];
@@ -569,6 +570,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonNSUserDefaultsPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
                                    @{kBuriedPoint:@"dokit_sdk_comm_ck_userdefault"}
+                           ],
+                           @(DoraemonManagerPluginType_DoraemonJavaScriptPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"JS脚本")},
+                                   @{kDesc:DoraemonLocalizedString(@"JS脚本")},
+                                   @{kIcon:@"doraemon_js"},
+                                   @{kPluginName:@"DoraemonJavaScriptPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")},
+                                   @{kBuriedPoint:@"dokit_sdk_comm_ck_js"}
                            ],
                            
                            // 性能检测

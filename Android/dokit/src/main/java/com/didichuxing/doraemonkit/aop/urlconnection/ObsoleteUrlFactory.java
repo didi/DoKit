@@ -6,11 +6,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
 import com.didichuxing.doraemonkit.util.ConvertUtils;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -49,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -1313,11 +1311,14 @@ final class ObsoleteUrlFactory implements URLStreamHandlerFactory, Cloneable {
             if (sslSocketFactory == null) {
                 throw new IllegalArgumentException("sslSocketFactory == null");
             }
+
+            X509TrustManager trustManager = new MyTrustManager().getTrustManager();
             // This fails in JDK 9 because OkHttp is unable to extract the trust manager.
             delegate.client = delegate.client.newBuilder()
-                    .sslSocketFactory(sslSocketFactory)
-                    .build();
+                .sslSocketFactory(sslSocketFactory, trustManager)
+                .build();
         }
+
 
         @Override
         public SSLSocketFactory getSSLSocketFactory() {
