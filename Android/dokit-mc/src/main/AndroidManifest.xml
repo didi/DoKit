@@ -12,19 +12,19 @@
             android:name="com.didichuxing.doraemonkit.kit.mc.ui.DoKitMcScanActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-<!--        <service-->
-<!--            android:name="com.didichuxing.doraemonkit.kit.mc.server.DoKitAccessibilityService"-->
-<!--            android:enabled="true"-->
-<!--            android:label="DoKit一机多控"-->
-<!--            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.accessibilityservice.AccessibilityService" />-->
-<!--            </intent-filter>-->
+        <!--        <service-->
+        <!--            android:name="com.didichuxing.doraemonkit.kit.mc.server.DoKitAccessibilityService"-->
+        <!--            android:enabled="true"-->
+        <!--            android:label="DoKit一机多控"-->
+        <!--            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.accessibilityservice.AccessibilityService" />-->
+        <!--            </intent-filter>-->
 
-<!--            <meta-data-->
-<!--                android:name="android.accessibilityservice"-->
-<!--                android:resource="@xml/mc_accessibity_config" />-->
-<!--        </service>-->
+        <!--            <meta-data-->
+        <!--                android:name="android.accessibilityservice"-->
+        <!--                android:resource="@xml/mc_accessibity_config" />-->
+        <!--        </service>-->
     </application>
 
 </manifest>
