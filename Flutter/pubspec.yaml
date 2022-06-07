@@ -1,6 +1,6 @@
 name: dokit
 description: 开发工具集
-version: 0.8.1-nullsafety.0
+version: 0.8.2-nullsafety.10
 homepage: https://www.dokit.cn/#/index/home
 
 
@@ -11,18 +11,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  date_format: ^2.0.2
-  vm_service:  ^7.5.0
-  package_info: ^2.0.0
-  shared_preferences: ^2.0.5
-  image: ^3.0.2
-  google_fonts: ^2.0.0
-  string_scanner: ^1.0.5
+  date_format: ^2.0.6
+  vm_service: ^8.2.2
+  package_info: ^2.0.2
+  shared_preferences: ^2.0.13
+  image: ^3.1.3
+  google_fonts: 2.2.0
+  string_scanner: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.2
+  pedantic: ^1.11.1
 
 
 flutter:

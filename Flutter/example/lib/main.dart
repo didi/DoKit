@@ -79,12 +79,12 @@ void main() {
       kitBuilder: () => BizKitTestPage());
 
   var bizKit0 = DoKit.i.newBizKit(name: '1111', group: '业务专区2');
-  DoKit.i.addKit(kit: bizKit0);
+  DoKit.i.addKit(kit: bizKit0!);
 
   var bizKit1 = DoKit.i.newBizKit(name: '2222', group: '业务专区3');
   var bizKit2 = DoKit.i.newBizKit(name: '3333', group: '业务专区3');
   var bizKit3 = DoKit.i.newBizKit(name: '4444', group: '业务专区3');
-  DoKit.i.addBizKits([bizKit1, bizKit2, bizKit3]);
+  DoKit.i.addBizKits([bizKit1!, bizKit2!, bizKit3!]);
 
   // DoKit.i.addKit({kit: BizKit(name: '1111', group: '业务专区2')});
 }
