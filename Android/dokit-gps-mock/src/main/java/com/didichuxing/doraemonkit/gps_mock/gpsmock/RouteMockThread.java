@@ -108,6 +108,10 @@ public class RouteMockThread extends Thread {
         mRouteMockStatusCallback = routeMockStatusCallback;
     }
 
+    public void clearRouteMockStatusCallback(){
+        mRouteMockStatusCallback = null;
+    }
+
     public interface RouteMockStatusCallback{
         void onRouteMockFinish();
     }

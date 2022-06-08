@@ -189,6 +189,18 @@ public class GpsMockManager {
         }
     }
 
+    public void setStatusCallback(RouteMockThread.RouteMockStatusCallback statusCallback){
+        if (mRouteMockThread != null){
+            mRouteMockThread.setRouteMockStatusCallback(statusCallback);
+        }
+    }
+
+    public void removeStatusCallback(){
+        if (mRouteMockThread != null){
+            mRouteMockThread.clearRouteMockStatusCallback();
+        }
+    }
+
     /**
      * 停止模拟.
      */

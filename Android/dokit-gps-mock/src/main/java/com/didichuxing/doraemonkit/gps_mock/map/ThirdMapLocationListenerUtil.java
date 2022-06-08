@@ -19,24 +19,24 @@ import com.tencent.map.geolocation.TencentLocationListener;
  * ================================================
  */
 public class ThirdMapLocationListenerUtil {
-    public static void unRegisterAmapLocationListener(AMapLocationListener locationListener) {
-        GpsMockProxyManager.INSTANCE.removeAMapLocationListener(locationListener);
+    public static AMapLocationListenerProxy unRegisterAmapLocationListener(AMapLocationListener locationListener) {
+        return GpsMockProxyManager.INSTANCE.removeAMapLocationListener(locationListener);
     }
 
-    public static void unRegisterAmapNaviListener(AMapNaviListener naviListener) {
-        GpsMockProxyManager.INSTANCE.removeAMapNaviListener(naviListener);
+    public static AMapNaviListenerProxy unRegisterAmapNaviListener(AMapNaviListener naviListener) {
+        return GpsMockProxyManager.INSTANCE.removeAMapNaviListener(naviListener);
     }
 
-    public static void unRegisterTencentLocationListener(TencentLocationListener locationListener) {
-        GpsMockProxyManager.INSTANCE.removeTencentLocationListener(locationListener);
+    public static TencentLocationListenerProxy unRegisterTencentLocationListener(TencentLocationListener locationListener) {
+        return GpsMockProxyManager.INSTANCE.removeTencentLocationListener(locationListener);
     }
 
-    public static void unRegisterBDLocationListener(BDLocationListener locationListener) {
-        GpsMockProxyManager.INSTANCE.removeBDLocationListener(locationListener);
+    public static BDLocationListenerProxy unRegisterBDLocationListener(BDLocationListener locationListener) {
+        return GpsMockProxyManager.INSTANCE.removeBDLocationListener(locationListener);
     }
 
-    public static void unRegisterBDLocationListener(BDAbstractLocationListener locationListener) {
-        GpsMockProxyManager.INSTANCE.removeBDAbsLocationListener(locationListener);
+    public static BDAbsLocationListenerProxy unRegisterBDLocationListener(BDAbstractLocationListener locationListener) {
+        return GpsMockProxyManager.INSTANCE.removeBDAbsLocationListener(locationListener);
     }
 
     public static void unRegisterDMapLocationListener(DMapLocationListener locationListener){

@@ -388,6 +388,8 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         // 将坐标点换算成地址名称填入起点和终点
         searchPoi(mRouteStartNode.getLocation());
         mInitRouteStart = true;
+
+        GpsMockManager.getInstance().setStatusCallback(this);
     }
 
     private void drawRoute() {
@@ -1016,18 +1018,32 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
             DoKit.removeFloating(RouteMockDokitView.class);
         }
 
-        super.onDestroy();
+        if (mRootView != null) {
+            mRootView.removeTransitionListener(this);
+        }
+
         mBdMapView.setMyLocationEnabled(false);
+        mBdMapView = null;
         mMapView.onDestroy();
         mMapView = null;
 
         if (mBdLocationClient != null) {
+            mBdLocationClient.stop();
             mBdLocationClient.unRegisterLocationListener(mBDAbstractLocationListener);
+            mBdLocationClient = null;
         }
 
         if (mRoutePlanSearch != null) {
             mRoutePlanSearch.destroy();
+            mRoutePlanSearch = null;
         }
+
+        if (mGeoCoder != null) {
+            mGeoCoder.destroy();
+            mGeoCoder = null;
+        }
+        GpsMockManager.getInstance().removeStatusCallback();
+        super.onDestroy();
     }
 
     public static enum DriftMode {

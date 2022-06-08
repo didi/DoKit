@@ -64,54 +64,66 @@ object GpsMockProxyManager {
         mLocationListenerProxies.add(locationListenerProxy)
     }
 
-    fun removeAMapLocationListener(listener: AMapLocationListener) {
+    fun removeAMapLocationListener(listener: AMapLocationListener):AMapLocationListenerProxy? {
         val it = mAMapLocationListenerProxies.iterator()
         while (it.hasNext()) {
             val proxy = it.next()
             if (proxy?.aMapLocationListener === listener) {
                 it.remove()
+                return proxy
             }
         }
+        return null
     }
 
-    fun removeAMapNaviListener(listener: AMapNaviListener) {
+    fun removeAMapNaviListener(listener: AMapNaviListener) :AMapNaviListenerProxy?{
         val it = mAMapNaviListenerProxies.iterator()
         while (it.hasNext()) {
             val proxy = it.next()
             if (proxy?.aMapNaviListener === listener) {
                 it.remove()
+                return proxy
             }
         }
+
+        return null
     }
 
-    fun removeTencentLocationListener(listener: TencentLocationListener) {
+    fun removeTencentLocationListener(listener: TencentLocationListener) :TencentLocationListenerProxy?{
         val it = mTencentLocationListenerProxies.iterator()
         while (it.hasNext()) {
             val proxy = it.next()
             if (proxy?.mTencentLocationListener === listener) {
                 it.remove()
+                return proxy
             }
         }
+        return null
     }
 
-    fun removeBDLocationListener(listener: BDLocationListener) {
+    fun removeBDLocationListener(listener: BDLocationListener):BDLocationListenerProxy? {
         val it = mBDLocationListenerProxies.iterator()
         while (it.hasNext()) {
             val proxy = it.next()
             if (proxy?.mBdLocationListener === listener) {
                 it.remove()
+                return proxy
             }
         }
+
+        return null
     }
 
-    fun removeBDAbsLocationListener(listener: BDAbstractLocationListener) {
+    fun removeBDAbsLocationListener(listener: BDAbstractLocationListener): BDAbsLocationListenerProxy? {
         val it = mBDAbsLocationListenerProxies.iterator()
         while (it.hasNext()) {
             val proxy = it.next()
             if (proxy?.mBdLocationListener === listener) {
                 it.remove()
+                return proxy
             }
         }
+        return null
     }
 
     fun removeLocationListener(listener: LocationListener) {
