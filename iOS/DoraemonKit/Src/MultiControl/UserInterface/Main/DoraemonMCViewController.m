@@ -366,6 +366,27 @@
 
 - (void)webSocketButtonHandler:(id)sender {
     if (DKMultiControlStreamManager.sharedInstance.state == DKMultiControlStreamManagerStateClosed) {
+#if TARGET_OS_SIMULATOR
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"连接 DoKit Studio" message:@"请输入 ip 地址点击确定连接" preferredStyle:UIAlertControllerStyleAlert];
+        __weak typeof(alertController) weakAlertController = alertController;
+        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            typeof(weakAlertController) alertController = weakAlertController;
+            NSString *ip = alertController.textFields.firstObject.text;
+            if (!ip) {
+                return;
+            }
+            NSURL *url = [NSURL URLWithString:ip];
+            if (!url) {
+                return;
+            }
+            [DKMultiControlStreamManager.sharedInstance enableMultiControlWithUrl:url];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入 ip 地址";
+        }];
+        [self showViewController:alertController sender:nil];
+#else
         DKQRCodeScanViewController *qrCodeScanViewController = [[DKQRCodeScanViewController alloc] init];
         qrCodeScanViewController.completionBlock = ^(NSString *decodedString) {
             if (!decodedString) {
@@ -378,6 +399,7 @@
             [DKMultiControlStreamManager.sharedInstance enableMultiControlWithUrl:url];
         };
         [self showViewController:qrCodeScanViewController sender:sender];
+#endif
     } else {
         [DKMultiControlStreamManager.sharedInstance disableMultiControl];
     }

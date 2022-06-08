@@ -23,7 +23,7 @@
                                                                              indexPath:indexPath
                                                                            messageType:type];
         if (message) {
-            [DoraemonMCServer sendMessage:message.toMessageString];
+            [DoraemonMCServer sendMessage:message.toMessageString ?: @""];
         }
         message = nil;
     }
@@ -39,7 +39,7 @@
                                                                                eventInfo:eventInfo
                                                                              messageType:type];
     
-    [DoraemonMCServer sendMessage:message.toMessageString];
+    [DoraemonMCServer sendMessage:message.toMessageString ?: @""];
     return message;
 }
 @end

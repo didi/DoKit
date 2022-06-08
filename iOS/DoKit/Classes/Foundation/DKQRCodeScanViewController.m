@@ -116,7 +116,7 @@ void removeViewController(UIViewController *viewController, BOOL isAnimated) {
             }];
             [alertController addAction:openAlertAction];
             [alertController addAction:cancelAlertAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            [self showViewController:alertController sender:nil];
         } else {
             completionBlock(decodedString);
         }

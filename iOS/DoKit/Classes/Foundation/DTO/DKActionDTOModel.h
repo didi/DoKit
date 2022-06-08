@@ -18,35 +18,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *DK_DEVICE_TYPE;
+@interface DKActionDTOModel : MTLModel <MTLJSONSerializing>
 
-extern NSString *DK_METHOD_LOGIN;
+@property(nonatomic, nullable, copy) NSString *behaviorId;
 
-extern NSString *DK_METHOD_DATA;
-
-extern NSString *DK_DATA_REQUEST;
-
-extern NSString *DK_DATA_RESPONSE;
-
-extern NSString *DK_DATA_QUERY;
-
-extern NSString *DK_ACTION;
-
-@interface DKCommonDTOModel : MTLModel <MTLJSONSerializing>
-
-@property(nonatomic, nullable, copy) NSNumber *requestId;
-
-/// Main type.
-@property(nonatomic, nullable, copy) NSString *method;
-
-@property(nonatomic, nullable, copy) NSString *data;
-
-@property(nonatomic, nullable, copy) NSUUID *connectSerial;
-
-@property(nonatomic, nullable, copy) NSString *deviceType;
-
-// Subtype.
-@property(nonatomic, nullable, copy) NSString *dataType;
+@property(nonatomic, nullable, copy) NSString *payload;
 
 @end
 

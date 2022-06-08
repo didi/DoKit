@@ -65,20 +65,13 @@ NS_ASSUME_NONNULL_END
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
     // +[NSURLProtocol canonicalRequestForRequest:] may be called from any thread.
-    NSURLRequest *result = request;
-    switch (DKMultiControlStreamManager.sharedInstance.state) {
-        case DKMultiControlStreamManagerStateMaster: {
-            NSMutableURLRequest *mutableUrlRequest = result.mutableCopy;
-            [NSURLProtocol setProperty:@(YES) forKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:mutableUrlRequest];
-            result = mutableUrlRequest.copy;
-        }
-            break;
-
-        default:
-            break;
+    if (DKMultiControlStreamManager.sharedInstance.state != DKMultiControlStreamManagerStateMaster) {
+        return request;
     }
-
-    return result;
+    NSMutableURLRequest *mutableUrlRequest = request.mutableCopy;
+    [NSURLProtocol setProperty:@(YES) forKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:mutableUrlRequest];
+    
+    return mutableUrlRequest.copy;
 }
 
 - (void)startLoading {
