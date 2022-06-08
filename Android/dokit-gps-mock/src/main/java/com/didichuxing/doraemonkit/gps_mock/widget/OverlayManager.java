@@ -47,7 +47,7 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
     BaiduMap mBaiduMap = null;
     private List<OverlayOptions> mOverlayOptionList = null;
 
-    List<Overlay> mOverlayList = null;
+    List<Overlay> mOriginRouteOverlayList = null;
 
     // 漂移路线
     private Overlay mDriftRouteOverlay;
@@ -72,8 +72,8 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         if (mOverlayOptionList == null) {
             mOverlayOptionList = new ArrayList<OverlayOptions>();
         }
-        if (mOverlayList == null) {
-            mOverlayList = new ArrayList<Overlay>();
+        if (mOriginRouteOverlayList == null) {
+            mOriginRouteOverlayList = new ArrayList<Overlay>();
         }
     }
 
@@ -94,14 +94,14 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
             return;
         }
 
-        removeFromMap();
+        removeOriginRouteFromMap();
         List<OverlayOptions> overlayOptions = getOverlayOptions();
         if (overlayOptions != null) {
             mOverlayOptionList.addAll(overlayOptions);
         }
 
         for (OverlayOptions option : mOverlayOptionList) {
-            mOverlayList.add(mBaiduMap.addOverlay(option));
+            mOriginRouteOverlayList.add(mBaiduMap.addOverlay(option));
         }
     }
 
@@ -113,20 +113,7 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
             return;
         }
 
-        if (mDriftRandomOverlay != null) {
-            mDriftRandomOverlay.remove();
-        }
-
-        if (mDriftRouteOverlay != null) {
-            mDriftRouteOverlay.remove();
-        }
-
-        if (mDriftRandomDotOverlay.size() > 0) {
-            for (Overlay overlay : mDriftRandomDotOverlay) {
-                overlay.remove();
-            }
-        }
-
+        removeDriftRouteFromMap();
         OverlayOptions driftOverlayOption = getPolylineOptions(points, lineColor);
         mDriftRouteOverlay = mBaiduMap.addOverlay(driftOverlayOption);
     }
@@ -139,16 +126,8 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         if (mBaiduMap == null) {
             return;
         }
-        if (mDriftRouteOverlay != null) {
-            mDriftRouteOverlay.remove();
-        }
 
-        if (mDriftRandomDotOverlay.size() > 0) {
-            for (Overlay overlay : mDriftRandomDotOverlay) {
-                overlay.remove();
-            }
-        }
-
+        removeDriftRouteFromMap();
         for (LatLng latLng : points) {
             mDriftRandomDotOverlay.add(addPointMark(latLng, 8, color));
         }
@@ -160,14 +139,8 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         if (mBaiduMap == null) {
             return;
         }
-        if (mDriftRouteOverlay != null) {
-            mDriftRouteOverlay.remove();
-        }
 
-        if (mDriftRandomOverlay != null) {
-            mDriftRandomOverlay.remove();
-        }
-
+        removeDriftRouteFromMap();
         OverlayOptions driftOverlayOption = getPolylineOptions(points, lineColor);
         mDriftRandomOverlay = mBaiduMap.addOverlay(driftOverlayOption);
     }
@@ -227,18 +200,43 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
             .color(color));
     }
 
-    /**
-     * 将所有Overlay 从 地图上消除
-     */
-    public final void removeFromMap() {
+    public final void removeAllRouteFromMap(){
+        removeOriginRouteFromMap();
+        removeDriftRouteFromMap();
+    }
+
+    public final void removeDriftRouteFromMap(){
         if (mBaiduMap == null) {
             return;
         }
-        for (Overlay marker : mOverlayList) {
+
+        if (mDriftRandomOverlay != null) {
+            mDriftRandomOverlay.remove();
+        }
+
+        if (mDriftRouteOverlay != null) {
+            mDriftRouteOverlay.remove();
+        }
+
+        if (mDriftRandomDotOverlay.size() > 0) {
+            for (Overlay overlay : mDriftRandomDotOverlay) {
+                overlay.remove();
+            }
+        }
+    }
+
+    /**
+     * 将所有Overlay 从 地图上消除
+     */
+    public final void removeOriginRouteFromMap() {
+        if (mBaiduMap == null) {
+            return;
+        }
+        for (Overlay marker : mOriginRouteOverlayList) {
             marker.remove();
         }
         mOverlayOptionList.clear();
-        mOverlayList.clear();
+        mOriginRouteOverlayList.clear();
 
     }
 
@@ -252,9 +250,9 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         if (mBaiduMap == null) {
             return;
         }
-        if (mOverlayList.size() > 0) {
+        if (mOriginRouteOverlayList.size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Overlay overlay : mOverlayList) {
+            for (Overlay overlay : mOriginRouteOverlayList) {
                 // polyline 中的点可能太多，只按marker 缩放
                 if (overlay instanceof Marker) {
                     builder.include(((Marker) overlay).getPosition());
@@ -278,9 +276,9 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         if (mBaiduMap == null) {
             return;
         }
-        if (mOverlayList.size() > 0) {
+        if (mOriginRouteOverlayList.size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Overlay overlay : mOverlayList) {
+            for (Overlay overlay : mOriginRouteOverlayList) {
                 // polyline 中的点可能太多，只按marker 缩放
                 if (overlay instanceof Marker) {
                     builder.include(((Marker) overlay).getPosition());

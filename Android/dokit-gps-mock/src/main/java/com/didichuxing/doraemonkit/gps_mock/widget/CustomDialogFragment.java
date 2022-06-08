@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.gps_mock.R;
 
 public class CustomDialogFragment extends DialogFragment {
 
-    private IDialogHelper mDialogHelper;
+    private final IDialogHelper mDialogHelper;
 
     public CustomDialogFragment(int contentLayoutId, IDialogHelper dialogHelper) {
         super(contentLayoutId);
@@ -43,5 +43,11 @@ public class CustomDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDialogHelper.onDestroy();
     }
 }

@@ -106,12 +106,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createAmapLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createAmapLocationUnRegisterInsnList()
+                    )
                 }
 
                 //代理getLastKnownLocation
@@ -149,12 +146,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "removeAMapNaviListener"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createAmapNaviUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createAmapNaviUnRegisterInsnList()
+                    )
                 }
             }
 
@@ -175,12 +169,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "removeUpdates"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createTencentLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createTencentLocationUnRegisterInsnList()
+                    )
                 }
             }
 
@@ -205,12 +196,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDLocationListener;)V"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createBDLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createBDLocationUnRegisterInsnList()
+                    )
                 }
 
 
@@ -219,12 +207,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
+                        methodNode?.instructions?.insert(
                             createBDAbsLocationUnRegisterInsnList()
                         )
-                    }
                 }
             }
         }
@@ -850,13 +835,13 @@ class CommClassTransformer : AbsClassTransformer() {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterAmapLocationListener",
-                    "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    "(Lcom/amap/api/location/AMapLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/AMapLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
-
     }
 
     /**
@@ -871,10 +856,11 @@ class CommClassTransformer : AbsClassTransformer() {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterAmapNaviListener",
-                    "(Lcom/amap/api/navi/AMapNaviListener;)V",
+                    "(Lcom/amap/api/navi/AMapNaviListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/AMapNaviListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -926,10 +912,11 @@ class CommClassTransformer : AbsClassTransformer() {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterTencentLocationListener",
-                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
+                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/TencentLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -1001,10 +988,11 @@ class CommClassTransformer : AbsClassTransformer() {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterBDLocationListener",
-                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    "(Lcom/baidu/location/BDLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/BDLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -1022,10 +1010,12 @@ class CommClassTransformer : AbsClassTransformer() {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterBDLocationListener",
-                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/BDAbsLocationListenerProxy;",
                     false
                 )
             )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 

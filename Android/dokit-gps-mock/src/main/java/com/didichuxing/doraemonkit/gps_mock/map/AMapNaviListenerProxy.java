@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.gps_mock.map;
 
-import android.util.Log;
-
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.model.AMapCalcRouteResult;
@@ -9,19 +7,29 @@ import com.amap.api.navi.model.AMapLaneInfo;
 import com.amap.api.navi.model.AMapModelCross;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
+import com.amap.api.navi.model.AMapNaviLink;
 import com.amap.api.navi.model.AMapNaviLocation;
 import com.amap.api.navi.model.AMapNaviPath;
 import com.amap.api.navi.model.AMapNaviRouteNotifyData;
+import com.amap.api.navi.model.AMapNaviStep;
 import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
 import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
 import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
+import com.baidu.mapapi.search.core.RouteNode;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.config.GpsMockConfig;
+import com.didichuxing.doraemonkit.gps_mock.common.BdMapRouteData;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockProxyManager;
+import com.didichuxing.doraemonkit.util.CoordinateUtils;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,10 +83,12 @@ public class AMapNaviListenerProxy implements AMapNaviListener {
 
     @Override
     public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
-        if (GpsMockManager.mockAMapNavLocation()) {
-            aMapNaviLocation.setCoord(new NaviLatLng(GpsMockManager.getInstance().getLatitude(), GpsMockManager.getInstance().getLongitude()));
+        if (GpsMockManager.getInstance().isMocking()) {
+            double[] res = CoordinateUtils.bd09ToGcj02(GpsMockManager.getInstance().getLongitude(), GpsMockManager.getInstance().getLatitude());
+            aMapNaviLocation.setCoord(new NaviLatLng(res[1], res[0]));
+            aMapNaviLocation.setSpeed(GpsMockConfig.getRouteMockSpeed());
         }
-//        LogHelper.i(TAG, "====aMapNaviLocation===" + aMapNaviLocation.getCoord().toString());
+        LogHelper.d(TAG, "===amap===onLocationChange" + aMapNaviLocation.getCoord().toString());
         if (aMapNaviListener != null) {
             aMapNaviListener.onLocationChange(aMapNaviLocation);
         }
@@ -149,7 +159,7 @@ public class AMapNaviListenerProxy implements AMapNaviListener {
 
     @Override
     public void onNaviInfoUpdate(NaviInfo naviInfo) {
-//        LogHelper.i(TAG, "====onNaviInfoUpdate====" + naviInfo.getPathRetainDistance());
+        LogHelper.d(TAG, "====onNaviInfoUpdate====" + naviInfo.getPathRetainDistance());
         if (aMapNaviListener != null) {
             aMapNaviListener.onNaviInfoUpdate(naviInfo);
         }
@@ -277,20 +287,76 @@ public class AMapNaviListenerProxy implements AMapNaviListener {
     @Override
     public void onCalculateRouteSuccess(AMapCalcRouteResult aMapCalcRouteResult) {
         try {
+            // 重新做了路径规划,则尝试打断当前模拟.
+            GpsMockManager.getInstance().interruptRouteMockThread();
+            int[] routIds = aMapCalcRouteResult.getRouteid();
             // 获取路线数据对象
             HashMap<Integer, AMapNaviPath> naviPaths = AMapNavi.getInstance(DoKit.INSTANCE.getAPPLICATION()).getNaviPaths();
-            Log.i(TAG, "高德导航===onCalculateRouteSuccess $naviPaths " + naviPaths + " " + aMapCalcRouteResult.toString());
-            // 绘制显示路径
-            List<NaviLatLng> coords = naviPaths.get(12).getSteps().get(0).getCoords();
-            for (NaviLatLng latLng : coords) {
-                Log.i(TAG, "高德导航===onCalculateRouteSuccess $naviPaths " + latLng.toString());
+            LogHelper.d(TAG, "===amap===onCalculateRouteSuccess $naviPaths " + naviPaths.size() + " routeId " + Arrays.toString(routIds));
+
+            CoordinateConverter converter  = new CoordinateConverter().from(CoordinateConverter.CoordType.COMMON);
+            // 将所有点转换成百度坐标点
+            List<com.baidu.mapapi.model.LatLng> bdPoints = new ArrayList<>();
+            AMapNaviPath naviPath = naviPaths.get(routIds[0]);
+            List<AMapNaviStep> steps = naviPath.getSteps();
+            int linkSize = 0;
+            int stepSize = 0;
+            for (AMapNaviStep step : steps) {
+                stepSize += step.getCoords().size();
+                List<AMapNaviLink> links = step.getLinks();
+                boolean notNavi = false;
+                if (links != null && links.size() > 0){
+                    for (AMapNaviLink link : links){
+                        if (link == null) continue;
+                        int linkType = link.getLinkType(); // 获取道路类型 0-普通道路 1-航道 2-隧道 3-桥梁 4-高架桥 注意：该接口仅驾车模式有效
+                        int roadClass = link.getRoadClass(); //获取该Link道路等级 * 0 高速公路 * 1 国道 * 2 省道 * 3 县道 * 4 乡公路 * 5 县乡村内部道路 * 6 主要大街、城市快速道 * 7 主要道路 * 8 次要道路 * 9 普通道路 * 10 非导航道路
+                        List<NaviLatLng> coords = link.getCoords();
+                        if (coords == null) continue;
+                        linkSize += coords.size();
+                        // 过滤非开车导航坐标点(下车后)
+                        if (roadClass == 10){
+                            notNavi = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (notNavi) continue;
+                for (NaviLatLng latLng : step.getCoords()){
+                    com.baidu.mapapi.model.LatLng sourceLatLng = new com.baidu.mapapi.model.LatLng(latLng.getLatitude(), latLng.getLongitude());
+                    //转换坐标
+                    converter.coord(sourceLatLng);
+                    com.baidu.mapapi.model.LatLng desLatLng = converter.convert();
+                    bdPoints.add(desLatLng);
+                }
             }
+
+            LogHelper.d(TAG, "===amap===total points==>" + naviPath.getCoordList().size() + " " + naviPath.getCoordList().get(naviPath.getCoordList().size() - 1)
+                + " \n" + bdPoints.size() + " " + bdPoints.get(bdPoints.size() - 1)
+                + "\nlinkSize=" + linkSize + " stepSize=" + stepSize);
+            BdMapRouteData bdMapRouteData = new BdMapRouteData();
+            bdMapRouteData.setAllPoints(bdPoints);
+            bdMapRouteData.setTotalDistance(naviPath.getAllLength());
+
+            RouteNode startNode = new RouteNode();
+            com.baidu.mapapi.model.LatLng sourceStartLatLng = new com.baidu.mapapi.model.LatLng(naviPath.getStartPoint().getLatitude(), naviPath.getStartPoint().getLongitude());
+            com.baidu.mapapi.model.LatLng desStartLatLng = converter.coord(sourceStartLatLng).convert();
+            startNode.setLocation(desStartLatLng);
+            RouteNode terminalNode = new RouteNode();
+            com.baidu.mapapi.model.LatLng sourceTerminalLatLng = new com.baidu.mapapi.model.LatLng(naviPath.getEndPoint().getLatitude(), naviPath.getEndPoint().getLongitude());
+            com.baidu.mapapi.model.LatLng desTerminalLatLng = converter.coord(sourceTerminalLatLng).convert();
+            terminalNode.setLocation(desTerminalLatLng);
+            bdMapRouteData.setStartNode(startNode);
+            bdMapRouteData.setTerminalNode(terminalNode);
+            bdMapRouteData.setRouteDataFromBiz(true);
+
+            GpsMockManager.getInstance().setBdMockDrivingRouteLine(bdMapRouteData);
 
             if (aMapNaviListener != null) {
                 aMapNaviListener.onCalculateRouteSuccess(aMapCalcRouteResult);
             }
-        }catch (Exception e){
-            Log.e(TAG, e.getMessage());
+        } catch (Exception e) {
+            LogHelper.e(TAG, "===amap===onCalculateRouteSuccess error " + e.getMessage());
         }
     }
 
