@@ -385,7 +385,7 @@
         [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             textField.placeholder = @"请输入 ip 地址";
         }];
-        [self showViewController:alertController sender:nil];
+        [self presentViewController:alertController animated:YES completion:nil];
 #else
         DKQRCodeScanViewController *qrCodeScanViewController = [[DKQRCodeScanViewController alloc] init];
         qrCodeScanViewController.completionBlock = ^(NSString *decodedString) {
