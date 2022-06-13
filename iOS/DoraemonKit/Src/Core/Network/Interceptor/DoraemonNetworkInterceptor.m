@@ -178,7 +178,7 @@ static DoraemonNetworkInterceptor *instance = nil;
   NSData *md5data = [self encodeMD5:data];
   NSString *keyString = [self hexStringFromData:md5data];
 
-  NSString *encodedUrl = [replaceString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//  NSString *encodedUrl = [replaceString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
   NSString *md5String = [self md5:original];
   keyString = [self hexStringFromString:md5String];
     

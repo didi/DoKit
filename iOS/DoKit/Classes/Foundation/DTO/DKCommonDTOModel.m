@@ -28,6 +28,8 @@ NSString *DK_DATA_RESPONSE = @"response";
 
 NSString *DK_DATA_QUERY = @"query";
 
+NSString *DK_ACTION = @"action";
+
 @implementation DKCommonDTOModel
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {

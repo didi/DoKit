@@ -68,28 +68,24 @@ void safeMainThread(dispatch_block_t block) {
             completionBlock(nil);
         } else {
             AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-#ifndef NS_BLOCK_ASSERTIONS
+
             NSCAssert(captureDevice, @"+[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo] return nil.");
-#endif
 
             NSError *error = nil;
             AVCaptureDeviceInput *captureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:captureDevice error:&error];
-#ifndef NS_BLOCK_ASSERTIONS
+
             NSCAssert(!error && captureDeviceInput, @"AVCaptureDeviceInput creation is failed.");
-#endif
 
             AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
             [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
             self.captureSession = [[AVCaptureSession alloc] init];
             [self.captureSession beginConfiguration];
-#ifndef NS_BLOCK_ASSERTIONS
+
             NSCAssert([self.captureSession canAddInput:captureDeviceInput], @"-[captureSession canAddInput:captureDeviceInput] is failed.");
-#endif
             [self.captureSession addInput:captureDeviceInput];
-#ifndef NS_BLOCK_ASSERTIONS
+
             NSCAssert([self.captureSession canAddOutput:captureMetadataOutput], @"-[AVCaptureSession canAddOutput:captureMetadataOutput] return NO.");
-#endif
             [self.captureSession addOutput:captureMetadataOutput];
             if ([captureMetadataOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
                 captureMetadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];

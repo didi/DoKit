@@ -43,7 +43,7 @@ iOS各式各样的工具集合
     ss.source_files = 'iOS/DoKit/Classes/Foundation/**/*.{h,m}'
     # language-extension-token warning be used to implement Objective-C typeof().
     # ?: grammar
-    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-language-extension-token', '-Wno-gnu-conditional-omitted-operand'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Werror'
     ss.dependency 'SocketRocket', '~> 0.6'
     ss.dependency 'Mantle', '~> 2.2'
   end
@@ -80,8 +80,6 @@ iOS各式各样的工具集合
     ss.dependency 'GCDWebServer/WebUploader'
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
-    ss.dependency 'AFNetworking'
-    ss.dependency 'JSONModel'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -147,10 +145,5 @@ iOS各式各样的工具集合
     }
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'DoraemonKit/Foundation'
-    ss.dependency 'CocoaLumberjack'
-    ss.dependency 'CocoaHTTPServer'
-    ss.dependency 'SocketRocket'
-    ss.dependency 'Masonry'
-    ss.dependency 'AFNetworking', '~> 3.0'
   end
 end

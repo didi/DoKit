@@ -65,34 +65,27 @@ NS_ASSUME_NONNULL_END
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
     // +[NSURLProtocol canonicalRequestForRequest:] may be called from any thread.
-    NSURLRequest *result = request;
-    switch (DKMultiControlStreamManager.sharedInstance.state) {
-        case DKMultiControlStreamManagerStateMaster: {
-            NSMutableURLRequest *mutableUrlRequest = result.mutableCopy;
-            [NSURLProtocol setProperty:@(YES) forKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:mutableUrlRequest];
-            result = mutableUrlRequest.copy;
-        }
-            break;
-
-        default:
-            break;
+    if (DKMultiControlStreamManager.sharedInstance.state != DKMultiControlStreamManagerStateMaster) {
+        return request;
     }
-
-    return result;
+    NSMutableURLRequest *mutableUrlRequest = request.mutableCopy;
+    [NSURLProtocol setProperty:@(YES) forKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:mutableUrlRequest];
+    
+    return mutableUrlRequest.copy;
 }
 
 - (void)startLoading {
     NSOperationQueue *clientOperationQueue = [[NSOperationQueue alloc] init];
     clientOperationQueue.maxConcurrentOperationCount = 1;
     if ([NSURLProtocol propertyForKey:MULTI_CONTROL_PROTOCOL_KEY inRequest:self.request]) {
-        self.urlSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration delegate:self delegateQueue:clientOperationQueue];
-        [[self.urlSession dataTaskWithRequest:self.request] resume];
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         dispatch_async(dispatch_get_main_queue(), ^{
             self.dataId = [DKMultiControlStreamManager.sharedInstance recordWithUrlRequest:self.request];
             dispatch_semaphore_signal(semaphore);
         });
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        self.urlSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration delegate:self delegateQueue:clientOperationQueue];
+        [[self.urlSession dataTaskWithRequest:self.request] resume];
     } else {
         // Slave device send request through websocket.
         NSURLRequest *urlRequest = self.request.copy;

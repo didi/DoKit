@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import UIKit
+#import "DKActionDTOModel.h"
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
+@implementation DKActionDTOModel
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+            @"behaviorId": @"behaviorId",
+            @"payload": @"payload"
+    };
 }
+
+@end
