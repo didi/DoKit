@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_END
     if ([webSocketSession isKindOfClass:NSString.class]) {
         _sessionUUID = [[NSUUID alloc] initWithUUIDString:webSocketSession];
     }
-//    [self deviceAuthentication];
+    [self deviceAuthentication];
 
     return self;
 }
