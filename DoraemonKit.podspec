@@ -145,6 +145,5 @@ iOS各式各样的工具集合
     }
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'DoraemonKit/Foundation'
-    ss.dependency 'CocoaLumberjack'
   end
 end
