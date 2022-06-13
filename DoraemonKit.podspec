@@ -80,7 +80,6 @@ iOS各式各样的工具集合
     ss.dependency 'GCDWebServer/WebUploader'
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
-    ss.dependency 'AFNetworking'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -147,8 +146,5 @@ iOS各式各样的工具集合
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'DoraemonKit/Foundation'
     ss.dependency 'CocoaLumberjack'
-    ss.dependency 'CocoaHTTPServer'
-    ss.dependency 'SocketRocket'
-    ss.dependency 'Masonry'
   end
 end

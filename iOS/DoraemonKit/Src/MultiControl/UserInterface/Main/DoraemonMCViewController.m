@@ -13,7 +13,6 @@
 #import "DoraemonAppInfoUtil.h"
 #import "DoraemonManager.h"
 #import "UIColor+Doraemon.h"
-#import <AFNetworking/AFNetworking.h>
 #import <DoraemonKit/DKQRCodeScanViewController.h>
 #import <DoraemonKit/DKMultiControlStreamManager.h>
 
