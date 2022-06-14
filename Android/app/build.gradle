@@ -200,11 +200,11 @@ dependencies {
     implementation rootProject.ext.dependencies["easypermissions"]
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位
-    implementation rootProject.ext.dependencies["amap_location"]
+//    implementation rootProject.ext.dependencies["amap_location"]
     //高德地图
 //    implementation rootProject.ext.dependencies["amap_map3d"]
     //高德搜索
-    implementation rootProject.ext.dependencies["amap_search"]
+//    implementation rootProject.ext.dependencies["amap_search"]
     implementation rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
 //    implementation rootProject.ext.dependencies["tencent_location"]

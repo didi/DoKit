@@ -19,6 +19,7 @@
     <string name="dk_kit_service_running">running service</string>
     <string name="dk_kit_local_lang">Language</string>
 
+    <string name="dk_kit_permission_list">Permission List</string>
     <string name="dk_kit_list">Tools</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>

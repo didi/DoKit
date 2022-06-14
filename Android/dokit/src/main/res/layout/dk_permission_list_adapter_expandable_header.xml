@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/holo_gray_dark_ripple_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_expandable_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_right"
+        android:layout_gravity="center_vertical|right"
+        android:rotation="90"
+        android:layout_marginRight="10dp"/>
+
+</FrameLayout>

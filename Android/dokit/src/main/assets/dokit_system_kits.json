@@ -96,7 +96,12 @@
         "allClassName": "com.didichuxing.doraemonkit.kit.h5_help.H5Kit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_h5kit"
-      }
+      },
+        {
+            "allClassName": "com.didichuxing.doraemonkit.kit.permissionlist.PermissionListKit",
+            "checked": true,
+            "innerKitId": "dokit_sdk_platform_ck_permission"
+        }
     ]
   },
   {

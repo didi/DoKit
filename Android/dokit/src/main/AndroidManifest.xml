@@ -53,7 +53,9 @@
             android:name=".kit.connect.DoKitScanActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
-
+        <activity
+            android:name=".kit.permissionlist.ExpandableActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:name=".DebugFileProvider"
             android:authorities="${applicationId}.debugfileprovider"

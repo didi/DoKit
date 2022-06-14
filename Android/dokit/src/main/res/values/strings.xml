@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="dk_app_name">DoKit</string>
 
+    <string name="dk_app_name">DoKit</string>
     <string name="dk_category_biz">业务专区</string>
     <string name="dk_category_comms">常用工具</string>
     <string name="dk_category_lbs">LBS</string>
@@ -26,6 +26,7 @@
     <string name="dk_kit_gps_mock">位置模拟</string>
     <string name="dk_kit_gps_mock_manual">位置微调</string>
 
+    <string name="dk_kit_permission_list">权限列表</string>
     <string name="dk_kit_gps_mock_route">实时导航</string>
     <string name="dk_kit_color_picker">取色器</string>
     <string name="dk_kit_align_ruler">对齐标尺</string>
@@ -404,5 +405,10 @@
     <string name="dk_kit_h5_help">H5助手</string>
     <string name="dk_kit_dokit_for_web">DoKit Web</string>
     <string name="dk_kit_dokit_studio">DoKit Studio</string>
+
+    <item name="type_header" type="integer"/>
+    <item name="type_footer" type="integer"/>
+    <item name="type_child" type="integer"/>
+    <item name="type_empty" type="integer"/>
 
 </resources>

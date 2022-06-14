@@ -26,6 +26,7 @@
     <string name="dk_kit_gps_mock">位置模拟</string>
     <string name="dk_kit_gps_mock_manual">位置微调</string>
     <string name="dk_kit_gps_mock_preset">位置预设</string>
+    <string name="dk_kit_permission_list">权限列表</string>
     <string name="dk_kit_gps_mock_route">实时导航</string>
     <string name="dk_kit_color_picker">取色器</string>
     <string name="dk_kit_align_ruler">对齐标尺</string>

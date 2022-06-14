@@ -13,6 +13,7 @@
     <string name="dk_kit_file_transfer">文件同步助手</string>
     <string name="dk_category_weex">Weex</string>
 
+    <string name="dk_kit_permission_list">權限列表</string>
     <string name="dk_kit_sysinfo">App信息</string>
     <string name="dk_third_library_info">三方库信息</string>
     <string name="dk_kit_develop">開發者選項</string>
