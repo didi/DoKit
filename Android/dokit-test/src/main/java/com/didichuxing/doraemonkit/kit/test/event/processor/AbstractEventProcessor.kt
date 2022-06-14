@@ -127,12 +127,25 @@ abstract class AbstractEventProcessor {
                 LogHelper.e("DoKit", "findWindowRootView() check failed.")
             }
         } else {
-            if (viewC12c.windowIndex > 0) {
-                viewParent = WindowPathUtil.findViewRoot(XposedHookUtil.ROOT_VIEWS, viewC12c.windowIndex)
+            if (viewC12c.windowIndex >= 0) {
+                val windowNode = viewC12c.windowNode
+                if (windowNode != null) {
+                    val parents: List<ViewParent> = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS)
+                    val windows: List<ViewParent> = WindowPathUtil.filterWindowViewRoot(parents, viewC12c.windowNode)
+                    if (windowNode.index >= 0 && windowNode.index < windows.size) {
+                        viewParent = windows[windowNode.index]
+                    } else {
+                        if (windows.isNotEmpty()) {
+                            viewParent = windows.last()
+                        }
+                    }
+                } else {
+                    viewParent = WindowPathUtil.findViewRoot(XposedHookUtil.ROOT_VIEWS, viewC12c.windowIndex)
+                }
             }
         }
-
         return viewParent
     }
+
 
 }

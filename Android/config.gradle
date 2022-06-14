@@ -13,7 +13,7 @@ ext {
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : true,
         group_id     : 'io.github.didi.dokit',
-        version      : '3.7.2'
+        version      : '3.7.3'
     ]
 
     android = [compileSdkVersion             : 29,
@@ -132,12 +132,10 @@ ext {
                     "didi_rpc"                      : 'com.didichuxing.foundation:rpc:2.1.0.86',
                     "okgo"                          : "com.lzy.net:okgo:3.0.4",
                     //高德地图定位
-                    "amap_location"                 : 'com.amap.api:location:latest.integration',
+                    "amap_location"                 : 'com.amap.api:location:6.1.0',
                     //高德地图
-                    "amap_map2d"                    : 'com.amap.api:map2d:latest.integration',
-                    "amap_map3d"                    : 'com.amap.api:map3d:latest.integration',
-                    "amap_search"                   : 'com.amap.api:search:latest.integration',
-                    "amap_navi"                     : 'com.amap.api:navi-3dmap:latest.integration',
+                    "amap_search"                   : 'com.amap.api:search:9.2.0',
+                    "amap_navi"                     : 'com.amap.api:navi-3dmap:8.1.0_3dmap8.1.0',
                     //腾讯地图定位
                     "tencent_location"              : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
                     "tencent_map"                   : 'com.tencent.map:tencent-map-vector-sdk:4.4.0',

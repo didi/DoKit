@@ -3,8 +3,12 @@ package com.didichuxing.doraemonkit.kit.test.utils;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewParent;
+import android.view.Window;
 
 import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout;
+import com.didichuxing.doraemonkit.kit.test.event.WindowNode;
+import com.didichuxing.doraemonkit.test.R;
+import com.didichuxing.doraemonkit.util.RandomUtils;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
@@ -67,6 +71,49 @@ public class WindowPathUtil {
             }
         }
         return parents;
+    }
+
+
+    public static List<ViewParent> filterWindowViewRoot(List<ViewParent> viewParents, WindowNode windowNode) {
+        List<ViewParent> parents = new ArrayList<>();
+        if (viewParents != null) {
+            for (ViewParent parent : viewParents) {
+                WindowNode node = createWindowNode(parent);
+                if (TextUtils.equals(node.getName(), windowNode.getName())
+                    && node.getType() == windowNode.getType()
+                    && TextUtils.equals(node.getRootViewName(), windowNode.getRootViewName())) {
+                    parents.add(parent);
+                }
+            }
+        }
+        return parents;
+    }
+
+
+    public static WindowNode createWindowNode(ViewParent parent) {
+        WindowNode windowNode;
+        View rootView = ReflectUtils.reflect(parent).field("mView").get();
+        windowNode = createWindowNode(rootView);
+        return windowNode;
+    }
+
+    public static WindowNode createWindowNode(View rootView) {
+        WindowNode windowNode;
+        Object node = rootView.getTag(R.id.dokit_test_windowNode);
+        if (node == null) {
+            Window window = ReflectUtils.reflect(rootView).field("mWindow").get();
+            windowNode = new WindowNode(
+                window.getAttributes().getTitle().toString(),
+                RandomUtils.random16HexString(),
+                window.getAttributes().type,
+                rootView.getClass().getName(),
+                0
+            );
+            rootView.setTag(R.id.dokit_test_windowNode, windowNode);
+        } else {
+            windowNode = (WindowNode) node;
+        }
+        return windowNode;
     }
 
 

@@ -28,6 +28,8 @@ object ControlEventManager {
 
     private val controlEventProcessor: ControlEventProcessor = ControlEventProcessor()
 
+    private var lastEventDiffTime: Long = 0
+
     fun updateEventId(id: String) {
         if (id.isNullOrEmpty()) {
             currentEventId = createNextEventId()
@@ -51,7 +53,8 @@ object ControlEventManager {
     fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent) {
         if (!onControlEventActionIntercept(activity, view, controlEvent)) {
             updateEventId(controlEvent.eventId)
-            controlEvent.diffTime = getEventDiffTime()
+            controlEvent.diffTime = lastEventDiffTime
+            lastEventDiffTime = getEventDiffTime()
             onControlEventActionListenerSet.forEach {
                 it.onControlEventAction(activity, view, controlEvent)
             }
