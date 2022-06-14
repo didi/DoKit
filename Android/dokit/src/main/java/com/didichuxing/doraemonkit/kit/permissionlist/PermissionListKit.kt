@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment
 import com.google.auto.service.AutoService
 
 /**
- * Created by wanglikun on 2019/1/7
+ * Created by lmh 2022/6/14
  */
 @AutoService(AbstractKit::class)
 class PermissionListKit : AbstractKit() {

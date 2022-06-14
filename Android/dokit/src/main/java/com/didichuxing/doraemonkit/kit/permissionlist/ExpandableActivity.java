@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * Created by lmh 2022/6/14
+ */
 public class ExpandableActivity extends AppCompatActivity {
     private HashMap<String,MyPermissionInfo> permissonmap;  //获取预处理的所有权限map
     private ArrayList<MyPermissionInfo> PermissionInfoList; //获取预处理的所有权限list
