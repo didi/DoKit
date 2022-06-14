@@ -425,6 +425,17 @@ object AutoTestManager {
         }
 
         override fun onControlEventProcessFailed(activity: Activity?, view: View?, controlEvent: ControlEvent, code: Int, message: String) {
+            // 解决轻微滑动导致的回放滑动异常问题，当作正常响应继续流程
+            if (controlEvent.eventType == EventType.WSE_COMMON_EVENT) {
+                controlEvent.viewC12c?.let {
+                    if (it.actionType == ActionType.ON_SCROLL) {
+                        LogHelper.e("AutoTestManager","ON_SCROLL ERROR!")
+                        onControlEventProcessSuccess(activity, view, controlEvent)
+                        return
+                    }
+                }
+            }
+
             val msg = AutoTestMessage(command = "action_response", message = "failed")
             msg.params["eventId"] = controlEvent.eventId
             msg.params["message"] = message

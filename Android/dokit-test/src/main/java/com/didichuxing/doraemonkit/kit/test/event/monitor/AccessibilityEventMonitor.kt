@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.test.event.monitor;
 
 import android.os.Build
 import android.view.View
+import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import com.didichuxing.doraemonkit.extension.tagName
@@ -106,6 +107,7 @@ object AccessibilityEventMonitor {
             actionName = actionType.getDesc(),
             accEventType = acc.eventType,
             windowIndex = viewRootImplIndex,
+            windowNode = createWindowNode(view.rootView),
             viewPaths = ViewPathUtil.createViewPathOfWindow(view),
             accEventInfo = transformAccEventInfo(acc),
             text = if (view is TextView) {
@@ -116,6 +118,15 @@ object AccessibilityEventMonitor {
             doKitViewPanelNode = createDoKitViewPanel(view),
             doKitViewNode = createDoKitViewInfo(view)
         )
+    }
+
+    private fun createWindowNode(rootView: View): WindowNode {
+        val windowNode: WindowNode = WindowPathUtil.createWindowNode(rootView)
+        val parents: List<ViewParent> = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS)
+        val windows: List<ViewParent> = WindowPathUtil.filterWindowViewRoot(parents, windowNode)
+        val index = windows.indexOf(rootView.parent)
+        windowNode.index = index
+        return windowNode
     }
 
     private fun createDoKitViewPanel(view: View): DoKitViewPanelNode? {
