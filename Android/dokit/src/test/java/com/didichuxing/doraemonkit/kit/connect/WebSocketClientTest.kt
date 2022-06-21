@@ -1,9 +1,13 @@
 package com.didichuxing.doraemonkit.kit.connect
 
+import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
+import com.didichuxing.doraemonkit.kit.connect.parser.ByteParser
+import com.didichuxing.doraemonkit.kit.connect.parser.JsonParser
 import com.didichuxing.doraemonkit.kit.connect.ws.OkHttpWebSocketSession
 import com.didichuxing.doraemonkit.kit.connect.ws.OnWebSocketTextPackageListener
 import com.didichuxing.doraemonkit.kit.connect.ws.WebSocketClient
+import com.didichuxing.doraemonkit.util.RandomUtils
 import org.junit.Test
 
 
@@ -24,9 +28,9 @@ class WebSocketClientTest {
 
 
     @Test
-    fun test(){
-        webSocketClient.connect("ws://172.23.165.169:8000/proxy/multicontrol/ILJLQCCF")
-        webSocketClient.onWebSocketTextPackageListenerSet.add(object :OnWebSocketTextPackageListener{
+    fun test() {
+        webSocketClient.connect("ws://172.23.141.219:8000/proxy/userInterfaceAutomation/XLQBYYHP")
+        webSocketClient.addOnWebSocketTextPackageListener(object : OnWebSocketTextPackageListener {
             override fun onReceiveTextPackage(webSocket: OkHttpWebSocketSession, textPackage: TextPackage) {
 
             }

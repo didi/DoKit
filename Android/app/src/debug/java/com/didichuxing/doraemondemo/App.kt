@@ -13,6 +13,7 @@ import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemondemo.mc.SlideBar
+import com.didichuxing.doraemondemo.module.http.CustomInterceptor
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit

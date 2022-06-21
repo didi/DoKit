@@ -84,7 +84,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(createPendingIntent(context));
         }
         NotificationManager manager = createNotificationManager(context);
         manager.notify(notifyId, builder.build());
@@ -117,7 +117,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(createPendingIntent(context));
         }
         NotificationManager manager = createNotificationManager(context);
         manager.notify(notifyId, builder.build());
@@ -171,7 +171,7 @@ public class DoKitNotificationUtils {
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
         } else {
-            builder.setContentIntent(PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setContentIntent(createPendingIntent(context));
         }
         if (!TextUtils.isEmpty(ticker)) {
             builder.setTicker(ticker);
@@ -214,5 +214,13 @@ public class DoKitNotificationUtils {
             sNotificationManager.createNotificationChannels(channelList);
         }
         return sNotificationManager;
+    }
+
+    private static PendingIntent createPendingIntent(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            return PendingIntent.getBroadcast(context, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+        }
     }
 }

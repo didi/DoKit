@@ -65,6 +65,7 @@
 
     [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
         NSLog(@"使用自带容器打开H5链接: %@",h5Url);
+        
     }];
     
     [[DoraemonManager shareInstance] addWebpHandleBlock:^UIImage * _Nullable(NSString * _Nonnull filePath) {

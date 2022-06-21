@@ -1,21 +1,96 @@
 PODS:
-  - DoraemonKit/Common (3.1.2)
-  - DoraemonKit/EventSynthesize (3.1.2):
-    - DoraemonKit/Common
-  - DoraemonKit/Hook (3.1.2):
-    - DoraemonKit/Common
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
+  - CocoaAsyncSocket (7.6.5)
+  - CocoaHTTPServer (2.3):
+    - CocoaAsyncSocket
+    - CocoaLumberjack
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
+  - DoraemonKit/Core (3.1.2):
+    - AFNetworking
+    - FMDB
+    - GCDWebServer
+    - GCDWebServer/WebDAV
+    - GCDWebServer/WebUploader
+    - JSONModel
+  - DoraemonKit/Foundation (3.1.2):
+    - Mantle (~> 2.2)
+    - SocketRocket (~> 0.6)
+  - DoraemonKit/WithMultiControl (3.1.2):
+    - AFNetworking (~> 3.0)
+    - CocoaHTTPServer
+    - CocoaLumberjack
+    - DoraemonKit/Core
+    - DoraemonKit/Foundation
+    - Masonry
+    - SocketRocket
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GCDWebServer (3.5.4):
+    - GCDWebServer/Core (= 3.5.4)
+  - GCDWebServer/Core (3.5.4)
+  - GCDWebServer/WebDAV (3.5.4):
+    - GCDWebServer/Core
+  - GCDWebServer/WebUploader (3.5.4):
+    - GCDWebServer/Core
+  - JSONModel (1.8.0)
+  - Mantle (2.2.0):
+    - Mantle/extobjc (= 2.2.0)
+  - Mantle/extobjc (2.2.0)
+  - Masonry (1.1.0)
+  - SocketRocket (0.6.0)
 
 DEPENDENCIES:
-  - DoraemonKit/EventSynthesize (from `..`)
-  - DoraemonKit/Hook (from `..`)
+  - DoraemonKit/Core (from `..`)
+  - DoraemonKit/Foundation (from `..`)
+  - DoraemonKit/WithMultiControl (from `..`)
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
+    - CocoaAsyncSocket
+    - CocoaHTTPServer
+    - CocoaLumberjack
+    - FMDB
+    - GCDWebServer
+    - JSONModel
+    - Mantle
+    - Masonry
+    - SocketRocket
 
 EXTERNAL SOURCES:
   DoraemonKit:
     :path: ".."
 
 SPEC CHECKSUMS:
-  DoraemonKit: aa228d6cc263888f68dab6bd14507657397474c1
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  DoraemonKit: e83daed152fb78832d2ac888e0302076bd3a9305
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
+  JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
 
-PODFILE CHECKSUM: c3fb81830bea0d193ce89ec021d6016a61ac10b1
+PODFILE CHECKSUM: e7b9fe686dd84effe497e10534550a42591d2938
 
 COCOAPODS: 1.11.3

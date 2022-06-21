@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.utils
 
-import com.didichuxing.doraemonkit.kit.connect.DoKitSConnectManager
+import com.didichuxing.doraemonkit.kit.connect.DoKitConnectManager
 import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
 import com.didichuxing.doraemonkit.kit.connect.data.PackageType
 import com.didichuxing.doraemonkit.kit.connect.data.TextPackage
@@ -20,7 +20,7 @@ object WSPackageUtils {
         val wsPackage = TextPackage(
             pid = id, type = type, data = GsonUtils.toJson(event),
             contentType = "action",
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         return GsonUtils.toJson(wsPackage)
     }
@@ -30,7 +30,7 @@ object WSPackageUtils {
             pid = RandomUtils.random32HexString(),
             type = type,
             data = data,
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         return GsonUtils.toJson(wsPackage)
     }
@@ -41,7 +41,7 @@ object WSPackageUtils {
             type = type,
             data = "",
             contentType = contentType,
-            connectSerial = DoKitSConnectManager.getConnectSerial()
+            connectSerial = DoKitConnectManager.getConnectSerial()
         )
         return GsonUtils.toJson(wsPackage)
     }

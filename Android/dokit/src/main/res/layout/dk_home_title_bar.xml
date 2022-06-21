@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical">
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="12dp"
+        tools:src="@mipmap/dk_close_icon_big"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerInside"
+        android:visibility="visible" />
 
     <TextView
         style="@style/DK.TitleBig"
         android:id="@+id/title"
-        android:layout_gravity="left|center_vertical"
-        android:layout_marginLeft="15dp"
-        android:visibility="gone" />
+        android:layout_gravity="center_vertical"
+        tools:text="这是标题"
+        android:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|right"
-        android:layout_marginRight="15dp"
-        android:scaleType="centerInside"
-        android:visibility="gone" />
-
-</merge>
+</LinearLayout>

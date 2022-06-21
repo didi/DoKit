@@ -67,7 +67,7 @@ class CommClassTransformer : AbsClassTransformer() {
         }
 
         //gps字节码操作
-        if (DoKitExtUtil.commExt.gpsSwitch) {
+        if (DoKitExtUtil.commExt.gpsSwitch && DoKitExtUtil.DOKIT_GPS_MOCK_INCLUDE) {
             //系统 gpsStatus hook
             klass.methods.forEach { method ->
                 method.instructions?.iterator()?.asIterable()
@@ -82,7 +82,7 @@ class CommClassTransformer : AbsClassTransformer() {
                             it,
                             MethodInsnNode(
                                 INVOKESTATIC,
-                                "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil",
+                                "com/didichuxing/doraemonkit/gps_mock/location/GpsStatusUtil",
                                 "wrap",
                                 "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;",
                                 false
@@ -106,12 +106,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createAmapLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createAmapLocationUnRegisterInsnList()
+                    )
                 }
 
                 //代理getLastKnownLocation
@@ -135,28 +132,25 @@ class CommClassTransformer : AbsClassTransformer() {
 //            }
 
             //插入高德地图导航相关字节码
-//            if (className == "com.amap.api.navi.AMapNavi") {
-//                //设置监听器
-//                klass.methods?.find {
-//                    it.name == "addAMapNaviListener"
-//                }.let { methodNode ->
-//                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-//                    methodNode?.instructions?.insert(createAmapNaviInsnList())
-//                }
+            if (className == "com.amap.api.navi.AMapNavi") {
+                //设置监听器
+                klass.methods?.find {
+                    it.name == "addAMapNaviListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.insert(createAmapNaviInsnList())
+                }
 //
 //                //反注册监听器
-//                klass.methods?.find {
-//                    it.name == "removeAMapNaviListener"
-//                }.let { methodNode ->
-//                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-//                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-//                        methodNode.instructions.insertBefore(
-//                            it,
-//                            createAmapNaviUnRegisterInsnList()
-//                        )
-//                    }
-//                }
-//            }
+                klass.methods?.find {
+                    it.name == "removeAMapNaviListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.insert(
+                        createAmapNaviUnRegisterInsnList()
+                    )
+                }
+            }
 
 
             //插入腾讯地图相关字节码
@@ -175,12 +169,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "removeUpdates"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createTencentLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createTencentLocationUnRegisterInsnList()
+                    )
                 }
             }
 
@@ -205,12 +196,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDLocationListener;)V"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createBDLocationUnRegisterInsnList()
-                        )
-                    }
+                    methodNode?.instructions?.insert(
+                        createBDLocationUnRegisterInsnList()
+                    )
                 }
 
 
@@ -219,26 +207,10 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
+                        methodNode?.instructions?.insert(
                             createBDAbsLocationUnRegisterInsnList()
                         )
-                    }
                 }
-            }
-
-            // 插入新四地图相关字节码
-            if (className == "com.didichuxing.bigdata.dp.locsdk.DIDILocationManager") {
-                // 持续定位和单次定位
-                klass.methods?.filter {
-                    it.name == "requestLocationUpdateOnce" || it.name == "requestLocationUpdates"
-                }?.forEach { methodNode ->
-                    "${context.projectDir.lastPath()}->hook didi map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.insert(createDMapLocationListenerInsnList())
-                }
-
-                // 反注册监听器
             }
         }
 
@@ -754,15 +726,15 @@ class CommClassTransformer : AbsClassTransformer() {
      */
     private fun createAmapLocationInsnList(): InsnList {
         return with(InsnList()) {
-            //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy"))
+            //在AMapLocationClient的 setLocationListener 方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/gps_mock/map/AMapLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/AMapLocationListenerProxy",
                     "<init>",
                     "(Lcom/amap/api/location/AMapLocationListener;)V",
                     false
@@ -781,14 +753,14 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createAmapNaviInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapNavi的addAMapNaviListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapNaviListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/gps_mock/map/AMapNaviListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/AMapNaviListenerProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/AMapNaviListenerProxy",
                     "<init>",
                     "(Lcom/amap/api/navi/AMapNaviListener;)V",
                     false
@@ -808,14 +780,14 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createAmapLocationSourceInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapNavi的addAMapNaviListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapLocationSourceProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/gps_mock/map/AMapLocationSourceProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/AMapLocationSourceProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/AMapLocationSourceProxy",
                     "<init>",
                     "(Lcom/amap/api/maps/LocationSource;)V",
                     false
@@ -837,7 +809,7 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/AMapLocationClientProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/AMapLocationClientProxy",
                     "getLastKnownLocation",
                     "(Lcom/amap/api/location/AMapLocationClient;)Lcom/amap/api/location/AMapLocation;",
                     false
@@ -861,15 +833,15 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterAmapLocationListener",
-                    "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    "(Lcom/amap/api/location/AMapLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/AMapLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
-
     }
 
     /**
@@ -882,12 +854,13 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterAmapNaviListener",
-                    "(Lcom/amap/api/navi/AMapNaviListener;)V",
+                    "(Lcom/amap/api/navi/AMapNaviListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/AMapNaviListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -903,7 +876,7 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 TypeInsnNode(
                     NEW,
-                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy"
+                    "com/didichuxing/doraemonkit/gps_mock/map/TencentLocationListenerProxy"
                 )
             )
             add(InsnNode(DUP))
@@ -912,7 +885,7 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/TencentLocationListenerProxy",
                     "<init>",
                     "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
                     false
@@ -937,12 +910,13 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterTencentLocationListener",
-                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
+                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/TencentLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -955,14 +929,14 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createBDLocationListenerInsnList(): InsnList {
         return with(InsnList()) {
             //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/gps_mock/map/BDLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/BDLocationListenerProxy",
                     "<init>",
                     "(Lcom/baidu/location/BDLocationListener;)V",
                     false
@@ -982,14 +956,14 @@ class CommClassTransformer : AbsClassTransformer() {
     private fun createBDLocationAbsListenerInsnList(): InsnList {
         return with(InsnList()) {
             //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/gps_mock/map/BDAbsLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/gps_mock/map/BDAbsLocationListenerProxy",
                     "<init>",
                     "(Lcom/baidu/location/BDAbstractLocationListener;)V",
                     false
@@ -1012,12 +986,13 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterBDLocationListener",
-                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    "(Lcom/baidu/location/BDLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/BDLocationListenerProxy;",
                     false
                 )
             )
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -1033,12 +1008,14 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/ThirdMapLocationListenerUtil",
                     "unRegisterBDLocationListener",
-                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)Lcom/didichuxing/doraemonkit/gps_mock/map/BDAbsLocationListenerProxy;",
                     false
                 )
             )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
             this
         }
 
@@ -1054,7 +1031,7 @@ class CommClassTransformer : AbsClassTransformer() {
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/doraemonkit/aop/BDLocationUtil",
+                    "com/didichuxing/doraemonkit/gps_mock/map/BDLocationUtil",
                     "proxy",
                     "(Lcom/baidu/location/BDLocation;)Lcom/baidu/location/BDLocation;",
                     false
@@ -1066,32 +1043,6 @@ class CommClassTransformer : AbsClassTransformer() {
         }
 
     }
-
-    /**
-     * 创建新四地图代码指令
-     */
-    private fun createDMapLocationListenerInsnList(): InsnList {
-        return with(InsnList()) {
-            //在DIDILocationManager的requestLocationUpdateOnce方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/DMapLocationListenerProxy"))
-            add(InsnNode(DUP))
-            //访问第一个参数
-            add(VarInsnNode(ALOAD, 1))
-            add(
-                MethodInsnNode(
-                    INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/map/DMapLocationListenerProxy",
-                    "<init>",
-                    "(Lcom/didichuxing/bigdata/dp/locsdk/DIDILocationListener;)V",
-                    false
-                )
-            )
-            //对第一个参数进行重新赋值
-            add(VarInsnNode(ASTORE, 1))
-            this
-        }
-    }
-
 
     /**
      * 创建OkhttpClient一个数构造函数指令

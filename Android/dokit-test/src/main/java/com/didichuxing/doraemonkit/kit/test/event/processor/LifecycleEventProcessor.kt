@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.util.DoKitCommUtil
  */
 class LifecycleEventProcessor : AbstractEventProcessor() {
 
-    override fun onSimulationEventAction(activity: Activity, view: View, viewC12c: ViewC12c, controlEvent: ControlEvent) {
+    override fun onSimulationEventAction(activity: Activity, view: View?, viewC12c: ViewC12c, controlEvent: ControlEvent) {
 
     }
 

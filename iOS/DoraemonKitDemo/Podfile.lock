@@ -21,32 +21,31 @@ PODS:
   - CocoaLumberjack (3.7.2):
     - CocoaLumberjack/Core (= 3.7.2)
   - CocoaLumberjack/Core (3.7.2)
-  - DoraemonKit/Core (3.0.8):
+  - DoraemonKit/Core (3.1.2):
     - AFNetworking
     - FMDB
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
-  - DoraemonKit/WithDatabase (3.0.8):
+  - DoraemonKit/WithDatabase (3.1.2):
     - DoraemonKit/Core
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (3.0.8):
+  - DoraemonKit/WithGPS (3.1.2):
     - DoraemonKit/Core
-  - DoraemonKit/WithLoad (3.0.8):
+  - DoraemonKit/WithLoad (3.1.2):
     - DoraemonKit/Core
-  - DoraemonKit/WithLogger (3.0.8):
+  - DoraemonKit/WithLogger (3.1.2):
     - CocoaLumberjack
     - DoraemonKit/Core
-  - DoraemonKit/WithMLeaksFinder (3.0.8):
+  - DoraemonKit/WithMLeaksFinder (3.1.2):
     - DoraemonKit/Core
     - FBRetainCycleDetector
-  - DoraemonKit/WithMultiControl (3.0.8):
-    - AFNetworking
+  - DoraemonKit/WithMultiControl (3.1.2):
     - CocoaHTTPServer
     - CocoaLumberjack
     - DoraemonKit/Core
     - SocketRocket
-  - DoraemonKit/WithWeex (3.0.8):
+  - DoraemonKit/WithWeex (3.1.2):
     - DoraemonKit/Core
     - WeexSDK
     - WXDevtool
@@ -140,12 +139,12 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
   CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
-  DoraemonKit: 8df7d459f2af3da8e71a55fadf2d5d686551e79d
+  DoraemonKit: aa228d6cc263888f68dab6bd14507657397474c1
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
-  libwebp: 9c174486ec18a564cf0ecea2adcc85d10968ff98
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f56ab499e3ea57dfeb6c3187dce183b10e160db0
@@ -156,4 +155,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: eb4dd1e6c68fe5acfa519a16e30fff7583e1ea69
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.3

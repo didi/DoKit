@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.CompoundButton
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitFragment
 
 /**
  * @Author: changzuozhen
@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
  * 切换全屏与否只需要调整继承关系即可
  * @see CustomDokitFragment
  *
- * @see TestSimpleDokitFloatView
+ * @see TestSimpleDoKitFloatView
  *
  *
  * 悬浮窗，支持折叠
@@ -24,11 +24,11 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
  *
  * 全屏页面
  *
- * @see com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
+ * @see com.didichuxing.doraemonkit.kit.core.AbsDoKitFragment
  * 启动工具函数
  *
  */
-class CustomDokitFragment : AbsDokitFragment() {
+class CustomDokitFragment : AbsDoKitFragment() {
     override fun onViewCreated(rootView: View?) {
         super.onViewCreated(view)
         ViewSetupHelper.setupButton(rootView, R.id.test1, "TestSimpleDokitFragment") { v: View? ->

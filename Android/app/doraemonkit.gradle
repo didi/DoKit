@@ -11,7 +11,7 @@ if (runType == 0) {
 //        debugImplementation project(":dokit-weex")
 //        debugImplementation project(":dokit-rpc")
 //        debugImplementation project(":dokit-rpc-mc")
-//        debugImplementation project(":dokit-dmap")
+        debugImplementation project(":dokit-gps-mock")
         releaseImplementation project(":dokit-no-op")
     }
 } else if (runType == 1) {
@@ -23,6 +23,7 @@ if (runType == 0) {
         debugImplementation "io.github.didi.dokit:dokitx-ft:${rootProject.ext.publish_config["version"]}"
         debugImplementation "io.github.didi.dokit:dokitx-mc:${rootProject.ext.publish_config["version"]}"
         debugImplementation "io.github.didi.dokit:dokitx-weex:${rootProject.ext.publish_config["version"]}"
+        debugImplementation "io.github.didi.dokit:dokit-gps-mock:${rootProject.ext.publish_config["version"]}"
         releaseImplementation "io.github.didi.dokit:dokitx-no-op:${rootProject.ext.publish_config["version"]}"
     }
 }

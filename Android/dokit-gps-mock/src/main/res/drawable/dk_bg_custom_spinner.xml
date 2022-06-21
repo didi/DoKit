@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第一组item：设置边框 -->
+    <item>
+        <shape>
+            <!-- 设置边框线宽度和颜色 -->
+            <stroke
+                android:width="1px"
+                android:color="@color/color_edt_stroke_line"/>
+            <!-- 设置圆角度数 -->
+            <corners android:radius="5dp" />
+            <!-- 设置背景颜色 -->
+            <solid android:color="#ffffff" />
+            <!-- padding：设置边距 -->
+        </shape>
+    </item>
+
+    <!-- 第二组item：设置spinner箭头图片(替换默认箭头) -->
+    <item>
+        <bitmap
+            android:gravity="end"
+            android:src="@mipmap/dk_icon_arrow_down_expand"/>
+    </item>
+
+</layer-list>

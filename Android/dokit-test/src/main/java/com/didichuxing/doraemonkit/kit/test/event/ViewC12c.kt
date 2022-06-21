@@ -15,6 +15,7 @@ data class ViewC12c(
     val actionName: String = ActionType.UNKNOWN.getDesc(),
     val params: Map<String, String> = mutableMapOf(),
     val windowIndex: Int = -1,
+    val windowNode: WindowNode? = null,
     val viewPath: String = "",
     val viewPaths: MutableList<SystemViewNode>? = null,
     val accEventType: Int = -1,
@@ -26,5 +27,6 @@ data class ViewC12c(
     var scrollY: Long = -1,
     var inputValue: String = "",
     var position: Position? = null,
-    val doKitViewNode: DoKitViewNode? = null
+    val doKitViewNode: DoKitViewNode? = null,
+    val doKitViewPanelNode: DoKitViewPanelNode? = null
 )

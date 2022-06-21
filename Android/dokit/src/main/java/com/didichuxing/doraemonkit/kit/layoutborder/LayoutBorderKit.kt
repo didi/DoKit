@@ -19,7 +19,7 @@ class LayoutBorderKit : AbstractKit() {
         get() = R.mipmap.dk_view_border
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating(LayoutLevelDokitView::class.java)
+        DoKit.launchFloating(LayoutLevelDoKitView::class.java)
         LayoutBorderManager.getInstance().start()
         LayoutBorderConfig.setLayoutBorderOpen(true)
         LayoutBorderConfig.setLayoutLevelOpen(true)

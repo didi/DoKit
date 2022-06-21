@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeekRangeBar">
+        <!--滑块背景-->
+        <attr name="slide_btn_low_shape" format="reference" />
+        <attr name="slide_btn_high_shape" format="reference" />
+        <!--单位字体颜色-->
+        <attr name="indicator_text_color" format="color"/>
+        <attr name="indicator_text_size" format="dimension"/>
+        <!--滑块的大小-->
+        <attr name="indicator_size" format="dimension"/>
+        <!--进图条背景-->
+        <attr name="bar_bg_shape" format="reference"/>
+        <!--进度条前景-->
+        <attr name="bar_fg_shape" format="reference"/>
+        <!--进度条宽-->
+        <attr name="bar_height" format="dimension"/>
+    </declare-styleable>
+
+    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+</resources>

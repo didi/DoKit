@@ -25,7 +25,7 @@ class DemoKit : AbstractKit() {
         get() = R.mipmap.dk_sys_info
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating(DemoDokitView::class.java)
+        DoKit.launchFloating(DemoDoKitView::class.java)
         return true
     }
 

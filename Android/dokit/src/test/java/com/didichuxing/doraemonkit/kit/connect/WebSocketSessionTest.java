@@ -70,6 +70,10 @@ public class WebSocketSessionTest {
                     "android", "cos", "text", "", 0);
                 String text = GsonUtils.toJson(textPackage);
                 webSocket.send(text);
+
+                ByteParserTest byteParserTest = new ByteParserTest();
+
+                session.send(byteParserTest.getByteString());
             }
 
             @Override
@@ -82,7 +86,9 @@ public class WebSocketSessionTest {
                 log("onClosing() code=" + code + ",reason=" + reason);
             }
         });
-        session.connect("ws://172.23.165.169:8000/proxy/multicontrol/ILJLQCCF");
+        session.connect("ws://172.23.141.219:8000/proxy/userInterfaceAutomation/XLQBYYHP");
+
+
 
         Thread.currentThread().join();
     }

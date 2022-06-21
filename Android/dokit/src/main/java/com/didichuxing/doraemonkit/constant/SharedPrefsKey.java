@@ -10,7 +10,18 @@ public interface SharedPrefsKey {
     String FRAME_INFO_MEMORY_OPEN = "frame_info_memory_open";
     String FRAME_INFO_TRAFFIC_OPEN = "frame_info_traffic_open";
     String FRAME_INFO_UI_OPEN = "frame_info_ui_open";
+
     String GPS_MOCK_OPEN = "gps_mock_open";
+    String POS_MOCK_OPEN = "pos_mock_open";
+    String ROUTE_MOCK_OPEN = "route_mock_open";
+    String ROUTE_MOCK_SPEED = "route_mock_speed";
+    String ROUTE_MOCK_ACCURACY = "route_mock_accuracy";
+    String ROUTE_DRIFT_MOCK_OPEN = "route_drift_mock_open";
+    String ROUTE_DRIFT_MODE= "route_drift_mode";
+    String ROUTE_DRIFT_TYPE = "route_drift_type";
+    String ROUTE_DRIFT_SEEKBAR_PROGRESS_LOW = "route_drift_seekbar_progress_low";
+    String ROUTE_DRIFT_SEEKBAR_PROGRESS_HIGH = "route_drift_seekbar_progress_high";
+
     String CRASH_CAPTURE_OPEN = "crash_capture_open";
     String FLOAT_ICON_POS_X = "float_icon_pos_x";
     String FLOAT_ICON_POS_Y = "float_icon_pos_y";

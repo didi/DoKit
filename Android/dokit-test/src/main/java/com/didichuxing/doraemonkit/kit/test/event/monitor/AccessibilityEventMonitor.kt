@@ -2,20 +2,16 @@ package com.didichuxing.doraemonkit.kit.test.event.monitor;
 
 import android.os.Build
 import android.view.View
+import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
+import com.didichuxing.doraemonkit.kit.core.DoKitFrameLayout
 import com.didichuxing.doraemonkit.kit.test.DoKitTestManager
-import com.didichuxing.doraemonkit.kit.test.event.ControlEventManager
-import com.didichuxing.doraemonkit.kit.test.util.XposedHookUtils
-import com.didichuxing.doraemonkit.kit.test.event.ControlEvent
-import com.didichuxing.doraemonkit.kit.test.event.AccessibilityEventNode
-import com.didichuxing.doraemonkit.kit.test.event.DoKitViewNode
-import com.didichuxing.doraemonkit.kit.test.event.ViewC12c
-import com.didichuxing.doraemonkit.kit.test.event.EventType
-import com.didichuxing.doraemonkit.kit.test.util.ViewPathUtil
-import com.didichuxing.doraemonkit.kit.test.util.WindowPathUtil
+import com.didichuxing.doraemonkit.kit.test.event.*
+import com.didichuxing.doraemonkit.kit.test.utils.XposedHookUtil
+import com.didichuxing.doraemonkit.kit.test.utils.ViewPathUtil
+import com.didichuxing.doraemonkit.kit.test.utils.WindowPathUtil
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 
@@ -50,7 +46,7 @@ object AccessibilityEventMonitor {
             }
             //针对dokit悬浮窗
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                if (view is DokitFrameLayout) {
+                if (view is DoKitFrameLayout) {
                     onViewHandleEvent(view, event)
                 }
             }
@@ -68,9 +64,9 @@ object AccessibilityEventMonitor {
             AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED -> {
                 onViewHandleEvent(view, event)
             }
-
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
             AccessibilityEvent.TYPE_VIEW_SELECTED -> {
-                LogHelper.i(TAG, "TYPE_VIEW_SELECTED ,class=${view.javaClass},view=$view")
+                LogHelper.i(TAG, "TYPE_VIEW_SELECTED or TYPE_WINDOW_STATE_CHANGED ,class=${view.javaClass},view=$view")
             }
             else -> {
                 LogHelper.e(TAG, "type=${event.eventType},class=${view.javaClass},view=$view")
@@ -79,7 +75,6 @@ object AccessibilityEventMonitor {
     }
 
     private fun onViewHandleEvent(view: View, accessibilityEvent: AccessibilityEvent) {
-
         val activity = ViewPathUtil.getActivity(view)
         val actionId = ControlEventManager.createNextEventId()
         val viewC12c: ViewC12c = createViewC12c(view, accessibilityEvent)
@@ -98,7 +93,7 @@ object AccessibilityEventMonitor {
 
     private fun createViewC12c(view: View, acc: AccessibilityEvent): ViewC12c {
         var viewRootImplIndex: Int = -1
-        var viewParents = WindowPathUtil.filterViewRoot(XposedHookUtils.ROOT_VIEWS);
+        var viewParents = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS);
         viewParents?.let {
             viewRootImplIndex = if (view.rootView.parent == null) {
                 it.size - 1
@@ -106,9 +101,13 @@ object AccessibilityEventMonitor {
                 it.indexOf(view.rootView.parent)
             }
         }
+        val actionType: ActionType = ActionType.valueOf(acc)
         return ViewC12c(
+            actionType = actionType,
+            actionName = actionType.getDesc(),
             accEventType = acc.eventType,
             windowIndex = viewRootImplIndex,
+            windowNode = createWindowNode(view.rootView),
             viewPaths = ViewPathUtil.createViewPathOfWindow(view),
             accEventInfo = transformAccEventInfo(acc),
             text = if (view is TextView) {
@@ -116,16 +115,34 @@ object AccessibilityEventMonitor {
             } else {
                 ""
             },
+            doKitViewPanelNode = createDoKitViewPanel(view),
             doKitViewNode = createDoKitViewInfo(view)
         )
     }
 
+    private fun createWindowNode(rootView: View): WindowNode {
+        val windowNode: WindowNode = WindowPathUtil.createWindowNode(rootView)
+        val parents: List<ViewParent> = WindowPathUtil.filterViewRoot(XposedHookUtil.ROOT_VIEWS)
+        val windows: List<ViewParent> = WindowPathUtil.filterWindowViewRoot(parents, windowNode)
+        val index = windows.indexOf(rootView.parent)
+        windowNode.index = index
+        return windowNode
+    }
+
+    private fun createDoKitViewPanel(view: View): DoKitViewPanelNode? {
+        if (view.rootView is DoKitFrameLayout) {
+            val viewParents = WindowPathUtil.filterDoKitViewRoot(XposedHookUtil.ROOT_VIEWS)
+            val windowIndex = viewParents.indexOf(view.rootView.parent)
+            return DoKitViewPanelNode(windowIndex = windowIndex, className = (view.rootView as DoKitFrameLayout).title)
+        }
+        return null
+    }
 
     /**
      * 创建dokitview info
      */
     private fun createDoKitViewInfo(view: View): DoKitViewNode? {
-        if (view !is DokitFrameLayout) {
+        if (view !is DoKitFrameLayout) {
             return null
         }
 

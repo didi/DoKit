@@ -67,6 +67,7 @@ import static android.text.format.Formatter.formatShortFileSize;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.squareup.leakcanary.BuildConfig.LEAKCANARY_LIBRARY_VERSION;
+import android.os.Build;
 
 @SuppressWarnings("ConstantConditions")
 public final class DisplayLeakActivity extends Activity {
@@ -84,7 +85,11 @@ public final class DisplayLeakActivity extends Activity {
     Intent intent = new Intent(context, DisplayLeakActivity.class);
     intent.putExtra(SHOW_LEAK_EXTRA, referenceKey);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }else{
+        return PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);
+    }
   }
 
   // null until it's been first loaded.

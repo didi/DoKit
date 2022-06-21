@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/head_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dk_bg_gray_round_rectangle"
+        android:padding="@dimen/border_padding">
+
+        <EditText
+            android:id="@+id/edt_select_position"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edt_height"
+            android:background="@drawable/dk_bg_round_edt"
+            android:hint="@string/position_address"
+            android:paddingLeft="6dp"
+            android:singleLine="true"
+            android:textColor="@color/color_bold_text_black"
+            android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+            android:textSize="@dimen/edt_text_size"
+            android:textColorHint="@color/color_bold_text_hint"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_position_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

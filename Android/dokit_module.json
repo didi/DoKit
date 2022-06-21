@@ -13,8 +13,8 @@
     "dokit-hook": "dokitx-hook",
     "dokit-rpc": "dokitx-rpc",
     "dokit-rpc-mc": "dokitx-rpc-mc",
-    "dokit-dmap": "dokitx-dmap",
     "dokit-test": "dokitx-test",
     "dokit-autotest": "dokitx-autotest",
+    "dokit-gps-mock": "dokitx-gps-mock",
     "dokit-pthread-hook": "dokitx-pthread-hook"
 }

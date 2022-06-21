@@ -12,7 +12,6 @@ import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
@@ -49,12 +48,12 @@ public class LogInfoSettingFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_log_info) {
                     if (on) {
-                        DoKit.launchFloating(LogInfoDokitView.class);
+                        DoKit.launchFloating(LogInfoDoKitView.class);
 
                         //开启日志服务
                         LogInfoManager.getInstance().start();
                     } else {
-                        DoKit.removeFloating(LogInfoDokitView.class);
+                        DoKit.removeFloating(LogInfoDoKitView.class);
                         //关闭日志服务
                         LogInfoManager.getInstance().stop();
                         //清空回调

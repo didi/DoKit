@@ -22,7 +22,7 @@ class LogInfoKit : AbstractKit() {
         get() = true
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating<LogInfoDokitView>()
+        DoKit.launchFloating<LogInfoDoKitView>()
         //开启日志服务
         LogInfoManager.getInstance().start()
         return true

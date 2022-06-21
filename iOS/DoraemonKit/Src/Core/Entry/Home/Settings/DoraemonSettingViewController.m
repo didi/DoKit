@@ -43,7 +43,7 @@
     
     WEAKSELF(weakSelf)
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [NSURL URLWithString:@"http://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group"];
+    NSURL *url = [NSURL URLWithString:@"https://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group"];
     NSURLSessionTask *task = [session dataTaskWithURL:url
                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError* error) {
         if (error == nil) {
