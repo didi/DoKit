@@ -13,12 +13,13 @@ import HelloWorld from './components/ToolHelloWorld'
 import Resource from './plugins/resources/index'
 import ApiMock from './plugins/api-mock/index'
 import WebVitals from './plugins/web-vitals-time/index'
+import BasicTools from './plugins/basic-tools/index'
 
 import {IndependPlugin, RouterPlugin} from '@dokit/web-core'
 
 export const BasicFeatures = {
   title: '常用工具',
-  list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin, WebVitals, Element, OneMachineWithMultipleControls, scanCode]
+  list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin, WebVitals, Element, OneMachineWithMultipleControls, scanCode,BasicTools]
   // list: [Console, AppInfo, Resource, Network, Storage, H5DoorPlugin]
 }
 
