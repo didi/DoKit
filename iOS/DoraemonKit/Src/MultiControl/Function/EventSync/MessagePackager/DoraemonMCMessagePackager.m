@@ -29,6 +29,10 @@ static NSString const *kcustomTypeKey =@"customType";
     DoraemonMCMessage *messageInstance = [[DoraemonMCMessage alloc] init];
     messageInstance.type = type;
     DoraemonMCXPathSerializer *xPathInstance = [DoraemonMCXPathSerializer xPathInstanceWithView:view];
+    if (xPathInstance.windowIndex == NSNotFound) {
+        // 如果存在埋点 SDK，埋点会被后调用，先前调用的业务 action 关闭了当前页面，导致 sender 不存在于视图中，会出现这种情况。这种情况需要过滤
+        return nil;
+    }
     if (xPathInstance.ignore) {
         return nil;
     }

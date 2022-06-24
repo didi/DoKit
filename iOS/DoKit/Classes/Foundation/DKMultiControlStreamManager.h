@@ -34,7 +34,9 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 /// @brief Main thread.
 @interface DKMultiControlStreamManager : NSObject
 
-@property(nonatomic, nullable, copy) NSString *_Nullable (^searchIdConstructor)(NSURL *url);
+@property(nonatomic, nullable, copy) NSString *(^searchIdConstructor)(NSURL *url);
+
+@property(nonatomic, nullable, copy) void (^tcpHandler)(NSString *_Nullable message);
 
 @property(readonly) DKMultiControlStreamManagerState state;
 
@@ -59,6 +61,8 @@ typedef NS_ENUM(NSUInteger, DKMultiControlStreamManagerState) {
 - (void)queryWithUrlRequest:(NSURLRequest *)urlRequest completionBlock:(void (^)(NSError *_Nullable error, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data))completionBlock;
 
 - (void)broadcastWithActionMessage:(NSString *)message;
+
+- (void)broadcastWithTCPMessage:(nullable NSString *)message;
 
 @end
 

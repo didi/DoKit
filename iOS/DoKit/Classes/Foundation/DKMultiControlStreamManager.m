@@ -29,8 +29,6 @@ static NSString *generateId(void);
 
 static NSString *const MULTI_CONTROL_HOST = @"mc_host";
 
-static NSString *const MULTI_CONTROL_ACTION = @"action";
-
 //static NSString *const BEHAVIOR_ID = @"68753A444D6F12269C600050E4C00067";
 
 @interface DKMultiControlStreamManager ()
@@ -89,7 +87,7 @@ NSString *generateId(void) {
         typeof(weakSelf) self = weakSelf;
         if ([commonDTOModel.dataType isEqualToString:MULTI_CONTROL_HOST]) {
             [self changeToSlave];
-        } else if ([commonDTOModel.dataType isEqualToString:MULTI_CONTROL_ACTION]) {
+        } else if ([commonDTOModel.dataType isEqualToString:DK_ACTION]) {
             // Handle behaviorId and process data.
             NSData *jsonData = [commonDTOModel.data dataUsingEncoding:NSUTF8StringEncoding];
             if (jsonData) {
@@ -103,6 +101,8 @@ NSString *generateId(void) {
                     }
                 }
             }
+        } else if ([commonDTOModel.dataType isEqualToString:DK_TCP]) {
+            self.tcpHandler ? self.tcpHandler(commonDTOModel.data) : nil;
         }
     };
     for (id <DKMultiControlStreamManagerStateListener> listener in self.listenerArray) {
@@ -386,6 +386,30 @@ NSString *generateId(void) {
     commonDTOModel.dataType = DK_ACTION;
     jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
     jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    if (jsonData) {
+        dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    if (!dataString) {
+        return;
+    }
+    [self.webSocketSession sendString:dataString requestId:nil completionHandler:nil];
+}
+
+- (void)broadcastWithTCPMessage:(NSString *)message {
+    if (!self.webSocketSession) {
+        return;
+    }
+    DKCommonDTOModel *commonDTOModel = [[DKCommonDTOModel alloc] init];
+    commonDTOModel.requestId = nil;
+    commonDTOModel.deviceType = DK_DEVICE_TYPE;
+    commonDTOModel.data = message;
+    commonDTOModel.method = DK_WEBSOCKET_BROADCAST;
+    commonDTOModel.connectSerial = self.webSocketSession.sessionUUID;
+    commonDTOModel.dataType = DK_ACTION;
+    NSError *error = nil;
+    NSDictionary *jsonDictionary = [MTLJSONAdapter JSONDictionaryFromModel:commonDTOModel error:&error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary ?: @{} options:0 error:&error];
+    NSString *dataString = nil;
     if (jsonData) {
         dataString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
