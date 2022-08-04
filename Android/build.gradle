@@ -41,15 +41,16 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         // MavenCentral
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.30"
         if (runType == 1) {
             classpath "io.github.didi.dokit:dokitx-plugin:$dokitPluginVersion"
         }
+
 //        classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
 
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
 //        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
     }

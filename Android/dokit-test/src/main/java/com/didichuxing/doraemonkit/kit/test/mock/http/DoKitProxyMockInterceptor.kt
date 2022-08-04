@@ -5,12 +5,10 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterc
 import com.didichuxing.doraemonkit.kit.test.mock.MockManager
 import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 import com.didichuxing.doraemonkit.util.LogHelper
-import io.ktor.http.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import java.io.IOException
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

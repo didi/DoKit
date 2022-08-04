@@ -73,9 +73,14 @@ public class DataPickBean {
          * 埋点记录时间
          */
         private String time;
+        /**
+         * 页面ID
+         */
+        private String pageId;
 
-        EventBean(String eventName) {
+        EventBean(String eventName, String pageId) {
             this.eventName = eventName;
+            this.pageId = pageId;
             this.time = "" + TimeUtils.getNowMills();
         }
 
@@ -88,9 +93,10 @@ public class DataPickBean {
         @Override
         public String toString() {
             return "EventBean{" +
-                    ", eventName='" + eventName + '\'' +
-                    ", time=" + time +
-                    '}';
+                "eventName='" + eventName + '\'' +
+                ", time='" + time + '\'' +
+                ", pageId='" + pageId + '\'' +
+                '}';
         }
     }
 
