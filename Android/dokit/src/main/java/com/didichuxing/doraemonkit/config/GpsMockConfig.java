@@ -49,6 +49,14 @@ public class GpsMockConfig {
         DoKitSPUtil.putBoolean(SharedPrefsKey.ROUTE_DRIFT_MOCK_OPEN, open);
     }
 
+    public static boolean isRouteDriftMockLostLocOpen() {
+        return DoKitSPUtil.getBoolean(SharedPrefsKey.ROUTE_DRIFT_MOCK_LOST_LOC_OPEN, false);
+    }
+
+    public static void putRouteDriftMockLostLocOpen(boolean open) {
+        DoKitSPUtil.putBoolean(SharedPrefsKey.ROUTE_DRIFT_MOCK_LOST_LOC_OPEN, open);
+    }
+
     public static void putRouteMockSpeed(float speed) {
         DoKitSPUtil.putFloat(SharedPrefsKey.ROUTE_MOCK_SPEED, speed);
     }
@@ -95,6 +103,23 @@ public class GpsMockConfig {
 
     public static int getSeekBarHigh() {
         return DoKitSPUtil.getInt(SharedPrefsKey.ROUTE_DRIFT_SEEKBAR_PROGRESS_HIGH, 100);
+    }
+
+
+    public static void putLostLocSeekBarLow(int progressLow) {
+        DoKitSPUtil.putInt(SharedPrefsKey.ROUTE_DRIFT_LOST_LOC_SEEKBAR_PROGRESS_LOW, progressLow);
+    }
+
+    public static int getLostLocSeekBarLow() {
+        return DoKitSPUtil.getInt(SharedPrefsKey.ROUTE_DRIFT_LOST_LOC_SEEKBAR_PROGRESS_LOW, 0);
+    }
+
+    public static void putLostLocSeekBarHigh(int progressLow) {
+        DoKitSPUtil.putInt(SharedPrefsKey.ROUTE_DRIFT_LOST_LOC_SEEKBAR_PROGRESS_HIGH, progressLow);
+    }
+
+    public static int getLostLocSeekBarHigh() {
+        return DoKitSPUtil.getInt(SharedPrefsKey.ROUTE_DRIFT_LOST_LOC_SEEKBAR_PROGRESS_HIGH, 100);
     }
 
     public static LatLng getMockLocation() {

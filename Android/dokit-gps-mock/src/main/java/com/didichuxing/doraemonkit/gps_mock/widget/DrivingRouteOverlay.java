@@ -24,7 +24,6 @@ import java.util.List;
 public class DrivingRouteOverlay extends OverlayManager {
 
     private DrivingRouteLine mRouteLine = null;
-    private BdMapRouteData mBdMapRouteData;
     boolean focus = false;
 
     /**

@@ -9,6 +9,8 @@
     <string name="title_route_mock_speed">速度:</string>
     <string name="route_mock_speed_unit">km/h</string>
     <string name="edt_pos_lat_long_hint"><font size="12">输入经纬度(逗号隔开),例如120.152637,30.283940</font></string>
+    <string name="title_route_lost_loc_mock">定位点丢失</string>
+    <string name="des_lost_loc_path">定位点丢失范围:</string>
     <string name="des_drift_type">漂移类型:</string>
     <string-array name="array_drift_type">
         <item>随机漂移</item>

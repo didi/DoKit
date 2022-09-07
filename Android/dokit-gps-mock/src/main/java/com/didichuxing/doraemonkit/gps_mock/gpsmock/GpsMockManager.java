@@ -172,7 +172,7 @@ public class GpsMockManager {
     public void startMockRouteLine(List<com.baidu.mapapi.model.LatLng> points, double speed, RouteMockThread.RouteMockStatusCallback statusCallback) {
         if (isMockingRoute()) return;
 
-        if (isMockingRoute() && mRouteMockThread.isSuspend()){
+        if (isMockingRoute() && mRouteMockThread.isSuspend()) {
             suspendRouteMock(false);
             return;
         }
@@ -189,14 +189,14 @@ public class GpsMockManager {
         }
     }
 
-    public void setStatusCallback(RouteMockThread.RouteMockStatusCallback statusCallback){
-        if (mRouteMockThread != null){
+    public void setStatusCallback(RouteMockThread.RouteMockStatusCallback statusCallback) {
+        if (mRouteMockThread != null) {
             mRouteMockThread.setRouteMockStatusCallback(statusCallback);
         }
     }
 
-    public void removeStatusCallback(){
-        if (mRouteMockThread != null){
+    public void removeStatusCallback() {
+        if (mRouteMockThread != null) {
             mRouteMockThread.clearRouteMockStatusCallback();
         }
     }
@@ -204,20 +204,84 @@ public class GpsMockManager {
     /**
      * 停止模拟.
      */
-    public void interruptRouteMockThread(){
-        if (GpsMockManager.getInstance().isMockingRoute()){
+    public void interruptRouteMockThread() {
+        if (GpsMockManager.getInstance().isMockingRoute()) {
             mRouteMockThread.interrupt();
         }
     }
 
     /**
-     *
      * @param suspend true: 暂停模拟; false:继续模拟
      */
-    public void suspendRouteMock(boolean suspend){
-        if (isMockingRoute()){
+    public void suspendRouteMock(boolean suspend) {
+        if (isMockingRoute()) {
             mRouteMockThread.notifyThread(suspend);
         }
+    }
+
+    public void calculateOriginRouteWithLocLost(double progressLow, double progressHigh) {
+        BdMapRouteData bdMapRouteData = GpsMockManager.getInstance().getBdMockDrivingRouteLine();
+        if (bdMapRouteData == null) return;
+        List<com.baidu.mapapi.model.LatLng> originRoutePoints = bdMapRouteData.getAllPoints();
+        int totalPointsSize = originRoutePoints.size();
+        if (totalPointsSize < 2) return;
+
+        int startIndex = Math.round((totalPointsSize / 100.0f) * (int) progressLow);
+        int endIndex = Math.round((totalPointsSize / 100.0f) * (int) progressHigh);
+        if (endIndex <= startIndex) return;
+        int startLostIndex = startIndex > 0 ? (startIndex - 1) : 0;
+        if (endIndex > totalPointsSize) {
+            endIndex = totalPointsSize - 1;
+        }
+
+        startIndex = startIndex <= 0 ? 1 : startIndex;
+        endIndex = endIndex == totalPointsSize ? (endIndex - 1) : endIndex;
+        com.baidu.mapapi.model.LatLng originRouteStartLostPoint = originRoutePoints.get(startLostIndex);
+        com.baidu.mapapi.model.LatLng originRouteEndLostPoint = originRoutePoints.get(endIndex);
+        bdMapRouteData.mOriginRouteStartLostPoint = originRouteStartLostPoint;
+        bdMapRouteData.mOriginRouteEndLostPoint = originRouteEndLostPoint;
+
+        List<com.baidu.mapapi.model.LatLng> tempLostLocOriginRoutePoints = new ArrayList<>();
+        tempLostLocOriginRoutePoints.addAll(originRoutePoints.subList(0, startIndex));
+        tempLostLocOriginRoutePoints.addAll(originRoutePoints.subList(endIndex, totalPointsSize));
+        bdMapRouteData.setOriginRouteLostLocPoints(tempLostLocOriginRoutePoints);
+    }
+
+    public void calculateDriftRouteWithLocLost(double progressLow, double progressHigh) {
+        BdMapRouteData bdMapRouteData = GpsMockManager.getInstance().getBdMockDrivingRouteLine();
+        if (bdMapRouteData == null) return;
+        List<com.baidu.mapapi.model.LatLng> randomDriftPoints = bdMapRouteData.getRandomDriftPoints();
+        List<com.baidu.mapapi.model.LatLng> routeDriftPoints = bdMapRouteData.getRouteDriftPoints();
+        int totalPointsSize = randomDriftPoints.size();
+        if (totalPointsSize < 2) return;
+        int startIndex = Math.round((totalPointsSize / 100.0f) * (int) progressLow);
+        int endIndex = Math.round((totalPointsSize / 100.0f) * (int) progressHigh);
+        if (endIndex <= startIndex) return;
+        int startLostIndex = startIndex > 0 ? (startIndex - 1) : 0;
+        if (endIndex > totalPointsSize) {
+            endIndex = totalPointsSize - 1;
+        }
+
+        startIndex = startIndex <= 0 ? 1 : startIndex;
+        endIndex = endIndex == totalPointsSize ? (endIndex - 1) : endIndex;
+
+        com.baidu.mapapi.model.LatLng randomDriftStartLostPoint = randomDriftPoints.get(startLostIndex);
+        com.baidu.mapapi.model.LatLng randomDriftEndLostPoint = randomDriftPoints.get(endIndex);
+        bdMapRouteData.mRandomDriftStartLostPoint = randomDriftStartLostPoint;
+        bdMapRouteData.mRandomDriftEndLostPoint = randomDriftEndLostPoint;
+        com.baidu.mapapi.model.LatLng routeDriftStartLostPoint = routeDriftPoints.get(startLostIndex);
+        com.baidu.mapapi.model.LatLng routeDriftEndLostPoint = routeDriftPoints.get(endIndex);
+        bdMapRouteData.mRouteDriftStartLostPoint = routeDriftStartLostPoint;
+        bdMapRouteData.mRouteDriftEndLostPoint = routeDriftEndLostPoint;
+
+        List<com.baidu.mapapi.model.LatLng> tempLostLocRandomDriftPoints = new ArrayList<>();
+        tempLostLocRandomDriftPoints.addAll(randomDriftPoints.subList(0, startIndex));
+        tempLostLocRandomDriftPoints.addAll(randomDriftPoints.subList(endIndex, totalPointsSize));
+        bdMapRouteData.setRandomDriftPoints(tempLostLocRandomDriftPoints);
+        List<com.baidu.mapapi.model.LatLng> tempLostLocRouteDriftPoints = new ArrayList<>();
+        tempLostLocRouteDriftPoints.addAll(routeDriftPoints.subList(0, startIndex));
+        tempLostLocRouteDriftPoints.addAll(routeDriftPoints.subList(endIndex, totalPointsSize));
+        bdMapRouteData.setRouteDriftPoints(tempLostLocRouteDriftPoints);
     }
 
     public void calculateDriftRoute(double radius, double progressLow, double progressHigh) {
@@ -257,7 +321,7 @@ public class GpsMockManager {
                     double[] randomLatLng = Utils.getRandomLatLng(point.latitude, point.longitude, radius, rangeAround);
                     com.baidu.mapapi.model.LatLng randomPoint = new com.baidu.mapapi.model.LatLng(randomLatLng[0], randomLatLng[1]);
                     randomDriftPoints.add(randomPoint);
-                }else {
+                } else {
                     randomDriftPoints.add(point);
                 }
 
@@ -275,13 +339,13 @@ public class GpsMockManager {
             List<com.baidu.mapapi.model.LatLng> end = allPoints.subList(endIndex, totalPointsSize);
             randomDriftPoints.addAll(randomDriftPoints.size(), end);
             randomDriftPoints.addAll(0, start);
-            int randomDriftDistance = (int)Math.round(Utils.getRouteDistance(randomDriftPoints));
+            int randomDriftDistance = (int) Math.round(Utils.getRouteDistance(randomDriftPoints));
             bdMapRouteData.setRandomDriftPoints(randomDriftPoints);
             bdMapRouteData.setRandomDriftDistance(randomDriftDistance);
 
             routeDriftPoints.addAll(routeDriftPoints.size(), end);
             routeDriftPoints.addAll(0, start);
-            int routeDriftDistance = (int)Math.round(Utils.getRouteDistance(routeDriftPoints));
+            int routeDriftDistance = (int) Math.round(Utils.getRouteDistance(routeDriftPoints));
             bdMapRouteData.setRouteDriftPoints(routeDriftPoints);
             bdMapRouteData.setRouteDriftDistance(routeDriftDistance);
         }
