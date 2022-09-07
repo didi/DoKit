@@ -58,8 +58,8 @@
     self.title = @"一机多控";
 
     [self banner];
-    
-    UIButton *webSocketButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2.0 - 50, CGRectGetMaxY(self.banner.frame) + 30, 100, 30)];
+    CGFloat top = CGRectGetMaxY(self.banner.frame) + 30;
+    UIButton *webSocketButton = [[UIButton alloc] initWithFrame:CGRectMake(40, top, UIApplication.sharedApplication.delegate.window.frame.size.width - 80, 40)];
     self.webSocketButton = webSocketButton;
     webSocketButton.layer.cornerRadius = 5;
     webSocketButton.backgroundColor = UIColor.doraemon_blue;
@@ -67,13 +67,22 @@
     webSocketButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [webSocketButton addTarget:self action:@selector(webSocketButtonHandler:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:webSocketButton];
-    UISwitch *masterSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 49 / 2, CGRectGetMaxY(webSocketButton.frame) + 30, 49, 31)];
+    top += webSocketButton.frame.size.height;
+    
+    //主机选项
+    top += 20;
+    UILabel *masterLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, top, 100, 30)];
+    masterLabel.text = @"主机模式";
+    masterLabel.textColor = UIColor.doraemon_black_2;
+    [self.view addSubview:masterLabel];
+    UISwitch *masterSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(170, top, 60, 31)];
     [self.view addSubview:masterSwitch];
     self.masterSwitch = masterSwitch;
     [masterSwitch addTarget:self action:@selector(masterSwitchHandler:) forControlEvents:UIControlEventValueChanged];
     [DKMultiControlStreamManager.sharedInstance registerMultiControlStreamManagerStateListener:self];
 }
 
+#pragma mark - Event
 - (void)masterSwitchHandler:(id)sender {
     if (((UISwitch *) sender).isOn) {
         [DKMultiControlStreamManager.sharedInstance changeToMaster];
@@ -127,7 +136,7 @@
     switch (state) {
         case DKMultiControlStreamManagerStateClosed:
             [self.masterSwitch setOn:NO animated:YES];
-            [self.webSocketButton setTitle:@"流式传输" forState:UIControlStateNormal];
+            [self.webSocketButton setTitle:@"连接服务器" forState:UIControlStateNormal];
             break;
         case DKMultiControlStreamManagerStateSlave:
             [self.masterSwitch setOn:NO animated:YES];
