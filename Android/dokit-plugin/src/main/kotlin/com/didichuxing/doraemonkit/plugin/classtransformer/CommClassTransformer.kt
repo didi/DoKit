@@ -169,11 +169,9 @@ class CommClassTransformer : AbsClassTransformer() {
                     it.name == "removeUpdates"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-//                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode?.instructions?.insert(
-                            createTencentLocationUnRegisterInsnList()
-                        )
-//                    }
+                    methodNode?.instructions?.insert(
+                        createTencentLocationUnRegisterInsnList()
+                    )
                 }
             }
 

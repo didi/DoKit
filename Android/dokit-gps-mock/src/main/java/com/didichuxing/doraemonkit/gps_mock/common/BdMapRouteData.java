@@ -18,9 +18,17 @@ public class BdMapRouteData {
 
     List<com.baidu.mapapi.model.LatLng> mRandomDriftPoints = new ArrayList<>();
     List<com.baidu.mapapi.model.LatLng> mRouteDriftPoints = new ArrayList<>();
+    List<com.baidu.mapapi.model.LatLng> mRouteLostLocPoints = new ArrayList<>();
 
     private int mRandomDriftDistance;
     private int mRouteDriftDistance;
+
+    public com.baidu.mapapi.model.LatLng mOriginRouteStartLostPoint;
+    public com.baidu.mapapi.model.LatLng mOriginRouteEndLostPoint;
+    public com.baidu.mapapi.model.LatLng mRandomDriftStartLostPoint;
+    public com.baidu.mapapi.model.LatLng mRandomDriftEndLostPoint;
+    public com.baidu.mapapi.model.LatLng mRouteDriftStartLostPoint;
+    public com.baidu.mapapi.model.LatLng mRouteDriftEndLostPoint;
 
     public List<LatLng> getAllPoints() {
         return mAllPoints;
@@ -71,6 +79,16 @@ public class BdMapRouteData {
     public void setRouteDriftPoints(List<LatLng> routeDriftPoints) {
         mRouteDriftPoints.clear();
         mRouteDriftPoints.addAll(routeDriftPoints);
+    }
+
+
+    public List<LatLng> getOriginRouteLostLocPoints() {
+        return mRouteLostLocPoints;
+    }
+
+    public void setOriginRouteLostLocPoints(List<LatLng> routeLostLocPoints) {
+        mRouteLostLocPoints.clear();
+        mRouteLostLocPoints.addAll(routeLostLocPoints);
     }
 
     public boolean isRouteDataFromBiz() {

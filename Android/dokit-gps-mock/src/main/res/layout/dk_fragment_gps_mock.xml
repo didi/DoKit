@@ -260,16 +260,70 @@
                 app:layout_constraintLeft_toLeftOf="@id/guide_line_vertical_center"
                 app:layout_constraintTop_toTopOf="@id/edt_route_speed" />
 
+            <!--定位点丢失模拟-->
+            <TextView
+                android:id="@+id/title_toggle_route_lost_loc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_20"
+                android:text="@string/title_route_lost_loc_mock"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/cb_toggle_route_lost_loc"
+                app:layout_constraintTop_toBottomOf="@id/edt_route_speed" />
+
+            <CheckBox
+                android:id="@+id/cb_toggle_route_lost_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/title_toggle_route_lost_loc"
+                app:layout_constraintLeft_toRightOf="@id/title_toggle_route_lost_loc"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/title_toggle_route_lost_loc" />
+
+            <!--选择定位点丢失范围-->
+            <TextView
+                android:id="@+id/tv_des_select_lost_path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin_top"
+                android:text="@string/des_lost_loc_path"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/seekbar_select_lost_path"
+                app:layout_constraintTop_toBottomOf="@id/title_toggle_route_lost_loc" />
+
+            <com.didichuxing.doraemonkit.gps_mock.widget.SeekRangeBar
+                android:id="@+id/seekbar_select_lost_path"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin_left_right"
+                app:bar_bg_shape="@drawable/dk_seek_bar_background_shape"
+                app:bar_fg_shape="@drawable/dk_seek_bar_foreground_shape"
+                app:bar_height="@dimen/seek_range_bar_height"
+                app:indicator_size="@dimen/seek_range_bar_indicator_size"
+                app:indicator_text_color="@color/color_seek_bar_indicator_text"
+                app:indicator_text_size="@dimen/seek_range_bar_indicator_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/tv_des_select_lost_path"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_select_lost_path"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_des_select_lost_path"
+                app:slide_btn_high_shape="@drawable/dk_seek_bar_circle_indicator"
+                app:slide_btn_low_shape="@drawable/dk_seek_bar_circle_indicator" />
+
             <Button
                 android:id="@+id/btn_mock_route1"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/confirm_btn_height"
+                android:layout_marginTop="@dimen/dk_dp_10"
                 android:background="@drawable/dk_bg_btn_round_rectangle"
                 android:text="@string/btn_text_start_mock"
                 android:textColor="@color/color_confirm_btn_text"
-                app:layout_constraintBottom_toBottomOf="@id/edt_route_speed"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/edt_route_speed" />
+                app:layout_constraintTop_toBottomOf="@id/seekbar_select_lost_path"
+                app:layout_constraintRight_toRightOf="parent" />
 
             <TextView
                 android:id="@+id/title_toggle_route_drift_mock"
@@ -288,10 +342,10 @@
                 android:id="@+id/cb_toggle_route_drift_mock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_margin_top"
+                android:layout_marginTop="@dimen/dk_dp_5"
                 app:layout_constraintLeft_toRightOf="@id/title_toggle_route_drift_mock"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edt_route_speed" />
+                app:layout_constraintTop_toBottomOf="@id/btn_mock_route1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/drift_mock_set_layout"
