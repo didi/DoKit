@@ -119,7 +119,7 @@ public class WeakNetworkManager {
     public Response simulateSpeedLimit(Interceptor.Chain chain) throws IOException {
         Request request = chain.request();
         final RequestBody body = request.body();
-        if (body != null) {
+        if (body != null && body.contentLength() > 0) {
             //大于0使用限速的body 否则使用原始body
             final RequestBody requestBody = mRequestSpeed > 0 ? new SpeedLimitRequestBody(mRequestSpeed, body) : body;
             request = request.newBuilder().method(request.method(), requestBody).build();
