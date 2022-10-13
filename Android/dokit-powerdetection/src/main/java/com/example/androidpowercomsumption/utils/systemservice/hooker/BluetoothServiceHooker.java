@@ -28,11 +28,11 @@ public class BluetoothServiceHooker {
         public Object intercept(Object receiver, Method method, Object[] args) throws Throwable {
             if ("registerAdapter".equals(method.getName())) {
                 Object blueTooth = method.invoke(receiver, args);
-                Object proxy = proxyBluetooth(blueTooth);
+                Object proxy = proxy(blueTooth, false);
                 return proxy == null ? blueTooth : proxy;
             } else if ("getBluetoothGatt".equals(method.getName())) {
                 Object blueToothGatt = method.invoke(receiver, args);
-                Object proxy = proxyBluetoothGatt(blueToothGatt);
+                Object proxy = proxy(blueToothGatt, true);
                 return proxy == null ? blueToothGatt : proxy;
             }
             return null;
@@ -41,17 +41,20 @@ public class BluetoothServiceHooker {
 
     public SystemServiceHooker sHookHelper = new SystemServiceHooker("bluetooth_manager", "android.bluetooth.IBluetoothManager", sHookCallback);
 
-    private Object proxyBluetooth(final Object delegate) {
+    private Object proxy(Object delegate, boolean isGatt) {
         try {
-            Class<?> clazz = Class.forName("android.bluetooth.IBluetooth");
-            Class<?>[] interfaces = new Class<?>[]{IBinder.class, IInterface.class, clazz};
+            Class<?>[] interfaces;
+            if (!isGatt) {
+                interfaces = new Class<?>[]{IBinder.class, IInterface.class, Class.forName("android.bluetooth.IBluetooth")};
+            } else {
+                interfaces = new Class<?>[]{IBinder.class, IInterface.class, Class.forName("android.bluetooth.IBluetoothGatt")};
+            }
             ClassLoader loader = delegate.getClass().getClassLoader();
             InvocationHandler handler = (proxy, method, args) -> {
-                if ("startDiscovery".equals(method.getName())) {
-                    discoveryTime++;
-                    Log.d(TAG, "BluetoothServiceHooker: discoveryTime++");
-                }
-
+                if (!isGatt)
+                    proxyBluetooth(method);
+                else
+                    proxyBluetoothGatt(method);
                 return method.invoke(delegate, args);
             };
             return Proxy.newProxyInstance(loader, interfaces, handler);
@@ -61,25 +64,21 @@ public class BluetoothServiceHooker {
         return null;
     }
 
-    private Object proxyBluetoothGatt(final Object delegate) {
-        try {
-            Class<?> clazz = Class.forName("android.bluetooth.IBluetoothGatt");
-            Class<?>[] interfaces = new Class<?>[]{IBinder.class, IInterface.class, clazz};
-            ClassLoader loader = delegate.getClass().getClassLoader();
-            InvocationHandler handler = (proxy, method, args) -> {
-                if ("registerScanner".equals(method.getName())) {
-                    registerTime++;
-                    Log.d(TAG, "BluetoothServiceHooker: registerTime++");
-                } else if ("startScan".equals(method.getName()) || "startScanForIntent".equals(method.getName())) {
-                    scanTime++;
-                    Log.d(TAG, "BluetoothServiceHooker: scanTime++");
-                }
-                return method.invoke(delegate, args);
-            };
-            return Proxy.newProxyInstance(loader, interfaces, handler);
-        } catch (Throwable e) {
-            Log.d(TAG, "proxyBluetoothGatt fail");
+    private void proxyBluetooth(Method method) {
+        if ("startDiscovery".equals(method.getName())) {
+            discoveryTime++;
+            Log.d(TAG, "BluetoothServiceHooker: discoveryTime++");
         }
-        return null;
+    }
+
+    private void proxyBluetoothGatt(Method method) {
+        if ("registerScanner".equals(method.getName())) {
+            registerTime++;
+            Log.d(TAG, "BluetoothServiceHooker: registerTime++");
+        } else if ("startScan".equals(method.getName()) || "startScanForIntent".equals(method.getName())) {
+            scanTime++;
+            Log.d(TAG, "BluetoothServiceHooker: scanTime++");
+        }
     }
 }
+
