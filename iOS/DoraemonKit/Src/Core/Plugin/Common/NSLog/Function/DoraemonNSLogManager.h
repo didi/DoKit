@@ -13,11 +13,14 @@
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, strong) NSMutableArray<DoraemonNSLogModel *> *dataArray;
-
 - (void)startNSLogMonitor;
 
 - (void)stopNSLogMonitor;
 
 - (void)addNSLog:(NSString *)log;
+
+- (NSArray<DoraemonNSLogModel *> *)readLogs;
+- (void)clearLogs;
+
 @end
+
