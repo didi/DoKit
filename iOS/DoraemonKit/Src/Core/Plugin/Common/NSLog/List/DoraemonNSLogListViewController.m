@@ -33,8 +33,8 @@
     [self setRightNavBarItems:@[model1,model2]];
     
     //按照时间倒序排列
-    self.dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];
-    
+    NSArray *logs = [[DoraemonNSLogManager sharedInstance] readLogs];
+    self.dataArray = [[logs reverseObjectEnumerator] allObjects];
   
     _searchView = [[DoraemonNSLogSearchView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), IPHONE_NAVIGATIONBAR_HEIGHT+kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(100))];
     _searchView.delegate = self;
@@ -49,13 +49,13 @@
 }
 
 - (void)clear {
-    [[DoraemonNSLogManager sharedInstance].dataArray removeAllObjects];
+    [[DoraemonNSLogManager sharedInstance] clearLogs];
     self.dataArray = [[NSArray alloc] init];
     [self.tableView reloadData];
 }
 
 - (void)export {
-    NSArray<DoraemonNSLogModel *> *dataArray = [[DoraemonNSLogManager sharedInstance].dataArray  copy];
+    NSArray<DoraemonNSLogModel *> *dataArray = [[DoraemonNSLogManager sharedInstance] readLogs];
     NSMutableString *log = [[NSMutableString alloc] init];
     for (DoraemonNSLogModel *model in dataArray) {
         NSString *time = [NSString stringWithFormat:@"[%@]",[DoraemonUtil dateFormatTimeInterval:model.timeInterval]];
@@ -128,7 +128,7 @@
 #pragma mark - DoraemonNSLogSearchViewDelegate
 - (void)searchViewInputChange:(NSString *)text{
     if (text.length > 0) {
-        NSArray *dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];
+        NSArray *dataArray = [[[[DoraemonNSLogManager sharedInstance] readLogs] reverseObjectEnumerator] allObjects];
         NSMutableArray *resultArray = [[NSMutableArray alloc] init];
         for(DoraemonNSLogModel *model in dataArray){
             NSString *content = model.content;
@@ -138,7 +138,7 @@
         }
         self.dataArray = [[NSArray alloc] initWithArray:resultArray];
     }else{
-        self.dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];
+        self.dataArray = [[[[DoraemonNSLogManager sharedInstance] readLogs] reverseObjectEnumerator] allObjects];
     }
 
     [self.tableView reloadData];
