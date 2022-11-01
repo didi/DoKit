@@ -14,6 +14,8 @@ RES="\033[0m"
 #./gradlew assembleRelease
 ./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
+./gradlew :dokit-all:assembleRelease --stacktrace
+./gradlew :dokit-framework:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
@@ -26,6 +28,14 @@ RES="\033[0m"
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 ./gradlew :dokit-gps-mock:assembleRelease --stacktrace
+./gradlew :dokit-app-tools:assembleRelease --stacktrace
+./gradlew :dokit-dev-tools:assembleRelease --stacktrace
+./gradlew :dokit-network:assembleRelease --stacktrace
+./gradlew :dokit-performance-tools:assembleRelease --stacktrace
+./gradlew :dokit-system-tools:assembleRelease --stacktrace
+./gradlew :dokit-ui-tools:assembleRelease --stacktrace
+./gradlew :dokit-webview:assembleRelease --stacktrace
+./gradlew :dokit-zxing:assembleRelease --stacktrace
 #publish
 ./gradlew :dokit-plugin:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit:publishReleasePublicationToMavenCentralRepository
@@ -41,4 +51,12 @@ RES="\033[0m"
 ./gradlew :dokit-util:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-pthread-hook:publishReleasePublicationToMavenCentralRepository
 ./gradlew :dokit-gps-mock:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-app-tools:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-dev-tools:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-network:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-performance-tools:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-system-tools:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-ui-tools:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-webview:publishReleasePublicationToMavenCentralRepository
+./gradlew :dokit-zxing:publishReleasePublicationToMavenCentralRepository
 echo -e  "${GREEN_COLOR} 打包上传到MavenCenter()仓库完成！！！ ${RES}"

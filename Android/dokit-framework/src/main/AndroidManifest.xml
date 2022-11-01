@@ -1,0 +1,63 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didichuxing.doraemonkit.framework">
+
+
+    <!-- Window -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Network -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- IO -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- Setting -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- Zxing-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!--leakCanary-->
+    <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--map -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application>
+
+
+        <activity
+            android:name="com.didichuxing.doraemonkit.kit.core.UniversalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />
+        <activity
+            android:name="com.didichuxing.doraemonkit.kit.core.TranslucentActivity"
+            android:theme="@style/DK.Theme.Translucent"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+<!--        <activity-->
+<!--            android:name="com.didichuxing.doraemonkit.zxing.activity.CaptureActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:windowSoftInputMode="stateHidden|stateUnchanged" />-->
+<!--        <activity-->
+<!--            android:name="com.didichuxing.doraemonkit.kit.connect.DoKitScanActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:windowSoftInputMode="stateHidden|stateUnchanged" />-->
+
+        <provider
+            android:name="com.didichuxing.doraemonkit.DebugFileProvider"
+            android:authorities="${applicationId}.debugfileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dokit_debug_provider_paths" />
+        </provider>
+    </application>
+
+</manifest>

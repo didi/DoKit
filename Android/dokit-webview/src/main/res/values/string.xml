@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dk_kit_develop">开发者选项</string>
+    <string name="dk_kit_local_lang">本地语言</string>
+    <string name="dk_kit_service_running">运行中服务</string>
+</resources>

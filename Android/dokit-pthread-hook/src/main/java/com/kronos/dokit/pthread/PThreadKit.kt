@@ -3,7 +3,6 @@ package com.kronos.dokit.pthread
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.google.auto.service.AutoService
 import com.kronos.dokit.pthread.ui.PThreadHookUiActivity
@@ -22,7 +21,7 @@ class PThreadKit : AbstractKit() {
     override val name: Int
         get() = R.string.kit_pthread_hook_kit
     override val icon: Int
-        get() = R.mipmap.dk_ram
+        get() = R.mipmap.dk_pthread
 
 
     override fun onClickWithReturn(activity: Activity): Boolean {

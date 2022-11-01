@@ -14,6 +14,8 @@ RES="\033[0m"
 #./gradlew assembleRelease --stacktrace
 ./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
+./gradlew :dokit-framework:assembleRelease --stacktrace
+./gradlew :dokit-all:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
@@ -26,13 +28,23 @@ RES="\033[0m"
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 ./gradlew :dokit-gps-mock:assembleRelease --stacktrace
+./gradlew :dokit-app-tools:assembleRelease --stacktrace
+./gradlew :dokit-dev-tools:assembleRelease --stacktrace
+./gradlew :dokit-network:assembleRelease --stacktrace
+./gradlew :dokit-performance-tools:assembleRelease --stacktrace
+./gradlew :dokit-system-tools:assembleRelease --stacktrace
+./gradlew :dokit-ui-tools:assembleRelease --stacktrace
+./gradlew :dokit-webview:assembleRelease --stacktrace
+./gradlew :dokit-zxing:assembleRelease --stacktrace
 #publish
+./gradlew :dokit-plugin:publish --stacktrace
 ./gradlew :dokit:publish --stacktrace
+./gradlew :dokit-framework:publish --stacktrace
+./gradlew :dokit-all:publish --stacktrace
 ./gradlew :dokit-no-op:publish --stacktrace
 ./gradlew :dokit-okhttp-api:publish --stacktrace
 ./gradlew :dokit-okhttp-v3:publish --stacktrace
 ./gradlew :dokit-okhttp-v4:publish --stacktrace
-./gradlew :dokit-plugin:publish --stacktrace
 ./gradlew :dokit-ft:publish --stacktrace
 ./gradlew :dokit-test:publish --stacktrace
 ./gradlew :dokit-autotest:publish --stacktrace
@@ -41,4 +53,12 @@ RES="\033[0m"
 ./gradlew :dokit-weex:publish --stacktrace
 ./gradlew :dokit-pthread-hook:publish --stacktrace
 ./gradlew :dokit-gps-mock:publish --stacktrace
+./gradlew :dokit-app-tools:publish --stacktrace
+./gradlew :dokit-dev-tools:publish --stacktrace
+./gradlew :dokit-network:publish --stacktrace
+./gradlew :dokit-performance-tools:publish --stacktrace
+./gradlew :dokit-system-tools:publish --stacktrace
+./gradlew :dokit-ui-tools:publish --stacktrace
+./gradlew :dokit-webview:publish --stacktrace
+./gradlew :dokit-zxing:publish --stacktrace
 echo -e "${GREEN_COLOR}本地打包完成！！！${RES}"

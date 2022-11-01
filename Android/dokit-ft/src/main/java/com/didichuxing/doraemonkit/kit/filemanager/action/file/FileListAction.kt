@@ -4,7 +4,7 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.FileUtils
 import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
-import com.didichuxing.doraemonkit.R as DoKitR
+import com.didichuxing.doraemonkit.ft.R as DoKitR
 import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import java.io.File

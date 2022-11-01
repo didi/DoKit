@@ -1,0 +1,110 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: '../upload.gradle'
+
+def dokitVersion = rootProject.ext.publish_config["version"]
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        lintOptions {
+            abortOnError false
+        }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+//        viewBinding = true
+        dataBinding = true
+    }
+
+}
+
+
+dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
+    if (needKotlinV14()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
+//        compileOnly rootProject.ext.dependencies["coroutines-core_v14"]
+    } else {
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
+//        compileOnly rootProject.ext.dependencies["coroutines-core_v13"]
+    }
+    implementation rootProject.ext.dependencies["lifecycle-comm"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["cardview"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+//    implementation rootProject.ext.dependencies["fragment"]
+//    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["activity-ktx"]
+    implementation rootProject.ext.dependencies["androidx-activity"]
+//    implementation rootProject.ext.dependencies["webkit"]
+    implementation rootProject.ext.dependencies["volley"]
+    implementation rootProject.ext.dependencies["gson"]
+
+    implementation project(':dokit-util')
+    implementation project(':dokit-zxing')
+
+//    implementation project(':dokit-okhttp-api')
+
+    implementation rootProject.ext.dependencies["okhttp_v2"]
+    implementation rootProject.ext.dependencies["okhttp_v3"]
+//    implementation rootProject.ext.dependencies["okhttp_v4"]
+
+
+    api rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["volley"]
+
+    implementation rootProject.ext.dependencies["android_spinkit"]
+
+    kapt rootProject.ext.dependencies["room_compile"]
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
+
+}
+

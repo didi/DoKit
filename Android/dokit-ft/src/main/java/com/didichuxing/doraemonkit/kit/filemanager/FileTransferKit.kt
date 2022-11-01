@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.ft.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.google.auto.service.AutoService
 

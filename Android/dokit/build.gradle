@@ -3,13 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
-def dokitVersion = rootProject.ext.publish_config["version"]
-
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
@@ -17,168 +15,54 @@ android {
         lintOptions {
             abortOnError false
         }
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11"
-                arguments '-DANDROID_STL=c++_static'
-            }
-        }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath true
-            }
-        }
     }
 
     buildTypes {
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-//    externalNativeBuild {
-//        cmake {
-//            path "src/main/cpp/CMakeLists.txt"
-//        }
-//    }
 
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
+    lintOptions {
+        abortOnError false
+    }
 
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-
-    /**
-     * 支持ViewBinding
-     */
-    buildFeatures {
-//        viewBinding = true
-        dataBinding = true
-    }
-
-
 }
 
+
 dependencies {
-//    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
     if (needKotlinV14()) {
-        implementation rootProject.ext.dependencies["kotlin_v14"]
+        compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
-        implementation rootProject.ext.dependencies["kotlin_v13"]
+        compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
-    implementation rootProject.ext.dependencies["lifecycle-comm"]
 
-    implementation rootProject.ext.dependencies["constraintLayout"]
-    implementation rootProject.ext.dependencies["appcompat"]
-    implementation rootProject.ext.dependencies["cardview"]
-    implementation rootProject.ext.dependencies["recyclerview"]
-    implementation rootProject.ext.dependencies["core-ktx"]
-    implementation rootProject.ext.dependencies["activity-ktx"]
-    implementation rootProject.ext.dependencies["webkit"]
-    implementation rootProject.ext.dependencies["volley"]
-    api rootProject.ext.dependencies["gson"]
-    implementation rootProject.ext.dependencies["zxing"]
 
-    //远程调试db
-    //implementation rootProject.ext.dependencies["debug-db"]
-    //implementation rootProject.ext.dependencies["debug-db-encrypt"]
-    implementation rootProject.ext.dependencies["android_spinkit"]
-    implementation rootProject.ext.dependencies["okhttp_v2"]
-    implementation rootProject.ext.dependencies["okhttp_v3"]
-    implementation rootProject.ext.dependencies["room_runtime"]
-
-    implementation rootProject.ext.dependencies["jsoup"]
-    //okhttp wrap
-    implementation project(':dokit-okhttp-api')
+    implementation project(':dokit-framework')
     implementation project(':dokit-util')
+    implementation project(':dokit-dev-tools')
+    implementation project(':dokit-ui-tools')
+    implementation project(':dokit-app-tools')
+    implementation project(':dokit-performance-tools')
+    implementation project(':dokit-network')
+    implementation project(':dokit-webview')
+    implementation project(':dokit-system-tools')
 
 
-//    implementation rootProject.ext.dependencies["mimecraft"]
-    //会合滴滴内部的spi-plugin冲突
-//    implementation rootProject.ext.dependencies["ktor-serialization"]
-//    implementation rootProject.ext.dependencies["ktor-gson"]
-
-    kapt rootProject.ext.dependencies["room_compile"]
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]
     kapt rootProject.ext.dependencies["auto_service"]
-
-
-    //三大图片框架
-    if (needKotlinV14()) {
-        compileOnly rootProject.ext.dependencies["coil_v13"]
-    } else {
-        compileOnly rootProject.ext.dependencies["coil_v11"]
-    }
-    compileOnly rootProject.ext.dependencies["glide"]
-    compileOnly rootProject.ext.dependencies["picasso"]
-    compileOnly rootProject.ext.dependencies["fresco"]
-    compileOnly rootProject.ext.dependencies["image-loader"]
-    //腾讯x5
-    compileOnly rootProject.ext.dependencies["tbs"]
-
-    //高德地图
-//    implementation rootProject.ext.dependencies["amap_map3d"]
-    //高德地图定位
-    compileOnly rootProject.ext.dependencies["amap_location"]
-    //高德导航
-    compileOnly rootProject.ext.dependencies["amap_navi"]
-    //腾讯地图定位
-    compileOnly rootProject.ext.dependencies["tencent_location"]
-//    compileOnly rootProject.ext.dependencies["tencent_map"]
-    //百度地图定位
-//    compileOnly files('libs/BaiduLBS_Android.jar')
-
 }
-
-
-configurations.all {
-    //循环每个依赖库
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        //获取当前循环到的依赖库
-//        def requested = details.requested
-//        //如果这个依赖库群组的名字是com.android.support
-//        if (requested.group == 'com.squareup.okhttp3') {
-//            //且其名字不是以multidex开头的
-//            if (requested.name == "okhttp") {
-//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
-//                //details.useVersion rootProject.ext.android["okhttp_v4"]
-//            }
-//        }
-//        else if (requested.group == 'androidx.core') {
-//            if (requested.name == "core") {
-//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
-//                details.useVersion '1.2.0'
-//            }
-//        } else if (requested.group == 'androidx.versionedparcelable') {
-//            if (requested.name == "versionedparcelable") {
-//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
-//                details.useVersion '1.1.0'
-//            }
-//        }
-    }
-}
-repositories {
-    mavenCentral()
-}
-
-
-
-
-
 

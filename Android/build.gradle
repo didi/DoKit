@@ -49,7 +49,7 @@ buildscript {
         }
 //        classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
 
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
 //        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
     }

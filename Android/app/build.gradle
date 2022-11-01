@@ -152,7 +152,7 @@ dependencies {
     implementation project(path: ':dokit-test')
 
     testImplementation rootProject.ext.dependencies["junit"]
-    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["constraintlayout"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["lifecycle-viewmodel-savedstate"]

@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.gps_mock.R
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager
 import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
 import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams

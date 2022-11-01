@@ -80,8 +80,10 @@ dependencies {
     implementation project(':dokit-util')
     implementation project(':dokit-okhttp-api')
     //此处需要使用api的形式 向上暴露内部api
-    implementation project(':dokit')
+    implementation project(':dokit-framework')
     implementation project(':dokit-test')
+    implementation project(':dokit-zxing')
+    implementation project(':dokit-ui-tools')
     //okhttp wrap
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]

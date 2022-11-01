@@ -16,5 +16,15 @@
     "dokit-test": "dokitx-test",
     "dokit-autotest": "dokitx-autotest",
     "dokit-gps-mock": "dokitx-gps-mock",
+    "dokit-all": "dokitx-all",
+    "dokit-framework": "dokitx-framework",
+    "dokit-network": "dokitx-network",
+    "dokit-app-tools": "dokitx-app-tools",
+    "dokit-dev-tools": "dokitx-dev-tools",
+    "dokit-system-tools": "dokitx-system-tools",
+    "dokit-ui-tools": "dokitx-ui-tools",
+    "dokit-performance-tools": "dokitx-performance-tools",
+    "dokit-webview": "dokitx-webview",
+    "dokit-zxing": "dokitx-zxing",
     "dokit-pthread-hook": "dokitx-pthread-hook"
 }

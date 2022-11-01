@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.didi.dokit.debug'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        ndk {
+            abiFilters "armeabi", "arm64-v8a"
+        }
+        multiDexEnabled true
+
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore/test.keystore")
+            storePassword "test123456"
+            keyAlias "test"
+            keyPassword "test123456"
+        }
+    }
+
+    buildTypes {
+        debug {
+            resValue("string", "dokit_db_Person.db", "a_password")
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+
+
+
+    packagingOptions {
+        //dokit ktor pickFirst
+//        pickFirst 'META-INF/io.netty.versions.properties'
+//        pickFirst 'META-INF/INDEX.LIST'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+        implementation rootProject.ext.dependencies["coroutines-core_v14"]
+        implementation rootProject.ext.dependencies["coroutines-android_v14"]
+        implementation rootProject.ext.dependencies["coil_v13"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+        implementation rootProject.ext.dependencies["coroutines-core_v13"]
+        implementation rootProject.ext.dependencies["coroutines-android_v13"]
+        implementation rootProject.ext.dependencies["coil_v11"]
+    }
+
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["material"]
+    implementation rootProject.ext.dependencies["constraintlayout"]
+
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    implementation 'com.google.android.material:material:1.3.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+
+    implementation project(':dokit-framework')
+    implementation project(':dokit-util')
+//    implementation project(':dokit-dev-tools')
+//    implementation project(':dokit-ui-tools')
+//    implementation project(':dokit-app-tools')
+//    implementation project(':dokit-performance-tools')
+//    implementation project(':dokit-network')
+//    implementation project(':dokit-webview')
+//    implementation project(':dokit-system-tools')
+//
+//    implementation project(':dokit-mc')
+//    implementation project(':dokit-autotest')
+//    implementation project(':dokit-ft')
+//    implementation project(':dokit-pthread-hook')
+//
+//
+//    implementation project(":dokit-gps-mock")
+
+
+    //高德地图定位
+    implementation rootProject.ext.dependencies["amap_location"]
+    //高德搜索
+    implementation rootProject.ext.dependencies["amap_search"]
+    //高德地图
+    implementation rootProject.ext.dependencies["amap_navi"]
+
+
+    testImplementation 'junit:junit:4.+'
+
+
+}

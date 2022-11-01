@@ -4,14 +4,36 @@ if (runType == 0) {
     apply plugin: 'com.didi.dokit.debug'
     // 这里引用正常库
     dependencies {
+
+
+
+        debugImplementation project(':dokit-framework')
+        debugImplementation project(':dokit-util')
+        debugImplementation project(':dokit-dev-tools')
+        debugImplementation project(':dokit-ui-tools')
+        debugImplementation project(':dokit-app-tools')
+        debugImplementation project(':dokit-performance-tools')
+        debugImplementation project(':dokit-network')
+        debugImplementation project(':dokit-webview')
+        debugImplementation project(':dokit-system-tools')
+
+        debugImplementation project(':dokit-mc')
+        debugImplementation project(':dokit-autotest')
+        debugImplementation project(':dokit-ft')
+        debugImplementation project(':dokit-pthread-hook')
+
+
         //外部平台依赖
-        debugImplementation project(":dokit")
-        debugImplementation project(":dokit-mc")
-        debugImplementation project(":dokit-ft")
+//        debugImplementation project(":dokit")
+//        debugImplementation project(":dokit-framework")
+//        debugImplementation project(":dokit-mc")
+//        debugImplementation project(":dokit-ft")
 //        debugImplementation project(":dokit-weex")
 //        debugImplementation project(":dokit-rpc")
 //        debugImplementation project(":dokit-rpc-mc")
         debugImplementation project(":dokit-gps-mock")
+
+
         releaseImplementation project(":dokit-no-op")
     }
 } else if (runType == 1) {

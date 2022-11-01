@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+ Copyright (C) 2008 ZXing authors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+<resources>
+    <!-- Messages IDs -->
+    <item name="auto_focus" type="id" />
+    <item name="decode" type="id" />
+    <item name="decode_failed" type="id" />
+    <item name="decode_succeeded" type="id" />
+    <item name="launch_product_query" type="id" />
+    <item name="quit" type="id" />
+    <item name="restart_preview" type="id" />
+    <item name="return_scan_result" type="id" />
+    <item name="float_icon_id" type="id" />
+    <item name="dokit_contentview_id" type="id" />
+
+    <item name="dokit_app_contentview_id" type="id" />
+    <item name="dokit_view_border_id" type="id" />
+
+    <item name="dokit_title_bar" type="id" />
+
+    <item name="dokit_baseQuickAdapter_viewholder_support" type="id"/>
+    <item name="dokit_baseQuickAdapter_swiping_support" type="id"/>
+    <item name="dokit_baseQuickAdapter_dragging_support" type="id"/>
+    <item name="dokit_baseQuickAdapter_databinding_support" type="id"/>
+    <item name="dokit_test_windowNode" type="id"/>
+</resources>

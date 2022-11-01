@@ -56,41 +56,21 @@ dependencies {
         compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
     implementation rootProject.ext.dependencies["appcompat"]
-    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["constraintlayout"]
     implementation rootProject.ext.dependencies["material"]
+
     compileOnly project(':dokit-util')
-    api project(':dokit')
+
+    implementation project(':dokit-framework')
+    implementation project(':dokit-system-tools')
+    implementation project(':dokit-zxing')
+    implementation project(':dokit-performance-tools')
+
     compileOnly rootProject.ext.dependencies["weex_inspector"]
     compileOnly rootProject.ext.dependencies["weex_sdk"]
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]
     kapt rootProject.ext.dependencies["auto_service"]
 }
-repositories {
-    mavenCentral()
-}
-
-
-//def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
-//if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
-//
-//    publish.mustRunAfter {
-//
-//    }
-//
-//    publish.dependsOn([
-//            ':dokit-no-op:publish',
-//            ':dokit-util:publish',
-//            ':dokit-plugin:publish',
-//            ':dokit-okhttp-v3:publish',
-//            ':dokit-okhttp-v4:publish',
-//            ':dokit-okhttp-api:publish',
-//            ':dokit:publish',
-//            ':dokit-mc:publish',
-//            ':dokit-ft:publish',
-//            ':dokit-rpc:publish',
-//            ':dokit-rpc-mc:publish'
-//    ])
-//}
 
 

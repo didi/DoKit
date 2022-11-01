@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.gps_mock.gpsmock
 
 import android.app.Activity
 import android.content.Context
-import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.gps_mock.R
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.util.DoKitCommUtil

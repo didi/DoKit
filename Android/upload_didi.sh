@@ -14,6 +14,8 @@ RES="\033[0m"
 #./gradlew assembleRelease
 ./gradlew :dokit-plugin:assemble --stacktrace
 ./gradlew :dokit:assembleRelease --stacktrace
+./gradlew :dokit-all:assembleRelease --stacktrace
+./gradlew :dokit-framework:assembleRelease --stacktrace
 ./gradlew :dokit-no-op:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-api:assembleRelease --stacktrace
 ./gradlew :dokit-okhttp-v3:assembleRelease --stacktrace
@@ -26,6 +28,14 @@ RES="\033[0m"
 ./gradlew :dokit-weex:assembleRelease --stacktrace
 ./gradlew :dokit-gps-mock:assembleRelease --stacktrace
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
+./gradlew :dokit-app-tools:assembleRelease --stacktrace
+./gradlew :dokit-dev-tools:assembleRelease --stacktrace
+./gradlew :dokit-network:assembleRelease --stacktrace
+./gradlew :dokit-performance-tools:assembleRelease --stacktrace
+./gradlew :dokit-system-tools:assembleRelease --stacktrace
+./gradlew :dokit-ui-tools:assembleRelease --stacktrace
+./gradlew :dokit-webview:assembleRelease --stacktrace
+./gradlew :dokit-zxing:assembleRelease --stacktrace
 #publish
 ./gradlew :dokit-plugin:publish
 ./gradlew :dokit:publish
@@ -41,4 +51,12 @@ RES="\033[0m"
 ./gradlew :dokit-weex:publish
 ./gradlew :dokit-pthread-hook:publish
 ./gradlew :dokit-gps-mock:publish
+./gradlew :dokit-app-tools:publish
+./gradlew :dokit-dev-tools:publish
+./gradlew :dokit-network:publish
+./gradlew :dokit-performance-tools:publish
+./gradlew :dokit-system-tools:publish
+./gradlew :dokit-ui-tools:publish
+./gradlew :dokit-webview:publish
+./gradlew :dokit-zxing:publish
 echo -e  "${GREEN_COLOR} 打包上传到滴滴内部仓库完成！！！${RES}"

@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.test.mock.data
 
-import com.didichuxing.doraemonkit.BuildConfig
+import com.didichuxing.doraemonkit.framework.BuildConfig
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.util.AppUtils
 import com.didichuxing.doraemonkit.util.DeviceUtils

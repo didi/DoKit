@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDoKitView;
 import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.viewcheck.LayoutBorderView;
+import com.didichuxing.doraemonkit.mc.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 
 /**

@@ -57,7 +57,7 @@ dependencies {
     compileOnly project(':dokit-util')
     compileOnly project(':dokit-okhttp-api')
     //此处需要使用api的形式 向上暴露内部api
-    implementation project(':dokit')
+    implementation project(':dokit-framework')
 
     if (needKotlinV14()) {
         implementation rootProject.ext.dependencies["kotlin_v14"]

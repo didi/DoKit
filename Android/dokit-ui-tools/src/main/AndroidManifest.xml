@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.didichuxing.doraemonkit.uitools">
+
+    <application>
+        <!-- Dokit targetApi为 29 Android Q时截屏的前台服务 -->
+        <service
+            android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection" />
+
+    </application>
+</manifest>

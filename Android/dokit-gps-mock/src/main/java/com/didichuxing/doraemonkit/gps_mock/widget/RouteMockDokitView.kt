@@ -30,10 +30,10 @@ class RouteMockDokitView : AbsDoKitView() {
     override fun onViewCreated(rootView: FrameLayout?) {
         doKitView?.setOnClickListener {
             if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
-                ToastUtils.showShort(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_plugin_close_tip))
+                ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
             }
             if (!DokitPluginConfig.SWITCH_GPS) {
-                ToastUtils.showShort(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_plugin_gps_close_tip))
+                ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_gps_close_tip))
             }
             DoKit.launchFullScreen(GpsMockFragment::class.java, activity, null, true)
         }

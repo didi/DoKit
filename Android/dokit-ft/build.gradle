@@ -59,7 +59,8 @@ dependencies {
     implementation rootProject.ext.dependencies["ktor_server_cio"]
 
     //此处需要使用api的形式 向上暴露内部api
-    implementation project(':dokit')
+    implementation project(':dokit-framework')
+    implementation project(':dokit-webview')
     compileOnly project(':dokit-util')
 }
 repositories {

@@ -13,7 +13,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.gps_mock.R;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.gps_mock.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.gps_mock.lbs.route.FloatGpsRouteMockCache;
