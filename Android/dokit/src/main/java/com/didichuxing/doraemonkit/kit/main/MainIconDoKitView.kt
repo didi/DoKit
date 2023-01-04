@@ -35,7 +35,7 @@ class MainIconDoKitView : AbsDoKitView() {
             DoKit.showToolPanel()
         }
 
-        DataPickManager.getInstance().addData("dokit_sdk_home_show", DataPickUtils.getCurrentPage())
+//        DataPickManager.getInstance().addData("dokit_sdk_home_show", DataPickUtils.getCurrentPage())
     }
 
     override fun onCreateView(context: Context, view: FrameLayout): View {
