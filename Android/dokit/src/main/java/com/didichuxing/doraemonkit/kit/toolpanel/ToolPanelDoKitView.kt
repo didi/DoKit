@@ -130,9 +130,9 @@ class ToolPanelDoKitView : AbsDoKitView() {
 
                         //添加埋点
                         if (it.isInnerKit && !TextUtils.isEmpty(it.innerKitId())) {
-                            DataPickManager.getInstance().addData(it.innerKitId(), DataPickUtils.getDoKitHomeClickPage())
+                            DataPickManager.getInstance().addData(it.innerKitId(), DataPickUtils.getDoKitHomeClickPage(), multiKitItem.name)
                         } else {
-                            DataPickManager.getInstance().addData("dokit_sdk_business_ck",DataPickUtils.getDoKitHomeClickPage())
+                            DataPickManager.getInstance().addData("dokit_sdk_business_ck", DataPickUtils.getDoKitHomeClickPage(), multiKitItem.name)
                         }
 
                     }

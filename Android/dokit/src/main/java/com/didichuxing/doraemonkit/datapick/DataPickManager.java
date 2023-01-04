@@ -54,14 +54,18 @@ public class DataPickManager {
         addData(eventName, "");
     }
 
+    public void addData(@NonNull String eventName, @NonNull String pageId) {
+        addData(eventName, pageId,"");
+    }
+
     /**
      * 添加埋点数据
      *
      * @param eventName
      */
-    public void addData(@NonNull String eventName, @NonNull String pageId) {
+    public void addData(@NonNull String eventName, @NonNull String pageId,String businessName) {
 
-        DataPickBean.EventBean eventBean = new DataPickBean.EventBean(eventName, pageId);
+        DataPickBean.EventBean eventBean = new DataPickBean.EventBean(eventName, pageId,businessName);
         if (events != null) {
             events.add(eventBean);
             //链表数据大于10s 上传数据
