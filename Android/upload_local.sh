@@ -27,12 +27,12 @@ RES="\033[0m"
 ./gradlew :dokit-pthread-hook:assembleRelease --stacktrace
 ./gradlew :dokit-gps-mock:assembleRelease --stacktrace
 #publish
+./gradlew :dokit-plugin:publish --stacktrace
 ./gradlew :dokit:publish --stacktrace
 ./gradlew :dokit-no-op:publish --stacktrace
 ./gradlew :dokit-okhttp-api:publish --stacktrace
 ./gradlew :dokit-okhttp-v3:publish --stacktrace
 ./gradlew :dokit-okhttp-v4:publish --stacktrace
-./gradlew :dokit-plugin:publish --stacktrace
 ./gradlew :dokit-ft:publish --stacktrace
 ./gradlew :dokit-test:publish --stacktrace
 ./gradlew :dokit-autotest:publish --stacktrace
