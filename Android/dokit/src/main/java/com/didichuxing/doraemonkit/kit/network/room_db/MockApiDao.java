@@ -75,5 +75,4 @@ public interface MockApiDao {
 
     @Update(onConflict = OnConflictStrategy.ROLLBACK)
     int updateTemplateApi(MockTemplateApiBean mockApi);
-
 }

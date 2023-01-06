@@ -16,7 +16,7 @@ ext {
         version      : '3.7.3'
     ]
 
-    android = [compileSdkVersion             : 29,
+    android = [compileSdkVersion             : 31,
                applicationId                 : "com.didichuxing.doraemondemo",
                minSdkVersion_16              : 16,
                minSdkVersion_21              : 21,
@@ -25,8 +25,8 @@ ext {
                versionCode                   : 1,
                versionName                   : "1.0.0",
                glide_version                 : "4.9.0",
-               kotlin_version_v13            : "1.3.72",
-               kotlin_version_v14            : "1.4.32",
+               kotlin_version_v13            : "1.6.0",
+               kotlin_version_v14            : "1.6.0",
                kotlin_version_v15            : "1.5.31",
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
@@ -126,8 +126,9 @@ ext {
                     "easy_refresh_layout"           : 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
                     "android_spinkit"               : 'com.github.ybq:Android-SpinKit:1.4.0',
                     "jsonviewer"                    : "com.yuyh.json:jsonviewer:1.0.6",
-                    "room_runtime"                  : 'androidx.room:room-runtime:2.0.0',
-                    "room_compile"                  : 'androidx.room:room-compiler:2.0.0',
+                    "room_runtime"                  : 'androidx.room:room-runtime:2.4.3',
+                    "room_compile"                  : 'androidx.room:room-compiler:2.4.3',
+                    "localbroadcastmanager"         : 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0',
                     "didi_http"                     : 'com.didichuxing.foundation:http:2.1.0.86',
                     "didi_rpc"                      : 'com.didichuxing.foundation:rpc:2.1.0.86',
                     "okgo"                          : "com.lzy.net:okgo:3.0.4",

@@ -223,7 +223,7 @@ class MultiControlAllFragment : BaseFragment() {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
                             val url = code
-                            val history = McClientHistory(uri.host!!, uri.port, uri.path!!, name, time, url)
+                            val history = McClientHistory(uri.host!!, uri.port, uri.path!!, name, time, url.orEmpty())
                             ConnectHistoryUtils.saveClientHistory(history)
                             handleConnect(history)
                         }

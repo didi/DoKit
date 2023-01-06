@@ -193,7 +193,7 @@ class DoKitConnectFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            val history = ConnectAddress(name, url, time)
+                            val history = ConnectAddress(name, url.orEmpty(), time)
                             ConnectAddressStore.saveAddress(history)
                             handleConnect(history)
                         }

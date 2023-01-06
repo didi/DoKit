@@ -5,10 +5,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoKitEnv;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.core.DoKitViewManager;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @desc: 跳转耗时历史记录列表
@@ -40,6 +46,8 @@ public class TimeCounterListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initView();
         load();
+        CounterDao dao = DoKitViewManager.getINSTANCE().getCounterDb().counterDao();
+        dao.getAll();
     }
 
 

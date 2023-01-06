@@ -101,11 +101,13 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["okhttp_v3"]
     implementation rootProject.ext.dependencies["room_runtime"]
+    annotationProcessor rootProject.ext.dependencies["room_compile"]
 
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
     implementation project(':dokit-okhttp-api')
     implementation project(':dokit-util')
+    implementation rootProject.ext.dependencies["localbroadcastmanager"]
 
 
 //    implementation rootProject.ext.dependencies["mimecraft"]
