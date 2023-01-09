@@ -146,7 +146,12 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         val parser = SAXParserFactory.newInstance().newSAXParser()
                         val handler = DoKitComponentHandler()
                         "App Manifest path====>$manifest".println()
-                        parser.parse(manifest, handler)
+                        try {
+                            parser.parse(manifest, handler)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            "===processDebugManifest task error. ${manifest.absoluteFile}".println()
+                        }
                         "App PackageName is====>${handler.appPackageName}".println()
                         "App Application path====>${handler.applications}".println()
                         DoKitExtUtil.setAppPackageName(handler.appPackageName)
