@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.datapick.DataPickManager
+import com.didichuxing.doraemonkit.datapick.DataPickUtils
 import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DoKitViewLayoutParams
@@ -129,9 +130,9 @@ class ToolPanelDoKitView : AbsDoKitView() {
 
                         //添加埋点
                         if (it.isInnerKit && !TextUtils.isEmpty(it.innerKitId())) {
-                            DataPickManager.getInstance().addData(it.innerKitId())
+                            DataPickManager.getInstance().addData(it.innerKitId(), DataPickUtils.getDoKitHomeClickPage(), multiKitItem.name)
                         } else {
-                            DataPickManager.getInstance().addData("dokit_sdk_business_ck")
+                            DataPickManager.getInstance().addData("dokit_sdk_business_ck", DataPickUtils.getDoKitHomeClickPage(), multiKitItem.name)
                         }
 
                     }

@@ -32,6 +32,7 @@ internal class NormalDoKitViewManager : AbsDoKitViewManager() {
     private val context: Context get() = DoKitEnv.requireApp()
 
     /**
+     *
      * 每个Activity中dokitView的集合 用户手动移除和页面销毁时都需要remove
      *
      */
