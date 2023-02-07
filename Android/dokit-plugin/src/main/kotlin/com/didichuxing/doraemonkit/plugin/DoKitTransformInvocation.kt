@@ -10,10 +10,7 @@ import com.didiglobal.booster.kotlinx.NCPU
 import com.didiglobal.booster.kotlinx.file
 import com.didiglobal.booster.kotlinx.green
 import com.didiglobal.booster.kotlinx.red
-import com.didiglobal.booster.transform.AbstractKlassPool
-import com.didiglobal.booster.transform.ArtifactManager
-import com.didiglobal.booster.transform.TransformContext
-import com.didiglobal.booster.transform.artifacts
+import com.didiglobal.booster.transform.*
 import com.didiglobal.booster.transform.util.transform
 import java.io.File
 import java.net.URI
@@ -24,7 +21,7 @@ import java.util.concurrent.*
  *
  * @author johnsonlee
  */
-internal class DoKitTransformInvocation(
+internal  class DoKitTransformInvocation(
     private val delegate: TransformInvocation,
     internal val transform: DoKitBaseTransform
 ) : TransformInvocation by delegate, TransformContext, ArtifactManager {
@@ -233,5 +230,13 @@ internal class DoKitTransformInvocation(
         return transform.transformers.fold(this) { bytes, transformer ->
             transformer.transform(this@DoKitTransformInvocation, bytes)
         }
+    }
+
+    override fun <R> registerCollector(collector: Collector<R>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun <R> unregisterCollector(collector: Collector<R>) {
+        TODO("Not yet implemented")
     }
 }
