@@ -20,7 +20,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.blue
+        NSLog("开始倒计时")
+        let queue = DispatchQueue(label: "test", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        queue.asyncAfter(deadline: .now() + 5.0 ) {
+            NSLog("跳转到ViewControllerB")
+            DispatchQueue.main.async {
+                let page = ViewControllerB()
+                self.navigationController?.pushViewController(page, animated: true)
+            }
+        }
         // Do any additional setup after loading the view.
+        
     }
 
 }

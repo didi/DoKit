@@ -15,18 +15,34 @@
  */
 
 import UIKit
-import DoraemonKit
 
 @main
 private class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var backgroundTask:UIBackgroundTaskIdentifier! = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        DoraemonManager.shareInstance().install()
-
+        self.window = UIWindow.init()
+        self.window?.frame = UIScreen.main.bounds
+        let rootPage = ViewController()
+        let rootNavc = UINavigationController(rootViewController: rootPage)
+        self.window?.rootViewController = rootNavc
         return true
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        if self.backgroundTask != nil {
+            application.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = .invalid
+        }
+        //注册后台任务
+        self.backgroundTask = application.beginBackgroundTask(expirationHandler: {
+            () -> Void in
+            //如果没有调用endBackgroundTask，时间耗尽时应用程序将被终止
+            application.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = .invalid
+        })
     }
 
 }

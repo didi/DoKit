@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1CBB0D28D0A217005E2DF3 /* ViewControllerB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CBB0C28D0A217005E2DF3 /* ViewControllerB.swift */; };
 		18C7CAA526FB5F8D00A47F7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7CAA426FB5F8D00A47F7C /* AppDelegate.swift */; };
 		18C7CAA926FB5F8D00A47F7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7CAA826FB5F8D00A47F7C /* ViewController.swift */; };
 		18C7CAAC26FB5F8D00A47F7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C7CAAA26FB5F8D00A47F7C /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1CBB0C28D0A217005E2DF3 /* ViewControllerB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerB.swift; sourceTree = "<group>"; };
 		175B450197F10CD038689527 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		18C7CAA126FB5F8D00A47F7C /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18C7CAA426FB5F8D00A47F7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				18C7CAAD26FB5F8F00A47F7C /* Assets.xcassets */,
 				18C7CAAF26FB5F8F00A47F7C /* LaunchScreen.storyboard */,
 				18C7CAB226FB5F8F00A47F7C /* Info.plist */,
+				0A1CBB0C28D0A217005E2DF3 /* ViewControllerB.swift */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -99,7 +102,6 @@
 				18C7CA9D26FB5F8D00A47F7C /* Sources */,
 				18C7CA9E26FB5F8D00A47F7C /* Frameworks */,
 				18C7CA9F26FB5F8D00A47F7C /* Resources */,
-				3F213C27944A91E0968B026B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -157,23 +159,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3F213C27944A91E0968B026B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4D41A223381189A234AE62A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1CBB0D28D0A217005E2DF3 /* ViewControllerB.swift in Sources */,
 				18C7CAA926FB5F8D00A47F7C /* ViewController.swift in Sources */,
 				18C7CAA526FB5F8D00A47F7C /* AppDelegate.swift in Sources */,
 			);

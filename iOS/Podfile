@@ -6,6 +6,6 @@ target 'Demo' do
   # use_frameworks!
 
   # Pods for Demo
-  pod 'DoraemonKit', :path => '..', :subspecs => ['Foundation', 'Core', 'WithMultiControl']
+#  pod 'DoraemonKit', :path => '..', :subspecs => ['Foundation', 'Core', 'WithMultiControl']
 
 end
