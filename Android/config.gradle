@@ -12,9 +12,9 @@ ext {
         run_env      : 1,
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : true,
-//        group_id     : 'io.github.didi.dokit',
-        group_id     : 'com.didichuxing.doraemonkit',
-        version      : '3.7.0.6'
+        group_id     : 'io.github.didi.dokit',
+//        group_id     : 'com.didichuxing.doraemonkit',
+        version      : '3.7.11'
     ]
 
     android = [compileSdkVersion             : 29,
@@ -31,7 +31,7 @@ ext {
                kotlin_version_v15            : "1.5.31",
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
-               booster_version               : "4.0.0",
+               booster_version               : "4.13.0",
                agp_module_verson             : "7.0.0",
                agp_plugin_verson             : "4.2.2",
                ktor                          : "1.5.4",
