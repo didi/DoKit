@@ -9,8 +9,6 @@
     <uses-permission
         android:name="android.permission.READ_FRAME_BUFFER"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- tencent Android Q新增权限，允许应用在后台发起定位，如应用target为Q，请添加此权限 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- tencent 如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 用于进行网络定位 -->

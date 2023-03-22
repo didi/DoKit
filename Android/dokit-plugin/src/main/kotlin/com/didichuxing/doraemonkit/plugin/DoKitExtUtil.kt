@@ -1,9 +1,8 @@
 package com.didichuxing.doraemonkit.plugin
 
-import com.didichuxing.doraemonkit.plugin.extension.CommExt
-import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
-import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import org.gradle.api.Project
+import com.didichuxing.doraemonkit.plugin.extension.DoKitExtension
+import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExtension
+import com.didichuxing.doraemonkit.plugin.thirdlib.ThirdLibInfo
 
 /**
  * ================================================
@@ -20,7 +19,6 @@ object DoKitExtUtil {
      * 是否包含dokitx-rpc模块
      */
     var HAS_DOKIT_RPC_MODULE = false
-    //private var mApplicationId: String = ""
 
     var HAS_DOKIT_TCP_HOOK_DJ = false
 
@@ -29,7 +27,6 @@ object DoKitExtUtil {
     /**
      * 三方库版本信息
      */
-//    val THIRD_LIB_INFOS = mutableMapOf<String, ThirdLibInfo>()
 
     val THIRD_LIB_INFOS = mutableListOf<ThirdLibInfo>()
 
@@ -64,7 +61,7 @@ object DoKitExtUtil {
     /**
      * 慢函数策略 默认为函数调用栈策略
      */
-    var SLOW_METHOD_STRATEGY = SlowMethodExt.STRATEGY_STACK
+    var SLOW_METHOD_STRATEGY = SlowMethodExtension.STRATEGY_STACK
 
     private val applications: MutableSet<String> = mutableSetOf()
 
@@ -73,9 +70,8 @@ object DoKitExtUtil {
      */
     private var appPackageName: String = ""
 
-    var commExt = CommExt()
-        private set
-    val slowMethodExt = SlowMethodExt()
+
+    val slowMethodExt = SlowMethodExtension()
 
 
     fun dokitPluginSwitchOpen(): Boolean {
@@ -97,9 +93,8 @@ object DoKitExtUtil {
      * @param dokitEx dokitExtension
      * @param appExtension   appExtension
      */
-    fun init(dokitEx: DoKitExt) {
+    fun init(dokitEx: DoKitExtension) {
         //设置普通的配置
-        commExt = dokitEx.comm
         //slowMethodExt.strategy = dokitEx.slowMethod.strategy
         //slowMethodExt.methodSwitch = dokitEx.slowMethod.methodSwitch
         /**
