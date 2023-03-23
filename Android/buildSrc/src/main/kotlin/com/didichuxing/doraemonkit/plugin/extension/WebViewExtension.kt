@@ -14,6 +14,8 @@ package com.didichuxing.doraemonkit.plugin.extension
 
 class WebViewExtension(
     var network: Boolean = true,
+    var dokitWeb: Boolean = false,
+    var vConsole: Boolean = false
 ) {
 
     override fun toString(): String {

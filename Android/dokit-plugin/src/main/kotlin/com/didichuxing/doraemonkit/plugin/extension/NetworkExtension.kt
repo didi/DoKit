@@ -16,11 +16,11 @@ class NetworkExtension(
     var okHttp: Boolean = true,
     var urlConnect: Boolean = true,
     var didiHttp: Boolean = true,
-    var didiTcp: Boolean = true,
-    var didiDjTcp: Boolean = true,
+    var didiSocket: Boolean = true,
+    var didiDjSocket: Boolean = true
 ) {
 
     override fun toString(): String {
-        return "NetworkExtension(okHttp=$okHttp, urlConnect=$urlConnect, didiHttp=$didiHttp, didiTcp=$didiTcp, didiDjTcp=$didiDjTcp)"
+        return "NetworkExtension(okHttp=$okHttp, urlConnect=$urlConnect, didiHttp=$didiHttp, didiSocket=$didiSocket, didiDjSocket=$didiDjSocket)"
     }
 }

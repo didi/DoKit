@@ -18,10 +18,11 @@ class GpsExtension(
     var baidu: Boolean = true,
     var tencent: Boolean = true,
     var amap: Boolean = true,
+    var didi: Boolean = true
 ) {
 
 
     override fun toString(): String {
-        return "GpsExtension(local=$local, baidu=$baidu, tencent=$tencent, amap=$amap)"
+        return "GpsExtension(local=$local, baidu=$baidu, tencent=$tencent, didi=$didi)"
     }
 }

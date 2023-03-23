@@ -17,7 +17,7 @@ class BigImageExtension(
     var picasso: Boolean = true,
     var fresco: Boolean = true,
     var imageLoader: Boolean = true,
-    var coil: Boolean = true,
+    var coil: Boolean = true
 ) {
 
     override fun toString(): String {
