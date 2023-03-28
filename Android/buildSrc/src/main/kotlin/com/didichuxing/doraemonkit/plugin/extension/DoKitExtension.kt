@@ -57,6 +57,10 @@ open class DoKitExtension(
     fun bigImage(action: Action<BigImageExtension>) {
         action.execute(bigImage)
     }
+    
+    fun webView(action: Action<WebViewExtension>) {
+        action.execute(webView)
+    }
 
     /**
      * 让slowMethod 支持 DSL 语法

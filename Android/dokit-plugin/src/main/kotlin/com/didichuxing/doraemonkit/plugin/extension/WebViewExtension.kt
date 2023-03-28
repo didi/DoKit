@@ -12,13 +12,27 @@ package com.didichuxing.doraemonkit.plugin.extension
  * @Description 用一句话说明文件功能
  */
 
-class WebViewExtension(
+open class WebViewExtension(
     var network: Boolean = true,
     var dokitWeb: Boolean = false,
     var vConsole: Boolean = false
 ) {
 
-    override fun toString(): String {
-        return "WebViewExtension(network=$network)"
+    fun network(boolean: Boolean) {
+        network = boolean
     }
+
+    fun dokitWeb(boolean: Boolean) {
+        dokitWeb = boolean
+    }
+
+    fun vConsole(boolean: Boolean) {
+        vConsole = boolean
+    }
+
+    override fun toString(): String {
+        return "WebViewExtension(network=$network, dokitWeb=$dokitWeb, vConsole=$vConsole)"
+    }
+
+
 }

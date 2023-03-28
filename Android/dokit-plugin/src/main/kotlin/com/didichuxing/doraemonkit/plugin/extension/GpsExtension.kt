@@ -13,7 +13,7 @@ package com.didichuxing.doraemonkit.plugin.extension
  * @see DoKitExtension
  */
 
-class GpsExtension(
+open class GpsExtension(
     var local: Boolean = true,
     var baidu: Boolean = true,
     var tencent: Boolean = true,
@@ -21,6 +21,26 @@ class GpsExtension(
     var didi: Boolean = true
 ) {
 
+
+    fun local(boolean: Boolean) {
+        local = boolean
+    }
+
+    fun baidu(boolean: Boolean) {
+        baidu = boolean
+    }
+
+    fun tencent(boolean: Boolean) {
+        tencent = boolean
+    }
+
+    fun amap(boolean: Boolean) {
+        amap = boolean
+    }
+
+    fun didi(boolean: Boolean) {
+        didi = boolean
+    }
 
     override fun toString(): String {
         return "GpsExtension(local=$local, baidu=$baidu, tencent=$tencent, didi=$didi)"

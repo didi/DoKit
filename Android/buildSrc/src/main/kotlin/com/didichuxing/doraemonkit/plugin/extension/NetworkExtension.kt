@@ -12,13 +12,34 @@ package com.didichuxing.doraemonkit.plugin.extension
  * @Description 用一句话说明文件功能
  */
 
-class NetworkExtension(
+open class NetworkExtension(
     var okHttp: Boolean = true,
     var urlConnect: Boolean = true,
     var didiHttp: Boolean = true,
     var didiSocket: Boolean = true,
     var didiDjSocket: Boolean = true
 ) {
+
+
+    fun okHttp(boolean: Boolean) {
+        okHttp = boolean
+    }
+
+    fun urlConnect(boolean: Boolean) {
+        urlConnect = boolean
+    }
+
+    fun didiHttp(boolean: Boolean) {
+        didiHttp = boolean
+    }
+
+    fun didiSocket(boolean: Boolean) {
+        didiSocket = boolean
+    }
+
+    fun didiDjSocket(boolean: Boolean) {
+        didiDjSocket = boolean
+    }
 
     override fun toString(): String {
         return "NetworkExtension(okHttp=$okHttp, urlConnect=$urlConnect, didiHttp=$didiHttp, didiSocket=$didiSocket, didiDjSocket=$didiDjSocket)"

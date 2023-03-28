@@ -68,7 +68,8 @@ import org.gradle.api.Project
 class DoKitPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         //创建指定扩展 并将project 传入构造函数
-        val doKitExt = project.extensions.create("dokit", DoKitExtension::class.java)
+        val doKit = project.extensions.create("dokit", DoKitExtension::class.java)
+        "dokit plugin apply ${doKit}".println()
 
         project.gradle.addListener(DoKitTransformTaskExecutionListener(project))
 
@@ -134,6 +135,7 @@ class DoKitPlugin : Plugin<Project> {
                         //task依赖关系图建立完毕
                         project.gradle.taskGraph.whenReady {
                             "===taskGraph.whenReady===".println()
+                            "dokit config :: ${doKit}".println()
                         }
 
                     }
