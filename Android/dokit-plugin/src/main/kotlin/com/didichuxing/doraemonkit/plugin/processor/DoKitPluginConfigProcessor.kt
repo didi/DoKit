@@ -43,33 +43,27 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                 var thirdLibInfo: ThirdLibInfo? = null
                 if (variants.size == 3) {
                     thirdLibInfo = ThirdLibInfo(variants[0], artifactResult.file.length())
-                    if (thirdLibInfo.variant.contains("dokitx-rpc")) {
-                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
-                    }
-                    if (thirdLibInfo.variant.contains("dokitx-tcp-hook-dj")) {
-                        DoKitExtUtil.HAS_DOKIT_TCP_HOOK_DJ = true
-                    }
-
-                    if (thirdLibInfo.variant.contains("dokitx-gps-mock") || thirdLibInfo.variant.contains("dokit-gps-mock")) {
-                        DoKitExtUtil.DOKIT_GPS_MOCK_INCLUDE = true;
-                    }
+                    checkConfig(thirdLibInfo.variant)
                 } else if (variants.size == 4) {
                     thirdLibInfo = ThirdLibInfo("porject ${variants[1]}", artifactResult.file.length())
-                    if (thirdLibInfo.variant.contains("doraemonkit-rpc")) {
-                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
-                    }
-                    if (thirdLibInfo.variant.contains("dokitx-tcp-hook-dj")) {
-                        DoKitExtUtil.HAS_DOKIT_TCP_HOOK_DJ = true
-                    }
-
-                    if (thirdLibInfo.variant.contains("dokitx-gps-mock") || thirdLibInfo.variant.contains("dokit-gps-mock")) {
-                        DoKitExtUtil.DOKIT_GPS_MOCK_INCLUDE = true;
-                    }
+                    checkConfig(thirdLibInfo.variant)
                 }
             }
         }
+        //查找AndroidManifest.xml 文件 并处理
+        processApplicationVariant(variant)
+
+    }
 
 
+    private fun checkConfig(variant: String) {
+        if (variant.contains("dokitx-gps-mock") || variant.contains("dokit-gps-mock")) {
+            DoKitExtUtil.DOKIT_GPS_MOCK_INCLUDE = true;
+        }
+    }
+
+
+    private fun processApplicationVariant(variant: BaseVariant) {
         //查找application module下的配置
         if (variant is ApplicationVariant) {
 
@@ -104,7 +98,6 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                     }
                 }
             }
-
 
         } else {
             "${variant.project.name}-不建议在Library Module下引入dokit插件".println()

@@ -15,13 +15,6 @@ import com.didichuxing.doraemonkit.plugin.thirdlib.ThirdLibInfo
  */
 object DoKitExtUtil {
 
-    /**
-     * 是否包含dokitx-rpc模块
-     */
-    var HAS_DOKIT_RPC_MODULE = false
-
-    var HAS_DOKIT_TCP_HOOK_DJ = false
-
     var DOKIT_GPS_MOCK_INCLUDE = false
 
     /**
