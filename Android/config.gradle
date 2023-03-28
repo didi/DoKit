@@ -12,13 +12,13 @@ ext {
         run_env      : 1,
         //是否使用本地仓库，需要使用绝对路径，仓库地址在 local.properties 中添加 LOCAL_REPOSITORY_URL
         use_local    : true,
-        group_id     : 'io.github.didi.dokit',
-//        group_id     : 'com.didichuxing.doraemonkit',
-        version      : '3.7.11'
+//        group_id     : 'io.github.didi.dokit',
+        group_id     : 'com.didichuxing.doraemonkit',
+        version      : '3.7.13-kotlin-13'
     ]
 
-    android = [compileSdkVersion             : 29,
-               applicationId                 : "com.didichuxing.doraemondemo",
+    android = [compileSdkVersion             : 31,
+               applicationId                 : "com.didichuxing.doraemondemo.app",
                minSdkVersion_16              : 16,
                minSdkVersion_21              : 21,
                targetSdkVersion              : 31,
@@ -162,9 +162,7 @@ ext {
     //定义全局方法
     needKotlinV14 = {
         String version = publish_config["version"]
-        //分割字符串
-        String[] vs = version.split("\\.")
-        return vs.length == 3
+        return !version.contains("kotlin-13")
     }
 
     usePrivateEnv = {

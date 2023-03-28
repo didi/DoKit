@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.transform.classtransform
 
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExtension
 import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didichuxing.doraemonkit.plugin.lastPath
@@ -24,10 +25,15 @@ import org.objectweb.asm.tree.VarInsnNode
  */
 class BigImgClassTransformer : AbsClassTransformer() {
 
+
     override fun transform(project: Project, dokit: DoKitExtension, context: TransformContext, klass: ClassNode): ClassNode {
         if (!dokit.bigImageEnable) {
             return klass
         }
+
+            return klass
+            if (DoKitExtUtil.ignorePackageNames(klass.className)) {
+            }
 
         val className = klass.className
         //glide

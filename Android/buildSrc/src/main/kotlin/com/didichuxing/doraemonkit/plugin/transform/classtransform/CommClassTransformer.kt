@@ -6,7 +6,6 @@ import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExtension
 import com.didichuxing.doraemonkit.plugin.formatSuperName
 import com.didichuxing.doraemonkit.plugin.lastPath
 import com.didichuxing.doraemonkit.plugin.println
-import com.didichuxing.doraemonkit.plugin.transform.DoKitTransformContext
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.className
 import org.gradle.api.Project
@@ -24,18 +23,6 @@ import org.objectweb.asm.tree.*
  */
 class CommClassTransformer : AbsClassTransformer() {
 
-
-    override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (onDoKitClassInterceptor(context, klass)) {
-            return klass
-        }
-        if (context is DoKitTransformContext) {
-            val project = context.project()
-            val dokit = context.dokitExtension()
-            transform(project, dokit, context, klass)
-        }
-        return klass
-    }
 
     /**
      * 类处理转化实现

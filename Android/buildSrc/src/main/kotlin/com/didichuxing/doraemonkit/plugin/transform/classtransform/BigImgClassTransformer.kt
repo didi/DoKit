@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.plugin.transform.classtransform
 
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExtension
 import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didichuxing.doraemonkit.plugin.lastPath
 import com.didichuxing.doraemonkit.plugin.println
-import com.didichuxing.doraemonkit.plugin.transform.DoKitTransformContext
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.className
 import org.gradle.api.Project
@@ -25,22 +25,15 @@ import org.objectweb.asm.tree.VarInsnNode
  */
 class BigImgClassTransformer : AbsClassTransformer() {
 
-    override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (onDoKitClassInterceptor(context, klass)) {
-            return klass
-        }
-        if (context is DoKitTransformContext) {
-            val project = context.project()
-            val dokit = context.dokitExtension()
-            transform(project, dokit, context, klass)
-        }
-        return klass
-    }
 
     override fun transform(project: Project, dokit: DoKitExtension, context: TransformContext, klass: ClassNode): ClassNode {
         if (!dokit.bigImageEnable) {
             return klass
         }
+
+            return klass
+            if (DoKitExtUtil.ignorePackageNames(klass.className)) {
+            }
 
         val className = klass.className
         //glide
