@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.transform.classtransform
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExtension
 import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didichuxing.doraemonkit.plugin.lastPath
@@ -30,10 +29,6 @@ class BigImgClassTransformer : AbsClassTransformer() {
         if (!dokit.bigImageEnable) {
             return klass
         }
-
-            return klass
-            if (DoKitExtUtil.ignorePackageNames(klass.className)) {
-            }
 
         val className = klass.className
         //glide

@@ -25,8 +25,8 @@ import org.objectweb.asm.tree.*
 class ThirdLibsClassTransformer : AbsClassTransformer() {
 
     override fun transform(project: Project, dokit: DoKitExtension, context: TransformContext, klass: ClassNode): ClassNode {
-
         val className = klass.className
+
         if (dokit.thirdLibEnable) {
             //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
             if (className == "com.didichuxing.doraemonkit.DoKitReal") {

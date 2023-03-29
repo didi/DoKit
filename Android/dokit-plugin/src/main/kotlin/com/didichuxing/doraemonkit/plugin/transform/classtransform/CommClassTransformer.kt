@@ -23,13 +23,24 @@ import org.objectweb.asm.tree.*
  */
 class CommClassTransformer : AbsClassTransformer() {
 
+    override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
+
+        val className = klass.className
+        val superName = klass.formatSuperName
+
+        //hook Androidx的ComponentActivity
+        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
+            createComponentActivitySuperActivityImpl(klass)
+        }
+
+        return super.transform(context, klass)
+    }
 
     /**
      * 类处理转化实现
      */
     override fun transform(project: Project, dokit: DoKitExtension, context: TransformContext, klass: ClassNode): ClassNode {
         val className = klass.className
-        val superName = klass.formatSuperName
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
         if (className == "com.didichuxing.doraemonkit.DoKitReal") {
@@ -41,12 +52,6 @@ class CommClassTransformer : AbsClassTransformer() {
                 methodNode?.instructions?.insert(createPluginConfigInsnList(dokit.gpsEnable, dokit.networkEnable, dokit.bigImageEnable))
             }
         }
-
-        //hook Androidx的ComponentActivity
-        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
-            createComponentActivitySuperActivityImpl(klass)
-        }
-
         return klass
     }
 

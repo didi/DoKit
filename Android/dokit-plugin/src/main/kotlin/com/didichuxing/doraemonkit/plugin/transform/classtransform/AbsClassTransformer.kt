@@ -43,6 +43,10 @@ open class AbsClassTransformer : ClassTransformer {
             return klass
         }
 
+        if (DoKitExtUtil.ignorePackageNames(klass.className)) {
+            return klass
+        }
+
         if (context is DoKitTransformContext) {
             val project = context.project()
             val dokit = context.dokitExtension()

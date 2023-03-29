@@ -27,9 +27,8 @@ class UrlConnectionTransformer : AbsClassTransformer() {
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(project: Project, dokit: DoKitExtension, context: TransformContext, klass: ClassNode): ClassNode {
-
-
         val className = klass.className
+
         if (dokit.networkEnable && dokit.network.urlConnect) {
             // url connection
             klass.methods.forEach { method ->
