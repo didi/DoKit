@@ -4,6 +4,7 @@ import android.location.LocationManager;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
+import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.gps_mock.gpsmock.GpsMockProxyManager;
 import com.didichuxing.doraemonkit.util.CoordinateUtils;
@@ -40,6 +41,9 @@ public class AMapLocationListenerProxy implements AMapLocationListener {
                     + "\n after_trans_loc==>" + Arrays.toString(res));
                 mapLocation.setLatitude(res[1]);
                 mapLocation.setLongitude(res[0]);
+                if (GpsMockManager.getInstance().isMockingRoute()) {
+                    mapLocation.setSpeed(GpsMockConfig.getRouteMockSpeed());
+                }
                 mapLocation.setProvider(LocationManager.GPS_PROVIDER);
                 //通过反射强制改变p的值 原因:看mapLocation.setErrorCode
                 ReflectUtils.reflect(mapLocation).field("p", 0);
