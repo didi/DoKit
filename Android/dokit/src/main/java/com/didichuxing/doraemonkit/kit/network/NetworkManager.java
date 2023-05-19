@@ -73,7 +73,7 @@ public class NetworkManager {
     /**
      * dokit 更多页面接口请求
      */
-    public static final String DOKIT_MORE_PAGE_URL = "http://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group";
+    public static final String DOKIT_MORE_PAGE_URL = "https://star.xiaojukeji.com/config/get.node?city=-1&areaid=&name=group";
     /**
      * 预发环境
      */
