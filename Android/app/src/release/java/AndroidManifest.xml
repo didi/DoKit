@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
 
-        <activity android:name=".old.MainDebugActivityOkhttpV3">
+        <activity android:name=".old.MainDebugActivityOkhttpV3" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
