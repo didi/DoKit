@@ -4,15 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
-import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
+import com.didichuxing.doraemondemo.module.http.CustomInterceptor
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
