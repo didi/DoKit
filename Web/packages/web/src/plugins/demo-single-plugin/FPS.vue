@@ -199,7 +199,7 @@ export default {
       var value = this.avgFps;
       for (var i = 0; i < 60; i++) {
         this.now = new Date(+this.now + this.oneDay);
-        this.data.push(this.randomData(this.now, 60));
+        this.data.push(this.formalData(this.now, 60));
       }
       this.myChart = echarts.init(document.getElementById("nowEcharts"));
 
@@ -234,7 +234,7 @@ export default {
         for (var i = 0; i < 1; i++) {
           that.data.shift();
           that.now = new Date(+that.now + that.oneDay);
-          that.data.push(this.randomData(that.now, this.avgFps));
+          that.data.push(this.formalData(that.now, this.avgFps));
         }
         that.updateChart();
       }, 1000);
@@ -263,8 +263,8 @@ export default {
       });
       this.myChart.setOption(options);
     },
-    // 产生随机数
-    randomData(now, value) {
+    // 规范数据格式
+    formalData(now, value) {
       var valueName =
         now.getFullYear() +
         "/" +
