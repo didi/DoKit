@@ -172,17 +172,10 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 
 
-## 微信交流群(一群满员，已开二群)
-搜索**justdokit**加我微信好友，注意请添加备注：昵称-DoKit社区用户，否则你的申请将不会被验证通过。
-![51640263734_ pic](https://user-images.githubusercontent.com/4486497/147242854-9693daf9-033e-4523-89da-b7b36c72642c.jpg)
-
-<br/>
-
-
-## QQ 交流群
+## QQ 技术交流群
 
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="QQ 交流群" align=left />
+ <img src="https://dpubstatic.udache.com/static/dpubimg/z73LRuuFdxTmFLJq8c2qt_WechatIMG483.jpeg" width = "225" height = "400" alt="QQ 交流群" align=left />
 </div>
 
 <br/>
@@ -194,8 +187,6 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 <br/>
 <br/>
 <br/>
-
-
 <br/>
 <br/>
 <br/>
