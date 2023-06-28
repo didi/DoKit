@@ -1,4 +1,3 @@
-// import IndependPluginDemo from "./IndependPluginDemo.vue";
 import FPS from "./FPS.vue";
 import { IndependPlugin } from "@dokit/web-core";
 
