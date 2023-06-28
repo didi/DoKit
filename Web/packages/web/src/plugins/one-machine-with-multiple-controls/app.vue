@@ -81,7 +81,7 @@ export default {
   watch: {
     socketHistoryList: {
       handler: function (newVal, oldVal) {
-        this.historyList = [...newVal];
+        this.historyList = newVal && [...newVal] || [];
       },
       deep: true,
       immediate: true,

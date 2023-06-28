@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.app.Activity
-import android.graphics.Bitmap
 import android.os.Build
-import android.os.Message
-import android.view.KeyEvent
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.util.ConvertUtils
@@ -33,10 +30,9 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DoKitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : WebViewClient() {
+class DoKitX5WebViewClient(webViewClient: WebViewClient, userAgent: String) : ProxyX5WebViewClient(webViewClient) {
 
     private val TAG = "DoKitWebViewClient"
-    private val mWebViewClient: WebViewClient? = webViewClient
     private val mUserAgent = userAgent
 
     /**
@@ -57,18 +53,23 @@ class DoKitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
 
     override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
         updateH5DokitUrl(view, url)
-        if (mWebViewClient != null) {
-            return mWebViewClient.shouldOverrideUrlLoading(view, url)
-        }
-
         return super.shouldOverrideUrlLoading(view, url)
     }
 
+    override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+        updateH5DokitUrl(view, url)
+        super.doUpdateVisitedHistory(view, url, isReload)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        updateH5DokitUrl(view, request?.url?.path)
+        return super.shouldOverrideUrlLoading(view, request)
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun shouldInterceptRequest(
-        view: WebView?,
-        request: WebResourceRequest?
-    ): WebResourceResponse? {
+    override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         //开关均被关闭则不进行拦截
         if (!DoKitManager.H5_JS_INJECT && !DoKitManager.H5_VCONSOLE_INJECT) {
             return super.shouldInterceptRequest(view, request)
@@ -132,7 +133,6 @@ class DoKitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                 } else {
                     return super.shouldInterceptRequest(view, request)
                 }
-
             }
         }
 
@@ -142,12 +142,7 @@ class DoKitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
     /**
      * 处理数据mock的相关逻辑
      */
-    private fun dealMock(
-        requestBean: JsRequestBean,
-        url: HttpUrl?,
-        view: WebView?,
-        request: WebResourceRequest?
-    ): WebResourceResponse? {
+    private fun dealMock(requestBean: JsRequestBean, url: HttpUrl?, view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         url?.let { httpUrl ->
             try {
                 val path = URLDecoder.decode(OkHttpWrap.toEncodedPath(httpUrl), "utf-8")
@@ -279,181 +274,4 @@ class DoKitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
         return doc.toString()
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        updateH5DokitUrl(view, request?.url?.path)
-        if (mWebViewClient != null) {
-            return mWebViewClient.shouldOverrideUrlLoading(view, request)
-        }
-        return super.shouldOverrideUrlLoading(view, request)
-    }
-
-    override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-        if (mWebViewClient != null) {
-            return mWebViewClient.shouldInterceptRequest(view, url)
-        }
-        return super.shouldInterceptRequest(view, url)
-    }
-
-    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onPageStarted(view, url, favicon)
-        }
-        super.onPageStarted(view, url, favicon)
-    }
-
-    override fun onPageFinished(view: WebView?, url: String?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onPageFinished(view, url)
-        }
-        super.onPageFinished(view, url)
-    }
-
-    override fun onLoadResource(view: WebView?, url: String?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onLoadResource(view, url)
-        }
-        super.onLoadResource(view, url)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onPageCommitVisible(view: WebView?, url: String?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onPageCommitVisible(view, url)
-        }
-        super.onPageCommitVisible(view, url)
-    }
-
-    override fun onTooManyRedirects(view: WebView?, cancelMsg: Message?, continueMsg: Message?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onTooManyRedirects(view, cancelMsg, continueMsg)
-        }
-        super.onTooManyRedirects(view, cancelMsg, continueMsg)
-    }
-
-    override fun onReceivedError(
-        view: WebView?,
-        errorCode: Int,
-        description: String?,
-        failingUrl: String?
-    ) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedError(view, errorCode, description, failingUrl)
-        }
-        super.onReceivedError(view, errorCode, description, failingUrl)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onReceivedError(
-        view: WebView?,
-        request: WebResourceRequest?,
-        error: WebResourceError?
-    ) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedError(view, request, error)
-        }
-        super.onReceivedError(view, request, error)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onReceivedHttpError(
-        view: WebView?,
-        request: WebResourceRequest?,
-        errorResponse: WebResourceResponse?
-    ) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedHttpError(view, request, errorResponse)
-        }
-        super.onReceivedHttpError(view, request, errorResponse)
-    }
-
-    override fun onFormResubmission(view: WebView?, dontResend: Message?, resend: Message?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onFormResubmission(view, dontResend, resend)
-        }
-        super.onFormResubmission(view, dontResend, resend)
-    }
-
-    override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
-        updateH5DokitUrl(view, url)
-        if (mWebViewClient != null) {
-            return mWebViewClient.doUpdateVisitedHistory(view, url, isReload)
-        }
-        super.doUpdateVisitedHistory(view, url, isReload)
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedClientCertRequest(view, request)
-        }
-        super.onReceivedClientCertRequest(view, request)
-    }
-
-    override fun onReceivedHttpAuthRequest(
-        view: WebView?,
-        handler: HttpAuthHandler?,
-        host: String?,
-        realm: String?
-    ) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedHttpAuthRequest(view, handler, host, realm)
-        }
-        super.onReceivedHttpAuthRequest(view, handler, host, realm)
-    }
-
-    override fun shouldOverrideKeyEvent(view: WebView?, event: KeyEvent?): Boolean {
-        if (mWebViewClient != null) {
-            return mWebViewClient.shouldOverrideKeyEvent(view, event)
-        }
-        return super.shouldOverrideKeyEvent(view, event)
-    }
-
-    override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onUnhandledKeyEvent(view, event)
-        }
-        super.onUnhandledKeyEvent(view, event)
-    }
-
-    override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onScaleChanged(view, oldScale, newScale)
-        }
-        super.onScaleChanged(view, oldScale, newScale)
-    }
-
-    override fun onReceivedLoginRequest(
-        view: WebView?,
-        realm: String?,
-        account: String?,
-        args: String?
-    ) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedLoginRequest(view, realm, account, args)
-        }
-        super.onReceivedLoginRequest(view, realm, account, args)
-    }
-
-
-    override fun onReceivedSslError(
-        p0: WebView?,
-        p1: SslErrorHandler?,
-        p2: com.tencent.smtt.export.external.interfaces.SslError?
-    ) {
-
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedSslError(p0, p1, p2)
-        }
-        super.onReceivedSslError(p0, p1, p2)
-    }
-
-    override fun onDetectedBlankScreen(p0: String?, p1: Int) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onDetectedBlankScreen(p0, p1)
-        }
-        super.onDetectedBlankScreen(p0, p1)
-    }
 }

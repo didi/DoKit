@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.transform
 
-import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
-import com.didichuxing.doraemonkit.plugin.classtransformer.MSDClassTransformer
+import com.didichuxing.doraemonkit.plugin.transform.asmtransform.DoKitAsmTransformer
+import com.didichuxing.doraemonkit.plugin.transform.classtransform.MSDClassTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 

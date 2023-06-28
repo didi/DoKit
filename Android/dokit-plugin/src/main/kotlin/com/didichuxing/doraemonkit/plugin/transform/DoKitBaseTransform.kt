@@ -5,9 +5,6 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
-import com.didichuxing.doraemonkit.plugin.println
-import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
 import com.didiglobal.booster.transform.Transformer
@@ -18,6 +15,7 @@ import org.gradle.api.Project
  * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
  * @author johnsonlee
  */
+
 open class DoKitBaseTransform protected constructor(val project: Project) : Transform() {
 
     /*transformers
@@ -78,7 +76,6 @@ open class DoKitBaseTransform protected constructor(val project: Project) : Tran
             }
         }
     }
-
 
 
 }

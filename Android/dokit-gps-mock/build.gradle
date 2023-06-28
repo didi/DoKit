@@ -80,9 +80,9 @@ dependencies {
 
     api files('libs/BaiduLBS_Android.jar')
 
-    compileOnly rootProject.ext.dependencies["amap_location"]
     //高德导航
     compileOnly rootProject.ext.dependencies["amap_navi"]
+    compileOnly rootProject.ext.dependencies["amap_location"]
     //腾讯地图定位
     compileOnly rootProject.ext.dependencies["tencent_location"]
 }

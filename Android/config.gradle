@@ -14,10 +14,10 @@ ext {
         use_local    : true,
 //        group_id     : 'io.github.didi.dokit',
         group_id     : 'com.didichuxing.doraemonkit',
-        version      : '3.7.0.6'
+        version      : '3.7.14.9-kotlin-13'
     ]
 
-    android = [compileSdkVersion             : 29,
+    android = [compileSdkVersion             : 31,
                applicationId                 : "com.didichuxing.doraemondemo",
                minSdkVersion_16              : 16,
                minSdkVersion_21              : 21,
@@ -31,7 +31,7 @@ ext {
                kotlin_version_v15            : "1.5.31",
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
-               booster_version               : "4.0.0",
+               booster_version               : "4.13.0",
                agp_module_verson             : "7.0.0",
                agp_plugin_verson             : "4.2.2",
                ktor                          : "1.5.4",
@@ -162,9 +162,7 @@ ext {
     //定义全局方法
     needKotlinV14 = {
         String version = publish_config["version"]
-        //分割字符串
-        String[] vs = version.split("\\.")
-        return vs.length == 3
+        return !version.contains("kotlin-13")
     }
 
     usePrivateEnv = {

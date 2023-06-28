@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokit For Web</title>
+  <style>
+    .asd4 .asd {
+      color: rgba(241, 9, 9, 0.3);
+      background: url(https://pt-starimg.didistatic.com/static/starimg/img/UioDkptMhY1635838350336.png);
+      box-shadow: 10px 10px 5px rgb(122, 222, 222, 0.7);
+    }
+
+    body {
+      top: 10px;
+    }
+
+    .asd1 {
+      position: relative;
+    }
+
+    .weatherInfo {
+      font-size: 13px;
+      overflow: hidden;
+    }
+  </style>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="dokit.js"></script>
+  <script>
+    Dokit.startMultiControl('ws://172.23.165.79:8000/proxy/multicontrol/OYZGTSEL', window.location.href.split("?asd=")[1])
+    // axios({
+    //   url: 'https://thor.weidian.com/skittles/share.getConfig/1.0?wdtoken=4000fcea&_=1649759524263',
+    // }).then((res) => {
+    //   console.log('axios:',res)
+    //   // changeNode.style.color = "blue"
+    //   weatherInfoNode.innerText = `接口数据:${JSON.stringify(res)}`
+    // }).catch((err) => {
+    //   console.log(err)
+    // });
+    Dokit.setProductId('749a0600b5e48dd77cf8ee680be7b1b7')
+  </script>
+</head>
+
+<body>
+  <input calss="inputDemo" />
+  <div>DoKit For Web</div>
+  <div class="asd1">
+    <div class="asd2">
+      <div class="asd3">
+        <div class="asd4">
+          <span class="asd" id="qwe" style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:300px;overflow: scroll;">
+    <a href="https://hummer.didi.cn/home#/">Hummer</a>
+    <img src="https://pt-starimg.didistatic.com/static/starimg/img/UioDkptMhY1635838350336.png" />
+    <h2 class="asd" id="qwe" style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+    <input>
+    <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+    <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+    <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+    <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+    <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  </div>
+  <h2 class="weatherInfo">接口数据：</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <h2 style="padding: 10px 20px 30px 40px;
+    margin: 10px 20px 30px 40px;
+    border: 10px solid;
+    border-width:10px 20px 30px 50px;">Playground</h2>
+  <div class="asdasd">zepto测试</div>
+</body>
+<script src="https://cdnjs.gtimg.com/cdnjs/libs/zepto/1.1.4/zepto.js"></script>
+<script>
+  let eventNode = document.getElementsByClassName('asd1')[0]
+  let changeNode = document.getElementById('qwe')
+  let weatherInfoNode = document.getElementsByClassName('weatherInfo')[0]
+  // axios({
+  //     url: 'https://thor.weidian.com/skittles/share.getConfig/1.0?wdtoken=4000fcea&_=1649759524263',
+  //   }).then((res) => {
+  //     console.log('axios:',res)
+  //     // changeNode.style.color = "blue"
+  //     weatherInfoNode.innerText = `接口数据:${JSON.stringify(res)}`
+  //   }).catch((err) => {
+  //     console.log(err)
+  //   });
+  eventNode.onclick = (e) => {
+    fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7', {})
+      .then((response) => {
+        let weatherInfo = response.json();
+        return weatherInfo;
+      })
+      .then((info) => {
+        console.log('weatherInfo', info)
+        changeNode.style.color = "blue"
+        weatherInfoNode.innerText = `接口数据:${JSON.stringify(info)}`
+        // axios({
+        //   url: 'https://daijia.kuaidadi.com/gateway?api=lj.assign.d.regions&apiVersion=1.0.0&appKey=b4f945fe780140d8a0d19d1f2d021db7&appVersion=6.8.9&mobileType=vivo+NEX+S&osType=2&osVersion=10&sign=f2d04df3510670528a067ae52ded2c49&timestamp=1648180651319&token=Mk_G1OHDSNax7QIHN8j_BmFarMeZA_ORR7yKj831WPYkyDvKw0AMAOG7TC2MtCtrbbV__98hD-fRbCAhlfHdg_E0A99KV5I66KAI3UgTeiGLqo5Cr6QK3Y-NJH__CCcShDNZJvPmc4tWprm6C9cdQ1jIlc_r-74sZGhR24QbaeGtVm9RhTuJmelRIDx2QXiSuv0CAAD__w%3D%3D&ttid=-1&userId=182784&userRole=2',
+        // }).then((res) => {
+        //   console.log(res)
+        // }).catch((err) => {
+        //   console.log(err)
+        // });
+      });
+    // for (let index = 0; index < 10; index++) {
+    // axios({
+    //   url: 'https://daijia.kuaidadi.com/gateway?api=lj.assign.d.regions&apiVersion=1.0.0&appKey=b4f945fe780140d8a0d19d1f2d021db7&appVersion=6.8.9&mobileType=vivo+NEX+S&osType=2&osVersion=10&sign=f2d04df3510670528a067ae52ded2c49&timestamp=1648180651319&token=Mk_G1OHDSNax7QIHN8j_BmFarMeZA_ORR7yKj831WPYkyDvKw0AMAOG7TC2MtCtrbbV__98hD-fRbCAhlfHdg_E0A99KV5I66KAI3UgTeiGLqo5Cr6QK3Y-NJH__CCcShDNZJvPmc4tWprm6C9cdQ1jIlc_r-74sZGhR24QbaeGtVm9RhTuJmelRIDx2QXiSuv0CAAD__w%3D%3D&ttid=-1&userId=182784&userRole=2',
+    // }).then((res) => {
+    //   console.log(res)
+    //   // alert(res)
+    // }).catch((err) => {
+    //   console.log(err)
+    // });
+    // }
+
+    // function reqListener() {
+    //   console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this
+    //     .responseText);
+    // }
+    // var oReq = new XMLHttpRequest();
+    // oReq.addEventListener("load", reqListener);
+    // oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    // oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
+    // oReq.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/playground')
+    // oReq.setRequestHeader('Access-Control-Allow-Credentials', 'true')
+    // oReq.send(JSON.stringify({
+    //   a: 1
+    // }));
+
+    // axios({
+    //   url: 'https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7',
+    //   method: "POST",
+    //   data: {
+    //     firstName: "Fred",
+    //     lastName: "Flintstone"
+    //   }
+    // }).then((res) => {
+    //   console.log(res)
+    // }).catch((err) => {
+    //   console.log(err)
+    // });
+  }
+  eventNode.addEventListener('touchstart', (e) => {
+    console.log(e)
+    console.log('----------touchstart--------')
+  }, false)
+  eventNode.addEventListener('touchmove', () => {
+    console.log('----------touchmove--------')
+  }, false)
+  eventNode.addEventListener('touchend', () => {
+    console.log('----------touchend--------')
+  }, false)
+  $('.asdasd').on('click', function (event) {
+    console.log('zepto', event);
+  });
+  setTimeout(() => {
+    document.body.appendChild(document.createElement('textarea'))
+  }, 5000)
+  // setTimeout(() => {
+  //   var a = {
+  //     b: 1,
+  //     c: 3,
+  //   }
+  //   console.log(a);
+
+  // function reqListener() {
+  //   console.log('asasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsdasasdasdasdasdasdasdasdqsd', this
+  //     .responseText);
+  // }
+  // var oReq = new XMLHttpRequest();
+  // oReq.addEventListener("load", reqListener);
+  // oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+  // oReq.setRequestHeader('Content-Type', 'text/html; charset=utf-8')
+  // oReq.send(JSON.stringify({
+  //   a: 1
+  // }));
+  // }, 5000);
+</script>
+
+</html>

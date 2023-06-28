@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.processor
 
-import com.didichuxing.doraemonkit.plugin.println
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 

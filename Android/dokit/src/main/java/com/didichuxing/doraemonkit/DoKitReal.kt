@@ -85,11 +85,8 @@ object DoKitReal {
         registerNetworkStatusChangedListener()
         startAppHealth()
         initGpsMock()
-        // 临时处理, Android S(31) 上Sand hook必崩
-        if (Build.VERSION.SDK_INT <= 30) {
-            //全局运行时hook
-            globalRunTimeHook()
-        }
+
+        globalRunTimeHook()
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DoKitActivityLifecycleCallbacks())
