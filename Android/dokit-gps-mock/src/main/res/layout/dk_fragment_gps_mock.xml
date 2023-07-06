@@ -158,6 +158,63 @@
                 app:layout_constraintTop_toTopOf="@id/tv_title_route_mock" />
 
             <TextView
+                android:id="@+id/tv_des_route_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类型："
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/ly_des_route_type"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/ly_des_route_type"
+                app:layout_constraintTop_toTopOf="@id/ly_des_route_type" />
+
+            <LinearLayout
+                android:id="@+id/ly_des_route_type"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edt_height"
+                android:layout_marginStart="@dimen/edt_text_margin_left"
+                android:layout_marginLeft="@dimen/edt_text_margin_left"
+                android:layout_marginTop="@dimen/common_margin_top1"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_start"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_route_mock">
+
+                <RadioGroup
+                    android:id="@+id/rg_route_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:checkedButton="@id/rb_route_type_driving"
+                    android:layout_marginLeft="@dimen/dk_dp_5"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_route_type_driving"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车行轨迹" />
+
+                    <RadioButton
+                        android:id="@+id/rb_route_type_biking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dk_dp_5"
+                        android:text="骑行轨迹" />
+
+                    <RadioButton
+                        android:id="@+id/rb_route_type_walking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dk_dp_5"
+                        android:text="步行轨迹" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/tv_des_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,6 +225,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/tv_route_start"
                 app:layout_constraintTop_toTopOf="@id/tv_route_start" />
+
 
             <TextView
                 android:id="@+id/tv_route_start"
@@ -186,7 +244,7 @@
                 android:textSize="@dimen/edt_text_size"
                 app:layout_constraintLeft_toRightOf="@id/tv_des_start"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_title_route_mock" />
+                app:layout_constraintTop_toBottomOf="@id/ly_des_route_type" />
 
             <TextView
                 android:id="@+id/tv_des_end"
@@ -322,8 +380,8 @@
                 android:background="@drawable/dk_bg_btn_round_rectangle"
                 android:text="@string/btn_text_start_mock"
                 android:textColor="@color/color_confirm_btn_text"
-                app:layout_constraintTop_toBottomOf="@id/seekbar_select_lost_path"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seekbar_select_lost_path" />
 
             <TextView
                 android:id="@+id/title_toggle_route_drift_mock"
@@ -580,9 +638,9 @@
             android:id="@+id/tv_des_mock_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left_right"
             android:text="@string/text_des_mock_distance"
             android:textColor="@color/color_bold_text_black"
-            android:layout_marginLeft="@dimen/common_margin_left_right"
             android:textSize="@dimen/edt_text_size"
             app:layout_constraintBottom_toBottomOf="@id/tv_des_real_distance"
             app:layout_constraintLeft_toRightOf="@id/tv_real_distance"

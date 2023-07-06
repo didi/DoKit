@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.search.route.BikingRouteLine;
+import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRouteLine;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
@@ -51,6 +54,8 @@ import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.didichuxing.doraemonkit.DoKit;
@@ -84,6 +89,11 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
     , CompoundButton.OnCheckedChangeListener, MotionLayout.TransitionListener, BaiduMap.OnMapStatusChangeListener, OnGetGeoCoderResultListener
     , OnGetRoutePlanResultListener, RouteMockThread.RouteMockStatusCallback {
     private static final String TAG = "GpsMockFragment";
+
+
+    private static final int ROUTE_TYPE_DRIVING = 0;
+    private static final int ROUTE_TYPE_BIKING = 1;
+    private static final int ROUTE_TYPE_WALKING = 2;
 
     private HomeTitleBar mTitleBar;
 
@@ -121,6 +131,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
     private ImageView mIvDownExpand;
     private TextView mTvOriginDistance;
     private TextView mTvMockDistance;
+    private RadioGroup mRouteTypeRadioGroup;
 
     private CustomDialogFragment mCustomDialogFragment;
     private @IdRes
@@ -196,6 +207,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         mTvRouteEnd = findViewById(R.id.tv_route_end);
         mEdtRouteSpeed = findViewById(R.id.edt_route_speed);
         mBtnMockRoute1 = findViewById(R.id.btn_mock_route1);
+        mRouteTypeRadioGroup = findViewById(R.id.rg_route_type);
 
         mCbToggleRouteDriftMock = findViewById(R.id.cb_toggle_route_drift_mock);
         mDriftSettingLayout = findViewById(R.id.drift_mock_set_layout);
@@ -249,6 +261,19 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         if (mRootView != null) {
             mRootView.setTransitionListener(this);
         }
+    }
+
+    private int getRouteType() {
+        if (mRouteTypeRadioGroup != null) {
+            int id = mRouteTypeRadioGroup.getCheckedRadioButtonId();
+            if (id == R.id.rb_route_type_biking) {
+                return ROUTE_TYPE_BIKING;
+
+            } else if (id == R.id.rb_route_type_walking) {
+                return ROUTE_TYPE_WALKING;
+            }
+        }
+        return ROUTE_TYPE_DRIVING;
     }
 
     private void initBdLocAndMap() {
@@ -465,9 +490,20 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
                 // 如果业务传过来的路径为空或者路径数据标识不是从业务传过来的,说明业务没有做路径规划. 则判断用户是否要在DoKit里规划路径来进行模拟.
                 if (bdMapRouteData == null || !bdMapRouteData.isRouteDataFromBiz()) {
                     if (mRouteStartNode.getLocation() != null && mRouteEndNode.getLocation() != null) {
-                        mRoutePlanSearch.drivingSearch(new DrivingRoutePlanOption()
-                            .from(PlanNode.withLocation(mRouteStartNode.getLocation()))
-                            .to(PlanNode.withLocation(mRouteEndNode.getLocation())));
+                        int type = getRouteType();
+                        if (type == ROUTE_TYPE_DRIVING) {
+                            mRoutePlanSearch.drivingSearch(new DrivingRoutePlanOption()
+                                .from(PlanNode.withLocation(mRouteStartNode.getLocation()))
+                                .to(PlanNode.withLocation(mRouteEndNode.getLocation())));
+                        } else if (type == ROUTE_TYPE_BIKING) {
+                            mRoutePlanSearch.bikingSearch(new BikingRoutePlanOption()
+                                .from(PlanNode.withLocation(mRouteStartNode.getLocation()))
+                                .to(PlanNode.withLocation(mRouteEndNode.getLocation())));
+                        } else if (type == ROUTE_TYPE_WALKING) {
+                            mRoutePlanSearch.walkingSearch(new WalkingRoutePlanOption()
+                                .from(PlanNode.withLocation(mRouteStartNode.getLocation()))
+                                .to(PlanNode.withLocation(mRouteEndNode.getLocation())));
+                        }
                     } else {
                         ToastUtils.showShort("请先选择起终点");
                     }
@@ -484,7 +520,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
                 // 漂移路径模拟
                 // 计算偏移点(手动选择模式)
                 GpsMockManager.getInstance().calculateDriftRoute(getInputDriftAccuracy(), mSeekBar.getProgressLow(), mSeekBar.getProgressHigh());
-                if (mCbDriftLostLoc.isChecked()){
+                if (mCbDriftLostLoc.isChecked()) {
                     GpsMockManager.getInstance().calculateDriftRouteWithLocLost(mDriftLostLocSeekBar.getProgressLow(), mDriftLostLocSeekBar.getProgressHigh());
                 }
             } else {
@@ -504,7 +540,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         } else {
             // 真实路径模拟
             if (GpsMockManager.getInstance().getBdMockDrivingRouteLine() != null) {
-                if (mCbDriftLostLoc.isChecked()){
+                if (mCbDriftLostLoc.isChecked()) {
                     GpsMockManager.getInstance().calculateOriginRouteWithLocLost(mDriftLostLocSeekBar.getProgressLow(), mDriftLostLocSeekBar.getProgressHigh());
                     // 开始模拟
                     GpsMockManager.getInstance().startMockRouteLine(GpsMockManager.getInstance().getBdMockDrivingRouteLine().getOriginRouteLostLocPoints(), getInputSpeed(), this);
@@ -537,7 +573,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         } else if (buttonView.getId() == R.id.cb_toggle_route_drift_mock) {
             onRouteDriftMockCbChange(isChecked);
             LogHelper.d(TAG, "cb_toggle_route_drift_mock onCheckedChanged: " + " " + isChecked);
-        } else if (buttonView.getId() == R.id.cb_toggle_route_lost_loc){
+        } else if (buttonView.getId() == R.id.cb_toggle_route_lost_loc) {
             onLostLocMockCbChange(isChecked);
             LogHelper.d(TAG, "cb_toggle_route_lost_loc onCheckedChanged: " + " " + isChecked);
         }
@@ -651,7 +687,7 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         drawRoute();
     }
 
-    private void onLostLocMockCbChange(boolean isChecked){
+    private void onLostLocMockCbChange(boolean isChecked) {
         GpsMockConfig.putRouteDriftMockLostLocOpen(isChecked);
     }
 
@@ -870,18 +906,43 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+    public void onGetWalkingRouteResult(WalkingRouteResult result) {
 
+        if (result != null && result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            Toast.makeText(this.getActivity(), "起终点或途经点地址有岐义,通过 result.getSuggestAddrInfo()接口获取建议查询信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (result == null || result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+            Toast.makeText(this.getActivity(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            if (result.getRouteLines().size() > 1) {
+                LogHelper.d(TAG, "路线信息: " + result.getRouteLines().get(0).toString());
+                transform2MockDataAndPerformMock(result.getRouteLines().get(0));
+            } else if (result.getRouteLines().size() == 1) {
+                LogHelper.d(TAG, "路线信息: " + result.getRouteLines().get(0).toString());
+                // 拿到第一条路线
+                transform2MockDataAndPerformMock(result.getRouteLines().get(0));
+                // 获取到第一条路线上的第一段路的所有坐标点
+                List<com.baidu.mapapi.model.LatLng> listStep = result.getRouteLines().get(0).getAllStep().get(0).getWayPoints();
+            } else {
+                LogHelper.d("route result", "结果数<0");
+            }
+        }
     }
 
     @Override
     public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-
+        Toast.makeText(this.getActivity(), "暂不支持运输导航", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-
+        Toast.makeText(this.getActivity(), "暂不支持公交导航", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -913,6 +974,98 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+        Toast.makeText(this.getActivity(), "暂不支持室内导航", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult result) {
+        if (result != null && result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            Toast.makeText(this.getActivity(), "起终点或途经点地址有岐义,通过 result.getSuggestAddrInfo()接口获取建议查询信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (result == null || result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
+            Toast.makeText(this.getActivity(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            if (result.getRouteLines().size() > 1) {
+                LogHelper.d(TAG, "路线信息: " + result.getRouteLines().get(0).toString());
+                transform2MockDataAndPerformMock(result.getRouteLines().get(0));
+            } else if (result.getRouteLines().size() == 1) {
+                LogHelper.d(TAG, "路线信息: " + result.getRouteLines().get(0).toString());
+                // 拿到第一条路线
+                transform2MockDataAndPerformMock(result.getRouteLines().get(0));
+                // 获取到第一条路线上的第一段路的所有坐标点
+                List<com.baidu.mapapi.model.LatLng> listStep = result.getRouteLines().get(0).getAllStep().get(0).getWayPoints();
+            } else {
+                LogHelper.d("route result", "结果数<0");
+            }
+        }
+    }
+
+    private void transform2MockDataAndPerformMock(WalkingRouteLine drivingRouteLine) {
+
+        if (drivingRouteLine == null) return;
+        List<WalkingRouteLine.WalkingStep> steps = drivingRouteLine.getAllStep();
+        if (steps == null || steps.size() <= 0) {
+            return;
+        }
+
+        RouteNode start = drivingRouteLine.getStarting();
+        RouteNode terminal = drivingRouteLine.getTerminal();
+        int distance = drivingRouteLine.getDistance();
+
+        BdMapRouteData bdMapRouteData = new BdMapRouteData();
+        bdMapRouteData.setTotalDistance(distance);
+        bdMapRouteData.setStartNode(start);
+        bdMapRouteData.setTerminalNode(terminal);
+        bdMapRouteData.setRouteDataFromBiz(false);
+
+        for (WalkingRouteLine.WalkingStep step : steps) {
+            bdMapRouteData.getAllPoints().addAll(step.getWayPoints());
+        }
+        int originDistance = (int) Math.round(Utils.getRouteDistance(bdMapRouteData.getAllPoints()));
+        bdMapRouteData.setTotalDistance(originDistance);
+
+        GpsMockManager.getInstance().setBdMockDrivingRouteLine(bdMapRouteData);
+        drawAndMockRoute();
+
+    }
+
+    private void transform2MockDataAndPerformMock(BikingRouteLine drivingRouteLine) {
+        if (drivingRouteLine == null) return;
+        List<BikingRouteLine.BikingStep> steps = drivingRouteLine.getAllStep();
+        if (steps == null || steps.size() <= 0) {
+            return;
+        }
+
+        RouteNode start = drivingRouteLine.getStarting();
+        RouteNode terminal = drivingRouteLine.getTerminal();
+        int distance = drivingRouteLine.getDistance();
+
+        BdMapRouteData bdMapRouteData = new BdMapRouteData();
+        bdMapRouteData.setTotalDistance(distance);
+        bdMapRouteData.setStartNode(start);
+        bdMapRouteData.setTerminalNode(terminal);
+        bdMapRouteData.setRouteDataFromBiz(false);
+
+        for (BikingRouteLine.BikingStep step : steps) {
+            bdMapRouteData.getAllPoints().addAll(step.getWayPoints());
+        }
+        int originDistance = (int) Math.round(Utils.getRouteDistance(bdMapRouteData.getAllPoints()));
+        bdMapRouteData.setTotalDistance(originDistance);
+
+        GpsMockManager.getInstance().setBdMockDrivingRouteLine(bdMapRouteData);
+        drawAndMockRoute();
+
+    }
+
     private void transform2MockDataAndPerformMock(DrivingRouteLine drivingRouteLine) {
         if (drivingRouteLine == null) return;
         List<DrivingRouteLine.DrivingStep> steps = drivingRouteLine.getAllStep();
@@ -938,16 +1091,6 @@ public class GpsMockFragment extends BaseFragment implements View.OnClickListene
 
         GpsMockManager.getInstance().setBdMockDrivingRouteLine(bdMapRouteData);
         drawAndMockRoute();
-    }
-
-    @Override
-    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-
-    }
-
-    @Override
-    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-
     }
 
     private AnimatorSet hideDriftSettingAnim() {
