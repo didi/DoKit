@@ -118,8 +118,8 @@ export default {
       this.canvas.stroke();
     },
     /**
-     * 
-     * @param {*} location 
+     * 画框
+     * @param location 
      */
     drawBox(location) {
       if (this.drawOnfound) {
