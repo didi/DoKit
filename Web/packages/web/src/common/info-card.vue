@@ -82,6 +82,9 @@ export default {
         this.$emit("clear");
       }
     },
+    /**
+     * 刷新
+     */
     refresh() {
       this.$emit("refresh");
     }
