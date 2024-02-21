@@ -104,7 +104,11 @@ export default {
     },
   },
   methods: {
-    // 画线
+    /**
+     * 
+     * @param {开始坐标} begin 
+     * @param {结束坐标} end 
+     */
     drawLine(begin, end) {
       this.canvas.beginPath();
       this.canvas.moveTo(begin.x, begin.y);
@@ -113,7 +117,10 @@ export default {
       this.canvas.strokeStyle = this.lineColor;
       this.canvas.stroke();
     },
-    // 画框
+    /**
+     * 
+     * @param {*} location 
+     */
     drawBox(location) {
       if (this.drawOnfound) {
         this.drawLine(location.topLeftCorner, location.topRightCorner);
