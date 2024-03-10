@@ -28,7 +28,7 @@ class H5Kit : AbstractKit() {
         get() = true
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating(H5DokitView::class)
+        DoKit.launchFloating(H5DoKitView::class)
         return true
     }
 

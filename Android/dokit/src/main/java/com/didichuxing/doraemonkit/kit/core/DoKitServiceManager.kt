@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.constant.DoKitModule
 object DoKitServiceManager {
     var lifecycle: DoKitLifecycleInterface? = null
 
-    fun dispatch(activityOverrideEnum: DokitServiceEnum, activity: Activity) {
+    fun dispatch(activityOverrideEnum: DoKitServiceEnum, activity: Activity) {
         if (lifecycle == null) {
             val life = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
                 ?.get("lifecycle")
@@ -25,20 +25,20 @@ object DoKitServiceManager {
         }
 
         when (activityOverrideEnum) {
-            DokitServiceEnum.onCreate -> lifecycle?.onCreate(activity)
-            DokitServiceEnum.onStart -> lifecycle?.onStart(activity)
-            DokitServiceEnum.onResume -> lifecycle?.onResume(activity)
-            DokitServiceEnum.onPause -> lifecycle?.onPause(activity)
-            DokitServiceEnum.onStop -> lifecycle?.onStop(activity)
-            DokitServiceEnum.onDestroy -> lifecycle?.onDestroy(activity)
-            DokitServiceEnum.finish -> lifecycle?.finish(activity)
-            DokitServiceEnum.onConfigurationChanged -> lifecycle?.onConfigurationChanged(
+            DoKitServiceEnum.onCreate -> lifecycle?.onCreate(activity)
+            DoKitServiceEnum.onStart -> lifecycle?.onStart(activity)
+            DoKitServiceEnum.onResume -> lifecycle?.onResume(activity)
+            DoKitServiceEnum.onPause -> lifecycle?.onPause(activity)
+            DoKitServiceEnum.onStop -> lifecycle?.onStop(activity)
+            DoKitServiceEnum.onDestroy -> lifecycle?.onDestroy(activity)
+            DoKitServiceEnum.finish -> lifecycle?.finish(activity)
+            DoKitServiceEnum.onConfigurationChanged -> lifecycle?.onConfigurationChanged(
                 activity
             )
-            DokitServiceEnum.onBackPressed -> lifecycle?.onBackPressed(activity)
-            DokitServiceEnum.dispatchTouchEvent -> lifecycle?.dispatchTouchEvent(activity)
-            DokitServiceEnum.onBackground -> lifecycle?.onBackground(activity)
-            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity)
+            DoKitServiceEnum.onBackPressed -> lifecycle?.onBackPressed(activity)
+            DoKitServiceEnum.dispatchTouchEvent -> lifecycle?.dispatchTouchEvent(activity)
+            DoKitServiceEnum.onBackground -> lifecycle?.onBackground(activity)
+            DoKitServiceEnum.onForeground -> lifecycle?.onForeground(activity)
             else -> lifecycle?.other(activity)
 
         }

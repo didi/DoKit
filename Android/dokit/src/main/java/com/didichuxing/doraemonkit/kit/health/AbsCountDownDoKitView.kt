@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.health
 
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.AbsDoKitView
 
 /**
  * ================================================
@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
  * 修订历史：
  * ================================================
  */
-abstract class AbsCountDownDoKitView : AbsDokitView() {
+abstract class AbsCountDownDoKitView : AbsDoKitView() {
 
     /**
      * 重置

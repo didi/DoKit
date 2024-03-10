@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DoKitDemo</string>
+    <string name="app_name">DoKit</string>
     <string name="app_build_types">BuildType</string>
     <string name="app_btn_jump">Jump Other Activity</string>
     <string name="app_btn_mc">MC</string>

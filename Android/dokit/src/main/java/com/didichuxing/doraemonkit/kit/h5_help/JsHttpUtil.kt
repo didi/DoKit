@@ -27,7 +27,7 @@ import org.json.JSONObject
  * 修订历史：
  * ================================================
  */
-internal object JsHttpUtil {
+object JsHttpUtil {
     val TAG = "JsHttpUtil"
 
     /**

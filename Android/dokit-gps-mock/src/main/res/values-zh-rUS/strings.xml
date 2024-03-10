@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="title_pos_mock">位置模拟</string>
+    <string name="title_route_mock">轨迹模拟</string>
+    <string name="btn_text_start_mock">开始模拟</string>
+    <string name="title_route_drift_mock">漂移模拟</string>
+    <string name="title_route_mock_start">起点:</string>
+    <string name="title_route_mock_end">终点:</string>
+    <string name="title_route_mock_speed">速度:</string>
+    <string name="route_mock_speed_unit">km/h</string>
+    <string name="edt_pos_lat_long_hint"><font size="12">输入经纬度(逗号隔开),例如120.152637,30.283940</font></string>
+    <string name="title_route_lost_loc_mock">定位点丢失</string>
+    <string name="des_lost_loc_path">定位点丢失范围:</string>
+    <string name="des_drift_type">漂移类型:</string>
+    <string-array name="array_drift_type">
+        <item>随机漂移</item>
+        <item>路径漂移</item>
+    </string-array>
+    <string name="des_drift_accuracy">漂移范围:</string>
+    <string name="unit_drift_accuracy">米</string>
+    <string name="des_drift_mode">漂移模式:</string>
+    <string-array name="array_drift_mode">
+        <!--<item>智能模式</item>-->
+        <item>手动模式</item>
+    </string-array>
+    <string name="des_drift_path">选择漂移路径范围:</string>
+    <string name="auto_mode_tunnel">隧道</string>
+    <string name="auto_mode_over_pass">高架</string>
+
+    <string name="position_address">请输入地址</string>
+    <string name="btn_text_stop_mock">停止模拟</string>
+
+    <string name="text_des_origin_distance">原始路程:</string>
+    <string name="text_des_mock_distance">模拟路程:</string>
+
+</resources>

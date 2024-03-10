@@ -87,7 +87,7 @@ fun MethodNode.isEmptyMethod(): Boolean {
 
 fun MethodNode.isMainMethod(className: String): Boolean {
     if (this.name == "main" && this.desc == "([Ljava/lang/String;)V") {
-//        "====isMainMethod====$className  ${this.name}   ${this.desc}   ${this.access}".println()
+        "====isMainMethod====$className  ${this.name}   ${this.desc}   ${this.access}".println()
         return true
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DoKitDemo</string>
+    <string name="app_name">DoKit</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_titlebar_back">&#060;</string>
     <string name="app_build_types">当前编译环境</string>

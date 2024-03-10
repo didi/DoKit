@@ -24,12 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".MainDebugActivityOkhttpV3">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".old.MainDebugActivityOkhttpV3">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!--        <activity-->

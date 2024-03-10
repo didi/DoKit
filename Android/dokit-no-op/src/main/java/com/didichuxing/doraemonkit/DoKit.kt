@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
@@ -182,8 +181,8 @@ public class DoKit private constructor() {
          * 获取一机多控类型
          */
         @JvmStatic
-        fun mcMode(): WSMode {
-            return WSMode.UNKNOW
+        fun mcMode(): String {
+            return ""
         }
     }
 

@@ -1,0 +1,88 @@
+plugins {
+    id 'com.android.library'
+}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply from: '../upload.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        debug {
+            jniLibs.srcDir 'libs'
+        }
+
+        release {
+            jniLibs.srcDir 'libs'
+        }
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["activity-ktx"]
+
+    if (needKotlinV14()) {
+        implementation rootProject.ext.dependencies["kotlin_v14"]
+        implementation rootProject.ext.dependencies["coroutines-core_v14"]
+    } else {
+        implementation rootProject.ext.dependencies["kotlin_v13"]
+        implementation rootProject.ext.dependencies["coroutines-core_v13"]
+    }
+
+    implementation project(':dokit-util')
+    implementation project(':dokit')
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
+
+    api files('libs/BaiduLBS_Android.jar')
+
+    //高德导航
+    compileOnly rootProject.ext.dependencies["amap_navi"]
+    compileOnly rootProject.ext.dependencies["amap_location"]
+    //腾讯地图定位
+    compileOnly rootProject.ext.dependencies["tencent_location"]
+}

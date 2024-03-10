@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.test.TestMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.net.DoKitMcClient
 import com.didichuxing.doraemonkit.kit.mc.net.DokitMcConnectManager
 import com.didichuxing.doraemonkit.kit.mc.ui.*
@@ -211,7 +211,7 @@ class DoKitMcClientHistoryFragment : BaseFragment() {
                         DokitMcConnectManager.currentClientHistory = clientHistory
                         updateHistoryView()
                         //启动悬浮窗
-                        DoKit.launchFloating(ClientDokitView::class)
+                        DoKit.launchFloating(ClientDoKitView::class)
                     }
                     DoKitMcClient.CONNECT_FAIL -> {
                         DoKitTestManager.closeTest()

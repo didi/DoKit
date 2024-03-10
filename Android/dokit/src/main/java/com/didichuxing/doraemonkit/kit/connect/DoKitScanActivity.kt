@@ -14,13 +14,14 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
 
 /**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/12/10-10:52
- * 描    述：
- * 修订历史：
- * ================================================
+ * didi Create on 2022/4/12 .
+ *
+ * Copyright (c) 2022/4/12 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/12 6:07 下午
+ * @Description 用一句话说明文件功能
  */
 class DoKitScanActivity : CaptureActivity() {
 

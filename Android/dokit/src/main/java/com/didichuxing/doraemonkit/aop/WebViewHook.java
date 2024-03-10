@@ -9,9 +9,9 @@ import android.webkit.WebView;
 import androidx.webkit.WebViewCompat;
 
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
-import com.didichuxing.doraemonkit.kit.h5_help.DokitJSI;
-import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClient;
-import com.didichuxing.doraemonkit.kit.h5_help.DokitX5WebViewClient;
+import com.didichuxing.doraemonkit.kit.h5_help.DoKitJSI;
+import com.didichuxing.doraemonkit.kit.h5_help.DoKitWebViewClient;
+import com.didichuxing.doraemonkit.kit.h5_help.DoKitX5WebViewClient;
 import com.didichuxing.doraemonkit.kit.h5_help.X5WebViewUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -66,14 +66,14 @@ public class WebViewHook {
     private static void injectNormal(WebView webView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            webView.setWebContentsDebuggingEnabled(true);
-            if (!(WebViewCompat.getWebViewClient(webView) instanceof DokitWebViewClient)) {
+            if (!(WebViewCompat.getWebViewClient(webView) instanceof DoKitWebViewClient)) {
                 WebSettings settings = webView.getSettings();
                 settings.setJavaScriptEnabled(true);
                 settings.setDatabaseEnabled(true);
                 settings.setDomStorageEnabled(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
-                webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
-                webView.setWebViewClient(new DokitWebViewClient(WebViewCompat.getWebViewClient(webView), settings.getUserAgentString()));
+                webView.addJavascriptInterface(new DoKitJSI(), "dokitJsi");
+                webView.setWebViewClient(new DoKitWebViewClient(WebViewCompat.getWebViewClient(webView), settings.getUserAgentString()));
             }
         }
     }
@@ -84,12 +84,12 @@ public class WebViewHook {
         LogHelper.i(TAG, "====injectX5====");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (!(webView.getWebViewClient() instanceof DokitX5WebViewClient)) {
+            if (!(webView.getWebViewClient() instanceof DoKitX5WebViewClient)) {
                 com.tencent.smtt.sdk.WebSettings settings = webView.getSettings();
                 settings.setJavaScriptEnabled(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
-                webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
-                webView.setWebViewClient(new DokitX5WebViewClient(webView.getWebViewClient(), settings.getUserAgentString()));
+                webView.addJavascriptInterface(new DoKitJSI(), "dokitJsi");
+                webView.setWebViewClient(new DoKitX5WebViewClient(webView.getWebViewClient(), settings.getUserAgentString()));
             }
         }
     }

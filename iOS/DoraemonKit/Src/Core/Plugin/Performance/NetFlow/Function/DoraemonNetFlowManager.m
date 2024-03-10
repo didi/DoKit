@@ -12,53 +12,39 @@
 #import "DoraemonNetworkInterceptor.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonHealthManager.h"
+#import <objc/runtime.h>
 
-@interface DoraemonNetFlowManager() <DoraemonNetworkInterceptorDelegate, NSStreamDelegate>
+@interface NSInputStream (DoraemonHttpBodyCallBack)
 
-@property (nonatomic, copy) HttpBodyCallBack bodyCallBack;
-@property (nonatomic, strong) NSMutableData *bodyData;
-
+@property (nonatomic, strong) id<NSStreamDelegate> dkStrongDelegate;
 @end
 
-@implementation DoraemonNetFlowManager
+@implementation NSInputStream (DoraemonHttpBodyCallBack)
 
-+ (DoraemonNetFlowManager *)shareInstance{
-    static dispatch_once_t once;
-    static DoraemonNetFlowManager *instance;
-    dispatch_once(&once, ^{
-        instance = [[DoraemonNetFlowManager alloc] init];
-    });
-    return instance;
+- (void)setDkStrongDelegate:(id<NSStreamDelegate>)dkStrongDelegate {
+    objc_setAssociatedObject(self, @selector(dkStrongDelegate), dkStrongDelegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)canInterceptNetFlow:(BOOL)enable{
-    _canIntercept = enable;
-    if (enable) {
-        [[DoraemonNetworkInterceptor shareInstance] addDelegate:self];
-        _startInterceptDate = [NSDate date];
-    }else{
-        [DoraemonNetworkInterceptor.shareInstance removeDelegate:self];
-        _startInterceptDate = nil;
-        [[DoraemonNetFlowDataSource shareInstance] clear];
-    }
+- (id<NSStreamDelegate>)dkStrongDelegate {
+    return objc_getAssociatedObject(self, _cmd);
 }
+@end
 
-- (void)httpBodyFromRequest:(NSURLRequest *)request bodyCallBack:(HttpBodyCallBack)complete {
-    NSData *httpBody = nil;
-    if (request.HTTPBody) {
-        httpBody = request.HTTPBody;
-        complete(httpBody);
-        return;
+@interface DoraemonInputStreamDelegate : NSObject<NSStreamDelegate>
+
+@property (nonatomic, strong) NSMutableData *bodyData;
+@property (nonatomic, copy) HttpBodyCallBack bodyCallBack;
+@end
+
+@implementation DoraemonInputStreamDelegate
+- (instancetype)initWithCallback:(HttpBodyCallBack)callback inputStream:(NSInputStream *)inputStream{
+    self = [super init];
+    if(self){
+        _bodyCallBack = callback;
+        inputStream.dkStrongDelegate = self;//keep alive
+        inputStream.delegate = self;
     }
-    if ([request.HTTPMethod isEqualToString:@"POST"]) {
-        NSInputStream *stream = request.HTTPBodyStream;
-        [stream setDelegate:self];
-        self.bodyCallBack = complete;
-        [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        [stream open];
-    } else {
-        complete(httpBody);
-    }
+    return self;
 }
 
 #pragma mark -- NSStreamDelegate
@@ -89,7 +75,6 @@
         {
             [aStream close];
             [aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            aStream = nil;
             if (self.bodyCallBack) {
                 self.bodyCallBack([self.bodyData copy]);
             }
@@ -98,6 +83,60 @@
             break;
         default:
             break;
+    }
+}
+
+
+@end
+
+
+
+
+@interface DoraemonNetFlowManager() <DoraemonNetworkInterceptorDelegate>
+
+
+@property (nonatomic, strong) NSMapTable *bodyCallBackMap;
+
+@end
+
+@implementation DoraemonNetFlowManager
+
++ (DoraemonNetFlowManager *)shareInstance{
+    static dispatch_once_t once;
+    static DoraemonNetFlowManager *instance;
+    dispatch_once(&once, ^{
+        instance = [[DoraemonNetFlowManager alloc] init];
+        instance.bodyCallBackMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsStrongMemory];
+    });
+    return instance;
+}
+
+- (void)canInterceptNetFlow:(BOOL)enable{
+    _canIntercept = enable;
+    if (enable) {
+        [[DoraemonNetworkInterceptor shareInstance] addDelegate:self];
+        _startInterceptDate = [NSDate date];
+    }else{
+        [DoraemonNetworkInterceptor.shareInstance removeDelegate:self];
+        _startInterceptDate = nil;
+        [[DoraemonNetFlowDataSource shareInstance] clear];
+    }
+}
+
+- (void)httpBodyFromRequest:(NSURLRequest *)request bodyCallBack:(HttpBodyCallBack)complete {
+    NSData *httpBody = nil;
+    if (request.HTTPBody) {
+        httpBody = request.HTTPBody;
+        complete(httpBody);
+        return;
+    }
+    if ([request.HTTPMethod isEqualToString:@"POST"]) {
+        NSInputStream *stream = request.HTTPBodyStream;
+        DoraemonInputStreamDelegate *delegate = [[DoraemonInputStreamDelegate alloc] initWithCallback:complete inputStream:stream];
+        [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [stream open];
+    } else {
+        complete(httpBody);
     }
 }
 

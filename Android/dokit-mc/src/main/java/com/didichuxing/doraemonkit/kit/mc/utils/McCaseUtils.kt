@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.utils
 
-import com.didichuxing.doraemonkit.kit.mc.DoKitMcManager
+import com.didichuxing.doraemonkit.kit.mc.oldui.DoKitMcManager
 import com.didichuxing.doraemonkit.util.SPUtils
 
 

@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
@@ -19,7 +20,7 @@ import com.tencent.smtt.sdk.WebViewClient
 class WebViewX5Activity : AppCompatActivity() {
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-    val url = "https://jtsky.gitee.io/dokit-mock/index.html"
+    val url = "https://xingyun.xiaojukeji.com/docs/dokit"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,7 @@ class WebViewX5Activity : AppCompatActivity() {
 
         webView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                //LogHelper.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
+                LogHelper.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
                 return super.onConsoleMessage(consoleMessage)
             }
         }

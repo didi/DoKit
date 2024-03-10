@@ -20,12 +20,12 @@ class AlignRulerKit : AbstractKit() {
         get() = R.mipmap.dk_align_ruler
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating<AlignRulerMarkerDokitView>()
-        DoKit.launchFloating<AlignRulerLineDokitView>()
-        DoKit.launchFloating<AlignRulerInfoDokitView>()
-        DoKit.getDoKitView<AlignRulerInfoDokitView>(ActivityUtils.getTopActivity())
+        DoKit.launchFloating<AlignRulerMarkerDoKitView>()
+        DoKit.launchFloating<AlignRulerLineDoKitView>()
+        DoKit.launchFloating<AlignRulerInfoDoKitView>()
+        DoKit.getDoKitView<AlignRulerInfoDoKitView>(ActivityUtils.getTopActivity())
             ?.setCheckBoxListener { isChecked ->
-                DoKit.getDoKitView<AlignRulerLineDokitView>(ActivityUtils.getTopActivity())
+                DoKit.getDoKitView<AlignRulerLineDoKitView>(ActivityUtils.getTopActivity())
                     ?.alignInfoView
                     ?.refreshInfo(isChecked)
             }

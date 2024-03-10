@@ -18,6 +18,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.util.TimeUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,23 +26,24 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * ================================================
- * 作    者：jint（金台）
- * 版    本：1.0
- * 创建日期：2020/12/10-10:52
- * 描    述：
- * 修订历史：
- * ================================================
+ * didi Create on 2022/4/12 .
+ *
+ * Copyright (c) 2022/4/12 by didiglobal.com.
+ *
+ * @author <a href="realonlyone@126.com">zhangjun</a>
+ * @version 1.0
+ * @Date 2022/4/12 6:07 下午
+ * @Description 用一句话说明文件功能
  */
 class DoKitConnectFragment : BaseFragment() {
 
 
     companion object {
-        private const val REQUEST_CODE_SCAN = 0x10898
+        private const val REQUEST_CODE_SCAN = 0x1008
     }
 
 
-    private lateinit var mRv: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: ConnectListAdapter
     private lateinit var histories: MutableList<ConnectAddress>
 
@@ -54,22 +56,40 @@ class DoKitConnectFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val add: Button = findViewById(R.id.btn_add)
-        add.setOnClickListener { view ->
+        findViewById<HomeTitleBar>(R.id.title_bar).setListener {
+            finish()
+        }
+
+        findViewById<Button>(R.id.btn_add).setOnClickListener {
             startScan()
         }
 
-        mRv = findViewById(R.id.rv)
+        recyclerView = findViewById(R.id.recyclerView)
 
         mAdapter = ConnectListAdapter(mutableListOf<ConnectAddress>()) { it ->
             handleConnect(it)
         }
 
         mAdapter.setOnItemClickListener { adapter, view, pos ->
-
             val data = histories[pos]
+            if (data.enable) {
+                lifecycleScope.launch {
+                    privacyInterceptDialog("提示", "当前已链接:${data.url} 是否断开链接").isTrueWithCor {
+                        DoKitConnectManager.stopConnect()
+                        ToastUtils.showShort("已断开")
+                        updateHistoryView()
+                    }
+                }
+            } else {
+                lifecycleScope.launch {
+                    privacyInterceptDialog("提示", "当前未链接:${data.url} ").isTrueWithCor {
+                        updateHistoryView()
+                    }
+                }
+            }
 
         }
+
         mAdapter.setOnItemLongClickListener { adapter, view, pos ->
             val data = histories[pos]
             lifecycleScope.launch {
@@ -82,7 +102,7 @@ class DoKitConnectFragment : BaseFragment() {
             return@setOnItemLongClickListener false
         }
 
-        mRv.apply {
+        recyclerView.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(requireActivity())
             val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
@@ -96,7 +116,7 @@ class DoKitConnectFragment : BaseFragment() {
     }
 
     private fun handleConnect(connectAddress: ConnectAddress) {
-        DoKitSConnectManager.startConnect(connectAddress)
+        DoKitConnectManager.startConnect(connectAddress)
         updateHistoryView()
     }
 
@@ -135,7 +155,7 @@ class DoKitConnectFragment : BaseFragment() {
     private fun updateHistoryView() {
         lifecycleScope.launch {
             val clients = ConnectAddressStore.loadAddress()
-            val current = DoKitSConnectManager.getCurrentConnectAddress()
+            val current = DoKitConnectManager.getCurrentConnectAddress()
             for (history in clients) {
                 if (current != null) {
                     history.enable = TextUtils.equals(history.url, current.url)
@@ -150,6 +170,7 @@ class DoKitConnectFragment : BaseFragment() {
             }
         }
     }
+
 
 
     /**
@@ -172,8 +193,7 @@ class DoKitConnectFragment : BaseFragment() {
                         uri?.let {
                             val name = uri.host.toString()
                             val time = TimeUtils.date2String(Date())
-                            val url = "ws://${uri.host}:${uri.port}${uri.path}"
-                            val history = ConnectAddress(name, url, time)
+                            val history = ConnectAddress(name, url!!, time)
                             ConnectAddressStore.saveAddress(history)
                             handleConnect(history)
                         }

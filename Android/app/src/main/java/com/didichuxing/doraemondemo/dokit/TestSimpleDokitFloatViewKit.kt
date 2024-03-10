@@ -23,7 +23,7 @@ class TestSimpleDokitFloatViewKit : AbstractKit() {
     }
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating(TestSimpleDokitFloatView::class.java)
+        DoKit.launchFloating(TestSimpleDoKitFloatView::class.java)
         return true
     }
 

@@ -7,22 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSInteger const kDoraemonMCServerPort;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMCServer : NSObject
 
-+ (BOOL)startServerWithError:(NSError **)error;
-
 + (void)sendMessage:(NSString *)message;
 
 + (BOOL)isOpen;
-
-+ (void)close;
-
-+ (NSInteger)connectCount;
-
 
 @end
 

@@ -132,6 +132,15 @@
     
     //UserDefaults
     
+    //JS脚本
+    "JS脚本" = "JavaScript";
+    "请选择WebView" = "请选择WebView";
+    "无可用的WebView" = "无可用的WebView";
+    "脚本列表" = "脚本列表";
+    "脚本执行" = "脚本执行";
+    "JS代码" = "JS代码";
+    "脚本不能为空" = "脚本不能为空";
+    
     //CocoaLumberjack
     "Lumberjack"                                       = "Lumberjack";
     "CocoaLumberjack日志记录"                 =  "CocoaLumberjack日志记录";

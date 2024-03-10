@@ -35,4 +35,5 @@
     <item name="dokit_baseQuickAdapter_swiping_support" type="id"/>
     <item name="dokit_baseQuickAdapter_dragging_support" type="id"/>
     <item name="dokit_baseQuickAdapter_databinding_support" type="id"/>
+    <item name="dokit_test_windowNode" type="id"/>
 </resources>

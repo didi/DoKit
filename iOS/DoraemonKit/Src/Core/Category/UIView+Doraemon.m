@@ -124,4 +124,15 @@
     return nil;
 }
 
+- (NSArray *)doraemon_findViewsForClass:(Class)clazz {
+    NSMutableArray *result = [NSMutableArray array];
+    for (UIView *subview in self.subviews) {
+        if ([subview isKindOfClass:clazz]) {
+            [result addObject:subview];
+        }
+        [result addObjectsFromArray:[subview doraemon_findViewsForClass:clazz]];
+    }
+    return result;
+}
+
 @end

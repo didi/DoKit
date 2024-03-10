@@ -7,7 +7,6 @@
 
 #import "NSURLSessionConfiguration+Doraemon.h"
 #import "DoraemonNSURLProtocol.h"
-#import "DoraemonMultiURLProtocol.h"
 #import "NSObject+Doraemon.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonCacheManager.h"
@@ -36,9 +35,7 @@
     if ([self respondsToSelector:@selector(protocolClasses)]
         && [self respondsToSelector:@selector(setProtocolClasses:)]) {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray: self.protocolClasses];
-        //DoraemonMultiURLProtocol
-        Class protoCls = DoraemonMultiURLProtocol.class;
-//        Class protoCls = DoraemonNSURLProtocol.class;
+        Class protoCls = DoraemonNSURLProtocol.class;
         if (![urlProtocolClasses containsObject:protoCls]) {
             [urlProtocolClasses insertObject:protoCls atIndex:0];
         }

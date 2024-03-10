@@ -20,7 +20,7 @@ class WeexLogKit : AbstractKit() {
         get() = R.mipmap.dk_log_info
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        DoKit.launchFloating<WeexLogInfoDokitView>()
+        DoKit.launchFloating<WeexLogInfoDoKitView>()
 
         //开启日志服务
         LogInfoManager.getInstance().start()

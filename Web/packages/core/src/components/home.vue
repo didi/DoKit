@@ -23,7 +23,7 @@ export default {
   },
   data(){
     return {
-      version: '0.0.3-alpha.1'
+      version: '0.0.3-alpha.3'
     }
   },
   mounted(){

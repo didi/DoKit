@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.test.event
 
 import android.app.Activity
 import android.view.View
-import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
+import com.didichuxing.doraemonkit.kit.test.utils.RandomIdentityUtil
 
 /**
  * didi Create on 2022/4/13 .
@@ -17,13 +17,18 @@ import com.didichuxing.doraemonkit.kit.test.util.RandomIdentityUtils
 
 object ControlEventManager {
 
+    private const val MAX_DIFF_TIME: Long = 15 * 1000
 
     private var currentEventId: String = ""
+    private var lastEventDateTime: Long = System.currentTimeMillis()
 
     private val onControlEventActionListenerSet: MutableSet<OnControlEventActionListener> = mutableSetOf()
     private val onControlEventActionProcessListenerSet: MutableSet<OnControlEventActionProcessListener> = mutableSetOf()
+    private val onControlEventInterceptorSet: MutableSet<OnControlEventInterceptor> = mutableSetOf()
 
     private val controlEventProcessor: ControlEventProcessor = ControlEventProcessor()
+
+    private var lastEventDiffTime: Long = 0
 
     fun updateEventId(id: String) {
         if (id.isNullOrEmpty()) {
@@ -38,7 +43,7 @@ object ControlEventManager {
     }
 
     fun createNextEventId(): String {
-        return RandomIdentityUtils.createAid()
+        return RandomIdentityUtil.createAid()
     }
 
     /**
@@ -46,11 +51,53 @@ object ControlEventManager {
      * 来自与事件监听
      */
     fun onControlEventAction(activity: Activity?, view: View?, controlEvent: ControlEvent) {
-        updateEventId(controlEvent.eventId)
-        onControlEventActionListenerSet.forEach {
-            it.onControlEventAction(activity, view, controlEvent)
+        if (!onControlEventActionIntercept(activity, view, controlEvent)) {
+            updateEventId(controlEvent.eventId)
+            controlEvent.diffTime = lastEventDiffTime
+            lastEventDiffTime = getEventDiffTime()
+            onControlEventActionListenerSet.forEach {
+                it.onControlEventAction(activity, view, controlEvent)
+            }
         }
     }
+
+    private fun onControlEventActionIntercept(activity: Activity?, view: View?, controlEvent: ControlEvent): Boolean {
+        onControlEventInterceptorSet.forEach {
+            if (it.onControlEventAction(activity, view, controlEvent)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * 重新设置开始时间
+     */
+    fun resetLastEventDateTime() {
+        lastEventDateTime = System.currentTimeMillis()
+    }
+
+    private fun getEventDiffTime(): Long {
+        val currentTime = System.currentTimeMillis()
+        val diffTime = currentTime - lastEventDateTime
+        lastEventDateTime = currentTime
+        return if (diffTime > MAX_DIFF_TIME) {
+            MAX_DIFF_TIME
+        } else if (diffTime < 0) {
+            0
+        } else {
+            diffTime
+        }
+    }
+
+    fun addOnControlEventInterceptor(eventInterceptor: OnControlEventInterceptor) {
+        onControlEventInterceptorSet.add(eventInterceptor)
+    }
+
+    fun removeOnControlEventInterceptor(eventInterceptor: OnControlEventInterceptor) {
+        onControlEventInterceptorSet.remove(eventInterceptor)
+    }
+
 
     fun addOnControlEventActionListener(actionListener: OnControlEventActionListener) {
         onControlEventActionListenerSet.add(actionListener)
@@ -69,6 +116,14 @@ object ControlEventManager {
         controlEventProcessor.processControlEvent(controlEvent)
     }
 
+    fun addOnControlEventActionProcessListener(processListener: OnControlEventActionProcessListener) {
+        onControlEventActionProcessListenerSet.add(processListener)
+    }
+
+    fun removeOnControlEventActionProcessListener(processListener: OnControlEventActionProcessListener) {
+        onControlEventActionProcessListenerSet.add(processListener)
+    }
+
     /**
      * 从机执行 ControlEvent 成功
      */
@@ -85,14 +140,6 @@ object ControlEventManager {
         onControlEventActionProcessListenerSet.forEach {
             it.onControlEventProcessFailed(activity, view, controlEvent, code, message)
         }
-    }
-
-    fun addOnControlEventActionListener(processListener: OnControlEventActionProcessListener) {
-        onControlEventActionProcessListenerSet.add(processListener)
-    }
-
-    fun removeOnControlEventActionListener(processListener: OnControlEventActionProcessListener) {
-        onControlEventActionProcessListenerSet.remove(processListener)
     }
 
     fun getControlEventProcessor(): ControlEventProcessor {

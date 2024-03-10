@@ -32,14 +32,28 @@
                 android:id="@+id/nextPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DATA PAGE" />
+                android:text="网络" />
 
             <Button
                 android:id="@+id/webPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="WEB PAGE" />
+                android:layout_marginLeft="5dp"
+                android:text="网页" />
+
+            <Button
+                android:id="@+id/testPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="截图" />
+
+            <Button
+                android:id="@+id/screenPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="录屏" />
 
         </LinearLayout>
 

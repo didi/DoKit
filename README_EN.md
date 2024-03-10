@@ -54,6 +54,7 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 * Log：print all logs to the UI interface for easy viewing
 * UserDefaults（iOS）: add, delete, and modify the NSUserDefaults file
 * DBView：perform more detailed operations on the DB file on the web
+* JavaScript（iOS）：execute scripts in the web view
 
 
 ### Performance Tools

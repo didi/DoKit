@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/gps_mock_root_scene">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_map_center_loc"
+        android:layout_width="@dimen/map_loc_iv_size"
+        android:layout_height="@dimen/map_loc_iv_size"
+        android:src="@mipmap/dk_icon_cur_loc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white_translucent"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_gps_mock"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mock_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_white_translucent"
+        android:paddingLeft="@dimen/border_margin"
+        android:paddingRight="@dimen/border_margin"
+        android:paddingBottom="@dimen/border_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_bar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_pos_mock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/dk_bg_gray_round_rectangle"
+            android:paddingLeft="@dimen/border_padding"
+            android:paddingTop="@dimen/border_padding"
+            android:paddingRight="@dimen/border_padding"
+            android:paddingBottom="@dimen/border_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/tv_title_pos_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_pos_mock"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/cb_toggle_pos_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title_pos_mock"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title_pos_mock" />
+
+            <EditText
+                android:id="@+id/edt_input_pos"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edt_height"
+                android:layout_marginTop="@dimen/common_margin_top1"
+                android:background="@drawable/dk_bg_round_edt"
+                android:digits="0123456789.,"
+                android:hint="@string/edt_pos_lat_long_hint"
+                android:inputType="number"
+                android:paddingLeft="@dimen/common_margin_left_right"
+                android:textColor="@color/color_bold_text_black"
+                android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+                android:textSize="@dimen/des_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_mock_pos"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_pos_mock" />
+
+            <Button
+                android:id="@+id/btn_mock_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/confirm_btn_height"
+                android:layout_marginStart="@dimen/dk_dp_10"
+                android:layout_marginLeft="@dimen/dk_dp_10"
+                android:layout_marginBottom="@dimen/dk_dp_10"
+                android:background="@drawable/dk_bg_btn_round_rectangle"
+                android:text="@string/btn_text_start_mock"
+                android:textColor="@color/color_confirm_btn_text"
+                app:layout_constraintBaseline_toBaselineOf="@id/edt_input_pos"
+                app:layout_constraintBottom_toBottomOf="@id/edt_input_pos"
+                app:layout_constraintLeft_toRightOf="@id/edt_input_pos"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edt_input_pos" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_route_mock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/common_margin_top1"
+            android:background="@drawable/dk_bg_gray_round_rectangle"
+            android:paddingLeft="@dimen/border_padding"
+            android:paddingTop="@dimen/border_padding"
+            android:paddingRight="@dimen/border_padding"
+            android:paddingBottom="@dimen/border_padding"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_pos_mock">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_line_vertical_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/tv_title_route_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_route_mock"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/cb_toggle_route_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title_route_mock"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title_route_mock" />
+
+            <TextView
+                android:id="@+id/tv_des_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_route_mock_start"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/tv_route_start"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/tv_route_start"
+                app:layout_constraintTop_toTopOf="@id/tv_route_start" />
+
+            <TextView
+                android:id="@+id/tv_route_start"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edt_height"
+                android:layout_marginStart="@dimen/edt_text_margin_left"
+                android:layout_marginLeft="@dimen/edt_text_margin_left"
+                android:layout_marginTop="@dimen/common_margin_top1"
+                android:background="@drawable/dk_bg_round_edt"
+                android:ellipsize="marquee"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:scrollbars="horizontal"
+                android:textColor="@color/color_bold_text_black"
+                android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_start"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_route_mock" />
+
+            <TextView
+                android:id="@+id/tv_des_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_route_mock_end"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/tv_route_end"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_route_end" />
+
+            <TextView
+                android:id="@+id/tv_route_end"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edt_height"
+                android:layout_marginStart="@dimen/edt_text_margin_left"
+                android:layout_marginLeft="@dimen/edt_text_margin_left"
+                android:layout_marginTop="@dimen/common_margin_top1"
+                android:background="@drawable/dk_bg_round_edt"
+                android:ellipsize="marquee"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:scrollbars="horizontal"
+                android:textColor="@color/color_bold_text_black"
+                android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_end"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_route_start" />
+
+            <TextView
+                android:id="@+id/tv_des_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_route_mock_speed"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/edt_route_speed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edt_route_speed" />
+
+            <EditText
+                android:id="@+id/edt_route_speed"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edt_height"
+                android:layout_marginStart="@dimen/edt_text_margin_left"
+                android:layout_marginLeft="@dimen/edt_text_margin_left"
+                android:layout_marginTop="@dimen/dk_dp_10"
+                android:layout_marginRight="@dimen/dk_dp_5"
+                android:background="@drawable/dk_bg_round_edt"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:text="60"
+                android:textColor="@color/color_bold_text_black"
+                android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_speed"
+                app:layout_constraintRight_toLeftOf="@id/guide_line_vertical_center"
+                app:layout_constraintTop_toBottomOf="@id/tv_route_end" />
+
+            <TextView
+                android:id="@+id/tv_speed_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dk_dp_5"
+                android:text="@string/route_mock_speed_unit"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/edt_route_speed"
+                app:layout_constraintLeft_toLeftOf="@id/guide_line_vertical_center"
+                app:layout_constraintTop_toTopOf="@id/edt_route_speed" />
+
+            <!--定位点丢失模拟-->
+            <TextView
+                android:id="@+id/title_toggle_route_lost_loc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_20"
+                android:text="@string/title_route_lost_loc_mock"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/cb_toggle_route_lost_loc"
+                app:layout_constraintTop_toBottomOf="@id/edt_route_speed" />
+
+            <CheckBox
+                android:id="@+id/cb_toggle_route_lost_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/title_toggle_route_lost_loc"
+                app:layout_constraintLeft_toRightOf="@id/title_toggle_route_lost_loc"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/title_toggle_route_lost_loc" />
+
+            <!--选择定位点丢失范围-->
+            <TextView
+                android:id="@+id/tv_des_select_lost_path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_margin_top"
+                android:text="@string/des_lost_loc_path"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/edt_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/seekbar_select_lost_path"
+                app:layout_constraintTop_toBottomOf="@id/title_toggle_route_lost_loc" />
+
+            <com.didichuxing.doraemonkit.gps_mock.widget.SeekRangeBar
+                android:id="@+id/seekbar_select_lost_path"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin_left_right"
+                app:bar_bg_shape="@drawable/dk_seek_bar_background_shape"
+                app:bar_fg_shape="@drawable/dk_seek_bar_foreground_shape"
+                app:bar_height="@dimen/seek_range_bar_height"
+                app:indicator_size="@dimen/seek_range_bar_indicator_size"
+                app:indicator_text_color="@color/color_seek_bar_indicator_text"
+                app:indicator_text_size="@dimen/seek_range_bar_indicator_text_size"
+                app:layout_constraintBottom_toBottomOf="@id/tv_des_select_lost_path"
+                app:layout_constraintLeft_toRightOf="@id/tv_des_select_lost_path"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_des_select_lost_path"
+                app:slide_btn_high_shape="@drawable/dk_seek_bar_circle_indicator"
+                app:slide_btn_low_shape="@drawable/dk_seek_bar_circle_indicator" />
+
+            <Button
+                android:id="@+id/btn_mock_route1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/confirm_btn_height"
+                android:layout_marginTop="@dimen/dk_dp_10"
+                android:background="@drawable/dk_bg_btn_round_rectangle"
+                android:text="@string/btn_text_start_mock"
+                android:textColor="@color/color_confirm_btn_text"
+                app:layout_constraintTop_toBottomOf="@id/seekbar_select_lost_path"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/title_toggle_route_drift_mock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/title_route_drift_mock"
+                android:textColor="@color/color_bold_text_black"
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/cb_toggle_route_drift_mock"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/cb_toggle_route_drift_mock"
+                app:layout_constraintTop_toTopOf="@id/cb_toggle_route_drift_mock" />
+
+            <CheckBox
+                android:id="@+id/cb_toggle_route_drift_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_5"
+                app:layout_constraintLeft_toRightOf="@id/title_toggle_route_drift_mock"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_mock_route1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/drift_mock_set_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_toggle_route_drift_mock">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide_line_vertical_center1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <Spinner
+                    android:id="@+id/spinner_drift_type"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/edt_height"
+                    android:layout_marginStart="@dimen/edt_text_margin_left"
+                    android:layout_marginLeft="@dimen/edt_text_margin_left"
+                    android:layout_marginTop="@dimen/common_margin_top1"
+                    android:layout_marginRight="@dimen/dk_dp_5"
+                    android:background="@drawable/dk_bg_custom_spinner"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintLeft_toRightOf="@id/tv_des_drift_type"
+                    app:layout_constraintRight_toLeftOf="@id/guide_line_vertical_center1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_des_drift_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/des_drift_type"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/spinner_drift_type"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinner_drift_type" />
+
+                <TextView
+                    android:id="@+id/tv_des_drift_accuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dk_dp_5"
+                    android:text="@string/des_drift_accuracy"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/spinner_drift_type"
+                    app:layout_constraintLeft_toRightOf="@id/guide_line_vertical_center1"
+                    app:layout_constraintTop_toTopOf="@id/spinner_drift_type" />
+
+                <EditText
+                    android:id="@+id/edt_drift_accuracy"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/edt_height"
+                    android:layout_marginStart="@dimen/edt_text_margin_left"
+                    android:layout_marginLeft="@dimen/edt_text_margin_left"
+                    android:background="@drawable/dk_bg_round_edt"
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true"
+                    android:text="500"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textCursorDrawable="@drawable/dk_bg_edt_hint"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/spinner_drift_type"
+                    app:layout_constraintLeft_toRightOf="@id/tv_des_drift_accuracy"
+                    app:layout_constraintRight_toLeftOf="@id/tv_drift_accuracy_unit"
+                    app:layout_constraintTop_toTopOf="@id/spinner_drift_type" />
+
+                <TextView
+                    android:id="@+id/tv_drift_accuracy_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dk_dp_5"
+                    android:text="@string/unit_drift_accuracy"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/spinner_drift_type"
+                    app:layout_constraintLeft_toRightOf="@id/edt_drift_accuracy"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinner_drift_type" />
+
+
+                <TextView
+                    android:id="@+id/tv_des_drift_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/des_drift_mode"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/spinner_drift_mode"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinner_drift_mode" />
+
+                <Spinner
+                    android:id="@+id/spinner_drift_mode"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/edt_height"
+                    android:layout_marginStart="@dimen/edt_text_margin_left"
+                    android:layout_marginLeft="@dimen/edt_text_margin_left"
+                    android:layout_marginTop="@dimen/common_margin_top1"
+                    android:layout_marginRight="@dimen/dk_dp_5"
+                    android:background="@drawable/dk_bg_custom_spinner"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toRightOf="@id/tv_des_drift_mode"
+                    app:layout_constraintRight_toLeftOf="@id/guide_line_vertical_center1"
+                    app:layout_constraintTop_toBottomOf="@id/spinner_drift_type" />
+
+                <View
+                    android:id="@+id/reference_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="40dp"
+                    android:visibility="invisible"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edt_drift_accuracy" />
+
+                <CheckBox
+                    android:id="@+id/cb_over_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_mode_over_pass"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/reference_view"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/cb_tunnel"
+                    app:layout_constraintTop_toTopOf="@id/reference_view" />
+
+                <CheckBox
+                    android:id="@+id/cb_tunnel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_mode_tunnel"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/reference_view"
+                    app:layout_constraintLeft_toRightOf="@id/cb_over_pass"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/reference_view" />
+
+                <TextView
+                    android:id="@+id/tv_des_select_path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/des_drift_path"
+                    android:textColor="@color/color_bold_text_black"
+                    android:textSize="@dimen/edt_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/reference_view"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/seekbar_select_path"
+                    app:layout_constraintTop_toTopOf="@id/reference_view" />
+
+                <com.didichuxing.doraemonkit.gps_mock.widget.SeekRangeBar
+                    android:id="@+id/seekbar_select_path"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_margin_left_right"
+                    app:bar_bg_shape="@drawable/dk_seek_bar_background_shape"
+                    app:bar_fg_shape="@drawable/dk_seek_bar_foreground_shape"
+                    app:bar_height="@dimen/seek_range_bar_height"
+                    app:indicator_size="@dimen/seek_range_bar_indicator_size"
+                    app:indicator_text_color="@color/color_seek_bar_indicator_text"
+                    app:indicator_text_size="@dimen/seek_range_bar_indicator_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/reference_view"
+                    app:layout_constraintLeft_toRightOf="@id/tv_des_select_path"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/reference_view"
+                    app:slide_btn_high_shape="@drawable/dk_seek_bar_circle_indicator"
+                    app:slide_btn_low_shape="@drawable/dk_seek_bar_circle_indicator" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_select_path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="tv_des_select_path,seekbar_select_path" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_select_auto_path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="cb_over_pass,cb_tunnel" />
+
+
+                <Button
+                    android:id="@+id/btn_mock_route2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/confirm_btn_height"
+                    android:layout_marginTop="@dimen/common_margin_top"
+                    android:background="@drawable/dk_bg_btn_round_rectangle"
+                    android:text="@string/btn_text_start_mock"
+                    android:textColor="@color/color_confirm_btn_text"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/reference_view" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_des_real_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_margin_top1"
+            android:text="@string/text_des_origin_distance"
+            android:textColor="@color/color_bold_text_black"
+            android:textSize="@dimen/edt_text_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_route_mock" />
+
+        <TextView
+            android:id="@+id/tv_real_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edt_text_margin_left"
+            android:textColor="@color/color_bold_text_black"
+            android:textSize="@dimen/des_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/tv_des_real_distance"
+            app:layout_constraintLeft_toRightOf="@id/tv_des_real_distance"
+            app:layout_constraintTop_toTopOf="@id/tv_des_real_distance"
+            tools:text="23456" />
+
+        <TextView
+            android:id="@+id/tv_des_mock_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_des_mock_distance"
+            android:textColor="@color/color_bold_text_black"
+            android:layout_marginLeft="@dimen/common_margin_left_right"
+            android:textSize="@dimen/edt_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/tv_des_real_distance"
+            app:layout_constraintLeft_toRightOf="@id/tv_real_distance"
+            app:layout_constraintTop_toTopOf="@id/tv_des_real_distance" />
+
+        <TextView
+            android:id="@+id/tv_mock_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edt_text_margin_left"
+            android:textColor="@color/color_bold_text_black"
+            android:textSize="@dimen/des_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/tv_des_real_distance"
+            app:layout_constraintLeft_toRightOf="@id/tv_des_mock_distance"
+            app:layout_constraintTop_toTopOf="@id/tv_des_real_distance"
+            tools:text="23456" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/expand_iv_fl"
+        android:layout_width="80dp"
+        android:layout_height="26dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mock_parent_layout">
+
+        <ImageView
+            android:id="@+id/iv_down_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/color_white_translucent"
+            android:src="@mipmap/dk_icon_arrow_up" />
+    </FrameLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

@@ -56,9 +56,9 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     LayoutBorderConfig.setLayoutBorderOpen(on);
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
-                        DoKit.launchFloating(LayoutLevelDokitView.class);
+                        DoKit.launchFloating(LayoutLevelDoKitView.class);
                     } else {
-                        DoKit.removeFloating(LayoutLevelDokitView.class);
+                        DoKit.removeFloating(LayoutLevelDoKitView.class);
                     }
                     LayoutBorderConfig.setLayoutLevelOpen(on);
                 }

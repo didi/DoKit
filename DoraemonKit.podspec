@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.1.2'
+  s.version          = '3.1.3'
   s.summary          = 'iOS 各式各样的工具集合'
 
 # This description is used to generate tags and improve search results.
@@ -20,9 +20,9 @@ Pod::Spec.new do |s|
 iOS各式各样的工具集合
                        DESC
 
-  s.homepage         = 'https://github.com/${USER_NAME}/${POD_NAME}'
+  s.homepage         = 'https://www.dokit.cn'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'Apache License, Version 2.0', :file => 'LICENSE' }
+  s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
   s.author           = { 'OrangeLab' => 'orange-lab@didiglobal.com' }
   s.source           = { :git => 'https://github.com/didi/DoraemonKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
@@ -34,21 +34,41 @@ iOS各式各样的工具集合
     'DEFINES_MODULE' => 'YES'
   }
   
-  s.subspec 'Common' do |ss|
-    ss.source_files = 'iOS/DoKit/Classes/Common/*.h'
+  s.subspec 'CFoundation' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/CFoundation/*.{h,c}'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden'
   end
-
-  s.subspec 'Hook' do |ss|
-    ss.dependency 'DoraemonKit/Common'
-    ss.source_files = 'iOS/DoKit/Classes/Hook/*.{h,c}'
-    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-zero-length-array', '-fvisibility=hidden'
+  
+  s.subspec 'Foundation' do |ss|
+    ss.source_files = 'iOS/DoKit/Classes/Foundation/**/*.{h,m}'
+    # language-extension-token warning be used to implement Objective-C typeof().
+    # ?: grammar
+    ss.compiler_flags = '-Wall', '-Wextra', '-Werror'
+    ss.dependency 'SocketRocket', '~> 0.6'
+    ss.dependency 'Mantle', '~> 2.2'
   end
+  
+#  s.subspec 'CoreNG' do |ss|
+#    ss.dependency 'DoraemonKit/Foundation'
+#    ss.source_files = 'iOS/DoKit/Classes/Core/**/*.{h,m}'
+#    # language-extension-token warning be used to implement Objective-C typeof().
+#    # ?: grammar
+#    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-Wno-language-extension-token', '-Wno-gnu-conditional-omitted-operand'
+#    ss.resource_bundle = {
+#      'DoKitResource' => [
+#        'iOS/DoKit/Assets/Assets.xcassets',
+#        'iOS/DoKit/Assets/*.xib'
+#      ]
+#    }
+#    ss.dependency 'SocketRocket', '~> 0.6'
+#    ss.dependency 'Mantle', '~> 2.2'
+#  end
 
   s.subspec 'EventSynthesize' do |ss|
     ss.source_files = 'iOS/DoKit/Classes/EventSynthesize/*.{h,m}'
     ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand', '-Wno-pointer-arith'
     ss.framework = 'IOKit'
-    ss.dependency 'DoraemonKit/Common'
+    ss.dependency 'DoraemonKit/Foundation'
   end
 
   s.subspec 'Core' do |ss| 
@@ -60,7 +80,6 @@ iOS各式各样的工具集合
     ss.dependency 'GCDWebServer/WebUploader'
     ss.dependency 'GCDWebServer/WebDAV'
     ss.dependency 'FMDB'
-    ss.dependency 'AFNetworking'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -125,8 +144,6 @@ iOS各式各样的工具集合
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMultiControl'
     }
     ss.dependency 'DoraemonKit/Core'
-    ss.dependency 'CocoaLumberjack'
-    ss.dependency 'CocoaHTTPServer'
-    ss.dependency 'SocketRocket'
+    ss.dependency 'DoraemonKit/Foundation'
   end
 end

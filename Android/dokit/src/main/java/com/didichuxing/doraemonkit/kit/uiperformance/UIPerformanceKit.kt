@@ -23,8 +23,8 @@ class UIPerformanceKit : AbstractKit() {
 
     override fun onClickWithReturn(activity: Activity): Boolean {
         UIPerformanceManager.getInstance().start(activity)
-        DoKit.launchFloating<UIPerformanceDisplayDokitView>()
-        DoKit.launchFloating<UIPerformanceInfoDokitView>()
+        DoKit.launchFloating<UIPerformanceDisplayDoKitView>()
+        DoKit.launchFloating<UIPerformanceInfoDoKitView>()
 
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh()

@@ -12,10 +12,10 @@ import androidx.collection.ArrayMap
 import com.didichuxing.doraemonkit.DoKitEnv
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerDokitView
-import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerInfoDokitView
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerDoKitView
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerInfoDoKitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
-import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDoKitView
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
 import com.didichuxing.doraemonkit.util.*
 import java.util.*
@@ -24,7 +24,7 @@ import java.util.*
  * Created by jintai on 2018/10/23.
  * 每个activity悬浮窗管理类
  */
-internal class NormalDoKitViewManager : AbsDokitViewManager() {
+internal class NormalDoKitViewManager : AbsDoKitViewManager() {
     companion object {
         private const val MC_DELAY = 100
     }
@@ -32,15 +32,16 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     private val context: Context get() = DoKitEnv.requireApp()
 
     /**
+     *
      * 每个Activity中dokitView的集合 用户手动移除和页面销毁时都需要remove
      *
      */
-    private val activityDoKitViewMap: MutableMap<Activity, MutableMap<String, AbsDokitView>> = ArrayMap<Activity, MutableMap<String, AbsDokitView>>()
+    private val activityDoKitViewMap: MutableMap<Activity, MutableMap<String, AbsDoKitView>> = ArrayMap<Activity, MutableMap<String, AbsDoKitView>>()
 
     /**
      * 只用来记录全局的同步  只有用户手动移除时才会remove
      */
-    private val globalSingleDoKitViewInfoMap: MutableMap<String, GlobalSingleDokitViewInfo> = ArrayMap<String, GlobalSingleDokitViewInfo>()
+    private val globalSingleDoKitViewInfoMap: MutableMap<String, GlobalSingleDoKitViewInfo> = ArrayMap<String, GlobalSingleDoKitViewInfo>()
 
     /**
      * 当app进入后台时调用
@@ -99,7 +100,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
 
         //假如不存在全局的icon这需要全局显示主icon
         if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
-            attach(DokitIntent(MainIconDoKitView::class.java))
+            attach(DoKitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
             DoKitManager.MAIN_ICON_HAS_SHOW = false
@@ -111,7 +112,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     }
 
     override fun attachToolPanel(activity: Activity?) {
-        attach(DokitIntent(ToolPanelDoKitView::class.java))
+        attach(DoKitIntent(ToolPanelDoKitView::class.java))
     }
 
     override fun detachToolPanel() {
@@ -148,25 +149,25 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         }
 
         //将所有的dokitView添加到新建的Activity中去
-        for (dokitViewInfo: GlobalSingleDokitViewInfo in globalSingleDoKitViewInfoMap.values) {
+        for (doKitViewInfo: GlobalSingleDoKitViewInfo in globalSingleDoKitViewInfoMap.values) {
             //如果不是性能kitView 则不显示
-            if (activity is UniversalActivity && dokitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
+            if (activity is UniversalActivity && doKitViewInfo.absDoKitViewClass != PerformanceDoKitView::class.java) {
                 continue
             }
             //是否过滤掉 入口icon
-            if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+            if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && doKitViewInfo.absDoKitViewClass == MainIconDoKitView::class.java) {
                 DoKitManager.MAIN_ICON_HAS_SHOW = false
                 continue
             }
 
-            if (dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+            if (doKitViewInfo.absDoKitViewClass == MainIconDoKitView::class.java) {
                 DoKitManager.MAIN_ICON_HAS_SHOW = true
             }
 
-            val dokitIntent = DokitIntent(dokitViewInfo.absDokitViewClass)
-            dokitIntent.bundle = dokitViewInfo.bundle
-            dokitIntent.mode = dokitViewInfo.mode
-            dokitIntent.tag = dokitViewInfo.tag
+            val dokitIntent = DoKitIntent(doKitViewInfo.absDoKitViewClass)
+            dokitIntent.bundle = doKitViewInfo.bundle
+            dokitIntent.mode = doKitViewInfo.mode
+            dokitIntent.tag = doKitViewInfo.tag
             attach(dokitIntent)
         }
 
@@ -189,29 +190,29 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
             return
         }
 
-        val existDoKitViews: Map<String, AbsDokitView>? = activityDoKitViewMap[activity]
+        val existDoKitViews: Map<String, AbsDoKitView>? = activityDoKitViewMap[activity]
         //更新所有全局DokitView的位置
         if (globalSingleDoKitViewInfoMap.isNotEmpty()) {
             for (gDoKitViewInfo in globalSingleDoKitViewInfoMap.values) {
                 //如果不是性能kitView 则需要重新更新位置
-                if (activity is UniversalActivity && gDoKitViewInfo.absDokitViewClass != PerformanceDokitView::class.java) {
+                if (activity is UniversalActivity && gDoKitViewInfo.absDoKitViewClass != PerformanceDoKitView::class.java) {
                     continue
                 }
                 //取色器特殊处理
-                if (gDoKitViewInfo.absDokitViewClass == ColorPickerDokitView::class.java || gDoKitViewInfo.absDokitViewClass == ColorPickerInfoDokitView::class.java) {
+                if (gDoKitViewInfo.absDoKitViewClass == ColorPickerDoKitView::class.java || gDoKitViewInfo.absDoKitViewClass == ColorPickerInfoDoKitView::class.java) {
                     continue
                 }
                 //是否过滤掉入口icon
-                if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+                if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDoKitViewClass == MainIconDoKitView::class.java) {
                     DoKitManager.MAIN_ICON_HAS_SHOW = false
                     continue
                 }
-                if (gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+                if (gDoKitViewInfo.absDoKitViewClass == MainIconDoKitView::class.java) {
                     DoKitManager.MAIN_ICON_HAS_SHOW = true
                 }
 
                 //判断resume Activity 中时候存在指定的dokitview
-                var existDoKitView: AbsDokitView? = null
+                var existDoKitView: AbsDoKitView? = null
                 if (existDoKitViews != null && existDoKitViews.isNotEmpty()) {
                     existDoKitView = existDoKitViews[gDoKitViewInfo.tag]
                 }
@@ -224,7 +225,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                     existDoKitView.onResume()
                 } else {
                     //添加相应的
-                    val doKitIntent = DokitIntent(gDoKitViewInfo.absDokitViewClass)
+                    val doKitIntent = DoKitIntent(gDoKitViewInfo.absDoKitViewClass)
                     doKitIntent.mode = gDoKitViewInfo.mode
                     doKitIntent.bundle = gDoKitViewInfo.bundle
                     doKitIntent.tag = gDoKitViewInfo.tag
@@ -248,14 +249,14 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
 
         val doKitViews = getDoKitViews(activity)
         doKitViews.let {
-            for (doKitView: AbsDokitView in it.values) {
+            for (doKitView: AbsDoKitView in it.values) {
                 doKitView.onPause()
             }
         }
     }
 
     private fun detachCountDownDoKitView(activity: Activity) {
-        val countDownDoKitView = mutableListOf<AbsDokitView>()
+        val countDownDoKitView = mutableListOf<AbsDoKitView>()
         activityDoKitViewMap[activity]?.forEach {
             if (it.value.mode == DoKitViewLaunchMode.COUNTDOWN) {
                 countDownDoKitView.add(it.value)
@@ -274,12 +275,12 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      * @param doKitIntent
      */
-    override fun attach(doKitIntent: DokitIntent) {
+    override fun attach(doKitIntent: DoKitIntent) {
         try {
             //判断当前Activity是否存在dokitView map
-            val currentActivityDoKitViews: MutableMap<String, AbsDokitView> = when {
+            val currentActivityDoKitViews: MutableMap<String, AbsDoKitView> = when {
                 (activityDoKitViewMap[doKitIntent.activity] == null) -> {
-                    val doKitViewMap = mutableMapOf<String, AbsDokitView>()
+                    val doKitViewMap = mutableMapOf<String, AbsDoKitView>()
                     activityDoKitViewMap[doKitIntent.activity] = doKitViewMap
                     doKitViewMap
                 }
@@ -326,7 +327,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                     //操作DecorRootView
                     doKitView.dealDecorRootView(getDoKitRootContentView(doKitIntent.activity))
                 }, MC_DELAY.toLong())
-
+//                DoKitViewManager.INSTANCE.notifyDokitViewAdd(doKitView)
             }
             currentActivityDoKitViews[doKitView.tag] = doKitView
         } catch (e: Exception) {
@@ -343,12 +344,15 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         if (doKitRootView != null) {
             return doKitRootView
         }
-        doKitRootView = DokitFrameLayout(context, DokitFrameLayout.DoKitFrameLayoutFlag_ROOT)
+        doKitRootView = DoKitFrameLayout(
+            context,
+            DoKitFrameLayout.DoKitFrameLayoutFlag_ROOT
+        )
         //普通模式的返回按键监听
         doKitRootView.setOnKeyListener(View.OnKeyListener { _, keyCode, _ ->
             //监听返回键
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                val doKitViewMap: Map<String, AbsDokitView>? = getDoKitViews(activity)
+                val doKitViewMap: Map<String, AbsDoKitView>? = getDoKitViews(activity)
                 if (doKitViewMap == null || doKitViewMap.isEmpty()) {
                     return@OnKeyListener false
                 }
@@ -396,10 +400,10 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     /**
      * 移除每个activity指定的dokitView
      */
-    override fun detach(dokitView: AbsDokitView) {
+    override fun detach(doKitView: AbsDoKitView) {
         //调用当前Activity的指定dokitView的Destroy方法
         //dokitView.performDestroy();
-        detach(dokitView.tag)
+        detach(doKitView.tag)
     }
 
     /**
@@ -436,7 +440,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun detach(doKitViewClass: Class<out AbsDokitView>) {
+    override fun detach(doKitViewClass: Class<out AbsDoKitView>) {
         detach(doKitViewClass.tagName)
     }
 
@@ -463,10 +467,10 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      * @param tag
      * @return AbsDokitView
      */
-    override fun <T : AbsDokitView> getDoKitView(
+    override fun <T : AbsDoKitView> getDoKitView(
         activity: Activity?,
         clazz: Class<T>
-    ): AbsDokitView? {
+    ): AbsDoKitView? {
         if (TextUtils.isEmpty(clazz.tagName)) {
             return null
         }
@@ -489,7 +493,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         if (doKitRootView != null) {
             getDecorView(activity).removeView(doKitRootView)
         }
-        val doKitViewMap: Map<String, AbsDokitView> = getDoKitViews(activity)
+        val doKitViewMap: Map<String, AbsDoKitView> = getDoKitViews(activity)
         for (doKitView in doKitViewMap.values) {
             doKitView.performDestroy()
         }
@@ -512,12 +516,12 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      * @param activity
      * @return
      */
-    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView> {
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDoKitView> {
         return activityDoKitViewMap[activity] ?: emptyMap()
     }
 
-    private fun createGlobalSingleDokitViewInfo(dokitView: AbsDokitView): GlobalSingleDokitViewInfo {
-        return GlobalSingleDokitViewInfo(
+    private fun createGlobalSingleDokitViewInfo(dokitView: AbsDoKitView): GlobalSingleDoKitViewInfo {
+        return GlobalSingleDoKitViewInfo(
             dokitView.javaClass,
             dokitView.tag,
             dokitView.mode,

@@ -20,6 +20,7 @@ export default {
   },
   computed:{
     component(){
+      
       return this.$route.component
     },
     title(){
