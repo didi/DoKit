@@ -45,6 +45,7 @@ export default {
     };
   },
   computed: {
+    // 过滤地图
     filteredMap() {
       if (this.keyword) {
         let map = Object.create({})
@@ -63,6 +64,10 @@ export default {
     }
   },
   methods: {
+    /**
+     * 
+     * @param {关键字} key 
+     */
     removeItem(key) {
       this.$emit("removeItem", key);
     },
@@ -77,6 +82,9 @@ export default {
         this.$emit("clear");
       }
     },
+    /**
+     * 刷新
+     */
     refresh() {
       this.$emit("refresh");
     }

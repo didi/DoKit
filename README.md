@@ -53,8 +53,6 @@ DoKit诞生于滴滴城运服体验技术部，是一款面向泛前端产品研
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
 
-**新用户重点关注：受集团影响当前DoKit平台端不支持新用户注册，老用户不受影响，新用户开放注册时间以官方消息为准！！！另外只有平台端的相关功能需要申请productId，假如不需要相关功能可以不填或者填空。**
-
 **温馨提示：当前DoKit的所有功能都只针对Debug环境，Release环境未经过实际验证，所以请大家严格按照官方文档来集成，也不建议大家在Release环境上使用DoKit的任何功能。如果大家一定要在Release环境上使用，请自行进行充分的测试和验证，DoKit官方将不承担任何责任和损失。** 
 ## 更新日志
 
@@ -172,17 +170,10 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 
 
-## 微信交流群(一群满员，已开二群)
-搜索**justdokit**加我微信好友，注意请添加备注：昵称-DoKit社区用户，否则你的申请将不会被验证通过。
-![51640263734_ pic](https://user-images.githubusercontent.com/4486497/147242854-9693daf9-033e-4523-89da-b7b36c72642c.jpg)
-
-<br/>
-
-
-## QQ 交流群
+## QQ 技术交流群
 
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="QQ 交流群" align=left />
+ <img src="https://dpubstatic.udache.com/static/dpubimg/z73LRuuFdxTmFLJq8c2qt_WechatIMG483.jpeg" width = "225" height = "400" alt="QQ 交流群" align=left />
 </div>
 
 <br/>
@@ -194,8 +185,6 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 <br/>
 <br/>
 <br/>
-
-
 <br/>
 <br/>
 <br/>
