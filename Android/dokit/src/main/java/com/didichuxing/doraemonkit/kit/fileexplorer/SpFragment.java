@@ -99,7 +99,7 @@ public class SpFragment extends BaseFragment {
         String key = bean.key;
         switch (bean.value.getClass().getSimpleName()) {
             case SpInputType.STRING:
-                DoKitSPUtil.putString(key, bean.value.toString());
+                DoKitSPUtil.putString(spTableName, key,bean.value.toString());
                 break;
             case SpInputType.BOOLEAN:
                 DoKitSPUtil.putBoolean(spTableName, key, (Boolean) bean.value);

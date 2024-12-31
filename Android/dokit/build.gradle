@@ -82,7 +82,7 @@ dependencies {
         implementation rootProject.ext.dependencies["kotlin_v13"]
     }
     implementation rootProject.ext.dependencies["lifecycle-comm"]
-
+    implementation rootProject.ext.dependencies["material"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]

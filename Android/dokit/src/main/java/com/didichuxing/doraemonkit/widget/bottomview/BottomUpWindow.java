@@ -1,17 +1,19 @@
 package com.didichuxing.doraemonkit.widget.bottomview;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.PopupWindow;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.didichuxing.doraemonkit.R;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 /**
  * 从底部向上弹出的选择器
@@ -19,11 +21,11 @@ import com.didichuxing.doraemonkit.R;
  * @author vinda
  * @since 15/5/21
  */
-public class BottomUpWindow extends PopupWindow {
+public class BottomUpWindow extends BottomSheetDialogFragment {
     private final String TAG = "BottomUpSelectWindow";
     private View thisView;
     private View tv_submit;
-    private final View titleViiew;
+    private View titleViiew;
     private FrameLayout contentPanel;
     private AssociationView associationView;
 
@@ -45,28 +47,42 @@ public class BottomUpWindow extends PopupWindow {
 
     };
 
-    public BottomUpWindow(Context context) {
-        super(context);
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        thisView = layoutInflater.inflate(R.layout.dk_item_layout_bottom_up_select_window, null);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        thisView = inflater.inflate(R.layout.dk_item_layout_bottom_up_select_window, container,false);
+        return thisView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ll_panel = thisView.findViewById(R.id.ll_panel);
         titleViiew = thisView.findViewById(R.id.tv_title);
 
         contentPanel = thisView.findViewById(R.id.content);
-        this.setContentView(thisView);
         initView();
 
-        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setFocusable(true);
-        this.setTouchable(true);
-        this.setOutsideTouchable(true);
+        thisView.setFocusable(true);
 
         ColorDrawable dw = new ColorDrawable(0x80000000);
 
-        this.setBackgroundDrawable(dw);
+        thisView.setBackgroundDrawable(dw);
+        setUpContent();
     }
+
+    private void setUpContent() {
+        contentPanel.removeAllViews();
+        contentPanel.addView(associationView.getView());
+        associationView.setOnStateChangeListener(new AssociationView.OnStateChangeListener() {
+            @Override
+            public void onStateChanged() {
+                tv_submit.setEnabled(associationView.isCanSubmit());
+            }
+        });
+    }
+
 
     private void initView() {
         tv_submit = thisView.findViewById(R.id.tv_submit);
@@ -89,58 +105,24 @@ public class BottomUpWindow extends PopupWindow {
      */
     public BottomUpWindow setContent(AssociationView view) {
         associationView = view;
-        contentPanel.removeAllViews();
-        contentPanel.addView(associationView.getView());
-        associationView.setOnStateChangeListener(new AssociationView.OnStateChangeListener() {
-            @Override
-            public void onStateChanged() {
-                tv_submit.setEnabled(associationView.isCanSubmit());
-            }
-        });
         return this;
     }
 
     @Override
     public void dismiss() {
-        //动画
-        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 1);
-        animation.setDuration(200);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                ll_panel.setVisibility(View.GONE);
-                dismissWindow();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        ll_panel.startAnimation(animation);
         if (associationView != null) {
             associationView.onHide();
         }
+        super.dismiss();
     }
 
-    /**
-     * 隐藏整个窗口
-     */
-    private void dismissWindow() {
-        try {
-            super.dismiss();
-        } catch (Throwable e) {
-        }
-    }
+
 
     private void cancel() {
-        associationView.cancel();
+        if (associationView!=null) {
+            associationView.cancel();
+        }
+
         dismiss();
 
         if (mOnSubmitListener != null) {
@@ -148,25 +130,21 @@ public class BottomUpWindow extends PopupWindow {
         }
     }
 
-    public BottomUpWindow show(View parent) {
-        this.showAtLocation(parent, Gravity.BOTTOM
-                | Gravity.CENTER_HORIZONTAL, 0, 0);
-        ll_panel.setVisibility(View.VISIBLE);
-        //动画
-        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
-        animation.setDuration(200);
-        ll_panel.startAnimation(animation);
+    @Override
+    public int show(@NonNull FragmentTransaction transaction, @Nullable String tag) {
         if (associationView != null) {
             associationView.onShow();
         }
-        return this;
+        return super.show(transaction, tag);
+
     }
+
 
     private OnSubmitListener mOnSubmitListener;
 
-    public void setOnSubmitListener(OnSubmitListener onSubmitListener) {
+    public BottomUpWindow setOnSubmitListener(OnSubmitListener onSubmitListener) {
         this.mOnSubmitListener = onSubmitListener;
+        return this;
     }
 
     public interface OnSubmitListener {
