@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.constant.MemoryConstants;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.util.ConvertUtils;
 
-import coil.bitmap.BitmapPool;
+//import coil.bitmap.BitmapPool;
 import coil.size.Size;
 import coil.transform.Transformation;
 import kotlin.coroutines.Continuation;
@@ -28,19 +28,26 @@ public class DokitCoilTransformation implements Transformation {
     private static final String TAG = "DokitTransformation";
     private Object mUri;
 
+
     public DokitCoilTransformation(Object uri) {
         this.mUri = uri;
     }
 
 
+//    @Override
+//    public String key() {
+//        return "Dokit&Coil&LargeBitmapTransformation";
+//    }
+
+    @NonNull
     @Override
-    public String key() {
+    public String getCacheKey() {
         return "Dokit&Coil&LargeBitmapTransformation";
     }
 
     @Nullable
     @Override
-    public Object transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap source, @NonNull Size size, @NonNull Continuation<? super Bitmap> continuation) {
+    public Object transform(@NonNull Bitmap source, @NonNull Size size, @NonNull Continuation<? super Bitmap> continuation) {
         try {
             if (PerformanceSpInfoConfig.isLargeImgOpen()) {
                 double imgSize = ConvertUtils.byte2MemorySize(source.getByteCount(), MemoryConstants.MB);
@@ -55,4 +62,5 @@ public class DokitCoilTransformation implements Transformation {
         }
         return source;
     }
+
 }

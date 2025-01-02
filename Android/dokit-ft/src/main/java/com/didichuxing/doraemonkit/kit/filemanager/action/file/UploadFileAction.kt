@@ -29,6 +29,7 @@ object UploadFileAction {
             when (part) {
                 is PartData.FileItem -> filePart = part
                 is PartData.FormItem -> formPart = part
+                is PartData.BinaryItem -> TODO("1.9升级")
             }
         }
 

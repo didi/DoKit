@@ -31,12 +31,12 @@ public class FloatGpsPresetMockKit extends AbstractKit {
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
-            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_plugin_close_tip));
             return false;
         }
 
         if (!DokitPluginConfig.SWITCH_GPS) {
-            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_gps_close_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_plugin_gps_close_tip));
             return false;
         }
 

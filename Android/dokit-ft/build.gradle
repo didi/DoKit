@@ -1,11 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
+    namespace 'com.didichuxing.doraemonkit.ft'
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -13,7 +15,6 @@ android {
         versionName rootProject.ext.android["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
@@ -31,6 +32,15 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     /**
      * 支持ViewBinding
      */
@@ -42,18 +52,23 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    if (needKotlinV14()) {
+
+    if (needKotlinV19()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v19"]
+    } else if (needKotlinV14()) {
         compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
         compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
+
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["activity-ktx"]
     //sql
     implementation rootProject.ext.dependencies["wcdb"]
 //    implementation rootProject.ext.dependencies["core-ktx"]
-    implementation rootProject.ext.dependencies["auto_service"]
-    kapt rootProject.ext.dependencies["auto_service"]
+    implementation rootProject.ext.dependencies["auto_service_annotations"]
+    ksp rootProject.ext.dependencies["auto_service"]
+
     //ktor
     implementation rootProject.ext.dependencies["ktor_server_core"]
     implementation rootProject.ext.dependencies["ktor_server_cio"]
@@ -62,6 +77,4 @@ dependencies {
     implementation project(':dokit')
     compileOnly project(':dokit-util')
 }
-repositories {
-    mavenCentral()
-}
+

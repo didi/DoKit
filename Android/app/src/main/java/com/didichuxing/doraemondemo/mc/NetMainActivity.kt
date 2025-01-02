@@ -38,7 +38,7 @@ class NetMainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 GlobalScope.launch(Dispatchers.Main) {
-                    val text: String? = response.body()?.string()
+                    val text: String? = response.body?.string()
                     val view = findViewById<TextView>(R.id.text)
                     view.text = text
                 }

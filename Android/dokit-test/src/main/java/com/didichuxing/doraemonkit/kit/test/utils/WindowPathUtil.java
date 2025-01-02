@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.util.ReflectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * didi Create on 2022/1/14
@@ -99,7 +99,7 @@ public class WindowPathUtil {
 
     public static WindowNode createWindowNode(View rootView) {
         WindowNode windowNode;
-        Object node = rootView.getTag(R.id.dokit_test_windowNode);
+        Object node = rootView.getTag(com.didichuxing.doraemonkit.R.id.dokit_test_windowNode);
         if (node == null) {
             Window window = ReflectUtils.reflect(rootView).field("mWindow").get();
             windowNode = new WindowNode(
@@ -109,7 +109,7 @@ public class WindowPathUtil {
                 rootView.getClass().getName(),
                 0
             );
-            rootView.setTag(R.id.dokit_test_windowNode, windowNode);
+            rootView.setTag(com.didichuxing.doraemonkit.R.id.dokit_test_windowNode, windowNode);
         } else {
             windowNode = (WindowNode) node;
         }

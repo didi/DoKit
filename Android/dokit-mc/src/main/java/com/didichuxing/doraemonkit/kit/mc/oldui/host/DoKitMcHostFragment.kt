@@ -59,7 +59,7 @@ class DoKitMcHostFragment : BaseFragment() {
 
 
         val host = "ws://${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.MC_WS_PORT}/mc"
-        val logo = ImageUtils.getBitmap(R.mipmap.dk_logo)
+        val logo = ImageUtils.getBitmap(com.didichuxing.doraemonkit.R.mipmap.dk_logo)
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host
         ivCode.setImageBitmap(qCode)

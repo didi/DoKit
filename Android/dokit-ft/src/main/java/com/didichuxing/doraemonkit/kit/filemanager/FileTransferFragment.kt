@@ -35,7 +35,7 @@ class FileTransferFragment : BaseFragment() {
             "${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.FILE_MANAGER_HTTP_PORT}"
         findViewById<HomeTitleBar>(R.id.title_bar).setListener { finish() }
         findViewById<TextView>(R.id.tv_tip_top).apply {
-            text = Html.fromHtml(DoKitCommUtil.getString(R.string.dk_file_manager_tip_top))
+            text = Html.fromHtml(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_file_manager_tip_top))
             setOnClickListener {
                 DoKit.launchFullScreen(
                     CommWebViewFragment::class,

@@ -28,7 +28,7 @@ class MultiControlKitTest : AbstractKit() {
 
     override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
-            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
+            ToastUtils.showShort(DoKitCommUtil.getString(com.didichuxing.doraemonkit.R.string.dk_plugin_close_tip))
             return false
         }
         val intent = Intent(activity, DoKitMcActivity::class.java)

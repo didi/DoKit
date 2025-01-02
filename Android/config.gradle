@@ -14,32 +14,38 @@ ext {
         use_local    : true,
 //        group_id     : 'io.github.didi.dokit',
         group_id     : 'com.didichuxing.doraemonkit',
-        version      : '3.7.16-kotlin-13'
+        version      : '3.7.16-kotlin-19'
     ]
 
-    android = [compileSdkVersion             : 31,
+    android = [compileSdkVersion             : 34,
                applicationId                 : "com.didichuxing.doraemondemo",
                minSdkVersion_16              : 16,
-               minSdkVersion_21              : 21,
-               targetSdkVersion              : 31,
+               minSdkVersion_21              : 24,
+               targetSdkVersion              : 34,
                //app版本号
                versionCode                   : 100,
                versionName                   : "1.0.1",
-               glide_version                 : "4.9.0",
+               glide_version                 : "4.16.0",
+
                kotlin_version_v13            : "1.3.72",
                kotlin_version_v14            : "1.4.32",
                kotlin_version_v15            : "1.5.31",
+               kotlin_version_v19            : "1.9.24",
+
                kotlinx_coroutines_version_v13: "1.3.7",
                kotlinx_coroutines_version_v14: "1.4.3",
+               kotlinx_coroutines_version_v19: "1.9.0",
+
                booster_version               : "4.13.0",
-               agp_module_verson             : "7.0.0",
-               agp_plugin_verson             : "4.2.2",
+               agp_module_verson             : "8.6.1",
+               agp_plugin_verson             : "8.6.1",
                ktor                          : "1.5.4",
                okhttp_v2                     : "2.7.5",
                okhttp_v3                     : "3.14.7",
                okhttp_v4                     : "4.7.0",
                coil_v11                      : "1.1.0",
                coil_v13                      : "1.3.2",
+               coil_v19                      : "2.7.0",
     ]
 
     dependencies = [// ###### android library  start ######
@@ -51,12 +57,17 @@ ext {
                     "annotation"                    : "androidx.annotation:annotation:1.1.0",
                     "kotlin_v13"                    : "org.jetbrains.kotlin:kotlin-stdlib:${android["kotlin_version_v13"]}",
                     "kotlin_v14"                    : "org.jetbrains.kotlin:kotlin-stdlib:${android["kotlin_version_v14"]}",
+                    "kotlin_v19"                    : "org.jetbrains.kotlin:kotlin-stdlib:${android["kotlin_version_v19"]}",
                     "coroutines-core_v13"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v13"]}",
                     "coroutines-core_v14"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v14"]}",
+                    "coroutines-core_v19"           : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version_v19"]}",
                     "coroutines-android_v13"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v13"]}",
                     "coroutines-android_v14"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v14"]}",
+                    "coroutines-android_v19"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version_v19"]}",
+
                     "core-ktx"                      : "androidx.core:core-ktx:1.3.0",
                     "activity-ktx"                  : "androidx.activity:activity-ktx:1.1.0",
+
                     "webkit"                        : "androidx.webkit:webkit:1.3.0",
                     "volley"                        : "com.android.volley:volley:1.1.1",
                     "fragment"                      : "androidx.fragment:fragment:1.2.0",
@@ -101,12 +112,15 @@ ext {
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     "okio"                          : "com.squareup.okio:okio:1.17.2",
                     "utilcode"                      : 'com.blankj:utilcodex:1.29.0',
+
                     "glide"                         : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"                      : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"                 : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
                     "glide_compiler"                : "com.github.bumptech.glide:compiler:${android["glide_version"]}",
+
                     "coil_v11"                      : "io.coil-kt:coil:${android["coil_v11"]}",
                     "coil_v13"                      : "io.coil-kt:coil:${android["coil_v13"]}",
+                    "coil_v19"                      : "io.coil-kt:coil:${android["coil_v19"]}",
                     "picasso"                       : 'com.squareup.picasso:picasso:2.71828',
                     "fresco"                        : 'com.facebook.fresco:fresco:1.13.0',
                     "fresco-processors"             : "jp.wasabeef:fresco-processors:2.1.0",
@@ -150,7 +164,9 @@ ext {
                     "tbs"                           : "com.tencent.tbs.tbssdk:sdk:43903",
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
                     "flexbox"                       : 'com.google.android:flexbox:1.0.0',
-                    "auto_service"                  : 'com.google.auto.service:auto-service:1.0',
+//                    "auto_service"                  : 'com.google.auto.service:auto-service:1.0.2',
+                    "auto_service"                  : 'dev.zacsweers.autoservice:auto-service-ksp:1.2.0',
+                    "auto_service_annotations"      : 'com.google.auto.service:auto-service-annotations:1.1.1',
                     "hummer"                        : 'io.github.didi.hummer:hummer:0.3.23',
                     "sandhook_hooklib"              : 'com.swift.sandhook:hooklib:4.2.1',
                     "sandhook_nativehook"           : 'com.swift.sandhook:nativehook:4.2.1',
@@ -160,9 +176,15 @@ ext {
 
     ]
     //定义全局方法
+
+    needKotlinV19 = {
+        String version = publish_config["version"]
+        return version.contains("kotlin-19")
+    }
+
     needKotlinV14 = {
         String version = publish_config["version"]
-        return !version.contains("kotlin-13")
+        return version.contains("kotlin-14")
     }
 
     usePrivateEnv = {

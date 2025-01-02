@@ -109,7 +109,7 @@ public class ScreenRecordingService extends Service {
         // 在API11之后构建Notification的方式
         Intent nfIntent = new Intent(activity, MCActivity.class);
 
-        builder.setContentIntent(PendingIntent.getActivity(activity, 0, nfIntent, 0))
+        builder.setContentIntent(PendingIntent.getActivity(activity, 0, nfIntent, PendingIntent.FLAG_IMMUTABLE))
             .setLargeIcon(BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_launcher))
             .setContentTitle("下拉列表中的Title")
             .setSmallIcon(R.mipmap.ic_launcher)

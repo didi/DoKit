@@ -1,11 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
+
 apply from: 'doraemonkit.gradle'
-//apply plugin: 'com.didiglobal.booster'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    namespace 'com.didichuxing.doraemondemo'
+
     defaultConfig {
         applicationId rootProject.ext.android["applicationId"]
         minSdkVersion rootProject.ext.android["minSdkVersion_21"]
@@ -58,10 +62,7 @@ android {
 //        }
 //    }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
     //指定资源和代码目录
     sourceSets {
         debug {
@@ -76,8 +77,14 @@ android {
     }
 
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     lintOptions {
@@ -108,19 +115,19 @@ android {
 //dokit 扩展
 
 
-dokit {
-    gpsEnable true
-    bigImageEnable true
-    webView {
-        network true
-        dokitWeb true
-        vConsole true
-    }
-    gps {
-        didi true
-        baidu true
-    }
-}
+//dokit {
+//    gpsEnable true
+//    bigImageEnable true
+//    webView {
+//        network true
+//        dokitWeb true
+//        vConsole true
+//    }
+//    gps {
+//        didi true
+//        baidu true
+//    }
+//}
 
 //dokit {
 //
@@ -146,6 +153,11 @@ dokit {
 //    }
 //}
 
+ksp {
+    arg("autoserviceKsp.verify", "true")
+    arg("autoserviceKsp.verbose", "true")
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -163,7 +175,13 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat"]
 
     implementation rootProject.ext.dependencies["material"]
-    if (needKotlinV14()) {
+
+    if (needKotlinV19()) {
+        implementation rootProject.ext.dependencies["kotlin_v19"]
+        implementation rootProject.ext.dependencies["coroutines-core_v19"]
+        implementation rootProject.ext.dependencies["coroutines-android_v19"]
+        implementation rootProject.ext.dependencies["coil_v19"]
+    } else if (needKotlinV14()) {
         implementation rootProject.ext.dependencies["kotlin_v14"]
         implementation rootProject.ext.dependencies["coroutines-core_v14"]
         implementation rootProject.ext.dependencies["coroutines-android_v14"]
@@ -186,7 +204,7 @@ dependencies {
     implementation rootProject.ext.dependencies["glide"]
 
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
-    kapt rootProject.ext.dependencies["glide_compiler"]
+//    ksp rootProject.ext.dependencies["glide_compiler"]
 
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]

@@ -5,6 +5,8 @@ apply from: '../upload.gradle'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
+    namespace 'com.didichuxing.doraemonkit'
+
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -12,7 +14,6 @@ android {
         versionName rootProject.ext.android["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
@@ -26,6 +27,19 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -36,13 +50,15 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //implementation rootProject.ext.dependencies["appcompat"]
-    //compileOnly rootProject.ext.dependencies["okio"]
-    if (needKotlinV14()) {
+
+    if (needKotlinV19()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v19"]
+    } else if (needKotlinV14()) {
         compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
         compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
+
     compileOnly rootProject.ext.dependencies["okhttp_v3"]
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]

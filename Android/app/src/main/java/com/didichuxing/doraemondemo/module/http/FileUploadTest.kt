@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.didichuxing.doraemonkit.util.ThreadUtils.runOnUiThread
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.*
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -48,7 +49,7 @@ object FileUploadTest {
                     temp.createNewFile()
                 }
                 request = Request.Builder()
-                    .post(RequestBody.create(MediaType.parse(temp.name), temp))
+                    .post(RequestBody.create(temp.name.toMediaTypeOrNull(), temp))
                     .url("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=0&count=1&from=360chrome")
                     .build()
             } catch (e: IOException) {
@@ -72,15 +73,15 @@ object FileUploadTest {
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 if (!response.isSuccessful) {
-                    onFailure(call, IOException(response.message()))
+                    onFailure(call, IOException(response.message))
                     return
                 }
-                val body = response.body()
+                val body = response.body
                 if (!upload) {
                     inputStream2File(body!!.byteStream(), File(filesDir, "test.apk"))
                 }
                 dialog.cancel()
-                val requestLength = if (upload) call.request().body()!!.contentLength() else 0
+                val requestLength = if (upload) call.request().body!!.contentLength() else 0
                 val responseLength = if (body!!.contentLength() < 0) 0 else body.contentLength()
                 val endTime = SystemClock.uptimeMillis() - startTime
                 val speed = (if (upload) requestLength else responseLength) / endTime * 1000

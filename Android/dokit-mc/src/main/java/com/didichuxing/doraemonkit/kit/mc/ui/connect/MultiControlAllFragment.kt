@@ -134,7 +134,7 @@ class MultiControlAllFragment : BaseFragment() {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(requireActivity())
             val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
-            decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
+            decoration.setDrawable(resources.getDrawable(com.didichuxing.doraemonkit.R.drawable.dk_divider))
             addItemDecoration(decoration)
         }
 

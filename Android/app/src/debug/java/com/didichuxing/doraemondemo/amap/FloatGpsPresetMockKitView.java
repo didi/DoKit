@@ -63,7 +63,7 @@ public class FloatGpsPresetMockKitView extends SimpleDoKitView {
                     try {
                         Log.d(getTAG(), "⚠️onNewItemSelected() called with: locInfo = [" + locInfo + "]");
                         FloatGpsMockCache.mockToLocation(locInfo.lat, locInfo.lng);
-                        ((Switch) findViewById(R.id.env_switch3)).setChecked(true);
+                        ((Switch) findViewById(com.didichuxing.doraemonkit.R.id.env_switch3)).setChecked(true);
                         updateCurrentLocConfig(locInfo);
                     } catch (Exception e) {
                     }

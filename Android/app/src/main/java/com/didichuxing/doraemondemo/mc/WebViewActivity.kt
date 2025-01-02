@@ -29,7 +29,7 @@ class WebViewActivity : AppCompatActivity() {
         webview.settings.javaScriptEnabled = true
         webview.settings.domStorageEnabled = true
         webview.settings.databaseEnabled = true
-        webview.settings.setAppCacheEnabled(true)
+//        webview.settings.setAppCacheEnabled(true)
         webview.settings.mixedContentMode =WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         webview.settings.allowUniversalAccessFromFileURLs = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

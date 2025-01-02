@@ -1,10 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    namespace 'com.didichuxing.doraemonkit.mc'
 
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion_21"]
@@ -32,8 +35,13 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     /**
@@ -50,11 +58,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
-    if (needKotlinV14()) {
+
+    if (needKotlinV19()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v19"]
+    } else if (needKotlinV14()) {
         compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
         compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
+
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["appcompat"]
@@ -84,8 +96,8 @@ dependencies {
     implementation project(':dokit-test')
     //okhttp wrap
     //auto-service
-    implementation rootProject.ext.dependencies["auto_service"]
-    kapt rootProject.ext.dependencies["auto_service"]
+    implementation rootProject.ext.dependencies["auto_service_annotations"]
+    ksp rootProject.ext.dependencies["auto_service"]
 }
 repositories {
     mavenCentral()

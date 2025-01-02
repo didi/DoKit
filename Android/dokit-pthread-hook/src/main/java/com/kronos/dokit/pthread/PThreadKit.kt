@@ -22,7 +22,7 @@ class PThreadKit : AbstractKit() {
     override val name: Int
         get() = R.string.kit_pthread_hook_kit
     override val icon: Int
-        get() = R.mipmap.dk_ram
+        get() = com.didichuxing.doraemonkit.R.mipmap.dk_ram
 
 
     override fun onClickWithReturn(activity: Activity): Boolean {

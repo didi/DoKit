@@ -3,10 +3,13 @@ plugins {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    namespace 'com.didichuxing.doraemonkit.gps_mock'
 
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion_16"]
@@ -33,12 +36,12 @@ android {
         abortOnError false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     sourceSets {
@@ -64,7 +67,10 @@ dependencies {
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["activity-ktx"]
 
-    if (needKotlinV14()) {
+    if (needKotlinV19()) {
+        implementation rootProject.ext.dependencies["kotlin_v19"]
+        implementation rootProject.ext.dependencies["coroutines-core_v19"]
+    } else if (needKotlinV14()) {
         implementation rootProject.ext.dependencies["kotlin_v14"]
         implementation rootProject.ext.dependencies["coroutines-core_v14"]
     } else {
@@ -75,8 +81,8 @@ dependencies {
     implementation project(':dokit-util')
     implementation project(':dokit')
     //auto-service
-    implementation rootProject.ext.dependencies["auto_service"]
-    kapt rootProject.ext.dependencies["auto_service"]
+    implementation rootProject.ext.dependencies["auto_service_annotations"]
+    ksp rootProject.ext.dependencies["auto_service"]
 
     api files('libs/BaiduLBS_Android.jar')
 

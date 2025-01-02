@@ -56,7 +56,7 @@ public class DoKitItemView extends FrameLayout {
     private void init(Context context, @Nullable AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DoKitItemView);
         int layout = a.getInt(R.styleable.DoKitItemView_itemLayout, R.layout.view_dokit_item_view);
-        int icon = a.getResourceId(R.styleable.DoKitItemView_itemIcon, R.mipmap.dk_arrow_normal);
+        int icon = a.getResourceId(R.styleable.DoKitItemView_itemIcon, com.didichuxing.doraemonkit.R.mipmap.dk_arrow_normal);
         String text = a.getString(R.styleable.DoKitItemView_itemText);
         int textSize = a.getDimensionPixelSize(R.styleable.DoKitItemView_itemTextSize, -1);
         boolean iconShow = a.getBoolean(R.styleable.DoKitItemView_itemIconShow, true);

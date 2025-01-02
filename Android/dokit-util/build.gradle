@@ -4,14 +4,15 @@ apply from: '../upload.gradle'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
+    namespace 'com.didichuxing.doraemonkit.util'
+
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
@@ -25,6 +26,12 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+
     lintOptions {
         abortOnError false
     }
@@ -36,11 +43,15 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    if (needKotlinV14()) {
+
+    if (needKotlinV19()) {
+        compileOnly rootProject.ext.dependencies["kotlin_v19"]
+    } else if (needKotlinV14()) {
         compileOnly rootProject.ext.dependencies["kotlin_v14"]
     } else {
         compileOnly rootProject.ext.dependencies["kotlin_v13"]
     }
+
     implementation rootProject.ext.dependencies["annotation"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["drawerlayout"]

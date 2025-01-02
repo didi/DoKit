@@ -1,12 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+
+
+
 buildscript {
     apply from: "config.gradle"
     def runType = rootProject.ext.publish_config["run_type"]
     def dokitPluginVersion = rootProject.ext.publish_config["version"]
 
     def kotlinVersion
-    if (needKotlinV14()) {
+    if (needKotlinV19()) {
+        kotlinVersion = rootProject.ext.android["kotlin_version_v19"]
+    } else if (needKotlinV14()) {
         kotlinVersion = rootProject.ext.android["kotlin_version_v14"]
     } else {
         kotlinVersion = rootProject.ext.android["kotlin_version_v13"]
@@ -42,6 +47,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.9.24-1.0.20"
 
         // MavenCentral
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.30"
@@ -56,6 +62,12 @@ buildscript {
     }
 
 }
+
+//plugins {
+////    id 'com.google.devtools.ksp' version '2.0.21-1.0.27' apply false
+//
+//    id 'com.google.devtools.ksp' version '1.9.24-1.0.20' apply false
+//}
 
 apply from: "./config.gradle"
 

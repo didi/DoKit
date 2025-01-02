@@ -5,7 +5,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         google()
-        jcenter()
+//        jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/public/' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
@@ -18,8 +18,8 @@ buildscript {
     }
 }
 //apply plugin: 'java-library'
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin'
+//apply plugin: 'kotlin-kapt'
 
 /**
  * 由于 buildSrc 的执行时机要早于任何一个 project，因此需要⾃⼰添加仓库
@@ -28,7 +28,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     google()
-    jcenter()
+//    jcenter()
     maven { url 'https://oss.sonatype.org/content/repositories/public/' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
@@ -38,17 +38,17 @@ sourceSets {
         java {
             srcDirs += []
         }
-        kotlin {
-            srcDirs += ['src/main/kotlin', 'src/main/java']
-        }
+//        kotlin {
+//            srcDirs += ['src/main/kotlin', 'src/main/java']
+//        }
     }
 
 
 }
-
-compileKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
-}
+//
+//compileKotlin {
+//    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+//}
 
 
 dependencies {

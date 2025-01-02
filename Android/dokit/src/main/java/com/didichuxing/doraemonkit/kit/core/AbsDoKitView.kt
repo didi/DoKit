@@ -871,7 +871,7 @@ abstract class AbsDoKitView : DoKitView, TouchProxy.OnTouchEventListener, DoKitV
                         updateViewLayout(tag, false)
                     }
                     addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
+                      override   fun onAnimationEnd(animation: Animator) {
                             endMoveAndRecord()
                         }
                     })
@@ -886,7 +886,8 @@ abstract class AbsDoKitView : DoKitView, TouchProxy.OnTouchEventListener, DoKitV
                     mWindowManager.updateViewLayout(mRootView, layoutAttrs)
                 }
                 addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
+
+                   override  fun onAnimationEnd(animation: Animator) {
                         endMoveAndRecord()
                     }
                 })
