@@ -14,7 +14,7 @@ ext {
         use_local    : true,
 //        group_id     : 'io.github.didi.dokit',
         group_id     : 'com.didichuxing.doraemonkit',
-        version      : '3.7.16-kotlin-19'
+        version      : '3.8.0-kotlin-19'
     ]
 
     android = [compileSdkVersion             : 34,
