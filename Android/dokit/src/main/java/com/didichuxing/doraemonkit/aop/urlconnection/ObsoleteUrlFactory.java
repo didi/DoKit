@@ -23,7 +23,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
-import java.security.AccessControlException;
 import java.security.Permission;
 import java.security.Principal;
 import java.security.cert.Certificate;
@@ -294,11 +293,12 @@ final class ObsoleteUrlFactory implements URLStreamHandlerFactory, Cloneable {
         String value;
         try {
             value = System.getProperty(key);
-        } catch (AccessControlException ex) {
+        } catch (Exception ex) {
             return defaultValue;
         }
         return value != null ? value : defaultValue;
     }
+
 
     private static String defaultUserAgent() {
         String agent = getSystemProperty("http.agent", null);

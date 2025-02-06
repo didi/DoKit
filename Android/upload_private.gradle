@@ -1,5 +1,6 @@
+import com.google.gson.reflect.TypeToken
 import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
-import org.json.JSONObject
+import com.google.gson.Gson
 
 //本地或者滴滴内部仓库打包脚本(插件需要单独区分)
 apply plugin: 'maven-publish'
@@ -16,10 +17,14 @@ def USERNAME = properties.getProperty('DIDI_USERNAME', "")
 def PASSWORD = properties.getProperty('DIDI_PASSWORD', "")
 
 //读取module和ARTIFACT_ID的映射文件
-def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
+def MODULE_JSONOBJECT = new Gson().fromJson(new File("${rootProject.rootDir}/dokit_module.json").text,new TypeToken<Map<String,String>>(){}.getType())
 
 task packageSourcesJar(type: Jar) {
-    classifier 'sources'
+
+    archiveClassifier = "sources"
+    archiveExtension = "jar"
+
+    from project.android.sourceSets.main.java.getSrcDirs()
     if (project.ARTIFACT_ID == "dokitx-plugin") {
         from project.kotlin.sourceSets.main.kotlin.getSrcDirs()
     } else {
@@ -89,7 +94,7 @@ afterEvaluate {
                                     //统一project 前缀
                                     if (dependency.name.startsWith("dokit")) {
                                         dependencyNode.appendNode('groupId', DOKIT_GROUP_ID)
-                                        dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.getString(dependency.name))
+                                        dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.get(dependency.name))
                                         dependencyNode.appendNode('version', DOKIT_VERSION)
                                     }
                                 } else {
