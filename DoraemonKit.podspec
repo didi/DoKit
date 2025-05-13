@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.1.4'
+  s.version          = '3.1.4.1'
   s.summary          = 'iOS 各式各样的工具集合'
 
 # This description is used to generate tags and improve search results.
@@ -69,6 +69,7 @@ iOS各式各样的工具集合
     ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand', '-Wno-pointer-arith'
     ss.framework = 'IOKit'
     ss.dependency 'DoraemonKit/Foundation'
+    ss.dependency 'DoraemonKit/CFoundation'
   end
 
   s.subspec 'Core' do |ss| 
@@ -135,7 +136,8 @@ iOS各式各样的工具集合
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMLeaksFinder'
     }
     ss.dependency 'DoraemonKit/Core'
-    ss.dependency 'FBRetainCycleDetector'
+    # FBRetainCycleDetector 存在编译问题，使用pod发布时lint不通过，因此采用壳工程配置方式引入
+    #ss.dependency 'FBRetainCycleDetector'
   end
 
   s.subspec 'WithMultiControl' do |ss|
