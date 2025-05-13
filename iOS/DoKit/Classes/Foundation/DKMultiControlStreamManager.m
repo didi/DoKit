@@ -21,8 +21,10 @@
 #import <DoraemonKit/DKDataRequestDTOModel.h>
 #import <DoraemonKit/DKDataResponseDTOModel.h>
 #import <DoraemonKit/DKMultiControlProtocol.h>
+#if __has_include(<DoraemonKit/DoraemonMCCommandExcutor.h>)
+#define HAS_MULTI_CONTROL 1
 #import <DoraemonKit/DoraemonMCCommandExcutor.h>
-
+#endif
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString *generateId(void);
@@ -97,7 +99,9 @@ NSString *generateId(void) {
                     DKActionDTOModel *actionDTOModel = [MTLJSONAdapter modelOfClass:DKActionDTOModel.class fromJSONDictionary:jsonDictionary error:&error];
                     self.behaviorId = actionDTOModel.behaviorId;
                     if (actionDTOModel.payload) {
+#if HAS_ENCRYPT_APOLLO
                         [DoraemonMCCommandExcutor excuteMessageStrFromNet:actionDTOModel.payload];
+#endif
                     }
                 }
             }
