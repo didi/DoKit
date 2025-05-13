@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.1.4.1'
+  s.version          = '3.1.5'
   s.summary          = 'iOS 各式各样的工具集合'
 
 # This description is used to generate tags and improve search results.
@@ -66,7 +66,7 @@ iOS各式各样的工具集合
 
   s.subspec 'EventSynthesize' do |ss|
     ss.source_files = 'iOS/DoKit/Classes/EventSynthesize/*.{h,m}'
-    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand', '-Wno-pointer-arith'
+    ss.compiler_flags = '-Wall', '-Wextra', '-Wpedantic', '-Werror', '-fvisibility=hidden', '-Wno-gnu-conditional-omitted-operand', '-Wno-pointer-arith','-Wno-gnu-zero-variadic-macro-arguments', '-Wno-unused-variable'
     ss.framework = 'IOKit'
     ss.dependency 'DoraemonKit/Foundation'
     ss.dependency 'DoraemonKit/CFoundation'
