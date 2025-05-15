@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  可自定义的蒙版View，可在上面添加自定义控件,也可以改变背景颜色，透明度
  默认为50%透明度黑色，遮盖区域依赖scanRect,需先指定scanRect，否则为默认
  */
-@property (nonatomic, strong) UIView *maskView;
+@property (nonatomic, strong) UIView *coverView;
 
 /**
  上下移动的扫描线的颜色，默认为橙色
