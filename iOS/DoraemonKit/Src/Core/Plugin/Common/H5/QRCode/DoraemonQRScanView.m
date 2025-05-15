@@ -163,7 +163,7 @@ static NSString *const scanLineAnimationName = @"scanLineAnimation";
 
 - (void)setupViews{
     [self addSubview:self.middleView];
-    [self addSubview:self.maskView];
+    [self addSubview:self.coverView];
     [self.middleView addSubview:self.scanLine];
     if (self.isShowCornerLine) {
         [self addCornerLines];
@@ -326,18 +326,18 @@ static NSString *const scanLineAnimationName = @"scanLineAnimation";
     return _middleView;
 }
 
-- (UIView *)maskView{
-    if (!_maskView) {
-        _maskView = [[UIView alloc]initWithFrame:self.bounds];
-        _maskView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+- (UIView *)coverView{
+    if (!_coverView) {
+        _coverView = [[UIView alloc]initWithFrame:self.bounds];
+        _coverView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
         UIBezierPath *fullBezierPath = [UIBezierPath bezierPathWithRect:self.bounds];
         UIBezierPath *scanBezierPath = [UIBezierPath bezierPathWithRect:self.scanRect];
         [fullBezierPath appendPath:[scanBezierPath  bezierPathByReversingPath]];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = fullBezierPath.CGPath;
-        _maskView.layer.mask = shapeLayer;
+        _coverView.layer.mask = shapeLayer;
     }
-    return _maskView;
+    return _coverView;
 }
 
 - (UIView *)scanLine{
