@@ -90,8 +90,11 @@ dependencies {
 //    implementation project(':dokit-mc')
     implementation project(':dokit-test')
 
-    implementation rootProject.ext.dependencies["auto_service_annotations"]
-    ksp rootProject.ext.dependencies["auto_service"]
+//    implementation rootProject.ext.dependencies["auto_service_annotations"]
+//    ksp rootProject.ext.dependencies["auto_service"]
+
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }
 repositories {
     mavenCentral()

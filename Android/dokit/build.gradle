@@ -129,8 +129,11 @@ dependencies {
 //    ksp rootProject.ext.dependencies["room_compile"]
 
     //auto-service
-    implementation rootProject.ext.dependencies["auto_service_annotations"]
-    ksp rootProject.ext.dependencies["auto_service"]
+//    implementation rootProject.ext.dependencies["auto_service_annotations"]
+//    ksp rootProject.ext.dependencies["auto_service"]
+
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 
 
     //三大图片框架

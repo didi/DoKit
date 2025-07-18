@@ -81,8 +81,11 @@ dependencies {
     implementation project(':dokit-util')
     implementation project(':dokit')
     //auto-service
-    implementation rootProject.ext.dependencies["auto_service_annotations"]
-    ksp rootProject.ext.dependencies["auto_service"]
+//    implementation rootProject.ext.dependencies["auto_service_annotations"]
+//    ksp rootProject.ext.dependencies["auto_service"]
+
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 
     api files('libs/BaiduLBS_Android.jar')
 

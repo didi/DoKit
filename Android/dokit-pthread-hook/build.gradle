@@ -81,6 +81,8 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     //okhttp wrap
     //auto-service
-    implementation rootProject.ext.dependencies["auto_service_annotations"]
-    ksp rootProject.ext.dependencies["auto_service"]
+//    implementation rootProject.ext.dependencies["auto_service_annotations"]
+//    ksp rootProject.ext.dependencies["auto_service"]
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }

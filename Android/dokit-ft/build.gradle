@@ -66,8 +66,12 @@ dependencies {
     //sql
     implementation rootProject.ext.dependencies["wcdb"]
 //    implementation rootProject.ext.dependencies["core-ktx"]
-    implementation rootProject.ext.dependencies["auto_service_annotations"]
-    ksp rootProject.ext.dependencies["auto_service"]
+
+    //auto_service
+//    implementation rootProject.ext.dependencies["auto_service_annotations"]
+//    ksp rootProject.ext.dependencies["auto_service"]
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 
     //ktor
     implementation rootProject.ext.dependencies["ktor_server_core"]
