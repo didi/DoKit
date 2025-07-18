@@ -58,17 +58,6 @@
 
         <service android:name="com.amap.api.location.APSService" />
 
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="11f9728ee0c2a141663fc4b784c42a33" />
-        <!-- 腾讯定位服务 -->
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="ECSBZ-ZDNCF-4K3J4-JNWQ2-TWW37-XOFNQ" />
-        <!-- 百度地图key -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="UhPZI3aQQ7un6RP8evAkXxFCtlvItawi" />
         <!-- 百度地图定位服务 -->
         <service
             android:name="com.baidu.location.f"
