@@ -38,11 +38,9 @@ public class SpeedLimitRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        if (mBufferedSink == null) {
-            //mBufferedSink = Okio.buffer(sink(sink));
-            //默认8K 精确到1K
-            mBufferedSink = OkHttpWrap.INSTANCE.createByteCountBufferedSink(sink(sink), 1024L);
-        }
+        //mBufferedSink = Okio.buffer(sink(sink));
+        //默认8K 精确到1K
+        mBufferedSink = OkHttpWrap.INSTANCE.createByteCountBufferedSink(sink(sink), 1024L);
         mRequestBody.writeTo(mBufferedSink);
         mBufferedSink.close();
     }
