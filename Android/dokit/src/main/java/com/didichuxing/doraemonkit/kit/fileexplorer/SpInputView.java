@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.kit.fileexplorer;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.SpInputType;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.widget.bottomview.BottomUpWindow;
 import com.didichuxing.doraemonkit.widget.bottomview.EditSpInputView;
 
@@ -105,8 +108,8 @@ public class SpInputView extends FrameLayout {
     }
 
     private void showInputView(View view, final SpBean spBean, int inputType) {
-        new BottomUpWindow(getContext()).setContent(new EditSpInputView(getContext(), spBean, inputType))
-                .show(view).setOnSubmitListener(new BottomUpWindow.OnSubmitListener() {
+        BottomUpWindow bottomUpWindow = new BottomUpWindow().setContent(new EditSpInputView(getContext(), spBean, inputType))
+            .setOnSubmitListener(new BottomUpWindow.OnSubmitListener() {
             @Override
             public void submit(Object object) {
                 spBean.value = object;
@@ -120,6 +123,7 @@ public class SpInputView extends FrameLayout {
 
             }
         });
+        bottomUpWindow.show(((FragmentActivity)ActivityUtils.getTopActivity()).getSupportFragmentManager(),"BottomUpWindow");
     }
 
     public interface OnDataChangeListener {

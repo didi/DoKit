@@ -9,7 +9,6 @@
         android:id="@+id/ll_panel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@color/foreground_wtf"
         android:clickable="true"
         android:gravity="center_horizontal"
