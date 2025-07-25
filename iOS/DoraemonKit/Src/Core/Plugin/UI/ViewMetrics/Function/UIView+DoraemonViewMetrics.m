@@ -39,9 +39,22 @@
 - (void)doraemonMetricsRecursiveEnable:(BOOL)enable
 {
     // 状态栏不显示元素边框
-    UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:@"_statusBarWindow"];
-    if (statusBarWindow && [self isDescendantOfView:statusBarWindow]) {
-        return;
+    if (@available(iOS 13.0, *)) {
+        UIStatusBarManager *statusBarManager = [UIApplication sharedApplication].windows.firstObject.windowScene.statusBarManager;
+        if([statusBarManager respondsToSelector:@selector(createLocalStatusBar)]) {
+            UIView *localStatusBar= [statusBarManager performSelector:@selector(createLocalStatusBar)];
+            if ([localStatusBar respondsToSelector:@selector(statusBar)]) {
+                UIView *statusBarView = [localStatusBar performSelector:@selector(statusBar)];
+                if (statusBarView && [self isDescendantOfView:statusBarView]) {
+                    return;
+                }
+            }
+        }
+    } else {
+        UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:@"_statusBarWindow"];
+        if (statusBarWindow && [self isDescendantOfView:statusBarWindow]) {
+            return;
+        }
     }
 
     for (UIView *subView in self.subviews) {
