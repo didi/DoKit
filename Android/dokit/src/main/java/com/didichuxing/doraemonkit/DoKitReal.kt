@@ -108,7 +108,14 @@ object DoKitReal {
                         )
                     } as MutableList<KitWrapItem>
 
-                    DoKitManager.GLOBAL_KITS[map.key] = kitWraps
+                    if (DoKitManager.GLOBAL_KITS_CACHE[map.key] == null) {
+                        DoKitManager.GLOBAL_KITS_CACHE[map.key] = mutableListOf<KitWrapItem>()
+                    }
+                    DoKitManager.GLOBAL_KITS_CACHE[map.key]?.addAll(kitWraps)
+                }
+
+                DoKitManager.GLOBAL_KITS_CACHE.forEach{map->
+                    DoKitManager.GLOBAL_KITS[map.key]= map.value
                 }
             }
 

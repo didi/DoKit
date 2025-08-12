@@ -75,6 +75,9 @@ object DoKitManager {
     @JvmField
     val GLOBAL_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
+    @JvmField
+    val GLOBAL_KITS_CACHE: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
+
     /**
      * 全局系统内置kit
      */
