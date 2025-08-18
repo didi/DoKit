@@ -45,7 +45,14 @@
 }
 
 - (void)doraemon_showActionSheetWithTitle:(NSString *)title actions:(NSArray *)actions currentAction:(NSString *)currentAction completion:(void (^)(NSInteger index))completion {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:title preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertControllerStyle style;
+    if ([DoraemonAppInfoUtil isIpad]) {
+        style = UIAlertControllerStyleAlert;
+    }else{
+        style = UIAlertControllerStyleActionSheet;
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:title preferredStyle:style];
     for (NSInteger i = 0; i < actions.count; i++) {
         NSString *actionTitle = actions[i];
         __block NSInteger index = i;
