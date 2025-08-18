@@ -25,6 +25,10 @@ void myNSLog(NSString *format, ...){
     old_nslog(@"%@",str);
 }
 
+@interface DoraemonNSLogManager()
+@property (nonatomic, strong) NSMutableArray<DoraemonNSLogModel *> *dataArray;
+@property (nonatomic, strong) dispatch_queue_t logQueue;
+@end
 
 @implementation DoraemonNSLogManager
 
@@ -39,6 +43,7 @@ void myNSLog(NSString *format, ...){
 }
 
 - (void)startNSLogMonitor{
+    self.logQueue = dispatch_queue_create("dokit.log.queue", DISPATCH_QUEUE_SERIAL);
     doraemon_rebind_symbols((struct doraemon_rebinding[1]){"NSLog", (void *)myNSLog, (void **)&old_nslog},1);
 }
 
@@ -47,14 +52,16 @@ void myNSLog(NSString *format, ...){
 }
 
 - (void)addNSLog:(NSString *)log{
-    DoraemonNSLogModel *model = [[DoraemonNSLogModel alloc] init];
-    model.content = log;
-    model.timeInterval = [[NSDate date] timeIntervalSince1970];
-    
-    if (!_dataArray) {
-        _dataArray = [[NSMutableArray alloc] init];
-    }
-    [_dataArray addObject:model];
+    dispatch_sync(self.logQueue, ^{
+        DoraemonNSLogModel *model = [[DoraemonNSLogModel alloc] init];
+        model.content = log;
+        model.timeInterval = [[NSDate date] timeIntervalSince1970];
+        
+        if (!_dataArray) {
+            _dataArray = [[NSMutableArray alloc] init];
+        }
+        [_dataArray addObject:model];
+    });
     
 //    return;
 //    if (@available(iOS 13.0, *)) {
@@ -64,6 +71,17 @@ void myNSLog(NSString *format, ...){
 //        });
 //    }
 
+}
+
+- (NSArray<DoraemonNSLogModel *> *)readLogs {
+    NSArray *array = [_dataArray copy];
+    return array;
+}
+
+- (void)clearLogs {
+    dispatch_sync(self.logQueue, ^{
+        [self.dataArray removeAllObjects];
+    });
 }
 
 @end
