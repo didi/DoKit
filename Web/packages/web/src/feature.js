@@ -14,11 +14,15 @@ import Resource from './plugins/resources/index'
 import ApiMock from './plugins/api-mock/index'
 import WebVitals from './plugins/web-vitals-time/index'
 
+import Geolocation from './plugins/geolocation/index'
+import ClearCache from './plugins/clear-cache/index'
+
 import {IndependPlugin, RouterPlugin} from '@dokit/web-core'
 
 export const BasicFeatures = {
   title: '常用工具',
-  list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin, WebVitals, Element, OneMachineWithMultipleControls, scanCode]
+  list: [Console, AppInfo, Resource, Network, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin, WebVitals, Element, 
+    OneMachineWithMultipleControls, scanCode, Geolocation, ClearCache]
   // list: [Console, AppInfo, Resource, Network, Storage, H5DoorPlugin]
 }
 
