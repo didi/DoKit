@@ -53,7 +53,15 @@ class DokitMoreFragment : BaseFragment() {
                     it,
                     MorePageGroupBean::class.java
                 )
-                initView(convertGroup2normalItem(morePageGroupBean.data.group))
+
+                val groups = morePageGroupBean
+                    ?.data
+                    ?.group                
+                if (groups.isNullOrEmpty()) {
+                    initView(convertGroup2normalItem(createDefaultGroups()))
+                } else {
+                    initView(convertGroup2normalItem(groups))
+                }
             }, {
                 initView(convertGroup2normalItem(createDefaultGroups()))
             })
