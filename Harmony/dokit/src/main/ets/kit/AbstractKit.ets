@@ -1,22 +1,21 @@
 import { common } from '@kit.AbilityKit';
+import { ActiveToolPage } from '../model/ActiveToolPage';
 import { Category } from './Category';
+import { SimpleDoKitLauncher } from './core/SimpleDoKitLauncher';
+import { IKit } from './IKit';
 
 /**
  * 业务自定义 Kit 基类，对标 Android AbstractKit / IKit
- * 外部 Kit 无需实现 innerKitId，isInnerKit 默认为 false
+ * 内置 Kit 必须重写 innerKitId，且与 dokit_system_kits.json 一致
  */
-export abstract class AbstractKit {
-  /** 对标 Android category */
+export abstract class AbstractKit implements IKit {
   category: number = Category.DEFAULT;
-
-  /** 是否在面板展示，对标 Android canShow */
   canShow: boolean = true;
 
   get isInnerKit(): boolean {
     return false;
   }
 
-  /** 业务 Kit 可选实现，用于埋点或去重；默认空 */
   innerKitId(): string {
     return '';
   }
@@ -25,7 +24,6 @@ export abstract class AbstractKit {
 
   abstract getIcon(): Resource;
 
-  /** app 初始化时调用，对标 onAppInit */
   onAppInit(_context: common.UIAbilityContext): void {
   }
 
@@ -35,5 +33,12 @@ export abstract class AbstractKit {
    */
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
     return true;
+  }
+
+  /**
+   * 打开内置工具全屏页，对标 startUniversalActivity(BaseFragment)
+   */
+  protected startUniversalActivity(page: ActiveToolPage): void {
+    SimpleDoKitLauncher.launchFullScreen(page);
   }
 }

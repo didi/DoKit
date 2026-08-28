@@ -1,18 +1,18 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitConstants } from '../DoKit';
+import { DoKitConstants } from '../constant/DoKitConstants';
 import { resolveKitIcon } from '../config/KitIconResolver';
 import { GlobalConfig } from '../config/GlobalConfig';
-import { KitRouteAction, KitRouter } from '../kit/KitRouter';
+import { InnerKitRegistry } from '../kit/core/InnerKitRegistry';
+import { SimpleDoKitLauncher } from '../kit/core/SimpleDoKitLauncher';
 import { SysInfoPage } from '../kit/sysinfo/SysInfoPage';
 import { WebDoorNavigator } from '../kit/webdoor/WebDoorNavigator';
 import { WebDoorPage } from '../kit/webdoor/WebDoorPage';
 import { WebDoorWebViewPage } from '../kit/webdoor/WebDoorWebViewPage';
 import { FileExplorerPage } from '../kit/fileexplorer/FileExplorerPage';
-import { ThirdLibInfoPage } from '../kit/thirdlib/ThirdLibInfoPage';
+import { ThirdLibInfoPage } from '../kit/sysinfo/ThirdLibInfoPage';
 import { DataCleanPage } from '../kit/dataclean/DataCleanPage';
 import { CustomKitNavigator, CustomKitPageRenderer } from '../kit/CustomKitNavigator';
-import { DoKitManager } from '../DoKitManager';
-import { DoKitSystemUtil } from '../util/DoKitSystemUtil';
+import { DoKitManager } from '../kit/core/DoKitManager';
 import { ActiveToolPage } from '../model/ActiveToolPage';
 import { KitGroup, KitGroupId, KitItem } from '../model/KitModels';
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
@@ -84,6 +84,12 @@ export struct DoKitFloatingWindow {
     CustomKitNavigator.setCloseFloatingHandler(() => {
       this.showCustomFloat = false;
     });
+    SimpleDoKitLauncher.setOpenToolPageHandler((page: ActiveToolPage) => {
+      this.openToolPage(page);
+    });
+    SimpleDoKitLauncher.setCloseToolPageHandler(() => {
+      this.closeActiveToolPage();
+    });
   }
 
   aboutToDisappear(): void {
@@ -92,6 +98,8 @@ export struct DoKitFloatingWindow {
     CustomKitNavigator.setOpenFloatingHandler(null);
     CustomKitNavigator.setCloseFullScreenHandler(null);
     CustomKitNavigator.setCloseFloatingHandler(null);
+    SimpleDoKitLauncher.setOpenToolPageHandler(null);
+    SimpleDoKitLauncher.setCloseToolPageHandler(null);
   }
 
   private closeCustomFullScreen(): void {
@@ -149,39 +157,9 @@ export struct DoKitFloatingWindow {
     this.webDoorViewUrl = '';
   }
 
-  private openSysInfo(): void {
+  private openToolPage(page: ActiveToolPage): void {
     this.closePanel();
-    this.activeToolPage = ActiveToolPage.SYS_INFO;
-  }
-
-  private openWebDoor(): void {
-    this.closePanel();
-    this.activeToolPage = ActiveToolPage.WEB_DOOR;
-  }
-
-  private openFileExplorer(): void {
-    this.closePanel();
-    this.activeToolPage = ActiveToolPage.FILE_EXPLORER;
-  }
-
-  private openThirdLibInfo(): void {
-    this.closePanel();
-    this.activeToolPage = ActiveToolPage.THIRD_LIB_INFO;
-  }
-
-  private openDevPage(): void {
-    const context = DoKitManager.getContext();
-    this.closePanel();
-    if (context === null) {
-      promptAction.showToast({ message: '上下文不可用', duration: 2000 });
-      return;
-    }
-    DoKitSystemUtil.startDevelopmentActivity(context);
-  }
-
-  private openDataClean(): void {
-    this.closePanel();
-    this.activeToolPage = ActiveToolPage.DATA_CLEAN;
+    this.activeToolPage = page;
   }
 
   /** 全屏 Overlay（工具页/面板/自定义悬浮窗）需拦截触摸，避免穿透到宿主业务页 */
@@ -201,29 +179,16 @@ export struct DoKitFloatingWindow {
       }
       return;
     }
-    const action = KitRouter.resolveAction(item);
-    if (action === KitRouteAction.OPEN_APP_INFO) {
-      this.openSysInfo();
-      return;
-    }
-    if (action === KitRouteAction.OPEN_H5_DOOR) {
-      this.openWebDoor();
-      return;
-    }
-    if (action === KitRouteAction.OPEN_SANDBOX) {
-      this.openFileExplorer();
-      return;
-    }
-    if (action === KitRouteAction.OPEN_THIRD_LIB_INFO) {
-      this.openThirdLibInfo();
-      return;
-    }
-    if (action === KitRouteAction.OPEN_DEV_PAGE) {
-      this.openDevPage();
-      return;
-    }
-    if (action === KitRouteAction.OPEN_DATA_CLEAN) {
-      this.openDataClean();
+    const innerKit = InnerKitRegistry.get(item.innerKitId);
+    if (innerKit !== undefined) {
+      const context = DoKitManager.getContext();
+      if (context === null) {
+        return;
+      }
+      const hidePanel = innerKit.onClickWithReturn(context);
+      if (hidePanel) {
+        this.closePanel();
+      }
       return;
     }
     promptAction.showToast({

@@ -1,6 +1,6 @@
 import promptAction from '@ohos.promptAction';
 import { DataCleanDirItem } from './DataCleanModels';
-import { DataCleanUtil } from './DataCleanUtil';
+import { DataCleanUtil } from '../../util/DataCleanUtil';
 
 /**
  * 清理缓存页，对标 Android DataCleanFragment

@@ -17,27 +17,27 @@
 Harmony/
 ├── AppScope/
 ├── entry/                              # Demo 宿主（对标 Android/app）
-│   ├── dokit.config.json5              # 依赖与插件配置（对标 doraemonkit.gradle）
-│   └── src/main/ets/
-│       ├── config/
-│       │   ├── DoKitDemoConfig.ets     # productId、端口等（对标 App.kt 常量）
-│       │   └── DoKitGradleConfig.ets   # 模块开关配置
-│       ├── dokit/
-│       │   ├── DoKitDemoInitializer.ets  # 统一初始化（对标 App.onCreate）
-│       │   └── DemoCustomKits.ets        # 自定义业务 Kit（对标 DemoKit）
-│       ├── common/                     # Demo 主页菜单组件
-│       └── pages/
-│           └── Index.ets               # 主页 + DoKitFloatingWindow 叠加
 └── dokit/                              # 核心 SDK HAR（对标 Android/dokit）
     └── src/main/ets/
-        ├── DoKit.ets                   # Builder API
-        ├── DoKitManager.ets
-        ├── components/DoKitFloatingWindow.ets  # 悬浮球 + 工具面板 Overlay
-        ├── config/KitIconResolver.ets         # 工具图标 innerKitId 映射
-        ├── model/DoKitOverlayState.ets         # AppStorage 状态
-        ├── resources/base/media/               # Android mipmap 图标资源
-        ├── config/GlobalConfig.ets
-        └── callback/DoKitCallBack.ets
+        ├── DoKit.ets                   # 对外 Builder API（对标 DoKit.kt）
+        ├── DoKitReal.ets               # 内部安装逻辑（对标 DoKitReal.kt）
+        ├── DoKitCallBack.ets           # 回调接口（对标根包 DoKitCallBack.kt）
+        ├── DoKitManager.ets            # 兼容 re-export → kit/core/
+        ├── constant/DoKitConstants.ets
+        ├── aop/DokitThirdLibInfo.ets
+        ├── components/DoKitFloatingWindow.ets
+        ├── config/                     # GlobalConfig、KitIconResolver、KitDisplayMeta
+        ├── kit/
+        │   ├── IKit.ets                # 对标 IKit.kt
+        │   ├── AbstractKit.ets
+        │   ├── core/                   # DoKitManager、SimpleDoKitLauncher、InnerKitRegistry
+        │   ├── toolpanel/              # ToolPanelUtil、KitWrapItem（读 dokit_system_kits.json）
+        │   ├── sysinfo/                # SysInfoKit、ThirdLibInfoKit、DevelopmentPageKit + Page
+        │   ├── dataclean/              # DataCleanKit + DataCleanPage
+        │   ├── fileexplorer/           # FileExplorerKit + FileExplorerPage
+        │   └── webdoor/                # WebDoorKit + WebDoorPage
+        ├── util/                       # DataCleanUtil、DoKitFileUtil、DoKitSystemUtil
+        └── model/
 ```
 
 ## 运行

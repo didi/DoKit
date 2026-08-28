@@ -1,5 +1,5 @@
 import { Want } from '@kit.AbilityKit';
-import { DoKitManager } from '../../DoKitManager';
+import { DoKitManager } from '../core/DoKitManager';
 import { SysInfoCollector } from './SysInfoCollector';
 import { SysInfoListItem } from './SysInfoModels';
 

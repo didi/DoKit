@@ -1,20 +1,18 @@
 import { common } from '@kit.AbilityKit';
 import { window } from '@kit.ArkUI';
 import { DokitThirdLibInfo } from './aop/DokitThirdLibInfo';
-import { DoKitCallBack } from './callback/DoKitCallBack';
+import { DoKitCallBack } from './DoKitCallBack';
+import { DoKitReal } from './DoKitReal';
 import { GlobalConfig } from './config/GlobalConfig';
+import { DoKitConstants } from './constant/DoKitConstants';
 import { WebDoorCallback } from './kit/webdoor/WebDoorCallback';
 import { AbstractKit } from './kit/AbstractKit';
 import { CustomKitNavigator } from './kit/CustomKitNavigator';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
-import { DoKitManager } from './DoKitManager';
+import { DoKitManager } from './kit/core/DoKitManager';
 import { DoKitOverlayState } from './model/DoKitOverlayState';
 
-export class DoKitConstants {
-  static readonly VERSION: string = '0.1.0';
-  static readonly BUNDLE_NAME: string = 'com.didi.dokit.harmony';
-  static readonly DEV_TIP: string = '功能开发中，敬请期待';
-}
+export { DoKitConstants } from './constant/DoKitConstants';
 
 export class DoKitBuilder {
   private context: common.UIAbilityContext;
@@ -143,8 +141,6 @@ export class DoKitBuilder {
  * DoKit 鸿蒙版入口，对标 Android DoKit / DoKit.Builder
  */
 export class DoKit {
-  private static installed: boolean = false;
-
   static Builder(context: common.UIAbilityContext): DoKitBuilder {
     return new DoKitBuilder(context);
   }
@@ -160,22 +156,11 @@ export class DoKit {
     customKits: Map<string, AbstractKit[]>,
     customKitList: AbstractKit[]
   ): void {
-    if (DoKit.installed) {
-      return;
-    }
     if (!debugMode) {
       return;
     }
-    DoKitManager.init(context);
-    if (customKits.size > 0) {
-      customKits.forEach((kits: AbstractKit[], groupName: string) => {
-        DoKitManager.addCustomKits(groupName, kits);
-      });
-    } else if (customKitList.length > 0) {
-      DoKitManager.addCustomKits(DEFAULT_BIZ_GROUP_NAME, customKitList);
-    }
+    DoKitReal.install(context, customKits, customKitList);
     DoKitOverlayState.init(GlobalConfig.alwaysShowMainIcon);
-    DoKit.installed = true;
   }
 
   /** 打开自定义全屏页，对标 Android DoKit.launchFullScreen；pageId 由宿主 @Builder 渲染 */
@@ -215,6 +200,6 @@ export class DoKit {
   }
 
   static isInstalled(): boolean {
-    return DoKit.installed;
+    return DoKitReal.isInit;
   }
 }

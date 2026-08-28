@@ -1,6 +1,7 @@
+import { InnerKitRegistry } from './core/InnerKitRegistry';
 import { KitItem } from '../model/KitModels';
 
-/** 已实现工具的内置 KitId */
+/** 已实现工具的内置 KitId，对标 Android 各 *Kit.innerKitId */
 export class KitIds {
   static readonly APP_INFO: string = 'dokit_sdk_comm_ck_appinfo';
   static readonly H5_DOOR: string = 'dokit_sdk_comm_ck_h5';
@@ -10,7 +11,7 @@ export class KitIds {
   static readonly DATA_CLEAN: string = 'dokit_sdk_comm_ck_cache';
 }
 
-/** 工具点击后的路由动作 */
+/** @deprecated 请通过 InnerKitRegistry + AbstractKit.onClickWithReturn 路由 */
 export enum KitRouteAction {
   OPEN_APP_INFO = 0,
   OPEN_H5_DOOR = 1,
@@ -23,15 +24,11 @@ export enum KitRouteAction {
 
 /**
  * 工具点击路由，对标 Android 各 Kit.onClickWithReturn
+ * 保留 KitRouteAction 以兼容旧代码，新逻辑走 InnerKitRegistry
  */
 export class KitRouter {
   static isImplemented(innerKitId: string): boolean {
-    return innerKitId === KitIds.APP_INFO
-      || innerKitId === KitIds.H5_DOOR
-      || innerKitId === KitIds.SANDBOX
-      || innerKitId === KitIds.THIRD_LIB_INFO
-      || innerKitId === KitIds.DEV_PAGE
-      || innerKitId === KitIds.DATA_CLEAN;
+    return InnerKitRegistry.has(innerKitId);
   }
 
   static resolveAction(item: KitItem): KitRouteAction {
