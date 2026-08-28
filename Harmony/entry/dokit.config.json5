@@ -1,0 +1,25 @@
+{
+  "runType": 0,
+  "comment_runType": "0=本地源码依赖 1=ohpm远程依赖",
+  "modules": {
+    "dokit": true,
+    "dokit-ft": false,
+    "dokit-mc": false,
+    "dokit-gps-mock": false
+  },
+  "plugin": {
+    "gpsEnable": true,
+    "bigImageEnable": true,
+    "networkEnable": true,
+    "thirdLibEnable": true
+  },
+  "demo": {
+    "productIdProd": "749a0600b5e48dd77cf8ee680be7b1b7",
+    "productIdTest": "277016abcc33bff1e6a4f1afdf14b8e1",
+    "fileManagerHttpPort": 9001,
+    "mcWsPort": 5555,
+    "databasePass": {
+      "Person.db": "a_password"
+    }
+  }
+}

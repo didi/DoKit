@@ -1,0 +1,73 @@
+[
+  {
+    "groupId": "dk_category_platform",
+    "kits": [
+      { "innerKitId": "dokit_sdk_platform_ck_mock", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_health", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_filetransfer", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_mc_test", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_dokit_connect", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_dokit_for_web", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_mc", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_ck_autotest", "checked": true },
+      { "innerKitId": "dokit_sdk_platform_thread_hook", "checked": true }
+    ]
+  },
+  {
+    "groupId": "dk_category_comms",
+    "kits": [
+      { "innerKitId": "dokit_sdk_comm_ck_appinfo", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_thirdlibinfo", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_devpage", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_local_lang", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_sandbox", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_h5", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_cache", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_log", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_h5kit", "checked": true }
+    ]
+  },
+  {
+    "groupId": "dk_category_lbs",
+    "kits": [
+      { "innerKitId": "dokit_sdk_comm_ck_gps", "checked": true },
+      { "innerKitId": "dokit_sdk_lbs_ck_pos_adjust", "checked": true },
+      { "innerKitId": "dokit_sdk_lbs_ck_nav", "checked": true }
+    ]
+  },
+  {
+    "groupId": "dk_category_weex",
+    "kits": [
+      { "innerKitId": "dokit_sdk_weex_ck_log", "checked": true },
+      { "innerKitId": "dokit_sdk_weex_ck_storage", "checked": true },
+      { "innerKitId": "dokit_sdk_weex_ck_info", "checked": true },
+      { "innerKitId": "dokit_sdk_weex_ck_devtool", "checked": true }
+    ]
+  },
+  {
+    "groupId": "dk_category_performance",
+    "kits": [
+      { "innerKitId": "dokit_sdk_performance_ck_fps", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_cpu", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_arm", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_network", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_crash", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_block", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_img", "checked": true },
+      { "innerKitId": "dokit_sdk_comm_ck_weaknetwork", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_open_coast", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_hierarchy", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_method_coast", "checked": true },
+      { "innerKitId": "dokit_sdk_performance_ck_leak", "checked": true }
+    ]
+  },
+  {
+    "groupId": "dk_category_ui",
+    "kits": [
+      { "innerKitId": "dokit_sdk_ui_ck_color_pick", "checked": true },
+      { "innerKitId": "dokit_sdk_ui_ck_aligin_scaleplate", "checked": true },
+      { "innerKitId": "dokit_sdk_ui_ck_widget", "checked": true },
+      { "innerKitId": "dokit_sdk_ui_ck_border", "checked": true }
+    ]
+  }
+]

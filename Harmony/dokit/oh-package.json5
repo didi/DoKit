@@ -1,0 +1,9 @@
+{
+  "name": "@didi/dokit",
+  "version": "0.1.0",
+  "description": "DoKit SDK for HarmonyOS",
+  "main": "Index.ets",
+  "author": "didi",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}
