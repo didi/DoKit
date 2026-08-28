@@ -3,3 +3,12 @@ build/
 
 # ohpm 本地依赖
 oh_modules/
+
+# hvigor 构建缓存
+.hvigor/
+
+# DevEco Studio 本地工程状态
+.idea/
+
+# 本机 SDK 路径（勿提交）
+local.properties
