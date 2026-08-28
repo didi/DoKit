@@ -1,0 +1,5 @@
+# 构建产物
+build/
+
+# ohpm 本地依赖
+oh_modules/
