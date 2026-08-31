@@ -1,10 +1,15 @@
-import { CustomKitCloseHandler } from '@didi/dokit';
+import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi/dokit';
+
+/** 对标 Android dokit/DemoDoKitView */
+export class DemoDoKitView {
+  static readonly CLASS_NAME: string = 'DemoDoKitView';
+}
 
 /**
  * 对标 Android DemoDoKitView + dk_demo.xml
  */
 @Builder
-export function buildDemoDoKitView(onClose: CustomKitCloseHandler) {
+export function buildDemoDoKitView(_bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
   Stack({ alignContent: Alignment.TopEnd }) {
     Column() {
       Text('我是demo浮标')
@@ -23,7 +28,7 @@ export function buildDemoDoKitView(onClose: CustomKitCloseHandler) {
       .fontColor('#666666')
       .margin({ top: 8, right: 8 })
       .onClick(() => {
-        onClose();
+        DoKit.removeFloating(DemoDoKitView.CLASS_NAME);
       })
   }
   .position({ x: 200, y: 200 })

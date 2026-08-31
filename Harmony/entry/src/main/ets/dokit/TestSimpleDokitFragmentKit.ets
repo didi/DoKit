@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit, Category, DoKit } from '@didi/dokit';
-import { DemoKitPageIds } from './DemoKitPageIds';
+import { CustomDokitFragment } from './CustomDokitFragment';
 
 /** 对标 Android dokit/TestSimpleDokitFragmentKit */
 export class TestSimpleDokitFragmentKit extends AbstractKit {
@@ -17,8 +17,8 @@ export class TestSimpleDokitFragmentKit extends AbstractKit {
     return $r('app.media.dk_sys_info');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    DoKit.launchFullScreen(DemoKitPageIds.CUSTOM_DOKIT_FRAGMENT, { "test": 'test' });
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
     return true;
   }
 }

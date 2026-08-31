@@ -2,19 +2,26 @@
 
 本文说明如何在鸿蒙壳工程（entry）中注册一个新的业务 Kit，并在悬浮窗面板中打开自定义页面。
 
-鸿蒙与 Android 的差异：Android 通过 `DoKit.launchFullScreen(Fragment::class)` 由 SDK 反射创建 Fragment；鸿蒙通过 **字符串 pageId + 宿主 `@Builder`** 渲染 UI，因此 entry 必须实现页面 Builder 并挂到 `DoKitFloatingWindow`。
+鸿蒙与 Android 的差异：Android 通过 `DoKit.launchFullScreen(Fragment::class)` 由 SDK 反射创建 Fragment；鸿蒙无法反射，需用 **与 Android 相同的类名（CLASS_NAME）** 作为路由标识，并在宿主 `@Builder` 中渲染 UI。
 
 ---
 
-## 第一步：定义 pageId
+## 第一步：定义页面类（对标 Android Fragment / DoKitView 类）
 
-在 entry 模块中定义页面标识，与 Android 的 Fragment Class 名作用类似。
+类名与 Android 保持一致，通过 `CLASS_NAME` 作为路由标识：
 
 ```typescript
-// entry/src/main/ets/dokit/MyKitPageIds.ets
-export class MyKitPageIds {
-  static readonly MY_TOOL: string = 'my_tool';
-  static readonly MY_FLOAT: string = 'my_float'; // 悬浮窗 Kit 时使用
+// entry/src/main/ets/dokit/MyToolFragment.ets
+export class MyToolFragment {
+  static readonly CLASS_NAME: string = 'MyToolFragment';
+}
+```
+
+悬浮窗对标 `AbsDoKitView`：
+
+```typescript
+export class MyFloatView {
+  static readonly CLASS_NAME: string = 'MyFloatView';
 }
 ```
 
@@ -22,58 +29,28 @@ export class MyKitPageIds {
 
 ## 第二步：实现 Kit 类
 
-继承 `AbstractKit`，实现名称、图标和点击逻辑。
+继承 `AbstractKit`，点击逻辑与 Android 完全一致：
 
 ```typescript
 // entry/src/main/ets/dokit/MyToolKit.ets
 import { common } from '@kit.AbilityKit';
 import { AbstractKit, Category, DoKit } from '@didi/dokit';
-import { MyKitPageIds } from './MyKitPageIds';
+import { MyToolFragment } from './MyToolFragment';
+import { MyFloatView } from './MyFloatView';
 
 export class MyToolKit extends AbstractKit {
-  constructor() {
-    super();
-    this.category = Category.BIZ;
-  }
-
-  getName(): string {
-    return '我的工具';
-  }
-
-  getIcon(): Resource {
-    return $r('app.media.dk_sys_info');
-  }
-
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    // 全屏页
-    DoKit.launchFullScreen(MyKitPageIds.MY_TOOL);
-    // 悬浮窗 Kit 则改用：DoKit.launchFloating(MyKitPageIds.MY_FLOAT);
-    return true; // true = 点击后收起工具面板
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    // 全屏页，对标 DoKit.launchFullScreen(MyToolFragment::class, activity, bundle)
+    DoKit.launchFullScreen(MyToolFragment.CLASS_NAME, { "key": 'value' });
+    // 悬浮窗：DoKit.launchFloating(MyFloatView.CLASS_NAME);
+    return true;
   }
 }
 ```
-
-对标 Android Demo：`TestSimpleDokitFragmentKit` 中 `DoKit.launchFullScreen(CustomDokitFragment::class, ...)`.
 
 ---
 
 ## 第三步：注册到分组（初始化时注入）
-
-将 Kit 实例放入分组 Map，在 Application 初始化时传给 DoKit。
-
-```typescript
-// entry/src/main/ets/dokit/DemoCustomKits.ets
-import { AbstractKit } from '@didi/dokit';
-import { MyToolKit } from './MyToolKit';
-
-export function buildDemoCustomKits(): Map<string, AbstractKit[]> {
-  const map = new Map<string, AbstractKit[]>();
-  map.set('业务专区1', [new MyToolKit()]);
-  return map;
-}
-```
-
-在 `App.onCreate`（或 EntryAbility 初始化逻辑）中调用：
 
 ```typescript
 DoKit.Builder(context)
@@ -81,105 +58,57 @@ DoKit.Builder(context)
   .build();
 ```
 
-也可使用 `customKitList([...])` 注入单个列表，默认归入「业务专区」。
-
 ---
 
-## 第四步：实现 UI（@Builder）
-
-业务页面的 UI 由 entry 实现，SDK 不负责渲染。
+## 第四步：实现 UI（@Builder）并挂到 DoKitFloatingWindow
 
 ```typescript
-// entry/src/main/ets/dokit/MyToolPage.ets
-import { CustomKitCloseHandler } from '@didi/dokit';
-
+// entry/src/main/ets/dokit/MyToolFragment.ets
 @Builder
-export function buildMyToolPage(onClose: CustomKitCloseHandler) {
-  Column() {
-    Row() {
-      Text('我的工具')
-        .layoutWeight(1)
-        .textAlign(TextAlign.Center)
-      Text('✕')
-        .onClick(() => {
-          onClose();
-        })
-    }
-    .width('100%')
-    .height(56)
-    .padding({ left: 16, right: 16 })
-
-    Text('业务内容放这里')
-      .margin({ top: 24 })
-  }
-  .width('100%')
-  .height('100%')
-  .backgroundColor(Color.White)
+export function buildMyToolFragment(bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+  // UI 实现，bundle 对标 Android Fragment.arguments
 }
 ```
 
----
-
-## 第五步：挂到 DoKitFloatingWindow 分发器
-
-在根页面的 `DoKitFloatingWindow` 上通过 `@BuilderParam` 按 pageId 路由到对应 UI。
+分发器（对标 Android 反射创建，鸿蒙由宿主手动映射）：
 
 ```typescript
 // entry/src/main/ets/dokit/DemoCustomKitRenderers.ets
-import { CustomKitCloseHandler } from '@didi/dokit';
-import { MyKitPageIds } from './MyKitPageIds';
-import { buildMyToolPage } from './MyToolPage';
-
 @Builder
-export function buildEntryCustomFullScreen(pageId: string, onClose: CustomKitCloseHandler) {
-  if (pageId === MyKitPageIds.MY_TOOL) {
-    buildMyToolPage(onClose);
+export function buildEntryCustomFullScreen(fragmentClass: string, bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+  if (fragmentClass === MyToolFragment.CLASS_NAME) {
+    buildMyToolFragment(bundle, onClose);
   }
 }
-
-@Builder
-export function buildEntryCustomFloating(pageId: string, onClose: CustomKitCloseHandler) {
-  // 悬浮窗 Kit 在此按 pageId 分发
-}
 ```
 
-根页面挂载（参考 `pages/Index.ets`）：
+根页面挂载：
 
 ```typescript
-Stack() {
-  // 业务主页面 ...
-  DoKitFloatingWindow({
-    customFullScreenPage: buildEntryCustomFullScreen,
-    customFloatingPage: buildEntryCustomFloating
-  })
-}
+DoKitFloatingWindow({
+  customFullScreenPage: buildEntryCustomFullScreen,
+  customFloatingPage: buildEntryCustomFloating
+})
 ```
+
+关闭悬浮窗使用 `DoKit.removeFloating(MyFloatView.CLASS_NAME)`，对标 Android `DoKit.removeFloating(Class)`。
 
 ---
 
 ## 快速对照
 
-| 步骤 | 文件 | 作用 |
-|------|------|------|
-| 1 | `MyKitPageIds.ets` | 定义 pageId |
-| 2 | `MyToolKit.ets` | Kit 逻辑，点击时 `launchFullScreen` / `launchFloating` |
-| 3 | `DemoCustomKits.ets` + `App.ets` | 注入面板分组 |
-| 4 | `MyToolPage.ets` | `@Builder` 实现 UI |
-| 5 | `DemoCustomKitRenderers.ets` + `pages/Index.ets` | pageId → Builder 路由 |
+| 步骤 | Android | Harmony |
+|------|---------|---------|
+| 页面标识 | `CustomDokitFragment::class.java` | `CustomDokitFragment.CLASS_NAME` |
+| 启动全屏 | `DoKit.launchFullScreen(Class, activity, bundle)` | `DoKit.launchFullScreen(CLASS_NAME, bundle)` |
+| 启动悬浮 | `DoKit.launchFloating(Class)` | `DoKit.launchFloating(CLASS_NAME)` |
+| 关闭悬浮 | `DoKit.removeFloating(Class)` | `DoKit.removeFloating(CLASS_NAME)` |
+| 内置 Kit | `startUniversalActivity(Class, activity, null, true)` | `startUniversalActivity(CLASS_NAME, context, undefined, true)` |
+| UI 渲染 | 反射 `newInstance()` | 宿主 `@Builder` + `DemoCustomKitRenderers` 分发 |
 
 ## 参考实现
 
-entry 内已有完整 Demo，可直接对照：
-
-- `dokit/DemoKit.ets` — demo Kit
-- `dokit/TestSimpleDokitFragmentKit.ets` — 全屏 Kit
-- `dokit/TestSimpleDokitFloatViewKit.ets` — 悬浮 Kit
-- `dokit/CustomDokitFragment.ets` / `DemoDoKitView.ets` / `TestSimpleDoKitFloatView.ets` — UI Builder
-- `dokit/DemoCustomKitRenderers.ets` — 分发器
-- `dokit/DemoCustomKits.ets` — 分组注册
-
-## 注意事项
-
-- **业务 Kit** 不要修改 dokit 模块内的 `InnerKitRegistry` 或 `UniversalActivity`。
-- 只有向 SDK 贡献新的**内置工具**时，才需要在 dokit 内注册 `renderXxxFragment`。
-- `onClickWithReturn` 返回 `true` 表示点击后自动收起工具面板，与 Android 行为一致。
+- `dokit/DemoKit.ets` — `DoKit.launchFloating(DemoDoKitView.CLASS_NAME)`
+- `dokit/TestSimpleDokitFragmentKit.ets` — `DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, bundle)`
+- `dokit/CustomDokitFragment.ets` / `DemoDoKitView.ets` / `TestSimpleDoKitFloatView.ets`
+- `dokit/DemoCustomKitRenderers.ets` — 按 CLASS_NAME 分发

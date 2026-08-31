@@ -89,6 +89,24 @@ export class UniversalActivity {
     }
   }
 
+  /**
+   * 对标 Android UniversalActivity.onCreate 中按 FRAGMENT_INDEX 解析 Fragment Class
+   */
+  static resolveFragmentClass(bundle: DoKitBundle): string {
+    const index = bundle[BundleKey.FRAGMENT_INDEX] as number;
+    if (!index) {
+      return '';
+    }
+    switch (index) {
+      case FragmentIndex.FRAGMENT_SYSTEM:
+        return (bundle[BundleKey.SYSTEM_FRAGMENT_CLASS] as string) ?? '';
+      case FragmentIndex.FRAGMENT_CUSTOM:
+        return (bundle[BundleKey.CUSTOM_FRAGMENT_CLASS] as string) ?? '';
+      default:
+        return '';
+    }
+  }
+
   static finish(): void {
     UniversalActivity.clearContent();
     if (UniversalActivity.closeHandler !== null) {

@@ -33,8 +33,8 @@ export class CrashCaptureKit extends AbstractKit {
     }
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(CrashCaptureMainFragmentMeta.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(CrashCaptureMainFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

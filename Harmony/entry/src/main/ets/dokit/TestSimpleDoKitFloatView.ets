@@ -1,10 +1,14 @@
-import { CustomKitCloseHandler, DoKit } from '@didi/dokit';
-import { DemoKitPageIds } from './DemoKitPageIds';
+import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi/dokit';
+import { CustomDokitFragment } from './CustomDokitFragment';
 import { ViewSetupHelper } from './ViewSetupHelper';
 
 /** 对标 Android dokit/TestSimpleDoKitFloatView */
+export class TestSimpleDoKitFloatView {
+  static readonly CLASS_NAME: string = 'TestSimpleDoKitFloatView';
+}
+
 @Builder
-export function buildTestSimpleDoKitFloatView(onClose: CustomKitCloseHandler) {
+export function buildTestSimpleDoKitFloatView(_bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
   Column() {
     Row() {
       Text('TestSimpleDoKitFloatView')
@@ -26,7 +30,7 @@ export function buildTestSimpleDoKitFloatView(onClose: CustomKitCloseHandler) {
     ViewSetupHelper({
       showFullScreenLauncher: true,
       onLaunchFullScreen: () => {
-        DoKit.launchFullScreen(DemoKitPageIds.CUSTOM_DOKIT_FRAGMENT, { "test": 'test' });
+        DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
       }
     })
   }

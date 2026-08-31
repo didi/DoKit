@@ -1,23 +1,22 @@
-import { CustomKitCloseHandler } from '@didi/dokit';
-import { DemoKitPageIds } from './DemoKitPageIds';
-import { buildCustomDokitFragment } from './CustomDokitFragment';
-import { buildDemoDoKitView } from './DemoDoKitView';
-import { buildTestSimpleDoKitFloatView } from './TestSimpleDoKitFloatView';
+import { CustomKitCloseHandler, DoKitBundle } from '@didi/dokit';
+import { CustomDokitFragment, buildCustomDokitFragment } from './CustomDokitFragment';
+import { DemoDoKitView, buildDemoDoKitView } from './DemoDoKitView';
+import { TestSimpleDoKitFloatView, buildTestSimpleDoKitFloatView } from './TestSimpleDoKitFloatView';
 
-/** 宿主按 pageId 渲染自定义全屏 Kit 页，对标 UniversalActivity FRAGMENT_CUSTOM */
+/** 宿主按 fragmentClass 渲染自定义全屏页，对标 UniversalActivity FRAGMENT_CUSTOM */
 @Builder
-export function buildEntryCustomFullScreen(pageId: string, onClose: CustomKitCloseHandler) {
-  if (pageId === DemoKitPageIds.CUSTOM_DOKIT_FRAGMENT) {
-    buildCustomDokitFragment(onClose);
+export function buildEntryCustomFullScreen(fragmentClass: string, bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+  if (fragmentClass === CustomDokitFragment.CLASS_NAME) {
+    buildCustomDokitFragment(bundle, onClose);
   }
 }
 
-/** 宿主按 pageId 渲染自定义悬浮 Kit 页，对标 DoKitViewManager attach */
+/** 宿主按 targetClass 渲染自定义悬浮页，对标 DoKitViewManager.attach */
 @Builder
-export function buildEntryCustomFloating(pageId: string, onClose: CustomKitCloseHandler) {
-  if (pageId === DemoKitPageIds.DEMO_DO_KIT_VIEW) {
-    buildDemoDoKitView(onClose);
-  } else if (pageId === DemoKitPageIds.TEST_SIMPLE_DOKIT_FLOAT_VIEW) {
-    buildTestSimpleDoKitFloatView(onClose);
+export function buildEntryCustomFloating(targetClass: string, bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+  if (targetClass === DemoDoKitView.CLASS_NAME) {
+    buildDemoDoKitView(bundle, onClose);
+  } else if (targetClass === TestSimpleDoKitFloatView.CLASS_NAME) {
+    buildTestSimpleDoKitFloatView(bundle, onClose);
   }
 }

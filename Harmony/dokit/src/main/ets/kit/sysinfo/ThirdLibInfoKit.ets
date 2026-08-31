@@ -22,8 +22,8 @@ export class ThirdLibInfoKit extends AbstractKit {
     return $r('app.media.dk_icon_third_lib');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ThirdLibInfoFragment.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(ThirdLibInfoFragment.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

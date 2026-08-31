@@ -35,8 +35,9 @@ export abstract class AbstractKit implements IKit {
    */
   protected startUniversalActivity(
     fragmentClass: string,
+    context?: common.UIAbilityContext,
     bundle?: DoKitBundle,
-    isSystemFragment: boolean = true
+    isSystemFragment: boolean = false
   ): void {
     SimpleDoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
   }

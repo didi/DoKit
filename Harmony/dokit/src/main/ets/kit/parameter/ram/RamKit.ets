@@ -25,8 +25,8 @@ export class RamKit extends AbstractKit {
   onAppInit(_context: common.UIAbilityContext): void {
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(RamMainPageFragmentMeta.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(RamMainPageFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

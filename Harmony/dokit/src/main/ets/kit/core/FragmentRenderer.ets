@@ -1,4 +1,3 @@
-
 /** 对标 Android Bundle extras */
 export type DoKitBundle = Record<string, Object>;
 

@@ -22,8 +22,8 @@ export class SysInfoKit extends AbstractKit {
     return $r('app.media.dk_sys_info');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(SysInfoFragment.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(SysInfoFragment.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

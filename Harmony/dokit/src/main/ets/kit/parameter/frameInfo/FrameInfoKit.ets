@@ -27,8 +27,8 @@ export class FrameInfoKit extends AbstractKit {
     PerformanceDataManager.getInstance().init(context);
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(FrameInfoFragmentMeta.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(FrameInfoFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

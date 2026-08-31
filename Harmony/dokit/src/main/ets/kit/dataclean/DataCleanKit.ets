@@ -22,8 +22,8 @@ export class DataCleanKit extends AbstractKit {
     return $r('app.media.dk_data_clean');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(DataCleanFragment.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(DataCleanFragment.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

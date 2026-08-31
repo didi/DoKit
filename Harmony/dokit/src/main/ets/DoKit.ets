@@ -7,11 +7,11 @@ import { GlobalConfig } from './config/GlobalConfig';
 import { DoKitConstants } from './constant/DoKitConstants';
 import { WebDoorCallback } from './kit/webdoor/WebDoorCallback';
 import { AbstractKit } from './kit/AbstractKit';
-import { CustomKitNavigator } from './kit/CustomKitNavigator';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
 import { DoKitManager } from './kit/core/DoKitManager';
 import { DoKitViewManager } from './kit/core/DoKitViewManager';
 import { DoKitBundle, SystemFragmentBuilder } from './kit/core/FragmentRenderer';
+import { DoKitViewLaunchMode } from './kit/core/DoKitIntent';
 import { UniversalActivity } from './kit/core/UniversalActivity';
 import { SimpleDoKitLauncher } from './kit/core/SimpleDoKitLauncher';
 import { DoKitOverlayState } from './model/DoKitOverlayState';
@@ -167,18 +167,27 @@ export class DoKit {
     DoKitOverlayState.init(GlobalConfig.alwaysShowMainIcon);
   }
 
-  /** 启动全屏页，对标 Android DoKit.launchFullScreen(Class, bundle, isSystemFragment) */
+  /** 启动悬浮窗，对标 Android DoKit.launchFloating(Class, mode, bundle) */
+  static launchFloating(
+    targetClass: string,
+    mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+    bundle?: DoKitBundle
+  ): void {
+    SimpleDoKitLauncher.launchFloating(targetClass, mode, bundle);
+  }
+
+  /** 移除悬浮窗，对标 Android DoKit.removeFloating(Class) */
+  static removeFloating(targetClass: string): void {
+    SimpleDoKitLauncher.removeFloating(targetClass);
+  }
+
+  /** 启动全屏页，对标 Android DoKit.launchFullScreen(Class, context, bundle, isSystemFragment) */
   static launchFullScreen(
-    fragmentClass: string,
+    targetClass: string,
     bundle?: DoKitBundle,
     isSystemFragment: boolean = false
   ): void {
-    SimpleDoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
-  }
-
-  /** 启动悬浮窗，对标 Android DoKit.launchFloating */
-  static launchFloating(fragmentClass: string, bundle?: DoKitBundle): void {
-    CustomKitNavigator.requestOpenFloating(fragmentClass, bundle);
+    SimpleDoKitLauncher.launchFullScreen(targetClass, bundle, isSystemFragment);
   }
 
   /** 注册系统 Fragment，对标扩展 UniversalActivity 映射 */
@@ -188,10 +197,6 @@ export class DoKit {
 
   static closeFullScreen(): void {
     SimpleDoKitLauncher.finishFullScreen();
-  }
-
-  static closeFloating(): void {
-    CustomKitNavigator.closeFloating();
   }
 
   static show(): void {

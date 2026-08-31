@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit, Category, DoKit } from '@didi/dokit';
-import { DemoKitPageIds } from './DemoKitPageIds';
+import { DemoDoKitView } from './DemoDoKitView';
 
 /** 对标 Android dokit/DemoKit */
 export class DemoKit extends AbstractKit {
@@ -18,7 +18,7 @@ export class DemoKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    DoKit.launchFloating(DemoKitPageIds.DEMO_DO_KIT_VIEW);
+    DoKit.launchFloating(DemoDoKitView.CLASS_NAME);
     return true;
   }
 }

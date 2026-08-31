@@ -1,8 +1,8 @@
 import { GlobalConfig } from '../config/GlobalConfig';
 import { DokitMemoryConfig } from '../config/DokitMemoryConfig';
-import { CustomKitNavigator, CustomKitPageRenderer } from '../kit/CustomKitNavigator';
-import { buildUniversalFragment, UniversalActivity } from '../kit/core/UniversalActivity';
+import { CustomDoKitViewRenderer, CustomFragmentRenderer, DoKitIntent, DoKitViewCloseHandler } from '../kit/core/DoKitIntent';
 import { DoKitViewManager } from '../kit/core/DoKitViewManager';
+import { buildUniversalFragment, UniversalActivity } from '../kit/core/UniversalActivity';
 import { DoKitManager } from '../kit/core/DoKitManager';
 import { MainIconDoKitView } from '../kit/main/MainIconDoKitView';
 import { ToolPanelDoKitView } from '../kit/toolpanel/ToolPanelDoKitView';
@@ -12,14 +12,15 @@ import { FpsFrameCollector } from '../kit/performance/FpsFrameCollector';
 import { DataSourceFactory } from '../kit/performance/datasource/DataSourceFactory';
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { KitGroup } from '../model/KitModels';
+import { DoKitBundle } from '../kit/core/FragmentRenderer';
 
 @Builder
-function defaultCustomFullScreenPage(_fragmentClass: string, _onClose: () => void) {
+function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundle, _onClose: () => void) {
   Column().width('100%').height('100%')
 }
 
 @Builder
-function defaultCustomFloatingPage(_fragmentClass: string, _onClose: () => void) {
+function defaultCustomFloatingPage(_targetClass: string, _bundle: DoKitBundle, _onClose: () => void) {
   Column().width('100%').height('100%')
 }
 
@@ -29,8 +30,8 @@ function defaultCustomFloatingPage(_fragmentClass: string, _onClose: () => void)
  */
 @Component
 export struct DoKitFloatingWindow {
-  @BuilderParam customFullScreenPage: CustomKitPageRenderer = defaultCustomFullScreenPage;
-  @BuilderParam customFloatingPage: CustomKitPageRenderer = defaultCustomFloatingPage;
+  @BuilderParam customFullScreenPage: CustomFragmentRenderer = defaultCustomFullScreenPage;
+  @BuilderParam customFloatingPage: CustomDoKitViewRenderer = defaultCustomFloatingPage;
 
   private readonly ballSize: number = 58;
   private readonly ballMarginRight: number = 16;
@@ -45,6 +46,8 @@ export struct DoKitFloatingWindow {
   @State private activeIsSystemFragment: boolean = false;
   @State private kitGroups: KitGroup[] = [];
   @State private showCustomFloat: boolean = false;
+  @State private activeFloatingClass: string = '';
+  @State private activeFloatingBundle: DoKitBundle = {};
   @State private showFpsOverlay: boolean = false;
   @State private showCpuOverlay: boolean = false;
   @State private showRamOverlay: boolean = false;
@@ -64,12 +67,15 @@ export struct DoKitFloatingWindow {
     UniversalActivity.setCloseHandler(() => {
       this.closeFragment();
     });
-    CustomKitNavigator.setOpenFloatingHandler((_fragmentClass: string) => {
-      DoKitViewManager.detachToolPanel();
+    DoKitViewManager.setFloatingAttachHandler((intent: DoKitIntent) => {
+      this.activeFloatingClass = intent.targetClass;
+      this.activeFloatingBundle = intent.bundle;
       this.showCustomFloat = true;
     });
-    CustomKitNavigator.setCloseFloatingHandler(() => {
+    DoKitViewManager.setFloatingDetachHandler(() => {
       this.showCustomFloat = false;
+      this.activeFloatingClass = '';
+      this.activeFloatingBundle = {};
     });
     PerformanceDokitViewManager.setOverlayChangeHandler(() => {
       this.syncPerformanceOverlayState();
@@ -81,8 +87,8 @@ export struct DoKitFloatingWindow {
     DoKitViewManager.setToolPanelChangeHandler(null);
     UniversalActivity.setOpenHandler(null);
     UniversalActivity.setCloseHandler(null);
-    CustomKitNavigator.setOpenFloatingHandler(null);
-    CustomKitNavigator.setCloseFloatingHandler(null);
+    DoKitViewManager.setFloatingAttachHandler(null);
+    DoKitViewManager.setFloatingDetachHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
   }
 
@@ -157,7 +163,7 @@ export struct DoKitFloatingWindow {
       });
     } else {
       Column() {
-        this.customFullScreenPage(this.activeFragmentClass, () => {
+        this.customFullScreenPage(this.activeFragmentClass, UniversalActivity.getBundle(), () => {
           UniversalActivity.finish();
         });
       }
@@ -209,10 +215,10 @@ export struct DoKitFloatingWindow {
           .hitTestBehavior(HitTestMode.Transparent)
         }
 
-        if (this.showCustomFloat && CustomKitNavigator.hasFloatingFragment()) {
+        if (this.showCustomFloat && this.activeFloatingClass.length > 0) {
           Stack() {
-            this.customFloatingPage(CustomKitNavigator.getFloatingFragmentClass(), () => {
-              CustomKitNavigator.closeFloating();
+            this.customFloatingPage(this.activeFloatingClass, this.activeFloatingBundle, () => {
+              DoKitViewManager.detach(this.activeFloatingClass);
             })
           }
           .width('100%')

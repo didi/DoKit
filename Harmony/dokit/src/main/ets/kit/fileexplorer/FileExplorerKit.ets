@@ -22,8 +22,8 @@ export class FileExplorerKit extends AbstractKit {
     return $r('app.media.dk_file_explorer');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(FileExplorerFragment.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(FileExplorerFragment.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

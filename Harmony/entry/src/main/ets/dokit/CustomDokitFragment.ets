@@ -1,10 +1,13 @@
-import { CustomKitCloseHandler, DoKit } from '@didi/dokit';
-import { DemoKitPageIds } from './DemoKitPageIds';
+import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi/dokit';
 import { ViewSetupHelper } from './ViewSetupHelper';
 
 /** 对标 Android dokit/CustomDokitFragment */
+export class CustomDokitFragment {
+  static readonly CLASS_NAME: string = 'CustomDokitFragment';
+}
+
 @Builder
-export function buildCustomDokitFragment(onClose: CustomKitCloseHandler) {
+export function buildCustomDokitFragment(bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
   Column() {
     Row() {
       Text('我是自定义页面')
@@ -31,7 +34,7 @@ export function buildCustomDokitFragment(onClose: CustomKitCloseHandler) {
       ViewSetupHelper({
         showFullScreenLauncher: true,
         onLaunchFullScreen: () => {
-          DoKit.launchFullScreen(DemoKitPageIds.CUSTOM_DOKIT_FRAGMENT, { "test": 'test' });
+          DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
         }
       })
     }

@@ -22,8 +22,8 @@ export class BlockMonitorKit extends AbstractKit {
     return $r('app.media.dk_block_monitor');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(BlockMonitorFragmentMeta.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(BlockMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

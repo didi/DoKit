@@ -22,8 +22,8 @@ export class WebDoorKit extends AbstractKit {
     return $r('app.media.dk_web_door');
   }
 
-  onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(WebDoorFragment.CLASS_NAME);
+  onClickWithReturn(context: common.UIAbilityContext): boolean {
+    this.startUniversalActivity(WebDoorFragment.CLASS_NAME, context, undefined, true);
     return true;
   }
 }
