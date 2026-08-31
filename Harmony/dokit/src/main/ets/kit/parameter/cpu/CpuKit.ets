@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../../model/ActiveToolPage';
 import { AbstractKit } from '../../AbstractKit';
+import { CpuMainPageFragmentMeta } from './CpuMainPageFragment';
 
 /**
  * CPU 检测 Kit，对标 Android CpuKit
@@ -26,7 +26,7 @@ export class CpuKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.CPU_INFO);
+    this.startUniversalActivity(CpuMainPageFragmentMeta.CLASS_NAME);
     return true;
   }
 }

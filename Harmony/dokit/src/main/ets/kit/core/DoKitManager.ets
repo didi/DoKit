@@ -4,6 +4,7 @@ import { AbstractKit } from '../AbstractKit';
 import { KitItemHelper } from '../KitItemHelper';
 import { DoKitCallBack } from '../../DoKitCallBack';
 import { InnerKitRegistry } from './InnerKitRegistry';
+import { UniversalActivity } from './UniversalActivity';
 import { KitWrapItem } from '../toolpanel/KitWrapItem';
 import { ToolPanelUtil } from '../toolpanel/ToolPanelUtil';
 
@@ -30,6 +31,7 @@ export class DoKitManager {
 
   static init(context: common.UIAbilityContext): void {
     DoKitManager.context = context;
+    UniversalActivity.initDefaultFragments();
     InnerKitRegistry.init();
     DoKitManager.GLOBAL_SYSTEM_KITS = ToolPanelUtil.loadSystemKitsFromRawFile(context);
     DoKitManager.syncGlobalKits();

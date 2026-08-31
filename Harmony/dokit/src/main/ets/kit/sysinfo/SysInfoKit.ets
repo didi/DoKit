@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { SysInfoFragment } from './SysInfoPage';
 
 /**
  * App 信息 Kit，对标 Android SysInfoKit
@@ -23,7 +23,7 @@ export class SysInfoKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.SYS_INFO);
+    this.startUniversalActivity(SysInfoFragment.CLASS_NAME);
     return true;
   }
 }

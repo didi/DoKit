@@ -1,4 +1,11 @@
 import { webview } from '@kit.ArkWeb';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { BundleKey } from '../../constant/BundleKey';
+
+/** 对标 Android WebDoorDefaultFragment */
+export class WebDoorDefaultFragment {
+  static readonly CLASS_NAME: string = 'WebDoorDefaultFragment';
+}
 
 /**
  * H5任意门默认 WebView 页，对标 Android WebDoorDefaultFragment
@@ -57,4 +64,12 @@ export struct WebDoorWebViewPage {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderWebDoorDefaultFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  WebDoorWebViewPage({
+    url: String(bundle[BundleKey.KEY_URL] ?? ''),
+    onClose
+  });
 }

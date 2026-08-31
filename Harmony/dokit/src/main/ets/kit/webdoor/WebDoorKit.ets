@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { WebDoorFragment } from './WebDoorPage';
 
 /**
  * H5 任意门 Kit，对标 Android WebDoorKit
@@ -23,7 +23,7 @@ export class WebDoorKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.WEB_DOOR);
+    this.startUniversalActivity(WebDoorFragment.CLASS_NAME);
     return true;
   }
 }

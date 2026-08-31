@@ -10,6 +10,10 @@ import { AbstractKit } from './kit/AbstractKit';
 import { CustomKitNavigator } from './kit/CustomKitNavigator';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
 import { DoKitManager } from './kit/core/DoKitManager';
+import { DoKitViewManager } from './kit/core/DoKitViewManager';
+import { DoKitBundle, SystemFragmentBuilder } from './kit/core/FragmentRenderer';
+import { UniversalActivity } from './kit/core/UniversalActivity';
+import { SimpleDoKitLauncher } from './kit/core/SimpleDoKitLauncher';
 import { DoKitOverlayState } from './model/DoKitOverlayState';
 
 export { DoKitConstants } from './constant/DoKitConstants';
@@ -163,36 +167,43 @@ export class DoKit {
     DoKitOverlayState.init(GlobalConfig.alwaysShowMainIcon);
   }
 
-  /** 打开自定义全屏页，对标 Android DoKit.launchFullScreen；pageId 由宿主 @Builder 渲染 */
-  static launchFullScreen(pageId: string): void {
-    CustomKitNavigator.requestOpenFullScreen(pageId);
+  /** 启动全屏页，对标 Android DoKit.launchFullScreen(Class, bundle, isSystemFragment) */
+  static launchFullScreen(
+    fragmentClass: string,
+    bundle?: DoKitBundle,
+    isSystemFragment: boolean = false
+  ): void {
+    SimpleDoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
   }
 
-  /** 打开自定义悬浮窗，对标 Android DoKit.launchFloating；pageId 由宿主 @Builder 渲染 */
-  static launchFloating(pageId: string): void {
-    CustomKitNavigator.requestOpenFloating(pageId);
+  /** 启动悬浮窗，对标 Android DoKit.launchFloating */
+  static launchFloating(fragmentClass: string, bundle?: DoKitBundle): void {
+    CustomKitNavigator.requestOpenFloating(fragmentClass, bundle);
   }
 
-  /** 关闭自定义全屏页 */
+  /** 注册系统 Fragment，对标扩展 UniversalActivity 映射 */
+  static registerSystemFragment(fragmentClass: string, builder: SystemFragmentBuilder): void {
+    UniversalActivity.registerSystemFragment(fragmentClass, builder);
+  }
+
   static closeFullScreen(): void {
-    CustomKitNavigator.closeFullScreen();
+    SimpleDoKitLauncher.finishFullScreen();
   }
 
-  /** 关闭自定义悬浮窗 */
   static closeFloating(): void {
     CustomKitNavigator.closeFloating();
   }
 
   static show(): void {
-    DoKitOverlayState.setIconVisible(true);
+    DoKitViewManager.attachMainIcon();
   }
 
   static hide(): void {
-    DoKitOverlayState.setIconVisible(false);
+    DoKitViewManager.detachMainIcon();
   }
 
   static showToolPanel(): void {
-    DoKitOverlayState.requestOpenPanel();
+    DoKitViewManager.attachToolPanel();
   }
 
   static get isMainIconShow(): boolean {

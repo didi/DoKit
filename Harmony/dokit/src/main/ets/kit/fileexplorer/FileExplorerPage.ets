@@ -1,13 +1,22 @@
 import promptAction from '@ohos.promptAction';
+import { BundleKey } from '../../constant/BundleKey';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { FileExplorerHelper } from './FileExplorerHelper';
 import { FileExplorerNavigator } from './FileExplorerNavigator';
 import { SandboxFileItem, SandboxFileType } from './SandboxFileModels';
+
+/** 对标 Android FileExplorerFragment */
+export class FileExplorerFragment {
+  static readonly CLASS_NAME: string = 'FileExplorerFragment';
+}
 
 /**
  * 沙盒浏览页，对标 Android FileExplorerFragment
  */
 @Component
 export struct FileExplorerPage {
+  /** 初始目录，对标 Android BundleKey.DIR_KEY */
+  initialPath: string = '';
   onClose: () => void = () => {};
   @State private isRoot: boolean = true;
   @State private currentPath: string = '';
@@ -20,9 +29,12 @@ export struct FileExplorerPage {
   @State private previewImageUri: string = '';
 
   aboutToAppear(): void {
-    const initialPath = FileExplorerNavigator.consumeInitialPath();
-    if (initialPath.length > 0 && FileExplorerHelper.pathExists(initialPath)) {
-      this.loadDirectory(initialPath);
+    let path = this.initialPath;
+    if (path.length === 0) {
+      path = FileExplorerNavigator.consumeInitialPath();
+    }
+    if (path.length > 0 && FileExplorerHelper.pathExists(path)) {
+      this.loadDirectory(path);
       return;
     }
     this.loadRoot();
@@ -277,4 +289,12 @@ export struct FileExplorerPage {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderFileExplorerFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  FileExplorerPage({
+    initialPath: String(bundle[BundleKey.DIR_KEY] ?? ''),
+    onClose
+  });
 }

@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { ThirdLibInfoFragment } from './ThirdLibInfoPage';
 
 /**
  * 三方库信息 Kit，对标 Android sysinfo/ThirdLibInfoKit
@@ -23,7 +23,7 @@ export class ThirdLibInfoKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.THIRD_LIB_INFO);
+    this.startUniversalActivity(ThirdLibInfoFragment.CLASS_NAME);
     return true;
   }
 }

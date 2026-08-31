@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../../model/ActiveToolPage';
 import { AbstractKit } from '../../AbstractKit';
+import { RamMainPageFragmentMeta } from './RamMainPageFragment';
 
 /**
  * 内存检测 Kit，对标 Android RamKit
@@ -26,7 +26,7 @@ export class RamKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.RAM_INFO);
+    this.startUniversalActivity(RamMainPageFragmentMeta.CLASS_NAME);
     return true;
   }
 }

@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
-import { AbstractKit } from '../AbstractKit';
 import { CrashCaptureConfig } from '../../config/CrashCaptureConfig';
+import { AbstractKit } from '../AbstractKit';
+import { CrashCaptureMainFragmentMeta } from './CrashCaptureMainFragment';
 import { CrashCaptureManager } from './CrashCaptureManager';
 
 /**
@@ -34,7 +34,7 @@ export class CrashCaptureKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.CRASH_CAPTURE);
+    this.startUniversalActivity(CrashCaptureMainFragmentMeta.CLASS_NAME);
     return true;
   }
 }

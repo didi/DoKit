@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { FileExplorerFragment } from './FileExplorerPage';
 
 /**
  * 沙盒浏览 Kit，对标 Android FileExplorerKit
@@ -23,7 +23,7 @@ export class FileExplorerKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.FILE_EXPLORER);
+    this.startUniversalActivity(FileExplorerFragment.CLASS_NAME);
     return true;
   }
 }

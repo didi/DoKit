@@ -1,4 +1,5 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
@@ -9,6 +10,11 @@ class RamStrings {
   static readonly TITLE: string = '内存';
   static readonly SWITCH: string = '内存检测开关';
   static readonly CACHE_LOG: string = '查看缓存日志';
+}
+
+/** 对标 Android RamMainPageFragment */
+export class RamMainPageFragmentMeta {
+  static readonly CLASS_NAME: string = 'RamMainPageFragment';
 }
 
 /**
@@ -135,4 +141,9 @@ export struct RamMainPageFragment {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderRamMainPageFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  RamMainPageFragment({ onClose });
 }

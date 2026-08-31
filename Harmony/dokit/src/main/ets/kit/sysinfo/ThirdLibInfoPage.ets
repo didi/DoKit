@@ -1,7 +1,13 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { DokitThirdLibInfo } from '../../aop/DokitThirdLibInfo';
 import { ThirdLibInfoHelper } from './ThirdLibInfoHelper';
 import { ThirdLibListItem, ThirdLibSortMode } from './ThirdLibInfoModels';
+
+/** 对标 Android ThirdLibInfoFragment */
+export class ThirdLibInfoFragment {
+  static readonly CLASS_NAME: string = 'ThirdLibInfoFragment';
+}
 
 /**
  * 三方库信息页，对标 Android ThirdLibInfoFragment
@@ -177,4 +183,9 @@ export struct ThirdLibInfoPage {
     .backgroundColor(Color.White)
     .hitTestBehavior(HitTestMode.Default)
   }
+}
+
+@Builder
+export function renderThirdLibInfoFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  ThirdLibInfoPage({ onClose });
 }

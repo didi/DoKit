@@ -1,6 +1,12 @@
 import { BlockMonitorManager } from './core/BlockMonitorManager';
 import { BlockListFragment } from './BlockListFragment';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { SettingItem } from '../core/SettingItem';
+
+/** 对标 Android BlockMonitorFragment */
+export class BlockMonitorFragmentMeta {
+  static readonly CLASS_NAME: string = 'BlockMonitorFragment';
+}
 
 /** 对标 Android BlockMonitorFragment.KEY_JUMP_TO_LIST */
 export class BlockMonitorFragmentKeys {
@@ -135,4 +141,12 @@ export struct BlockMonitorFragment {
       .backgroundColor(Color.White)
     }
   }
+}
+
+@Builder
+export function renderBlockMonitorFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  BlockMonitorFragment({
+    jumpToList: bundle[BlockMonitorFragmentKeys.KEY_JUMP_TO_LIST] === true,
+    onClose
+  });
 }

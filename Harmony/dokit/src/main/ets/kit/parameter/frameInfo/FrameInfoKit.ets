@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../../model/ActiveToolPage';
 import { AbstractKit } from '../../AbstractKit';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
+import { FrameInfoFragmentMeta } from './FrameInfoFragment';
 
 /**
  * 帧率检测 Kit，对标 Android FrameInfoKit
@@ -28,7 +28,7 @@ export class FrameInfoKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.FRAME_INFO);
+    this.startUniversalActivity(FrameInfoFragmentMeta.CLASS_NAME);
     return true;
   }
 }

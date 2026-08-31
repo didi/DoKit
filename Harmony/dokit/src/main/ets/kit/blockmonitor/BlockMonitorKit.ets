@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { BlockMonitorFragmentMeta } from './BlockMonitorFragment';
 
 /**
  * 卡顿检测 Kit，对标 Android BlockMonitorKit
@@ -23,7 +23,7 @@ export class BlockMonitorKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.BLOCK_MONITOR);
+    this.startUniversalActivity(BlockMonitorFragmentMeta.CLASS_NAME);
     return true;
   }
 }

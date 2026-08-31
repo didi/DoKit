@@ -1,7 +1,13 @@
 import { Want } from '@kit.AbilityKit';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { DoKitManager } from '../core/DoKitManager';
 import { SysInfoCollector } from './SysInfoCollector';
 import { SysInfoListItem } from './SysInfoModels';
+
+/** 对标 Android SysInfoFragment */
+export class SysInfoFragment {
+  static readonly CLASS_NAME: string = 'SysInfoFragment';
+}
 
 /**
  * App 信息页，对标 Android SysInfoFragment
@@ -125,4 +131,9 @@ export struct SysInfoPage {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderSysInfoFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  SysInfoPage({ onClose });
 }

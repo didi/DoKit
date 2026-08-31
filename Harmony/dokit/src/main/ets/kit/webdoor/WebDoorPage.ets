@@ -1,6 +1,12 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { WebDoorHistoryStore } from './WebDoorHistoryStore';
 import { WebDoorManager } from './WebDoorManager';
+
+/** 对标 Android WebDoorFragment */
+export class WebDoorFragment {
+  static readonly CLASS_NAME: string = 'WebDoorFragment';
+}
 
 /**
  * H5任意门输入页，对标 Android WebDoorFragment + harmonydriver H5AnyDoorPage
@@ -150,4 +156,9 @@ export struct WebDoorPage {
     .height('100%')
     .backgroundColor('#F5F6F8')
   }
+}
+
+@Builder
+export function renderWebDoorFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  WebDoorPage({ onClose });
 }

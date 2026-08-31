@@ -1,4 +1,5 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
@@ -9,6 +10,11 @@ class CpuStrings {
   static readonly TITLE: string = 'CPU';
   static readonly SWITCH: string = 'CPU检测开关';
   static readonly CACHE_LOG: string = '查看缓存日志';
+}
+
+/** 对标 Android CpuMainPageFragment */
+export class CpuMainPageFragmentMeta {
+  static readonly CLASS_NAME: string = 'CpuMainPageFragment';
 }
 
 /**
@@ -135,4 +141,9 @@ export struct CpuMainPageFragment {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderCpuMainPageFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  CpuMainPageFragment({ onClose });
 }

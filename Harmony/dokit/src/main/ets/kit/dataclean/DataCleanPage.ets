@@ -1,6 +1,12 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { DataCleanDirItem } from './DataCleanModels';
 import { DataCleanUtil } from '../../util/DataCleanUtil';
+
+/** 对标 Android DataCleanFragment */
+export class DataCleanFragment {
+  static readonly CLASS_NAME: string = 'DataCleanFragment';
+}
 
 /**
  * 清理缓存页，对标 Android DataCleanFragment
@@ -153,4 +159,9 @@ export struct DataCleanPage {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderDataCleanFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  DataCleanPage({ onClose });
 }

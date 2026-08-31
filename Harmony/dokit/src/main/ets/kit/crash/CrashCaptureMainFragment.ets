@@ -1,11 +1,17 @@
 import promptAction from '@ohos.promptAction';
 import { CrashCaptureConfig } from '../../config/CrashCaptureConfig';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
+import { BundleKey } from '../../constant/BundleKey';
 import { DoKitFileUtil } from '../../util/DoKitFileUtil';
-import { FileExplorerNavigator } from '../fileexplorer/FileExplorerNavigator';
+import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
 import { SimpleDoKitLauncher } from '../core/SimpleDoKitLauncher';
 import { SettingItem } from '../core/SettingItem';
 import { CrashCaptureManager } from './CrashCaptureManager';
+import { FileExplorerFragment } from '../fileexplorer/FileExplorerPage';
+
+/** 对标 Android CrashCaptureMainFragment */
+export class CrashCaptureMainFragmentMeta {
+  static readonly CLASS_NAME: string = 'CrashCaptureMainFragment';
+}
 
 /** 设置项文案，对标 Android strings.xml */
 class CrashCaptureStrings {
@@ -44,8 +50,9 @@ export struct CrashCaptureMainFragment {
 
   private openCrashHistory(): void {
     const crashDir = CrashCaptureManager.getInstance().getCrashCacheDir();
-    FileExplorerNavigator.setInitialPath(crashDir);
-    SimpleDoKitLauncher.launchFullScreen(ActiveToolPage.FILE_EXPLORER);
+    const bundle: DoKitBundle = {};
+    bundle[BundleKey.DIR_KEY] = crashDir;
+    SimpleDoKitLauncher.launchFullScreen(FileExplorerFragment.CLASS_NAME, bundle, true);
   }
 
   private cleanCrashHistory(): void {
@@ -144,4 +151,9 @@ export struct CrashCaptureMainFragment {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderCrashCaptureMainFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  CrashCaptureMainFragment({ onClose });
 }

@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { ActiveToolPage } from '../../model/ActiveToolPage';
 import { AbstractKit } from '../AbstractKit';
+import { DataCleanFragment } from './DataCleanPage';
 
 /**
  * 清理缓存 Kit，对标 Android DataCleanKit
@@ -23,7 +23,7 @@ export class DataCleanKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ActiveToolPage.DATA_CLEAN);
+    this.startUniversalActivity(DataCleanFragment.CLASS_NAME);
     return true;
   }
 }

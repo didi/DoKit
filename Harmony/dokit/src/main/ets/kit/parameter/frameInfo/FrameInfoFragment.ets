@@ -1,4 +1,5 @@
 import promptAction from '@ohos.promptAction';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
@@ -9,6 +10,11 @@ class FrameInfoStrings {
   static readonly TITLE: string = '帧率';
   static readonly SWITCH: string = '帧率检测开关';
   static readonly CACHE_LOG: string = '查看缓存日志';
+}
+
+/** 对标 Android FrameInfoFragment */
+export class FrameInfoFragmentMeta {
+  static readonly CLASS_NAME: string = 'FrameInfoFragment';
 }
 
 /**
@@ -135,4 +141,9 @@ export struct FrameInfoFragment {
     .height('100%')
     .backgroundColor(Color.White)
   }
+}
+
+@Builder
+export function renderFrameInfoFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+  FrameInfoFragment({ onClose });
 }
