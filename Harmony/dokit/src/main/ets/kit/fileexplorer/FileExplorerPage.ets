@@ -1,5 +1,6 @@
 import promptAction from '@ohos.promptAction';
 import { FileExplorerHelper } from './FileExplorerHelper';
+import { FileExplorerNavigator } from './FileExplorerNavigator';
 import { SandboxFileItem, SandboxFileType } from './SandboxFileModels';
 
 /**
@@ -19,6 +20,11 @@ export struct FileExplorerPage {
   @State private previewImageUri: string = '';
 
   aboutToAppear(): void {
+    const initialPath = FileExplorerNavigator.consumeInitialPath();
+    if (initialPath.length > 0 && FileExplorerHelper.pathExists(initialPath)) {
+      this.loadDirectory(initialPath);
+      return;
+    }
     this.loadRoot();
   }
 

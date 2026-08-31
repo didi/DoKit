@@ -27,6 +27,26 @@ export class DoKitSystemUtil {
     });
   }
 
+  /**
+   * 打开系统本地语言设置页，对标 Android startLocalActivity
+   * uri: Settings.ACTION_LOCALE_SETTINGS
+   */
+  static startLocalActivity(context: common.UIAbilityContext): void {
+    const uris: string[] = [
+      'language_settings',
+      'locale_settings',
+      'languages_and_region_settings'
+    ];
+    DoKitSystemUtil.tryOpenSettings(context, uris).then((opened: boolean) => {
+      if (!opened) {
+        promptAction.showToast({
+          message: '无法打开语言设置，请手动进入系统设置',
+          duration: 2500
+        });
+      }
+    });
+  }
+
   private static async tryOpenSettings(context: common.UIAbilityContext, uris: string[]): Promise<boolean> {
     for (let index = 0; index < uris.length; index++) {
       const uri = uris[index];

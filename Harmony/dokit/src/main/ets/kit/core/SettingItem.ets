@@ -2,13 +2,16 @@
  * 工具面板设置项，对标 Android SettingItem
  */
 export class SettingItem {
-  name: string = '';
   desc: string = '';
-  checked: boolean = false;
+  rightDesc: string = '';
+  icon: Resource | null = null;
+  isChecked: boolean = false;
+  canCheck: boolean = false;
 
-  constructor(name: string, desc: string = '', checked: boolean = false) {
-    this.name = name;
+  constructor(desc: string, isChecked: boolean = false, canCheck: boolean = false, rightDesc: string = '') {
     this.desc = desc;
-    this.checked = checked;
+    this.isChecked = isChecked;
+    this.canCheck = canCheck;
+    this.rightDesc = rightDesc;
   }
 }

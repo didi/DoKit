@@ -168,7 +168,7 @@ export class FileExplorerHelper {
     return set;
   }
 
-  private static pathExists(path: string): boolean {
+  static pathExists(path: string): boolean {
     try {
       fs.accessSync(path);
       return true;

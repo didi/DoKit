@@ -7,5 +7,10 @@ export enum ActiveToolPage {
   FILE_EXPLORER = 4,
   THIRD_LIB_INFO = 5,
   DATA_CLEAN = 6,
-  CUSTOM_FULL = 7
+  CUSTOM_FULL = 7,
+  CRASH_CAPTURE = 8,
+  BLOCK_MONITOR = 9,
+  FRAME_INFO = 10,
+  CPU_INFO = 11,
+  RAM_INFO = 12
 }

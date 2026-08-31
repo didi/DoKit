@@ -11,6 +11,16 @@ import { WebDoorWebViewPage } from '../kit/webdoor/WebDoorWebViewPage';
 import { FileExplorerPage } from '../kit/fileexplorer/FileExplorerPage';
 import { ThirdLibInfoPage } from '../kit/sysinfo/ThirdLibInfoPage';
 import { DataCleanPage } from '../kit/dataclean/DataCleanPage';
+import { CrashCaptureMainFragment } from '../kit/crash/CrashCaptureMainFragment';
+import { BlockMonitorFragment } from '../kit/blockmonitor/BlockMonitorFragment';
+import { FrameInfoFragment } from '../kit/parameter/frameInfo/FrameInfoFragment';
+import { CpuMainPageFragment } from '../kit/parameter/cpu/CpuMainPageFragment';
+import { RamMainPageFragment } from '../kit/parameter/ram/RamMainPageFragment';
+import { PerformanceDokitViewManager } from '../kit/performance/PerformanceDokitViewManager';
+import { PerformanceDoKitView } from '../kit/performance/PerformanceDoKitView';
+import { FpsFrameCollector } from '../kit/performance/FpsFrameCollector';
+import { DataSourceFactory } from '../kit/performance/datasource/DataSourceFactory';
+import { DokitMemoryConfig } from '../config/DokitMemoryConfig';
 import { CustomKitNavigator, CustomKitPageRenderer } from '../kit/CustomKitNavigator';
 import { DoKitManager } from '../kit/core/DoKitManager';
 import { ActiveToolPage } from '../model/ActiveToolPage';
@@ -60,6 +70,10 @@ export struct DoKitFloatingWindow {
   @State private webDoorViewUrl: string = '';
   @State private kitGroups: KitGroup[] = [];
   @State private showCustomFloat: boolean = false;
+  @State private showFpsOverlay: boolean = false;
+  @State private showCpuOverlay: boolean = false;
+  @State private showRamOverlay: boolean = false;
+  @State private fpsMonitorActive: boolean = false;
 
   @StorageLink(DoKitOverlayState.ICON_VISIBLE_KEY) iconVisible: boolean = true;
   @StorageLink(DoKitOverlayState.PANEL_OPEN_KEY) @Watch('onPanelOpenRequest') panelOpenRequest: boolean = false;
@@ -90,6 +104,10 @@ export struct DoKitFloatingWindow {
     SimpleDoKitLauncher.setCloseToolPageHandler(() => {
       this.closeActiveToolPage();
     });
+    PerformanceDokitViewManager.setOverlayChangeHandler(() => {
+      this.syncPerformanceOverlayState();
+    });
+    this.syncPerformanceOverlayState();
   }
 
   aboutToDisappear(): void {
@@ -100,6 +118,27 @@ export struct DoKitFloatingWindow {
     CustomKitNavigator.setCloseFloatingHandler(null);
     SimpleDoKitLauncher.setOpenToolPageHandler(null);
     SimpleDoKitLauncher.setCloseToolPageHandler(null);
+    PerformanceDokitViewManager.setOverlayChangeHandler(null);
+  }
+
+  private syncPerformanceOverlayState(): void {
+    this.showFpsOverlay = PerformanceDokitViewManager.isFpsOverlayOpen();
+    this.showCpuOverlay = PerformanceDokitViewManager.isCpuOverlayOpen();
+    this.showRamOverlay = PerformanceDokitViewManager.isRamOverlayOpen();
+    this.fpsMonitorActive = DokitMemoryConfig.FPS_STATUS;
+  }
+
+  private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, performanceType: number): number {
+    let top = 88;
+    if (performanceType === DataSourceFactory.TYPE_CPU || performanceType === DataSourceFactory.TYPE_RAM) {
+      if (showFps) {
+        top += 52;
+      }
+    }
+    if (performanceType === DataSourceFactory.TYPE_RAM && showCpu) {
+      top += 52;
+    }
+    return top;
   }
 
   private closeCustomFullScreen(): void {
@@ -164,7 +203,8 @@ export struct DoKitFloatingWindow {
 
   /** 全屏 Overlay（工具页/面板/自定义悬浮窗）需拦截触摸，避免穿透到宿主业务页 */
   private shouldBlockHitThrough(): boolean {
-    return this.activeToolPage !== ActiveToolPage.NONE || this.showPanel || this.showCustomFloat;
+    return this.activeToolPage !== ActiveToolPage.NONE || this.showPanel || this.showCustomFloat ||
+      this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay;
   }
 
   private onKitClick(item: KitItem): void {
@@ -390,6 +430,36 @@ export struct DoKitFloatingWindow {
               this.closeActiveToolPage();
             }
           })
+        } else if (this.activeToolPage === ActiveToolPage.CRASH_CAPTURE) {
+          CrashCaptureMainFragment({
+            onClose: () => {
+              this.closeActiveToolPage();
+            }
+          })
+        } else if (this.activeToolPage === ActiveToolPage.BLOCK_MONITOR) {
+          BlockMonitorFragment({
+            onClose: () => {
+              this.closeActiveToolPage();
+            }
+          })
+        } else if (this.activeToolPage === ActiveToolPage.FRAME_INFO) {
+          FrameInfoFragment({
+            onClose: () => {
+              this.closeActiveToolPage();
+            }
+          })
+        } else if (this.activeToolPage === ActiveToolPage.CPU_INFO) {
+          CpuMainPageFragment({
+            onClose: () => {
+              this.closeActiveToolPage();
+            }
+          })
+        } else if (this.activeToolPage === ActiveToolPage.RAM_INFO) {
+          RamMainPageFragment({
+            onClose: () => {
+              this.closeActiveToolPage();
+            }
+          })
         } else if (this.activeToolPage === ActiveToolPage.CUSTOM_FULL &&
           CustomKitNavigator.hasFullScreenPage()) {
           Column() {
@@ -429,6 +499,50 @@ export struct DoKitFloatingWindow {
           .width('100%')
           .height('100%')
           .hitTestBehavior(HitTestMode.Default)
+        }
+
+        if (this.fpsMonitorActive) {
+          FpsFrameCollector()
+        }
+
+        if (this.showFpsOverlay) {
+          PerformanceDoKitView({
+            performanceType: DataSourceFactory.TYPE_FPS,
+            title: '帧率',
+            unit: 'FPS',
+            topOffset: 88,
+            onClose: () => {
+              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_FPS);
+              this.syncPerformanceOverlayState();
+            }
+          })
+        }
+
+        if (this.showCpuOverlay) {
+          PerformanceDoKitView({
+            performanceType: DataSourceFactory.TYPE_CPU,
+            title: 'CPU',
+            unit: '%',
+            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, false, DataSourceFactory.TYPE_CPU),
+            onClose: () => {
+              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_CPU);
+              this.syncPerformanceOverlayState();
+            }
+          })
+        }
+
+        if (this.showRamOverlay) {
+          PerformanceDoKitView({
+            performanceType: DataSourceFactory.TYPE_RAM,
+            title: '内存',
+            unit: 'MB',
+            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay,
+              DataSourceFactory.TYPE_RAM),
+            onClose: () => {
+              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_RAM);
+              this.syncPerformanceOverlayState();
+            }
+          })
         }
       }
     }
