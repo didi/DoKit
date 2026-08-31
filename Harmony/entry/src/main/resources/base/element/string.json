@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "DoKit Harmony Demo"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "DoKit"
+    },
+    {
+      "name": "tool_panel_title",
+      "value": "DoKit 工具面板"
+    },
+    {
+      "name": "dev_tip",
+      "value": "功能开发中，敬请期待"
+    },
+    {
+      "name": "permission_internet_reason",
+      "value": "用于网络抓包与 Mock 等功能调试"
+    },
+    {
+      "name": "permission_network_reason",
+      "value": "用于获取网络状态信息"
+    },
+    {
+      "name": "permission_location_reason",
+      "value": "用于位置模拟等 LBS 调试功能"
+    }
+  ]
+}

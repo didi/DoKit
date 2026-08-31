@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "dokit",
+    "type": "har",
+    "deviceTypes": [
+      "phone",
+      "tablet"
+    ],
+    "description": "DoKit core SDK for HarmonyOS"
+  }
+}
