@@ -22,7 +22,6 @@ Harmony/
         ├── DoKit.ets                   # 对外 Builder API（对标 DoKit.kt）
         ├── DoKitReal.ets               # 内部安装逻辑（对标 DoKitReal.kt）
         ├── DoKitCallBack.ets           # 回调接口（对标根包 DoKitCallBack.kt）
-        ├── DoKitManager.ets            # 兼容 re-export → kit/core/
         ├── constant/DoKitConstants.ets
         ├── aop/DokitThirdLibInfo.ets
         ├── components/DoKitFloatingWindow.ets

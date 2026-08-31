@@ -12,7 +12,6 @@ export { CustomKitNavigator, CustomKitPageIds, CustomKitCloseHandler, CustomKitP
 export { DEFAULT_BIZ_GROUP_NAME } from './src/main/ets/kit/KitItemHelper';
 export { getSystemKitGroups } from './src/main/ets/config/DokitSystemKits';
 export { resolveKitIcon, resolveKitIconById } from './src/main/ets/config/KitIconResolver';
-export { KitRouter, KitIds, KitRouteAction } from './src/main/ets/kit/KitRouter';
 export { InnerKitRegistry } from './src/main/ets/kit/core/InnerKitRegistry';
 export { SimpleDoKitLauncher } from './src/main/ets/kit/core/SimpleDoKitLauncher';
 export { ToolPanelUtil } from './src/main/ets/kit/toolpanel/ToolPanelUtil';
