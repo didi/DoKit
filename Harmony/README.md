@@ -17,6 +17,14 @@
 Harmony/
 ├── AppScope/
 ├── entry/                              # Demo 宿主（对标 Android/app）
+│   └── src/main/ets/
+│       ├── App.ets                     # 对标 App.kt
+│       ├── pages/Index.ets             # UI 入口（对标 MainDoKitActivity.kt）
+│       ├── DoKitDemoConfig.ets
+│       ├── DoKitGradleConfig.ets
+│       ├── entryability/EntryAbility.ets
+│       ├── dokit/                      # 对标 doraemondemo/dokit/
+│       └── module/                     # 对标 doraemondemo/module/
 └── dokit/                              # 核心 SDK HAR（对标 Android/dokit）
     └── src/main/ets/
         ├── DoKit.ets                   # 对外 Builder API（对标 DoKit.kt）
@@ -87,20 +95,11 @@ API：
 
 ### 1. 初始化（对标 Android `App.kt`）
 
-见 `entry/src/main/ets/dokit/DoKitDemoInitializer.ets`：
+见 `entry/src/main/ets/App.ets`：
 
 ```typescript
-DoKit.Builder(context)
-  .productId(DoKitDemoConfig.PRODUCT_ID_PROD)
-  .disableUpload()
-  .customKits(buildDemoCustomKits())
-  .h5BaseUrl('https://www.dokit.cn')   // 可选，H5任意门相对路径前缀
-  .fileManagerHttpPort(9001)
-  .databasePass(DATABASE_PASS)
-  .mcWSPort(5555)
-  .alwaysShowMainIcon(true)
-  .callBack({ ... })
-  .build();
+App.onCreate(context);
+// 内部等价于 Android App.onCreate 中的 DoKit.Builder(this)...
 ```
 
 ### 2. 模块依赖（对标 `doraemonkit.gradle`）
@@ -123,14 +122,34 @@ DoKit.Builder(context)
 
 | Android | HarmonyOS |
 |---------|-------------|
-| `App.kt` | `DoKitDemoInitializer.ets` |
+| `App.kt` | `App.ets` |
 | `doraemonkit.gradle` | `dokit.config.json5` + `DoKitGradleConfig.ets` |
 | `DoKit.Builder(...).productId()` | 同 API |
-| `customKits(mapKits)` | `customKits(Map<string, KitItem[]>)` |
-| `MainDoKitActivity` | `pages/Index.ets` |
+| `customKits(mapKits)` | `customKits(Map<string, AbstractKit[]>)` |
+| `MainDoKitActivity.kt` | `pages/Index.ets` |
 | SubWindow 悬浮球 | `DoKitFloatingWindow` Overlay |
 | `AndroidManifest` 权限 | `module.json5` requestPermissions |
 
+## entry 目录对照（对标 Android app/src/main/java/.../doraemondemo）
+
+| Android | HarmonyOS entry/src/main/ets |
+|---------|------------------------------|
+| `App.kt` | `App.ets` |
+| `MainDoKitActivity.kt` | `pages/Index.ets` |
+| `dokit/DemoKit.kt` | `dokit/DemoKit.ets` |
+| `dokit/DemoDoKitView.kt` | `dokit/DemoDoKitView.ets` |
+| `dokit/TestSimpleDokitFloatViewKit.kt` | `dokit/TestSimpleDokitFloatViewKit.ets` |
+| `dokit/TestSimpleDokitFragmentKit.kt` | `dokit/TestSimpleDokitFragmentKit.ets` |
+| `dokit/TestSimpleDoKitFloatView.kt` | `dokit/TestSimpleDoKitFloatView.ets` |
+| `dokit/CustomDokitFragment.kt` | `dokit/CustomDokitFragment.ets` |
+| `dokit/ViewSetupHelper.java` | `dokit/ViewSetupHelper.ets` |
+| `module/DoKitItemView.java` | `module/DoKitItemView.ets` |
+| `module/CrashTest.kt` | `module/CrashTest.ets` |
+| `module/MethodCostTest.kt` | `module/MethodCostTest.ets` |
+| `res/layout/activity_dokit_main.xml` | `module/DemoMenuData.ets` |
+| — | `entryability/EntryAbility.ets`（鸿蒙 Ability 入口） |
+| — | `dokit/DemoCustomKitRenderers.ets`（鸿蒙 Overlay 渲染分发） |
+
 ## 后续开发
 
-在 `DoKitFloatingWindow.onKitClick` 中按 `innerKitId` 路由到具体实现页面；Demo 主页菜单项在 `Index.onMenuClick` 中逐个接入。
+在 `pages/Index.ets` 的 `onItemClick` 中按菜单项逐个接入；工具 Kit 在 `DoKitFloatingWindow` 面板点击后路由。

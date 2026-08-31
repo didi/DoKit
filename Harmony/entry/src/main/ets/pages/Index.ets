@@ -1,34 +1,47 @@
 import promptAction from '@ohos.promptAction';
 import { DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState } from '@didi/dokit';
-import { DemoMenuItem, DemoSectionTitle } from '../common/DemoMenuItem';
-import { DemoMenuSection, getDemoMenuSections } from '../common/DemoMenuData';
 import { buildEntryCustomFloating, buildEntryCustomFullScreen } from '../dokit/DemoCustomKitRenderers';
+import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
+import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
+import { CrashTest } from '../module/CrashTest';
+import { MethodCostTest } from '../module/MethodCostTest';
 
+/**
+ * Demo 主页 UI 入口，对标 Android MainDoKitActivity + activity_dokit_main.xml
+ */
 @Entry
 @Component
 struct Index {
   @State menuSections: DemoMenuSection[] = getDemoMenuSections();
   @StorageLink(DoKitOverlayState.ICON_VISIBLE_KEY) isFloatIconShow: boolean = true;
 
-  private onMenuClick(title: string): void {
-    if (title === '显示/隐藏快捷入口') {
-      if (this.isFloatIconShow) {
-        DoKit.hide();
-        promptAction.showToast({ message: '已隐藏快捷入口', duration: 1500 });
-      } else {
-        DoKit.show();
-        promptAction.showToast({ message: '已显示快捷入口', duration: 1500 });
-      }
-      return;
+  private onItemClick(title: string): void {
+    switch (title) {
+      case '显示/隐藏快捷入口':
+        if (this.isFloatIconShow) {
+          DoKit.hide();
+          promptAction.showToast({ message: '已隐藏快捷入口', duration: 1500 });
+        } else {
+          DoKit.show();
+          promptAction.showToast({ message: '已显示快捷入口', duration: 1500 });
+        }
+        return;
+      case '打开工具窗口':
+        DoKit.showToolPanel();
+        return;
+      case '模拟耗时函数调用':
+        MethodCostTest.test();
+        promptAction.showToast({ message: '已触发耗时函数调用', duration: 1500 });
+        return;
+      case '崩溃模拟':
+        CrashTest.test();
+        return;
+      default:
+        promptAction.showToast({
+          message: `${title}：${DoKitConstants.DEV_TIP}`,
+          duration: 2000
+        });
     }
-    if (title === '打开工具窗口') {
-      DoKit.showToolPanel();
-      return;
-    }
-    promptAction.showToast({
-      message: `${title}：${DoKitConstants.DEV_TIP}`,
-      duration: 2000
-    });
   }
 
   build() {
@@ -67,7 +80,7 @@ struct Index {
 
           ForEach(this.menuSections, (section: DemoMenuSection) => {
             Column() {
-              DemoSectionTitle({ title: section.title })
+              DoKitSectionTitle({ title: section.title })
               if (section.title === '工具入口') {
                 Row() {
                   Text('快捷入口状态：')
@@ -82,10 +95,10 @@ struct Index {
                 .padding({ left: 28, right: 28, bottom: 4 })
               }
               ForEach(section.items, (item: string) => {
-                DemoMenuItem({
-                  title: item,
+                DoKitItemView({
+                  itemText: item,
                   onTap: () => {
-                    this.onMenuClick(item);
+                    this.onItemClick(item);
                   }
                 })
               }, (item: string) => item)

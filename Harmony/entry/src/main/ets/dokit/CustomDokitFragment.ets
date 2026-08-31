@@ -1,11 +1,13 @@
-import { CustomKitCloseHandler } from '@didi/dokit';
+import { CustomKitCloseHandler, DoKit } from '@didi/dokit';
+import { DemoKitPageIds } from './DemoKitPageIds';
+import { ViewSetupHelper } from './ViewSetupHelper';
 
-/** 对标 Android CustomDokitFragment */
+/** 对标 Android dokit/CustomDokitFragment */
 @Builder
 export function buildCustomDokitFragment(onClose: CustomKitCloseHandler) {
   Column() {
     Row() {
-      Text('自定义全屏 Kit')
+      Text('我是自定义页面')
         .fontSize(18)
         .fontWeight(FontWeight.Medium)
         .fontColor('#111111')
@@ -25,14 +27,16 @@ export function buildCustomDokitFragment(onClose: CustomKitCloseHandler) {
     .padding({ left: 8, right: 8 })
     .backgroundColor(Color.White)
 
-    Column() {
-      Text('对标 Android CustomDokitFragment')
-        .fontSize(14)
-        .fontColor('#666666')
-        .margin({ top: 24 })
+    Scroll() {
+      ViewSetupHelper({
+        showFullScreenLauncher: true,
+        onLaunchFullScreen: () => {
+          DoKit.launchFullScreen(DemoKitPageIds.CUSTOM_DOKIT_FRAGMENT, { "test": 'test' });
+        }
+      })
     }
     .layoutWeight(1)
-    .width('100%')
+    .scrollBar(BarState.Off)
   }
   .width('100%')
   .height('100%')

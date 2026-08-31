@@ -1,17 +1,19 @@
 import { common } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DoKit } from '@didi/dokit';
-import { DoKitDemoConfig } from '../config/DoKitDemoConfig';
-import { buildDemoCustomKits } from './DemoCustomKits';
+import { DoKitDemoConfig } from './DoKitDemoConfig';
+import { buildDemoCustomKits } from './dokit/DemoCustomKits';
 
 const DOMAIN = 0xD0F1;
-const TAG = 'DoKitDemoInit';
+const TAG = 'App';
 
 /**
- * Demo 统一初始化，对标 Android App.onCreate
+ * Demo Application 初始化，对标 Android App.onCreate
+ * 测试环境: DoKitDemoConfig.PRODUCT_ID_TEST
+ * 线上环境: DoKitDemoConfig.PRODUCT_ID_PROD
  */
-export class DoKitDemoInitializer {
-  static init(context: common.UIAbilityContext): void {
+export class App {
+  static onCreate(context: common.UIAbilityContext): void {
     DoKit.Builder(context)
       .productId(DoKitDemoConfig.PRODUCT_ID_PROD)
       // .productId(DoKitDemoConfig.PRODUCT_ID_TEST)

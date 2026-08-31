@@ -1,11 +1,12 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
-import { DoKitDemoInitializer } from '../dokit/DoKitDemoInitializer';
+import { App } from '../App';
 
 const DOMAIN = 0x0000;
 const TAG = 'EntryAbility';
 
+/** 对标 Android Application 入口，DoKit 初始化委托给 App.onCreate */
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(DOMAIN, TAG, 'DoKit Demo onCreate');
@@ -15,7 +16,7 @@ export default class EntryAbility extends UIAbility {
     hilog.info(DOMAIN, TAG, 'DoKit Demo onWindowStageCreate');
     const abilityContext = this.context;
     if (abilityContext !== null && abilityContext !== undefined) {
-      DoKitDemoInitializer.init(abilityContext);
+      App.onCreate(abilityContext);
     } else {
       hilog.error(DOMAIN, TAG, 'UIAbilityContext is null, skip DoKit init');
     }

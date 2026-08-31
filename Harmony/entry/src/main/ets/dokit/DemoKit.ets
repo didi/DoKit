@@ -1,15 +1,16 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, CustomKitPageIds, DoKit } from '@didi/dokit';
+import { AbstractKit, Category, DoKit } from '@didi/dokit';
+import { DemoKitPageIds } from './DemoKitPageIds';
 
-/** 对标 Android TestSimpleDokitFragmentKit */
-export class TestSimpleDokitFragmentKit extends AbstractKit {
+/** 对标 Android dokit/DemoKit */
+export class DemoKit extends AbstractKit {
   constructor() {
     super();
     this.category = Category.BIZ;
   }
 
   getName(): string {
-    return '自定义全屏';
+    return 'demo';
   }
 
   getIcon(): Resource {
@@ -17,7 +18,7 @@ export class TestSimpleDokitFragmentKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    DoKit.launchFullScreen(CustomKitPageIds.DEMO_FULL);
+    DoKit.launchFloating(DemoKitPageIds.DEMO_DO_KIT_VIEW);
     return true;
   }
 }

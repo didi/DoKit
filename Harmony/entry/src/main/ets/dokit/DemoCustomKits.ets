@@ -1,7 +1,7 @@
 import { AbstractKit } from '@didi/dokit';
-import { DemoKit } from './demo/DemoKit';
-import { TestSimpleDokitFloatViewKit } from './demo/TestSimpleDokitFloatViewKit';
-import { TestSimpleDokitFragmentKit } from './demo/TestSimpleDokitFragmentKit';
+import { DemoKit } from './DemoKit';
+import { TestSimpleDokitFloatViewKit } from './TestSimpleDokitFloatViewKit';
+import { TestSimpleDokitFragmentKit } from './TestSimpleDokitFragmentKit';
 
 /**
  * Demo 自定义业务 Kit，对标 Android App.kt mapKits

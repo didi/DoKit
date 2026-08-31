@@ -1,11 +1,12 @@
+/** 对标 Android module/DoKitItemView */
 @Component
-export struct DemoMenuItem {
-  @Prop title: string = '';
+export struct DoKitItemView {
+  @Prop itemText: string = '';
   onTap: () => void = () => {};
 
   build() {
     Row() {
-      Text(this.title)
+      Text(this.itemText)
         .fontSize(15)
         .fontColor('#333333')
         .layoutWeight(1)
@@ -15,7 +16,7 @@ export struct DemoMenuItem {
         .fontColor('#CCCCCC')
     }
     .width('100%')
-    .height(52)
+    .height(60)
     .padding({ left: 16, right: 16 })
     .backgroundColor(Color.White)
     .borderRadius(8)
@@ -26,8 +27,9 @@ export struct DemoMenuItem {
   }
 }
 
+/** 对标 Android activity_dokit_main.xml 分组标题 */
 @Component
-export struct DemoSectionTitle {
+export struct DoKitSectionTitle {
   @Prop title: string = '';
 
   build() {
