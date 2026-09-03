@@ -24,9 +24,12 @@ export class DoKitManager {
   static GLOBAL_SYSTEM_KITS: Map<string, KitWrapItem[]> = new Map();
   /** 全局 Kits（含系统 + 后续扩展），对标 GLOBAL_KITS */
   static GLOBAL_KITS: Map<string, KitWrapItem[]> = new Map();
+  /**
+   * 业务注册自定义工具kit
+   */
+  private static customKitGroups: Map<string, KitItem[]> = new Map();
 
   private static context: common.UIAbilityContext | null = null;
-  private static customKitGroups: Map<string, KitItem[]> = new Map();
   private static callBack: DoKitCallBack | null = null;
 
   static init(context: common.UIAbilityContext): void {
@@ -58,7 +61,7 @@ export class DoKitManager {
   }
 
   static getKitGroups(): KitGroup[] {
-    const groups: KitGroup[] = ToolPanelUtil.toKitGroups(DoKitManager.GLOBAL_KITS);
+    const groups: KitGroup[] = [];
     DoKitManager.customKitGroups.forEach((kits: KitItem[], groupName: string) => {
       groups.push({
         groupId: `custom_${groupName}`,
@@ -67,6 +70,7 @@ export class DoKitManager {
         kits
       });
     });
+    ToolPanelUtil.toKitGroups(groups,DoKitManager.GLOBAL_KITS);
     return groups;
   }
 

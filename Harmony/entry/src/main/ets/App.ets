@@ -1,8 +1,11 @@
 import { common } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { DoKit } from '@didi/dokit';
+import { AbstractKit, DoKit } from '@didi/dokit';
 import { DoKitDemoConfig } from './DoKitDemoConfig';
 import { buildDemoCustomKits } from './dokit/DemoCustomKits';
+import { DemoKit } from './dokit/DemoKit';
+import { TestSimpleDokitFloatViewKit } from './dokit/TestSimpleDokitFloatViewKit';
+import { TestSimpleDokitFragmentKit } from './dokit/TestSimpleDokitFragmentKit';
 
 const DOMAIN = 0xD0F1;
 const TAG = 'App';
@@ -41,7 +44,26 @@ export class App {
       })
       .build();
 
-    hilog.info(DOMAIN, TAG, 'DoKit demo initialized, productId=%{public}s',
-      DoKitDemoConfig.PRODUCT_ID_PROD);
+    const zone1: AbstractKit[] = [
+      new DemoKit(),
+      new TestSimpleDokitFloatViewKit(),
+      new TestSimpleDokitFragmentKit()
+    ];
+    const zone2: AbstractKit[] = [
+      new DemoKit(),
+      new TestSimpleDokitFloatViewKit(),
+      // new TestSimpleDokitFragmentKit()
+    ];
+
+    const zone3: AbstractKit[] = [
+      new DemoKit(),
+      // new TestSimpleDokitFloatViewKit(),
+      // new TestSimpleDokitFragmentKit()
+    ];
+
+    DoKit.registerCustomKits('业务专区3', zone3)
+    DoKit.registerCustomKits('业务专区2', zone2)
+    DoKit.registerCustomKits('业务专区1', zone1)
+    hilog.info(DOMAIN, TAG, 'DoKit demo initialized, productId=%{public}s', DoKitDemoConfig.PRODUCT_ID_PROD);
   }
 }

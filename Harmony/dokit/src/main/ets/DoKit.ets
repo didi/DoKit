@@ -167,6 +167,16 @@ export class DoKit {
     DoKitOverlayState.init(GlobalConfig.alwaysShowMainIcon);
   }
 
+  /**
+   * 注册业务专区 kits
+   *
+   * @param groupName
+   * @param kits
+   */
+  static registerCustomKits(groupName: string, kits: AbstractKit[]) {
+    DoKitManager.addCustomKits(groupName, kits);
+  }
+
   /** 启动悬浮窗，对标 Android DoKit.launchFloating(Class, mode, bundle) */
   static launchFloating(
     targetClass: string,

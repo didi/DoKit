@@ -51,10 +51,10 @@ export struct ToolPanelDoKitView {
           .fontColor('#333333')
           .layoutWeight(1)
 
-        Text('v' + DoKitConstants.VERSION)
-          .fontSize(12)
-          .fontColor('#999999')
-          .margin({ right: 12 })
+        // Text('v' + DoKitConstants.VERSION)
+        //   .fontSize(12)
+        //   .fontColor('#999999')
+        //   .margin({ right: 12 })
 
         Text('✕')
           .fontSize(20)
@@ -75,12 +75,12 @@ export struct ToolPanelDoKitView {
             Column() {
               Row() {
                 Text(group.groupName)
-                  .fontSize(14)
+                  .fontSize(16)
                   .fontWeight(FontWeight.Medium)
                   .fontColor('#666666')
                 if (group.groupId === KitGroupId.PLATFORM) {
                   Text('(www.dokit.cn)')
-                    .fontSize(12)
+                    .fontSize(14)
                     .fontColor('#FF0006')
                     .margin({ left: 8 })
                 }
@@ -98,7 +98,7 @@ export struct ToolPanelDoKitView {
                         .objectFit(ImageFit.Contain)
 
                       Text(item.name)
-                        .fontSize(11)
+                        .fontSize(12)
                         .fontColor('#333333')
                         .margin({ top: 6 })
                         .maxLines(2)
@@ -120,10 +120,14 @@ export struct ToolPanelDoKitView {
             }
             .width('100%')
             .alignItems(HorizontalAlign.Start)
+            .backgroundColor(Color.White)
+            .borderRadius(0)
+            .padding({ left: 14, right: 14, bottom: 14 })
+            .margin({ top: 14 })
           }, (group: KitGroup) => group.groupId)
         }
         .width('100%')
-        .padding({ left: 12, right: 12, bottom: 24 })
+        .padding({ left: 0, right: 0, bottom: 20 })
       }
       .layoutWeight(1)
       .scrollBar(BarState.Off)

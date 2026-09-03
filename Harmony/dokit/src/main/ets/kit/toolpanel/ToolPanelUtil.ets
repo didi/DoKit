@@ -53,8 +53,7 @@ export class ToolPanelUtil {
     return systemKits;
   }
 
-  static toKitGroups(globalKits: Map<string, KitWrapItem[]>): KitGroup[] {
-    const groups: KitGroup[] = [];
+  static toKitGroups( groups: KitGroup[] ,globalKits: Map<string, KitWrapItem[]>): KitGroup[] {
     globalKits.forEach((wrapItems: KitWrapItem[], groupId: string) => {
       const groupEnum = groupId as KitGroupId;
       const groupName = KitGroupNames[groupEnum] ?? groupId;

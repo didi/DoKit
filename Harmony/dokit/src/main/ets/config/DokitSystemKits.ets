@@ -7,5 +7,5 @@ import { KitGroup } from '../model/KitModels';
  * @deprecated 请使用 DoKitManager.getKitGroups()
  */
 export function getSystemKitGroups(): KitGroup[] {
-  return ToolPanelUtil.toKitGroups(DoKitManager.GLOBAL_KITS);
+  return ToolPanelUtil.toKitGroups([],DoKitManager.GLOBAL_KITS);
 }
