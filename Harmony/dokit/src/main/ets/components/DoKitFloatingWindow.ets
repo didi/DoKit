@@ -57,8 +57,10 @@ export struct DoKitFloatingWindow {
   @StorageLink(DoKitOverlayState.PANEL_OPEN_KEY) @Watch('onPanelOpenRequest') panelOpenRequest: boolean = false;
 
   aboutToAppear(): void {
-    this.kitGroups = DoKitManager.getKitGroups();
     DoKitViewManager.setToolPanelChangeHandler((visible: boolean) => {
+      if (visible) {
+        this.kitGroups = DoKitManager.getKitGroups();
+      }
       this.showPanel = visible;
     });
     UniversalActivity.setOpenHandler((fragmentClass: string, isSystemFragment: boolean) => {
@@ -114,6 +116,7 @@ export struct DoKitFloatingWindow {
 
   private onPanelOpenRequest(): void {
     if (this.panelOpenRequest) {
+      this.kitGroups = DoKitManager.getKitGroups();
       this.showPanel = true;
       DoKitOverlayState.clearPanelOpenRequest();
     }
@@ -187,15 +190,6 @@ export struct DoKitFloatingWindow {
                 DoKitViewManager.detachToolPanel();
               }
             })
-            if (this.iconVisible) {
-              MainIconDoKitView({
-                ballSize: this.ballSize,
-                ballX: $ballX,
-                ballY: $ballY,
-                containerWidth: this.containerWidth,
-                containerHeight: this.containerHeight
-              })
-            }
           }
           .width('100%')
           .height('100%')

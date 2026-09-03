@@ -31,5 +31,5 @@ export function buildDemoDoKitView(_bundle: DoKitBundle, onClose: CustomKitClose
         DoKit.removeFloating(DemoDoKitView.CLASS_NAME);
       })
   }
-  .position({ x: 200, y: 200 })
+  .position({ x: 20, y: 200 })
 }
