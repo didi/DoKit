@@ -6,7 +6,7 @@ import { CloseHandler, DoKitParams } from '@didi-hummer/dokit/src/main/ets/core/
  * 对标 Android DemoDoKitView + dk_demo.xml
  */
 @Builder
-export function DemoDoKitViewBuilder(params: DoKitParams, handler: CloseHandler) {
+export function DemoDoKitViewBuilder(params?: DoKitParams, handler?: CloseHandler) {
   DemoDoKitView({ params, handler })
 }
 
@@ -35,9 +35,10 @@ export struct DemoDoKitView {
         .fontColor('#666666')
         .margin({ top: 8, right: 8 })
         .onClick(() => {
-          DoKit.removeFloatingView(DemoDoKitView.KIT_NAME);
+          if (this.handler) {
+            this.handler();
+          }
         })
     }
-    .position({ x: 20, y: 200 })
   }
 }

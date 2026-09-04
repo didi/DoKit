@@ -4,7 +4,7 @@ export type DoKitParams = Record<string, Object>;
 /**
  * 关闭处理handler
  */
-export type CloseHandler = () => void;
+export type CloseHandler = Callback<void>;
 
 /**
  * 自定义视图builder

@@ -13,15 +13,10 @@ import { DataSourceFactory } from '../kit/performance/datasource/DataSourceFacto
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { KitGroup } from '../model/KitModels';
 import { DoKitBundle } from '../core/FragmentRenderer';
-import { CustomViewRegistry } from '../core/CustomViewRegistry';
+import { ViewConfigDoKitView } from '../core/ViewConfigDoKitView';
 
 @Builder
 function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundle, _onClose: () => void) {
-  Column().width('100%').height('100%')
-}
-
-@Builder
-function defaultCustomFloatingPage(_targetClass: string, _bundle: DoKitBundle, _onClose: () => void) {
   Column().width('100%').height('100%')
 }
 
@@ -32,7 +27,6 @@ function defaultCustomFloatingPage(_targetClass: string, _bundle: DoKitBundle, _
 @Component
 export struct DoKitFloatingWindow {
   @BuilderParam customFullScreenPage: CustomFragmentRenderer = defaultCustomFullScreenPage;
-  @BuilderParam customFloatingPage: CustomDoKitViewRenderer = defaultCustomFloatingPage;
 
   private readonly ballSize: number = 58;
   private readonly ballMarginRight: number = 16;
@@ -84,8 +78,10 @@ export struct DoKitFloatingWindow {
     });
 
     DoKitViewManager.setWindowRefreshHandler(() => {
-      this.viewRefresh++;
+      this.viewRefresh = 0;
       this.viewConfigs = DoKitViewManager.getViewConfigList();
+      // 为了触发重新渲染，先使用0清除数据，然后重新添加到视图上
+      this.viewRefresh ++;
     })
 
     PerformanceDokitViewManager.setOverlayChangeHandler(() => {
@@ -100,6 +96,7 @@ export struct DoKitFloatingWindow {
     SystemFragmentRegistry.setCloseHandler(null);
     DoKitViewManager.setFloatingAttachHandler(null);
     DoKitViewManager.setFloatingDetachHandler(null);
+    DoKitViewManager.setWindowRefreshHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
   }
 
@@ -218,17 +215,6 @@ export struct DoKitFloatingWindow {
           .hitTestBehavior(HitTestMode.Transparent)
         }
 
-        if (this.showCustomFloat && this.activeFloatingClass.length > 0) {
-          Stack() {
-            this.customFloatingPage(this.activeFloatingClass, this.activeFloatingBundle, () => {
-              DoKitViewManager.detach(this.activeFloatingClass);
-            })
-          }
-          .width('100%')
-          .height('100%')
-          .hitTestBehavior(HitTestMode.Default)
-        }
-
         if (this.fpsMonitorActive) {
           FpsFrameCollector()
         }
@@ -273,12 +259,17 @@ export struct DoKitFloatingWindow {
           })
         }
 
-        if (this.viewRefresh >= 0) {
-
+        if (this.viewRefresh >= 0 && this.viewConfigs.length > 0) {
           ForEach(this.viewConfigs, (config: ViewConfig) => {
             Column() {
-              CustomViewRegistry.getBuilder(config.name)?.builder(config.params, config.closeHandler)
+              ViewConfigDoKitView({
+                config: config,
+                containerWidth: this.containerWidth,
+                containerHeight: this.containerHeight
+              })
             }
+            .width('100%')
+            .height('100%')
           })
         }
       }
