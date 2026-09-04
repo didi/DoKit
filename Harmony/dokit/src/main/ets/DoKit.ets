@@ -194,7 +194,7 @@ export class DoKit {
   ): void {
     CustomViewRegistry.registerBuilder(targetName,builder);
 
-    const config = new ViewConfig(targetName, true, params, undefined, () => {
+    const config = new ViewConfig(targetName, true, params, { x: 20, y: 200 }, () => {
       DoKitViewManager.detachView(targetName);
     });
 

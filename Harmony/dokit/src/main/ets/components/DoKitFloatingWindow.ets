@@ -13,7 +13,7 @@ import { DataSourceFactory } from '../kit/performance/datasource/DataSourceFacto
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { KitGroup } from '../model/KitModels';
 import { DoKitBundle } from '../core/FragmentRenderer';
-import { CustomViewRegistry } from '../core/CustomViewRegistry';
+import { ViewConfigDoKitView } from '../core/ViewConfigDoKitView';
 
 @Builder
 function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundle, _onClose: () => void) {
@@ -262,7 +262,11 @@ export struct DoKitFloatingWindow {
         if (this.viewRefresh >= 0 && this.viewConfigs.length > 0) {
           ForEach(this.viewConfigs, (config: ViewConfig) => {
             Column() {
-              CustomViewRegistry.getBuilder(config.name)?.builder(config.params, config.closeHandler)
+              ViewConfigDoKitView({
+                config: config,
+                containerWidth: this.containerWidth,
+                containerHeight: this.containerHeight
+              })
             }
             .width('100%')
             .height('100%')
