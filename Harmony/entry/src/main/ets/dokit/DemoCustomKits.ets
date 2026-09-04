@@ -1,4 +1,4 @@
-import { AbstractKit } from '@didi/dokit';
+import { AbstractKit } from '@didi-hummer/dokit';
 import { DemoKit } from './DemoKit';
 import { TestSimpleDokitFloatViewKit } from './TestSimpleDokitFloatViewKit';
 import { TestSimpleDokitFragmentKit } from './TestSimpleDokitFragmentKit';

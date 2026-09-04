@@ -8,13 +8,14 @@ import { DoKitConstants } from './constant/DoKitConstants';
 import { WebDoorCallback } from './kit/webdoor/WebDoorCallback';
 import { AbstractKit } from './kit/AbstractKit';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
-import { DoKitManager } from './kit/core/DoKitManager';
-import { DoKitViewManager } from './kit/core/DoKitViewManager';
-import { DoKitBundle, SystemFragmentBuilder } from './kit/core/FragmentRenderer';
-import { DoKitViewLaunchMode } from './kit/core/DoKitIntent';
-import { UniversalActivity } from './kit/core/UniversalActivity';
-import { SimpleDoKitLauncher } from './kit/core/SimpleDoKitLauncher';
+import { DoKitManager } from './core/DoKitManager';
+import { DoKitViewManager, ViewConfig } from './core/DoKitViewManager';
+import { DoKitBundle, SystemFragmentBuilder } from './core/FragmentRenderer';
+import { DoKitViewLaunchMode } from './core/DoKitIntent';
+import { SystemFragmentRegistry } from './core/SystemFragmentRigistry';
+import { DoKitLauncher } from './core/DoKitLauncher';
 import { DoKitOverlayState } from './model/DoKitOverlayState';
+import { CustomViewBuilder, CustomViewRegistry, DoKitParams } from './core/CustomViewRegistry';
 
 export { DoKitConstants } from './constant/DoKitConstants';
 
@@ -179,16 +180,34 @@ export class DoKit {
 
   /** 启动悬浮窗，对标 Android DoKit.launchFloating(Class, mode, bundle) */
   static launchFloating(
-    targetClass: string,
+    targetName: string,
     mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
     bundle?: DoKitBundle
   ): void {
-    SimpleDoKitLauncher.launchFloating(targetClass, mode, bundle);
+    DoKitLauncher.launchFloating(targetName, mode, bundle);
+  }
+
+  static launchFloatingView(
+    targetName: string,
+    builder: CustomViewBuilder,
+    params?: DoKitParams
+  ): void {
+    CustomViewRegistry.registerBuilder(targetName,builder);
+    const  config= new ViewConfig();
+    config.name = targetName;
+    config.params = params;
+
+    DoKitViewManager.attachView(targetName,config);
+
+  }
+
+  static removeFloatingView(targetName: string){
+    DoKitViewManager.detachView(targetName)
   }
 
   /** 移除悬浮窗，对标 Android DoKit.removeFloating(Class) */
   static removeFloating(targetClass: string): void {
-    SimpleDoKitLauncher.removeFloating(targetClass);
+    DoKitLauncher.removeFloating(targetClass);
   }
 
   /** 启动全屏页，对标 Android DoKit.launchFullScreen(Class, context, bundle, isSystemFragment) */
@@ -197,16 +216,16 @@ export class DoKit {
     bundle?: DoKitBundle,
     isSystemFragment: boolean = false
   ): void {
-    SimpleDoKitLauncher.launchFullScreen(targetClass, bundle, isSystemFragment);
+    DoKitLauncher.launchFullScreen(targetClass, bundle, isSystemFragment);
   }
 
   /** 注册系统 Fragment，对标扩展 UniversalActivity 映射 */
   static registerSystemFragment(fragmentClass: string, builder: SystemFragmentBuilder): void {
-    UniversalActivity.registerSystemFragment(fragmentClass, builder);
+    SystemFragmentRegistry.registerSystemFragment(fragmentClass, builder);
   }
 
   static closeFullScreen(): void {
-    SimpleDoKitLauncher.finishFullScreen();
+    DoKitLauncher.finishFullScreen();
   }
 
   static show(): void {

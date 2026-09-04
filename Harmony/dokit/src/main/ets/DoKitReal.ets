@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit } from './kit/AbstractKit';
-import { DoKitManager } from './kit/core/DoKitManager';
+import { DoKitManager } from './core/DoKitManager';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
 import { DoKitOverlayState } from './model/DoKitOverlayState';
 
@@ -10,11 +10,8 @@ import { DoKitOverlayState } from './model/DoKitOverlayState';
 export class DoKitReal {
   static isInit: boolean = false;
 
-  static install(
-    context: common.UIAbilityContext,
-    customKits: Map<string, AbstractKit[]>,
-    customKitList: AbstractKit[]
-  ): void {
+  static install(context: common.UIAbilityContext, customKits: Map<string, AbstractKit[]>,
+    customKitList: AbstractKit[]): void {
     if (DoKitReal.isInit) {
       return;
     }

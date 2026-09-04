@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DataCleanDirItem } from './DataCleanModels';
 import { DataCleanUtil } from '../../util/DataCleanUtil';
 

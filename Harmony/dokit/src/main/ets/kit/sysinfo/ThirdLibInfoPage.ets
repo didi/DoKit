@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitThirdLibInfo } from '../../aop/DokitThirdLibInfo';
 import { ThirdLibInfoHelper } from './ThirdLibInfoHelper';
 import { ThirdLibListItem, ThirdLibSortMode } from './ThirdLibInfoModels';

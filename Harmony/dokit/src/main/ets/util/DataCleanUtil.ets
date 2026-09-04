@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { fileIo as fs } from '@kit.CoreFileKit';
-import { DoKitManager } from '../kit/core/DoKitManager';
+import { DoKitManager } from '../core/DoKitManager';
 import { DoKitFileUtil } from './DoKitFileUtil';
 import { DataCleanDirItem } from '../kit/dataclean/DataCleanModels';
 

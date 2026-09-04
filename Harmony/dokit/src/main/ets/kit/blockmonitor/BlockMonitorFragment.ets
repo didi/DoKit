@@ -1,7 +1,7 @@
 import { BlockMonitorManager } from './core/BlockMonitorManager';
 import { BlockListFragment } from './BlockListFragment';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
-import { SettingItem } from '../core/SettingItem';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { SettingItem } from '../../core/SettingItem';
 
 /** 对标 Android BlockMonitorFragment */
 export class BlockMonitorFragmentMeta {

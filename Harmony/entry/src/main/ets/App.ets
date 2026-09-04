@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { AbstractKit, DoKit } from '@didi/dokit';
+import { AbstractKit, DoKit } from '@didi-hummer/dokit';
 import { DoKitDemoConfig } from './DoKitDemoConfig';
 import { buildDemoCustomKits } from './dokit/DemoCustomKits';
 import { DemoKit } from './dokit/DemoKit';

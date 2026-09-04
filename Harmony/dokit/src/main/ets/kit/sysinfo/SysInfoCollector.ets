@@ -2,7 +2,7 @@ import { abilityAccessCtrl, bundleManager, Permissions } from '@kit.AbilityKit';
 import { deviceInfo } from '@kit.BasicServicesKit';
 import { statfs } from '@kit.CoreFileKit';
 import { display } from '@kit.ArkUI';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitManager } from '../../core/DoKitManager';
 import { SysInfoListItem } from './SysInfoModels';
 
 /**

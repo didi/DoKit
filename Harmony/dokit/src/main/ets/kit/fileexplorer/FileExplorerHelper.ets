@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
 import { fileIo as fs, fileUri } from '@kit.CoreFileKit';
 import { util } from '@kit.ArkTS';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitManager } from '../../core/DoKitManager';
 import { SandboxFileItem, SandboxFileType } from './SandboxFileModels';
 
 class SandboxRootEntry {

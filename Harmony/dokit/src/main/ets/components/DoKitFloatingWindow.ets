@@ -1,18 +1,19 @@
 import { GlobalConfig } from '../config/GlobalConfig';
 import { DokitMemoryConfig } from '../config/DokitMemoryConfig';
-import { CustomDoKitViewRenderer, CustomFragmentRenderer, DoKitIntent, DoKitViewCloseHandler } from '../kit/core/DoKitIntent';
-import { DoKitViewManager } from '../kit/core/DoKitViewManager';
-import { buildUniversalFragment, UniversalActivity } from '../kit/core/UniversalActivity';
-import { DoKitManager } from '../kit/core/DoKitManager';
-import { MainIconDoKitView } from '../kit/main/MainIconDoKitView';
-import { ToolPanelDoKitView } from '../kit/toolpanel/ToolPanelDoKitView';
+import { CustomDoKitViewRenderer, CustomFragmentRenderer, DoKitIntent, DoKitViewCloseHandler } from '../core/DoKitIntent';
+import { DoKitViewManager, ViewConfig } from '../core/DoKitViewManager';
+import { buildUniversalFragment, SystemFragmentRegistry } from '../core/SystemFragmentRigistry';
+import { DoKitManager } from '../core/DoKitManager';
+import { MainIconDoKitView } from '../core/main/MainIconDoKitView';
+import { ToolPanelDoKitView } from '../core/toolpanel/ToolPanelDoKitView';
 import { PerformanceDokitViewManager } from '../kit/performance/PerformanceDokitViewManager';
 import { PerformanceDoKitView } from '../kit/performance/PerformanceDoKitView';
 import { FpsFrameCollector } from '../kit/performance/FpsFrameCollector';
 import { DataSourceFactory } from '../kit/performance/datasource/DataSourceFactory';
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { KitGroup } from '../model/KitModels';
-import { DoKitBundle } from '../kit/core/FragmentRenderer';
+import { DoKitBundle } from '../core/FragmentRenderer';
+import { CustomViewRegistry } from '../core/CustomViewRegistry';
 
 @Builder
 function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundle, _onClose: () => void) {
@@ -52,6 +53,8 @@ export struct DoKitFloatingWindow {
   @State private showCpuOverlay: boolean = false;
   @State private showRamOverlay: boolean = false;
   @State private fpsMonitorActive: boolean = false;
+  @State private viewRefresh: number = 0;
+  @State private viewConfigs:ViewConfig[]= [];
 
   @StorageLink(DoKitOverlayState.ICON_VISIBLE_KEY) iconVisible: boolean = true;
   @StorageLink(DoKitOverlayState.PANEL_OPEN_KEY) @Watch('onPanelOpenRequest') panelOpenRequest: boolean = false;
@@ -63,10 +66,10 @@ export struct DoKitFloatingWindow {
       }
       this.showPanel = visible;
     });
-    UniversalActivity.setOpenHandler((fragmentClass: string, isSystemFragment: boolean) => {
+    SystemFragmentRegistry.setOpenHandler((fragmentClass: string, isSystemFragment: boolean) => {
       this.openFragment(fragmentClass, isSystemFragment);
     });
-    UniversalActivity.setCloseHandler(() => {
+    SystemFragmentRegistry.setCloseHandler(() => {
       this.closeFragment();
     });
     DoKitViewManager.setFloatingAttachHandler((intent: DoKitIntent) => {
@@ -79,6 +82,12 @@ export struct DoKitFloatingWindow {
       this.activeFloatingClass = '';
       this.activeFloatingBundle = {};
     });
+
+    DoKitViewManager.setWindowRefreshHandler(() => {
+      this.viewRefresh++;
+      this.viewConfigs = DoKitViewManager.getViewConfigList();
+    })
+
     PerformanceDokitViewManager.setOverlayChangeHandler(() => {
       this.syncPerformanceOverlayState();
     });
@@ -87,8 +96,8 @@ export struct DoKitFloatingWindow {
 
   aboutToDisappear(): void {
     DoKitViewManager.setToolPanelChangeHandler(null);
-    UniversalActivity.setOpenHandler(null);
-    UniversalActivity.setCloseHandler(null);
+    SystemFragmentRegistry.setOpenHandler(null);
+    SystemFragmentRegistry.setCloseHandler(null);
     DoKitViewManager.setFloatingAttachHandler(null);
     DoKitViewManager.setFloatingDetachHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
@@ -142,7 +151,7 @@ export struct DoKitFloatingWindow {
   }
 
   private closeFragment(): void {
-    UniversalActivity.clearContent();
+    SystemFragmentRegistry.clearContent();
     this.activeFragmentClass = '';
     this.activeIsSystemFragment = false;
   }
@@ -161,13 +170,13 @@ export struct DoKitFloatingWindow {
   @Builder
   private buildUniversalContent() {
     if (this.activeIsSystemFragment) {
-      buildUniversalFragment(this.activeFragmentClass, UniversalActivity.getBundle(), () => {
-        UniversalActivity.finish();
+      buildUniversalFragment(this.activeFragmentClass, SystemFragmentRegistry.getBundle(), () => {
+        SystemFragmentRegistry.finish();
       });
     } else {
       Column() {
-        this.customFullScreenPage(this.activeFragmentClass, UniversalActivity.getBundle(), () => {
-          UniversalActivity.finish();
+        this.customFullScreenPage(this.activeFragmentClass, SystemFragmentRegistry.getBundle(), () => {
+          SystemFragmentRegistry.finish();
         });
       }
       .width('100%')
@@ -260,6 +269,15 @@ export struct DoKitFloatingWindow {
             onClose: () => {
               PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_RAM);
               this.syncPerformanceOverlayState();
+            }
+          })
+        }
+
+        if (this.viewRefresh >= 0) {
+
+          ForEach(this.viewConfigs, (config: ViewConfig) => {
+            Column() {
+              CustomViewRegistry.getBuilder(config.name)?.builder(config.params, config.closeHandler)
             }
           })
         }

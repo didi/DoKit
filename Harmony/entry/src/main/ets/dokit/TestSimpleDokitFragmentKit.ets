@@ -1,5 +1,5 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi/dokit';
+import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
 import { CustomDokitFragment } from './CustomDokitFragment';
 
 /** 对标 Android dokit/TestSimpleDokitFragmentKit */

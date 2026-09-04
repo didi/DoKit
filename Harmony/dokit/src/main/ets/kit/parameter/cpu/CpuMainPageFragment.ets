@@ -1,10 +1,10 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
 import { PerformanceDokitViewManager } from '../../performance/PerformanceDokitViewManager';
-import { SettingItem } from '../../core/SettingItem';
+import { SettingItem } from '../../../core/SettingItem';
 
 class CpuStrings {
   static readonly TITLE: string = 'CPU';

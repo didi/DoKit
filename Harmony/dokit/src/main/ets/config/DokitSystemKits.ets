@@ -1,5 +1,5 @@
-import { DoKitManager } from '../kit/core/DoKitManager';
-import { ToolPanelUtil } from '../kit/toolpanel/ToolPanelUtil';
+import { DoKitManager } from '../core/DoKitManager';
+import { ToolPanelUtil } from '../core/toolpanel/ToolPanelUtil';
 import { KitGroup } from '../model/KitModels';
 
 /**

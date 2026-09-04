@@ -1,6 +1,6 @@
 import { Want } from '@kit.AbilityKit';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitManager } from '../../core/DoKitManager';
 import { SysInfoCollector } from './SysInfoCollector';
 import { SysInfoListItem } from './SysInfoModels';
 

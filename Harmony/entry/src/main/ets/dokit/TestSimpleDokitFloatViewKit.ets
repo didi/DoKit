@@ -1,5 +1,5 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi/dokit';
+import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
 import { TestSimpleDoKitFloatView } from './TestSimpleDoKitFloatView';
 
 /** 对标 Android dokit/TestSimpleDokitFloatViewKit */

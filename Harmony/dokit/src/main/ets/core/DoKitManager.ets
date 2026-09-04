@@ -1,12 +1,12 @@
 import { common } from '@kit.AbilityKit';
-import { KitGroup, KitItem } from '../../model/KitModels';
-import { AbstractKit } from '../AbstractKit';
-import { KitItemHelper } from '../KitItemHelper';
-import { DoKitCallBack } from '../../DoKitCallBack';
-import { InnerKitRegistry } from './InnerKitRegistry';
-import { UniversalActivity } from './UniversalActivity';
-import { KitWrapItem } from '../toolpanel/KitWrapItem';
-import { ToolPanelUtil } from '../toolpanel/ToolPanelUtil';
+import { KitGroup, KitItem } from '../model/KitModels';
+import { AbstractKit } from '../kit/AbstractKit';
+import { KitItemHelper } from '../kit/KitItemHelper';
+import { DoKitCallBack } from '../DoKitCallBack';
+import { SystemKitRegistry } from './SystemKitRegistry';
+import { SystemFragmentRegistry } from './SystemFragmentRigistry';
+import { KitWrapItem } from './toolpanel/KitWrapItem';
+import { ToolPanelUtil } from './toolpanel/ToolPanelUtil';
 
 /**
  * 全局 Kit 注册表，对标 Android kit/core/DoKitManager
@@ -34,11 +34,11 @@ export class DoKitManager {
 
   static init(context: common.UIAbilityContext): void {
     DoKitManager.context = context;
-    UniversalActivity.initDefaultFragments();
-    InnerKitRegistry.init();
+    SystemFragmentRegistry.initDefaultFragments();
+    SystemKitRegistry.init();
     DoKitManager.GLOBAL_SYSTEM_KITS = ToolPanelUtil.loadSystemKitsFromRawFile(context);
     DoKitManager.syncGlobalKits();
-    InnerKitRegistry.onAppInit(context);
+    SystemKitRegistry.onAppInit(context);
   }
 
   static syncGlobalKits(): void {

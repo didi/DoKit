@@ -1,10 +1,10 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi/dokit';
-import { DemoDoKitView } from './DemoDoKitView';
+import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
+import { DemoDoKitView, DemoDoKitViewBuilder } from './DemoDoKitView';
 
 /** 对标 Android dokit/DemoKit */
 export class DemoKit extends AbstractKit {
-  static id =100;
+  static id = 100;
 
   constructor() {
     super();
@@ -12,7 +12,7 @@ export class DemoKit extends AbstractKit {
   }
 
   getName(): string {
-    return 'demo';
+    return 'DemoKit';
   }
 
   getIcon(): Resource {
@@ -21,14 +21,12 @@ export class DemoKit extends AbstractKit {
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
 
-    const zone3: AbstractKit[] = [
-      new DemoKit(),
-      // new TestSimpleDokitFloatViewKit(),
-      // new TestSimpleDokitFragmentKit()
+    const kits: AbstractKit[] = [
+      new DemoKit()
     ];
 
-    DoKit.registerCustomKits('业务专区-'+DemoKit.id++, zone3)
-    DoKit.launchFloating(DemoDoKitView.CLASS_NAME);
+    DoKit.registerCustomKits('业务专区-' + DemoKit.id++, kits)
+    DoKit.launchFloatingView(DemoDoKitView.KIT_NAME,wrapBuilder(DemoDoKitViewBuilder));
     return true;
   }
 }

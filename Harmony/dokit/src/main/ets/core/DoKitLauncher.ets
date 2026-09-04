@@ -1,12 +1,12 @@
 import { DoKitBundle } from './FragmentRenderer';
 import { DoKitIntent, DoKitViewLaunchMode } from './DoKitIntent';
 import { DoKitViewManager } from './DoKitViewManager';
-import { UniversalActivity } from './UniversalActivity';
+import { SystemFragmentRegistry } from './SystemFragmentRigistry';
 
 /**
  * 悬浮窗和全屏启动器，对标 Android kit/core/SimpleDoKitLauncher
  */
-export class SimpleDoKitLauncher {
+export class DoKitLauncher {
   static launchFloating(
     targetClass: string,
     mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
@@ -27,10 +27,10 @@ export class SimpleDoKitLauncher {
     bundle?: DoKitBundle,
     isSystemFragment: boolean = false
   ): void {
-    UniversalActivity.showContent(targetClass, bundle, isSystemFragment);
+    SystemFragmentRegistry.showContent(targetClass, bundle, isSystemFragment);
   }
 
   static finishFullScreen(): void {
-    UniversalActivity.finish();
+    SystemFragmentRegistry.finish();
   }
 }

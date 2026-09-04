@@ -1,6 +1,6 @@
 import promptAction from '@ohos.promptAction';
 import { BundleKey } from '../../constant/BundleKey';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { FileExplorerHelper } from './FileExplorerHelper';
 import { FileExplorerNavigator } from './FileExplorerNavigator';
 import { SandboxFileItem, SandboxFileType } from './SandboxFileModels';

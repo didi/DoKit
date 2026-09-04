@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { DokitMemoryConfig } from '../../config/DokitMemoryConfig';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitManager } from '../../core/DoKitManager';
 import { CpuSampler } from './CpuSampler';
 import { RamSampler } from './RamSampler';
 

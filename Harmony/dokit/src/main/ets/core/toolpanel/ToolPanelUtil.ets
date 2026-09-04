@@ -2,8 +2,8 @@ import { common } from '@kit.AbilityKit';
 import { util } from '@kit.ArkTS';
 import { getKitDisplayMeta, getKitDisplayName, getKitIconText } from '../../config/KitDisplayMeta';
 import { KitGroup, KitGroupColors, KitGroupId, KitGroupNames, KitItem } from '../../model/KitModels';
-import { AbstractKit } from '../AbstractKit';
-import { InnerKitRegistry } from '../core/InnerKitRegistry';
+import { AbstractKit } from '../../kit/AbstractKit';
+import { SystemKitRegistry } from '../SystemKitRegistry';
 import { KitBean, KitGroupBean } from './KitBeans';
 import { KitWrapItem } from './KitWrapItem';
 
@@ -34,7 +34,7 @@ export class ToolPanelUtil {
     localConfigs.forEach((group: KitGroupBean) => {
       const wrapItems: KitWrapItem[] = [];
       group.kits.forEach((kitBean: KitBean) => {
-        const kit: AbstractKit | undefined = InnerKitRegistry.get(kitBean.innerKitId);
+        const kit: AbstractKit | undefined = SystemKitRegistry.get(kitBean.innerKitId);
         const name = kit !== undefined ? kit.getName() : getKitDisplayName(kitBean.innerKitId);
         wrapItems.push(new KitWrapItem(
           KitWrapItem.TYPE_KIT,

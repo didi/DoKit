@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
 import { Category } from './Category';
-import { DoKitBundle } from './core/FragmentRenderer';
-import { SimpleDoKitLauncher } from './core/SimpleDoKitLauncher';
+import { DoKitBundle } from '../core/FragmentRenderer';
+import { DoKitLauncher } from '../core/DoKitLauncher';
 import { IKit } from './IKit';
 
 /**
@@ -39,6 +39,6 @@ export abstract class AbstractKit implements IKit {
     bundle?: DoKitBundle,
     isSystemFragment: boolean = false
   ): void {
-    SimpleDoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
+    DoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
   }
 }

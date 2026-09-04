@@ -1,4 +1,4 @@
-import { AbstractKit } from '../AbstractKit';
+import { AbstractKit } from '../../kit/AbstractKit';
 
 /**
  * 工具面板列表项，对标 Android KitWrapItem

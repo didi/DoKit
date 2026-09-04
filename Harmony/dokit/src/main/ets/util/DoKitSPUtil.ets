@@ -1,5 +1,5 @@
 import { preferences } from '@kit.ArkData';
-import { DoKitManager } from '../kit/core/DoKitManager';
+import { DoKitManager } from '../core/DoKitManager';
 
 /**
  * Preferences 工具，对标 Android DoKitSPUtil

@@ -1,5 +1,5 @@
 import { GlobalConfig } from '../../config/GlobalConfig';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitManager } from '../../core/DoKitManager';
 import { DefaultWebDoorCallback } from './DefaultWebDoorCallback';
 import { WebDoorCallback } from './WebDoorCallback';
 import { WebDoorHistoryStore } from './WebDoorHistoryStore';

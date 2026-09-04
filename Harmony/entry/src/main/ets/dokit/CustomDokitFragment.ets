@@ -1,4 +1,4 @@
-import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi/dokit';
+import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi-hummer/dokit';
 import { ViewSetupHelper } from './ViewSetupHelper';
 
 /** 对标 Android dokit/CustomDokitFragment */

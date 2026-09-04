@@ -1,4 +1,4 @@
-import { DoKitViewManager } from '../core/DoKitViewManager';
+import { DoKitViewManager } from '../DoKitViewManager';
 
 /** 主入口悬浮球，对标 Android kit/main/MainIconDoKitView */
 @Component

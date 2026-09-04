@@ -1,5 +1,5 @@
 import { webview } from '@kit.ArkWeb';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { BundleKey } from '../../constant/BundleKey';
 
 /** 对标 Android WebDoorDefaultFragment */

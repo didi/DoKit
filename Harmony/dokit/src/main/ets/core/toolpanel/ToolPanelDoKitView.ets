@@ -1,9 +1,9 @@
 import promptAction from '@ohos.promptAction';
 import { DoKitConstants } from '../../constant/DoKitConstants';
 import { resolveKitIcon } from '../../config/KitIconResolver';
-import { InnerKitRegistry } from '../core/InnerKitRegistry';
-import { DoKitViewManager } from '../core/DoKitViewManager';
-import { DoKitManager } from '../core/DoKitManager';
+import { SystemKitRegistry } from '../SystemKitRegistry';
+import { DoKitViewManager } from '../DoKitViewManager';
+import { DoKitManager } from '../DoKitManager';
 import { KitGroup, KitGroupId, KitItem } from '../../model/KitModels';
 
 /** 工具面板，对标 Android kit/toolpanel/ToolPanelDoKitView */
@@ -24,7 +24,7 @@ export struct ToolPanelDoKitView {
       }
       return;
     }
-    const innerKit = InnerKitRegistry.get(item.innerKitId);
+    const innerKit = SystemKitRegistry.get(item.innerKitId);
     if (innerKit !== undefined) {
       const context = DoKitManager.getContext();
       if (context === null) {

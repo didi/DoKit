@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { WebDoorHistoryStore } from './WebDoorHistoryStore';
 import { WebDoorManager } from './WebDoorManager';
 

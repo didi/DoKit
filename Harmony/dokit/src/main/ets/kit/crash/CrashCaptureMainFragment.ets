@@ -2,9 +2,9 @@ import promptAction from '@ohos.promptAction';
 import { CrashCaptureConfig } from '../../config/CrashCaptureConfig';
 import { BundleKey } from '../../constant/BundleKey';
 import { DoKitFileUtil } from '../../util/DoKitFileUtil';
-import { DoKitBundle, FragmentCloseHandler } from '../core/FragmentRenderer';
-import { SimpleDoKitLauncher } from '../core/SimpleDoKitLauncher';
-import { SettingItem } from '../core/SettingItem';
+import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitLauncher } from '../../core/DoKitLauncher';
+import { SettingItem } from '../../core/SettingItem';
 import { CrashCaptureManager } from './CrashCaptureManager';
 import { FileExplorerFragment } from '../fileexplorer/FileExplorerPage';
 
@@ -52,7 +52,7 @@ export struct CrashCaptureMainFragment {
     const crashDir = CrashCaptureManager.getInstance().getCrashCacheDir();
     const bundle: DoKitBundle = {};
     bundle[BundleKey.DIR_KEY] = crashDir;
-    SimpleDoKitLauncher.launchFullScreen(FileExplorerFragment.CLASS_NAME, bundle, true);
+    DoKitLauncher.launchFullScreen(FileExplorerFragment.CLASS_NAME, bundle, true);
   }
 
   private cleanCrashHistory(): void {

@@ -1,5 +1,5 @@
 import { preferences } from '@kit.ArkData';
-import { DoKitManager } from '../core/DoKitManager';
+import { DoKitManager } from '../../core/DoKitManager';
 
 /**
  * H5任意门历史记录，对标 Android WebDoorManager + harmonydriver H5DoorHistoryStore

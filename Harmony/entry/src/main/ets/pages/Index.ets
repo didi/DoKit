@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState } from '@didi/dokit';
+import { DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState } from '@didi-hummer/dokit';
 import { buildEntryCustomFloating, buildEntryCustomFullScreen } from '../dokit/DemoCustomKitRenderers';
 import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
 import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
