@@ -96,6 +96,7 @@ export struct DoKitFloatingWindow {
     SystemFragmentRegistry.setCloseHandler(null);
     DoKitViewManager.setFloatingAttachHandler(null);
     DoKitViewManager.setFloatingDetachHandler(null);
+    DoKitViewManager.setWindowRefreshHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
   }
 
@@ -214,15 +215,6 @@ export struct DoKitFloatingWindow {
           .hitTestBehavior(HitTestMode.Transparent)
         }
 
-        if (this.showCustomFloat && this.activeFloatingClass.length > 0) {
-          Stack() {
-
-          }
-          .width('100%')
-          .height('100%')
-          .hitTestBehavior(HitTestMode.Default)
-        }
-
         if (this.fpsMonitorActive) {
           FpsFrameCollector()
         }
@@ -267,12 +259,13 @@ export struct DoKitFloatingWindow {
           })
         }
 
-        if (this.viewRefresh >= 0) {
-
+        if (this.viewRefresh >= 0 && this.viewConfigs.length > 0) {
           ForEach(this.viewConfigs, (config: ViewConfig) => {
             Column() {
               CustomViewRegistry.getBuilder(config.name)?.builder(config.params, config.closeHandler)
             }
+            .width('100%')
+            .height('100%')
           })
         }
       }

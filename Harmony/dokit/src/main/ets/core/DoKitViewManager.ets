@@ -1,7 +1,7 @@
 import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { DoKitParams } from './CustomViewRegistry';
 import { CustomDoKitViewRenderer, DoKitIntent, DoKitViewCloseHandler } from './DoKitIntent';
-import { Position } from '@kit.ArkUI';
+import { Callback } from '@kit.BasicServicesKit';
 
 
 /**
@@ -10,9 +10,23 @@ import { Position } from '@kit.ArkUI';
 export class ViewConfig {
   name: string = "";
   params?: DoKitParams;
-  closeHandler?: () => void;
-  isFloat: boolean = false;
-  viewPoint?: Position;
+  closeHandler?: Callback<void>;
+  isFloat: boolean;
+  viewPoint: Position;
+
+  constructor(
+    name: string,
+    isFloat: boolean,
+    params?: DoKitParams,
+    viewPoint?: Position,
+    closeHandler?: Callback<void>
+  ) {
+    this.name = name;
+    this.isFloat = isFloat;
+    this.params = params;
+    this.viewPoint = viewPoint ?? { x: 0, y: 0 }
+    this.closeHandler = closeHandler;
+  }
 }
 
 /**
