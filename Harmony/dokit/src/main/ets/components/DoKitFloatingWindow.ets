@@ -20,11 +20,6 @@ function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundl
   Column().width('100%').height('100%')
 }
 
-@Builder
-function defaultCustomFloatingPage(_targetClass: string, _bundle: DoKitBundle, _onClose: () => void) {
-  Column().width('100%').height('100%')
-}
-
 /**
  * DoKit Overlay 根容器，对标 Android DoKitFrameLayout + DoKitViewManager 挂载点
  * 宿主：Stack() { 业务页; DoKitFloatingWindow() }
@@ -32,7 +27,6 @@ function defaultCustomFloatingPage(_targetClass: string, _bundle: DoKitBundle, _
 @Component
 export struct DoKitFloatingWindow {
   @BuilderParam customFullScreenPage: CustomFragmentRenderer = defaultCustomFullScreenPage;
-  @BuilderParam customFloatingPage: CustomDoKitViewRenderer = defaultCustomFloatingPage;
 
   private readonly ballSize: number = 58;
   private readonly ballMarginRight: number = 16;
@@ -84,8 +78,10 @@ export struct DoKitFloatingWindow {
     });
 
     DoKitViewManager.setWindowRefreshHandler(() => {
-      this.viewRefresh++;
+      this.viewRefresh = 0;
       this.viewConfigs = DoKitViewManager.getViewConfigList();
+      // 为了触发重新渲染，先使用0清除数据，然后重新添加到视图上
+      this.viewRefresh ++;
     })
 
     PerformanceDokitViewManager.setOverlayChangeHandler(() => {
@@ -220,9 +216,7 @@ export struct DoKitFloatingWindow {
 
         if (this.showCustomFloat && this.activeFloatingClass.length > 0) {
           Stack() {
-            this.customFloatingPage(this.activeFloatingClass, this.activeFloatingBundle, () => {
-              DoKitViewManager.detach(this.activeFloatingClass);
-            })
+
           }
           .width('100%')
           .height('100%')
