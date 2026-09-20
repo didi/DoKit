@@ -36,23 +36,35 @@ export class DoKitFileUtil {
     return parentDirName === DoKitFileUtil.SHARED_PREFS && fileName.includes(DoKitFileUtil.XML);
   }
 
-  static deleteDirectory(path: string): void {
+  static deleteDirectory(path: string): boolean {
     if (!DoKitFileUtil.pathExists(path)) {
-      return;
+      return true;
     }
     try {
       const stat = fs.statSync(path);
       if (stat.isDirectory()) {
         const names = fs.listFileSync(path);
+        let success = true;
         for (let i = 0; i < names.length; i++) {
-          DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]));
+          if (!DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]))) {
+            success = false;
+          }
         }
-        fs.rmdirSync(path);
-      } else {
-        fs.unlinkSync(path);
+        if (!success) {
+          return false;
+        }
+        try {
+          fs.rmdirSync(path);
+          return true;
+        } catch (_rmdirErr) {
+          const left = fs.listFileSync(path);
+          return left.length === 0;
+        }
       }
+      fs.unlinkSync(path);
+      return true;
     } catch (_err) {
-      // 部分系统目录可能不可删，忽略
+      return false;
     }
   }
 

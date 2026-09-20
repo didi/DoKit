@@ -10,3 +10,14 @@ export class DataCleanDirItem {
     this.isCheckAll = isCheckAll;
   }
 }
+
+export enum DataCleanResult {
+  NONE_SELECTED = 0,
+  SUCCESS = 1,
+  PARTIAL_FAILED = 2
+}
+
+export class DataCleanOutcome {
+  result: DataCleanResult = DataCleanResult.SUCCESS;
+  failedNames: string[] = [];
+}
