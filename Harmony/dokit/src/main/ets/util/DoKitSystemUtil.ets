@@ -28,14 +28,13 @@ export class DoKitSystemUtil {
   }
 
   /**
-   * 打开系统本地语言设置页，对标 Android startLocalActivity
-   * uri: Settings.ACTION_LOCALE_SETTINGS
+   * 打开系统本地语言设置页，对标 Android startLocalActivity / Settings.ACTION_LOCALE_SETTINGS
+   * 官方 uri：set_language_region（语言和地区）、set_language（语言和输入法）
    */
   static startLocalActivity(context: common.UIAbilityContext): void {
     const uris: string[] = [
-      'language_settings',
-      'locale_settings',
-      'languages_and_region_settings'
+      'set_language_region',
+      'set_language'
     ];
     DoKitSystemUtil.tryOpenSettings(context, uris).then((opened: boolean) => {
       if (!opened) {
