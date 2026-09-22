@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
 import { fileIo as fs, fileUri } from '@kit.CoreFileKit';
 import { util } from '@kit.ArkTS';
+import { DoKitFileUtil } from '../../util/DoKitFileUtil';
 import { DoKitManager } from '../../core/DoKitManager';
 import { SandboxFileItem, SandboxFileType } from './SandboxFileModels';
 
@@ -74,7 +75,6 @@ export class FileExplorerHelper {
         // skip unreadable entry
       }
     }
-    FileExplorerHelper.sortItems(items);
     return items;
   }
 
@@ -102,19 +102,45 @@ export class FileExplorerHelper {
     return roots.has(path);
   }
 
-  static readTextPreview(path: string, maxBytes: number = 102400): string {
-    const stat = fs.statSync(path);
-    const readSize = Math.min(stat.size, maxBytes);
-    const file = fs.openSync(path, fs.OpenMode.READ_ONLY);
-    const buffer = new ArrayBuffer(readSize);
-    fs.readSync(file.fd, buffer);
-    fs.closeSync(file.fd);
-    const decoder = util.TextDecoder.create('utf-8', { ignoreBOM: true });
-    let text = decoder.decodeToString(new Uint8Array(buffer));
-    if (stat.size > maxBytes) {
-      text = `${text}\n\n...(内容过长，已截断)`;
+  /**
+   * 对标 Android TextDetailFragment.FileReadTask：流式按块读，异常由调用方捕获。
+   * 不一次 new ArrayBuffer(整文件)，避免 apk 等大文件 OOM。
+   */
+  static readTextPreview(path: string): string {
+    const CHUNK_SIZE = 64 * 1024;
+    // 平台限制：整文件进字符串仍会 OOM，最多读入前 1MB 供预览（安卓是按行往 RecyclerView 追加）
+    const MAX_READ = 1024 * 1024;
+    let file: fs.File | undefined = undefined;
+    try {
+      const stat = fs.statSync(path);
+      if (stat.size <= 0) {
+        return '';
+      }
+      file = fs.openSync(path, fs.OpenMode.READ_ONLY);
+      const decoder = util.TextDecoder.create('utf-8', { ignoreBOM: true });
+      const buffer = new ArrayBuffer(CHUNK_SIZE);
+      let text = '';
+      let totalRead = 0;
+      const limit = Math.min(Number(stat.size), MAX_READ);
+      while (totalRead < limit) {
+        const readLen = fs.readSync(file.fd, buffer);
+        if (readLen <= 0) {
+          break;
+        }
+        const sliceLen = Math.min(readLen, limit - totalRead);
+        const stream = totalRead + sliceLen < limit;
+        text += decoder.decodeToString(new Uint8Array(buffer, 0, sliceLen), { stream: stream });
+        totalRead += sliceLen;
+        if (readLen < CHUNK_SIZE) {
+          break;
+        }
+      }
+      return text;
+    } finally {
+      if (file !== undefined) {
+        fs.closeSync(file.fd);
+      }
     }
-    return text;
   }
 
   static getFileUri(path: string): string {
@@ -125,13 +151,14 @@ export class FileExplorerHelper {
     if (item.isDirectory) {
       return $r('app.media.dk_dir_icon');
     }
-    if (item.fileType === SandboxFileType.IMAGE) {
+    const suffix = DoKitFileUtil.getSuffix(item.name);
+    if (suffix === DoKitFileUtil.JPG) {
       return $r('app.media.dk_jpg_icon');
     }
-    if (item.fileType === SandboxFileType.TEXT) {
+    if (suffix === DoKitFileUtil.TXT) {
       return $r('app.media.dk_txt_icon');
     }
-    if (item.fileType === SandboxFileType.DATABASE) {
+    if (suffix === DoKitFileUtil.DB) {
       return $r('app.media.dk_file_db');
     }
     return $r('app.media.dk_file_icon');
@@ -139,24 +166,17 @@ export class FileExplorerHelper {
 
   private static buildRootEntries(context: common.UIAbilityContext): SandboxRootEntry[] {
     const entries: SandboxRootEntry[] = [];
-    entries.push(new SandboxRootEntry('files', context.filesDir));
-    entries.push(new SandboxRootEntry('cache', context.cacheDir));
-    entries.push(new SandboxRootEntry('temp', context.tempDir));
-    entries.push(new SandboxRootEntry('database', context.databaseDir));
     const parentPath = FileExplorerHelper.getParentPath(context.filesDir);
-    if (parentPath.length > 0 && !FileExplorerHelper.containsPath(entries, parentPath)) {
-      entries.unshift(new SandboxRootEntry('app', parentPath));
+    if (parentPath.length > 0) {
+      entries.push(new SandboxRootEntry(FileExplorerHelper.getDisplayTitle(parentPath, false), parentPath));
+    }
+    if (context.cacheDir.length > 0) {
+      entries.push(new SandboxRootEntry(FileExplorerHelper.getDisplayTitle(context.cacheDir, false), context.cacheDir));
+    }
+    if (context.filesDir.length > 0) {
+      entries.push(new SandboxRootEntry(FileExplorerHelper.getDisplayTitle(context.filesDir, false), context.filesDir));
     }
     return entries;
-  }
-
-  private static containsPath(entries: SandboxRootEntry[], path: string): boolean {
-    for (let i = 0; i < entries.length; i++) {
-      if (entries[i].path === path) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private static getRootPathSet(): Set<string> {
@@ -207,14 +227,5 @@ export class FileExplorerHelper {
       return '';
     }
     return name.substring(index + 1).toLowerCase();
-  }
-
-  private static sortItems(items: SandboxFileItem[]): void {
-    items.sort((left: SandboxFileItem, right: SandboxFileItem) => {
-      if (left.isDirectory !== right.isDirectory) {
-        return left.isDirectory ? -1 : 1;
-      }
-      return left.name.localeCompare(right.name);
-    });
   }
 }
