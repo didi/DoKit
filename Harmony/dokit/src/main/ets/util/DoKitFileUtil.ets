@@ -1,4 +1,9 @@
-import { fileIo as fs } from '@kit.CoreFileKit';
+import { common, Want, wantConstant } from '@kit.AbilityKit';
+import { fileIo as fs, fileUri } from '@kit.CoreFileKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+
+const DOMAIN = 0x0000;
+const TAG = 'DoKitH5';
 
 /**
  * 文件工具，对标 Android DoKitFileUtil
@@ -12,9 +17,6 @@ export class DoKitFileUtil {
 
   static getSuffix(fileName: string): string {
     const index = fileName.lastIndexOf('.');
-    if (index < 0) {
-      return '';
-    }
     return fileName.substring(index + 1).toLowerCase();
   }
 
@@ -35,9 +37,54 @@ export class DoKitFileUtil {
   static isSp(fileName: string, parentDirName: string): boolean {
     return parentDirName === DoKitFileUtil.SHARED_PREFS && fileName.includes(DoKitFileUtil.XML);
   }
-
-  static deleteDirectory(path: string): boolean {
+  /** 对标 Android DoKitFileUtil.systemShare */
+  static systemShare(context: common.UIAbilityContext, path: string): void {
     if (!DoKitFileUtil.pathExists(path)) {
+      hilog.warn(DOMAIN, TAG, 'DoKitH5|FileExplorer share skip missing path=%{public}s', path);
+      return;
+    }
+    const uri = fileUri.getUriFromPath(path);
+    hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share start uri=%{public}s', uri);
+    const want: Want = {
+      action: 'ohos.want.action.sendData',
+      uri: uri,
+      type: '*/*',
+      flags: wantConstant.Flags.FLAG_AUTH_READ_URI_PERMISSION
+    };
+    context.startAbility(want).then(() => {
+      hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share ok uri=%{public}s', uri);
+    }).catch((err: Error) => {
+      hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer share fail uri=%{public}s err=%{public}s',
+        uri, JSON.stringify(err));
+    });
+  }
+  /** 对标 Android DoKitFileUtil.systemShare */
+  static systemShare(context: common.UIAbilityContext, path: string): void {
+    if (!DoKitFileUtil.pathExists(path)) {
+      hilog.warn(DOMAIN, TAG, 'DoKitH5|FileExplorer share skip missing path=%{public}s', path);
+      return;
+    }
+    const uri = fileUri.getUriFromPath(path);
+    hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share start uri=%{public}s', uri);
+    const want: Want = {
+      action: 'ohos.want.action.sendData',
+      uri: uri,
+      type: '*/*',
+      flags: wantConstant.Flags.FLAG_AUTH_READ_URI_PERMISSION
+    };
+    context.startAbility(want).then(() => {
+      hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share ok uri=%{public}s', uri);
+    }).catch((err: Error) => {
+      hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer share fail uri=%{public}s err=%{public}s',
+        uri, JSON.stringify(err));
+    });
+  }
+
+  static deleteDirectory(path: string, logResult: boolean = true): boolean {
+    if (!DoKitFileUtil.pathExists(path)) {
+      if (logResult) {
+        hilog.warn(DOMAIN, TAG, 'DoKitH5|FileExplorer delete skip missing path=%{public}s', path);
+      }
       return true;
     }
     try {
@@ -46,7 +93,7 @@ export class DoKitFileUtil {
         const names = fs.listFileSync(path);
         let success = true;
         for (let i = 0; i < names.length; i++) {
-          if (!DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]))) {
+          if (!DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]), false)) {
             success = false;
           }
         }
