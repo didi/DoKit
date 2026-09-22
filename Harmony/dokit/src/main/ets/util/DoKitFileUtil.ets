@@ -81,8 +81,14 @@ export class DoKitFileUtil {
         }
         try {
           fs.rmdirSync(path);
+          if (logResult) {
+            hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer delete ok dir=%{public}s path=%{public}s',
+              String(stat.isDirectory()), path);
+          }
           return true;
         } catch (_rmdirErr) {
+          hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer delete fail path=%{public}s err=%{public}s',
+            path, JSON.stringify(_rmdirErr));
           const left = fs.listFileSync(path);
           return left.length === 0;
         }
