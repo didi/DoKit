@@ -58,27 +58,6 @@ export class DoKitFileUtil {
         uri, JSON.stringify(err));
     });
   }
-  /** 对标 Android DoKitFileUtil.systemShare */
-  static systemShare(context: common.UIAbilityContext, path: string): void {
-    if (!DoKitFileUtil.pathExists(path)) {
-      hilog.warn(DOMAIN, TAG, 'DoKitH5|FileExplorer share skip missing path=%{public}s', path);
-      return;
-    }
-    const uri = fileUri.getUriFromPath(path);
-    hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share start uri=%{public}s', uri);
-    const want: Want = {
-      action: 'ohos.want.action.sendData',
-      uri: uri,
-      type: '*/*',
-      flags: wantConstant.Flags.FLAG_AUTH_READ_URI_PERMISSION
-    };
-    context.startAbility(want).then(() => {
-      hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer share ok uri=%{public}s', uri);
-    }).catch((err: Error) => {
-      hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer share fail uri=%{public}s err=%{public}s',
-        uri, JSON.stringify(err));
-    });
-  }
 
   static deleteDirectory(path: string, logResult: boolean = true): boolean {
     if (!DoKitFileUtil.pathExists(path)) {
