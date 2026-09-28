@@ -12,6 +12,7 @@ import { RamKit } from '../kit/parameter/ram/RamKit';
 import { DataCleanKit } from '../kit/dataclean/DataCleanKit';
 import { FileExplorerKit } from '../kit/fileexplorer/FileExplorerKit';
 import { WebDoorKit } from '../kit/webdoor/WebDoorKit';
+import { ColorPickerKit } from '../kit/colorpick/ColorPickerKit';
 
 /**
  * 内置 Kit 注册表，对标 Android ServiceLoader.load(AbstractKit)
@@ -36,6 +37,7 @@ export class SystemKitRegistry {
     SystemKitRegistry.register(new DataCleanKit());
     SystemKitRegistry.register(new FileExplorerKit());
     SystemKitRegistry.register(new WebDoorKit());
+    SystemKitRegistry.register(new ColorPickerKit());
     SystemKitRegistry.initialized = true;
   }
 

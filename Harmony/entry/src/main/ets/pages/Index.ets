@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState } from '@didi-hummer/dokit';
+import { ColorPickManager, DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState } from '@didi-hummer/dokit';
 import { buildEntryCustomFullScreen } from '../dokit/DemoCustomKitRenderers';
 import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
 import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
@@ -35,6 +35,9 @@ struct Index {
         return;
       case '崩溃模拟':
         CrashTest.test();
+        return;
+      case '取色器测试':
+        ColorPickManager.getInstance().open();
         return;
       default:
         promptAction.showToast({

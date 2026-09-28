@@ -27,6 +27,22 @@
     {
       "name": "permission_location_reason",
       "value": "用于位置模拟等 LBS 调试功能"
+    },
+    {
+      "name": "permission_wifi_reason",
+      "value": "用于读取 IP / Mac 等调试信息"
+    },
+    {
+      "name": "permission_camera_reason",
+      "value": "用于展示拍照权限状态"
+    },
+    {
+      "name": "permission_microphone_reason",
+      "value": "用于展示麦克风权限状态"
+    },
+    {
+      "name": "permission_contacts_reason",
+      "value": "用于展示通讯录权限状态"
     }
   ]
 }

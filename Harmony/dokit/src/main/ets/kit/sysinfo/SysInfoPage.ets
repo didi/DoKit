@@ -18,7 +18,11 @@ export struct SysInfoPage {
   @State private items: SysInfoListItem[] = [];
 
   aboutToAppear(): void {
-    this.items = SysInfoCollector.collect();
+    SysInfoCollector.collect().then((items: SysInfoListItem[]) => {
+      this.items = items;
+    }).catch((_err: Error) => {
+      this.items = [];
+    });
   }
 
   private openAppSettings(): void {
@@ -26,16 +30,23 @@ export struct SysInfoPage {
     if (context === null) {
       return;
     }
+    const bundleName = context.applicationInfo.name;
     const want: Want = {
       bundleName: 'com.huawei.hmos.settings',
       abilityName: 'com.huawei.hmos.settings.MainAbility',
       uri: 'application_info_entry',
       parameters: {
-        pushParams: context.applicationInfo.name
+        pushParams: bundleName
       }
     };
     context.startAbility(want).catch((_err: Error) => {
-      // 部分设备 settings bundle 不同，忽略失败
+      const fallback: Want = {
+        action: 'ohos.want.action.appdetail',
+        bundleName: bundleName
+      };
+      context.startAbility(fallback).catch((_fallbackErr: Error) => {
+        // 部分设备 settings 入口不同，忽略失败
+      });
     });
   }
 

@@ -109,8 +109,11 @@ export class ToolPanelUtil {
     kits.push(new KitBean('dokit_sdk_comm_ck_sandbox', true));
     kits.push(new KitBean('dokit_sdk_comm_ck_h5', true));
     kits.push(new KitBean('dokit_sdk_comm_ck_cache', true));
+    const uiKits: KitBean[] = [];
+    uiKits.push(new KitBean('dokit_sdk_ui_ck_color_pick', true));
     const groups: KitGroupBean[] = [];
     groups.push(new KitGroupBean(KitGroupId.COMMS, kits));
+    groups.push(new KitGroupBean(KitGroupId.UI, uiKits));
     return ToolPanelUtil.buildSystemKits(groups);
   }
 }
