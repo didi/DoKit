@@ -2,7 +2,7 @@ import { common } from '@kit.AbilityKit';
 import { fileIo as fs } from '@kit.CoreFileKit';
 import { DoKitManager } from '../core/DoKitManager';
 import { DoKitFileUtil } from './DoKitFileUtil';
-import { DataCleanDirItem } from '../kit/dataclean/DataCleanModels';
+import { DataCleanDirItem, DataCleanOutcome, DataCleanResult } from '../kit/dataclean/DataCleanModels';
 
 /**
  * 清理缓存工具，对标 Android util/DataCleanUtil
@@ -56,16 +56,41 @@ export class DataCleanUtil {
     return items;
   }
 
-  static cleanSelectedDirs(context: common.UIAbilityContext, dirItems: DataCleanDirItem[]): void {
+  static hasCheckedDir(dirItems: DataCleanDirItem[]): boolean {
+    for (let i = 0; i < dirItems.length; i++) {
+      const item = dirItems[i];
+      if (!item.isCheckAll && item.checked) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static cleanSelectedDirs(context: common.UIAbilityContext, dirItems: DataCleanDirItem[]): DataCleanOutcome {
+    const outcome = new DataCleanOutcome();
     const root = DataCleanUtil.getInternalAppDataPath(context);
+    let selectedCount = 0;
     for (let i = 1; i < dirItems.length; i++) {
       const item = dirItems[i];
       if (!item.checked) {
         continue;
       }
+      selectedCount++;
       const targetPath = DataCleanUtil.joinPath(root, item.name);
-      DoKitFileUtil.deleteDirectory(targetPath);
+      if (!DoKitFileUtil.deleteDirectory(targetPath)) {
+        outcome.failedNames.push(item.name);
+      }
     }
+    if (selectedCount === 0) {
+      outcome.result = DataCleanResult.NONE_SELECTED;
+      return outcome;
+    }
+    if (outcome.failedNames.length > 0) {
+      outcome.result = DataCleanResult.PARTIAL_FAILED;
+      return outcome;
+    }
+    outcome.result = DataCleanResult.SUCCESS;
+    return outcome;
   }
 
   static getCheckAllLabel(): string {

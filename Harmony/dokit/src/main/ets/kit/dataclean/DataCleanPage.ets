@@ -1,6 +1,6 @@
 import promptAction from '@ohos.promptAction';
 import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
-import { DataCleanDirItem } from './DataCleanModels';
+import { DataCleanDirItem, DataCleanOutcome, DataCleanResult } from './DataCleanModels';
 import { DataCleanUtil } from '../../util/DataCleanUtil';
 
 /** 对标 Android DataCleanFragment */
@@ -30,21 +30,24 @@ export struct DataCleanPage {
     this.dirItems = DataCleanUtil.buildDirItems(context);
   }
 
-  private onDirItemClick(index: number): void {
+  private setDirItemChecked(index: number, checked: boolean): void {
     const items: DataCleanDirItem[] = [...this.dirItems];
     const item = items[index];
     if (item.isCheckAll) {
-      const targetChecked = !item.checked;
       for (let i = 0; i < items.length; i++) {
-        items[i] = new DataCleanDirItem(items[i].name, targetChecked, items[i].isCheckAll);
+        items[i] = new DataCleanDirItem(items[i].name, checked, items[i].isCheckAll);
       }
     } else {
-      items[index] = new DataCleanDirItem(item.name, !item.checked, false);
+      items[index] = new DataCleanDirItem(item.name, checked, false);
     }
     this.dirItems = items;
   }
 
   private showCleanConfirmDialog(): void {
+    if (!DataCleanUtil.hasCheckedDir(this.dirItems)) {
+      promptAction.showToast({ message: '请先选择要清理的目录', duration: 2000 });
+      return;
+    }
     promptAction.showDialog({
       title: '提示',
       message: '确认要删除本地数据',
@@ -66,47 +69,54 @@ export struct DataCleanPage {
     if (context === null) {
       return;
     }
-    DataCleanUtil.cleanSelectedDirs(context, this.dirItems);
-    this.dataSizeText = DataCleanUtil.getApplicationDataSizeStr(context);
+    const outcome: DataCleanOutcome = DataCleanUtil.cleanSelectedDirs(context, this.dirItems);
+    this.reloadPageData();
+    this.showCleanResult(outcome);
+  }
+
+  private showCleanResult(outcome: DataCleanOutcome): void {
+    if (outcome.result === DataCleanResult.NONE_SELECTED) {
+      promptAction.showToast({ message: '请先选择要清理的目录', duration: 2000 });
+      return;
+    }
+    if (outcome.result === DataCleanResult.PARTIAL_FAILED) {
+      const failed = outcome.failedNames.join('、');
+      const message = failed.length > 0 ? `部分目录清理失败：${failed}` : '部分目录清理失败';
+      promptAction.showToast({ message, duration: 2000 });
+      return;
+    }
+    promptAction.showToast({ message: '清理完成', duration: 2000 });
   }
 
   @Builder
   private buildDirRow(item: DataCleanDirItem, index: number) {
-    Row() {
-      Text(item.name)
-        .fontSize(14)
-        .fontColor('#333333')
-        .layoutWeight(1)
-
-      Toggle({ type: ToggleType.Switch, isOn: item.checked })
-        .enabled(false)
-        .selectedColor('#0070BB')
-    }
-    .width('100%')
-    .padding({ left: 10, right: 10, top: 10, bottom: 10 })
-    .backgroundColor(Color.White)
-    .onClick(() => {
-      this.onDirItemClick(index);
+    DataCleanDirRow({
+      name: item.name,
+      checked: item.checked,
+      onCheckedChange: (checked: boolean) => {
+        this.setDirItemChecked(index, checked);
+      }
     })
   }
 
   build() {
     Column() {
       Row() {
+        Image($r('app.media.dk_close_icon_big'))
+          .height(18)
+          .width(18)
+          .objectFit(ImageFit.Fill)
+          .onClick(() => {
+            this.onClose();
+          })
+
         Text('清理缓存')
           .fontSize(18)
           .fontWeight(FontWeight.Medium)
           .fontColor('#111111')
           .layoutWeight(1)
-          .textAlign(TextAlign.Center)
+          .textAlign(TextAlign.Start)
 
-        Text('✕')
-          .fontSize(20)
-          .fontColor('#666666')
-          .padding(8)
-          .onClick(() => {
-            this.onClose();
-          })
       }
       .width('100%')
       .height(56)
@@ -133,16 +143,18 @@ export struct DataCleanPage {
         .color('#EEEEEE')
         .margin({ left: 16, right: 16 })
 
-      Scroll() {
-        Column() {
-          ForEach(this.dirItems, (item: DataCleanDirItem, index: number) => {
-            this.buildDirRow(item, index)
-          }, (item: DataCleanDirItem, index: number) => `${item.name}_${index}`)
+      Column() {
+        Scroll() {
+          Column() {
+            ForEach(this.dirItems, (item: DataCleanDirItem, index: number) => {
+              this.buildDirRow(item, index)
+            }, (item: DataCleanDirItem, index: number) => `${item.name}_${index}_${item.checked ? '1' : '0'}`)
+          }
+          .width('100%')
         }
-        .width('100%')
+        .scrollBar(BarState.Off)
       }
       .layoutWeight(1)
-      .scrollBar(BarState.Off)
 
       Button('清理缓存')
         .width('100%')
@@ -158,6 +170,52 @@ export struct DataCleanPage {
     .width('100%')
     .height('100%')
     .backgroundColor(Color.White)
+  }
+}
+
+/** 对齐 Android 目录行：整行可点，Toggle 只展示状态 */
+@Component
+struct DataCleanDirRow {
+  @Prop name: string = '';
+  @Prop @Watch('onCheckedPropChange') checked: boolean = false;
+  onCheckedChange: (checked: boolean) => void = (_checked: boolean) => {};
+  @State private switchOn: boolean = false;
+
+  aboutToAppear(): void {
+    this.switchOn = this.checked;
+  }
+
+  onCheckedPropChange(): void {
+    this.switchOn = this.checked;
+  }
+
+  private emitChecked(checked: boolean): void {
+    if (this.switchOn !== checked) {
+      this.switchOn = checked;
+    }
+    this.onCheckedChange(checked);
+  }
+
+  build() {
+    Row() {
+      Text(this.name)
+        .fontSize(14)
+        .fontColor('#333333')
+        .layoutWeight(1)
+
+      Toggle({ type: ToggleType.Switch, isOn: this.switchOn })
+        .selectedColor('#0070BB')
+        .hitTestBehavior(HitTestMode.None)
+        .onChange((isOn: boolean) => {
+          this.emitChecked(isOn);
+        })
+    }
+    .width('100%')
+    .padding({ left: 10, right: 10, top: 10, bottom: 10 })
+    .backgroundColor(Color.White)
+    .onClick(() => {
+      this.emitChecked(!this.switchOn);
+    })
   }
 }
 

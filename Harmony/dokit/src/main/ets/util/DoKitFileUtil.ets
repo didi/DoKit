@@ -37,7 +37,6 @@ export class DoKitFileUtil {
   static isSp(fileName: string, parentDirName: string): boolean {
     return parentDirName === DoKitFileUtil.SHARED_PREFS && fileName.includes(DoKitFileUtil.XML);
   }
-
   /** 对标 Android DoKitFileUtil.systemShare */
   static systemShare(context: common.UIAbilityContext, path: string): void {
     if (!DoKitFileUtil.pathExists(path)) {
@@ -60,31 +59,44 @@ export class DoKitFileUtil {
     });
   }
 
-  static deleteDirectory(path: string, logResult: boolean = true): void {
+  static deleteDirectory(path: string, logResult: boolean = true): boolean {
     if (!DoKitFileUtil.pathExists(path)) {
       if (logResult) {
         hilog.warn(DOMAIN, TAG, 'DoKitH5|FileExplorer delete skip missing path=%{public}s', path);
       }
-      return;
+      return true;
     }
     try {
       const stat = fs.statSync(path);
       if (stat.isDirectory()) {
         const names = fs.listFileSync(path);
+        let success = true;
         for (let i = 0; i < names.length; i++) {
-          DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]), false);
+          if (!DoKitFileUtil.deleteDirectory(DoKitFileUtil.joinPath(path, names[i]), false)) {
+            success = false;
+          }
         }
-        fs.rmdirSync(path);
-      } else {
-        fs.unlinkSync(path);
+        if (!success) {
+          return false;
+        }
+        try {
+          fs.rmdirSync(path);
+          if (logResult) {
+            hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer delete ok dir=%{public}s path=%{public}s',
+              String(stat.isDirectory()), path);
+          }
+          return true;
+        } catch (_rmdirErr) {
+          hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer delete fail path=%{public}s err=%{public}s',
+            path, JSON.stringify(_rmdirErr));
+          const left = fs.listFileSync(path);
+          return left.length === 0;
+        }
       }
-      if (logResult) {
-        hilog.info(DOMAIN, TAG, 'DoKitH5|FileExplorer delete ok dir=%{public}s path=%{public}s',
-          String(stat.isDirectory()), path);
-      }
-    } catch (err) {
-      hilog.error(DOMAIN, TAG, 'DoKitH5|FileExplorer delete fail path=%{public}s err=%{public}s',
-        path, JSON.stringify(err));
+      fs.unlinkSync(path);
+      return true;
+    } catch (_err) {
+      return false;
     }
   }
 
