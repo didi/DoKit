@@ -252,23 +252,13 @@ export struct ColorPickerDoKitView {
           })
           .hitTestBehavior(HitTestMode.None)
 
-        Column()
-          .width('100%')
-          .height('100%')
-          .borderRadius(this.viewSize / 2)
-          .border({
-            width: this.ringWidth,
-            color: this.getRingColor()
-          })
-          .hitTestBehavior(HitTestMode.None)
-
-        Text(this.infoText)
-          .width(this.viewSize)
-          .fontSize(10)
-          .fontColor(this.getFocusColor())
-          .textAlign(TextAlign.Center)
-          .position({ x: 0, y: this.ringWidth / 2 - 6 })
-          .hitTestBehavior(HitTestMode.None)
+        ColorPickerRingText({
+          viewSize: this.viewSize,
+          ringWidth: this.ringWidth,
+          infoText: this.infoText,
+          textColor: this.getFocusColor(),
+          ringColor: this.getRingColor()
+        })
       }
       .width(this.viewSize)
       .height(this.viewSize)
@@ -371,6 +361,121 @@ struct ColorPickerGrid {
       .hitTestBehavior(HitTestMode.None)
       .onReady(() => {
         this.drawGrid();
+      })
+  }
+}
+
+/**
+ * 色环 + 顶部弧线色值画在同一张 Canvas 上，避免 vp/px 混用导致字和边框错位。
+ * 对标 Android ColorPickerView.drawRing / drawTextOnPath
+ */
+@Component
+struct ColorPickerRingText {
+  viewSize: number = 0;
+  ringWidth: number = 0;
+  @Prop @Watch('onRingTextChange') infoText: string = '';
+  @Prop @Watch('onRingTextChange') textColor: string = '#000000';
+  @Prop @Watch('onRingTextChange') ringColor: string = '#FFFFFF';
+  private readonly settings: RenderingContextSettings = new RenderingContextSettings(true);
+  private readonly context: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.settings);
+
+  aboutToAppear(): void {
+    this.drawRingText();
+  }
+
+  private onRingTextChange(): void {
+    this.drawRingText();
+  }
+
+  private getCanvasSize(): number {
+    if (this.context.width > 0) {
+      return this.context.width;
+    }
+    return vp2px(this.viewSize);
+  }
+
+  private getRingWidth(size: number): number {
+    if (this.viewSize <= 0) {
+      return 0;
+    }
+    return size * this.ringWidth / this.viewSize;
+  }
+
+  private drawRingText(): void {
+    const ctx = this.context;
+    const size = this.getCanvasSize();
+    if (size <= 0) {
+      return;
+    }
+    ctx.clearRect(0, 0, size, size);
+    const ringW = this.getRingWidth(size);
+    const cx = size / 2;
+    const cy = size / 2;
+    const outerR = size / 2 - 0.5;
+    const innerR = Math.max(1, outerR - ringW);
+    const midR = (outerR + innerR) / 2;
+    this.drawRing(ctx, cx, cy, outerR, innerR, midR, ringW);
+    this.drawArcText(ctx, cx, cy, midR, size);
+  }
+
+  private drawRing(ctx: CanvasRenderingContext2D, cx: number, cy: number, outerR: number,
+    innerR: number, midR: number, ringW: number): void {
+    ctx.beginPath();
+    ctx.arc(cx, cy, midR, 0, Math.PI * 2);
+    ctx.lineWidth = ringW;
+    ctx.strokeStyle = this.ringColor;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+    ctx.lineWidth = 0.2;
+    ctx.strokeStyle = '#333333';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  private drawArcText(ctx: CanvasRenderingContext2D, cx: number, cy: number, radius: number,
+    size: number): void {
+    const text = this.infoText;
+    if (text.length === 0 || this.viewSize <= 0 || radius <= 0) {
+      return;
+    }
+    const fontPx = Math.max(24, Math.round(size * 28 / this.viewSize));
+    ctx.font = `${fontPx}px monospace`;
+    ctx.fillStyle = this.textColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const count = text.length;
+    const widths: number[] = [];
+    let totalWidth = 0;
+    for (let i = 0; i < count; i++) {
+      const width = ctx.measureText(text.charAt(i)).width;
+      widths.push(width);
+      totalWidth += width;
+    }
+    let arcPos = -totalWidth / 2;
+    for (let i = 0; i < count; i++) {
+      const charWidth = widths[i];
+      const angle = -Math.PI / 2 + (arcPos + charWidth / 2) / radius;
+      ctx.save();
+      ctx.translate(cx + radius * Math.cos(angle), cy + radius * Math.sin(angle));
+      ctx.rotate(angle + Math.PI / 2);
+      ctx.fillText(text.charAt(i), 0, 0);
+      ctx.restore();
+      arcPos += charWidth;
+    }
+  }
+
+  build() {
+    Canvas(this.context)
+      .width(this.viewSize)
+      .height(this.viewSize)
+      .hitTestBehavior(HitTestMode.None)
+      .onReady(() => {
+        this.drawRingText();
       })
   }
 }
