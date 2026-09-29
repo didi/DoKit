@@ -101,18 +101,37 @@ export struct ColorPickerDoKitView {
     promptAction.showToast({ message: '取色截图失败，请重试', duration: 2000 });
   }
 
-  private toMapX(viewX: number): number {
-    if (this.areaWidth <= 0 || this.imageCapture.getWidth() <= 0) {
-      return Math.round(vp2px(viewX));
+  private getPixelScale(): number {
+    const snapW = this.imageCapture.getWidth();
+    if (this.areaWidth <= 0 || snapW <= 0) {
+      return 1;
     }
-    return Math.round(viewX / this.areaWidth * this.imageCapture.getWidth());
+    return snapW / this.areaWidth;
+  }
+
+  private toMapX(viewX: number): number {
+    return this.imageCapture.getOriginX() + Math.round(viewX * this.getPixelScale());
   }
 
   private toMapY(viewY: number): number {
-    if (this.areaHeight <= 0 || this.imageCapture.getHeight() <= 0) {
-      return Math.round(vp2px(viewY));
+    const scale = this.getPixelScale();
+    const extra = this.imageCapture.getHeight() - this.areaHeight * scale;
+    // extra≈0：浮层已经和截图对齐，不能再加状态栏，否则会偏下。
+    // extra>0：截图更高。全加到顶部会偏下，完全不补会偏上；顶部最多吃 3/4，剩余留给底栏/比例差。
+    let top = 0;
+    if (extra > 2) {
+      const originY = Math.max(0, this.imageCapture.getOriginY());
+      const bottom = Math.max(0, this.imageCapture.getBottomInset());
+      let insetTop = extra - bottom;
+      if (insetTop < 0) {
+        insetTop = extra;
+      }
+      top = Math.min(insetTop, extra * 0.75);
+      if (originY > extra * 0.5) {
+        top = Math.min(top, originY);
+      }
     }
-    return Math.round(viewY / this.areaHeight * this.imageCapture.getHeight());
+    return Math.round(top + viewY * scale);
   }
 
   private getPickSize(): number {
