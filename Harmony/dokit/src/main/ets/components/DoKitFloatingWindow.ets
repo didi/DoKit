@@ -16,6 +16,7 @@ import { DoKitBundle } from '../core/FragmentRenderer';
 import { ViewConfigDoKitView } from '../core/ViewConfigDoKitView';
 import { ColorPickManager } from '../kit/colorpick/ColorPickManager';
 import { ColorPickerDoKitView } from '../kit/colorpick/ColorPickerDoKitView';
+import { window } from '@kit.ArkUI';
 
 @Builder
 function defaultCustomFullScreenPage(_fragmentClass: string, _bundle: DoKitBundle, _onClose: () => void) {
@@ -55,6 +56,8 @@ export struct DoKitFloatingWindow {
 
   @StorageLink(DoKitOverlayState.ICON_VISIBLE_KEY) iconVisible: boolean = true;
   @StorageLink(DoKitOverlayState.PANEL_OPEN_KEY) @Watch('onPanelOpenRequest') panelOpenRequest: boolean = false;
+  /** 壳 EntryAbility 写入的状态栏高度（px）；用 StorageProp 才能跟着避让区变化刷新 */
+  @StorageProp('topRectHeight') private topRectHeightPx: number = 0;
 
   aboutToAppear(): void {
     DoKitViewManager.setToolPanelChangeHandler((visible: boolean) => {
@@ -171,6 +174,30 @@ export struct DoKitFloatingWindow {
     this.activeIsSystemFragment = isSystemFragment;
   }
 
+  /**
+   * 顶避让高度。对齐壳 WebViewPage：
+   * 仅窗口 layoutFullScreen（沉浸式）时加 topRectHeight；非全屏内容已在安全区，再加会空一截。
+   * 读不到窗口属性时仍按 topRectHeight 避让，避免标题与状态栏重合。
+   */
+  private statusBarHeightVp(): number {
+    if (!this.shouldAvoidStatusBar()) {
+      return 0;
+    }
+    return this.topRectHeightPx > 0 ? px2vp(this.topRectHeightPx) : 0;
+  }
+
+  private shouldAvoidStatusBar(): boolean {
+    try {
+      const stage = AppStorage.get<window.WindowStage>('windowStage');
+      if (stage === undefined || stage === null) {
+        return this.topRectHeightPx > 0;
+      }
+      return stage.getMainWindowSync().getWindowProperties().isLayoutFullScreen;
+    } catch (_err) {
+      return this.topRectHeightPx > 0;
+    }
+  }
+
   private shouldBlockHitThrough(): boolean {
     return this.activeFragmentClass.length > 0 || this.showPanel || this.showCustomFloat ||
       this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay;
@@ -178,21 +205,22 @@ export struct DoKitFloatingWindow {
 
   @Builder
   private buildUniversalContent() {
-    if (this.activeIsSystemFragment) {
-      buildUniversalFragment(this.activeFragmentClass, SystemFragmentRegistry.getBundle(), () => {
-        SystemFragmentRegistry.finish();
-      });
-    } else {
-      Column() {
+    Column() {
+      if (this.activeIsSystemFragment) {
+        buildUniversalFragment(this.activeFragmentClass, SystemFragmentRegistry.getBundle(), () => {
+          SystemFragmentRegistry.finish();
+        });
+      } else {
         this.customFullScreenPage(this.activeFragmentClass, SystemFragmentRegistry.getBundle(), () => {
           SystemFragmentRegistry.finish();
         });
       }
-      .width('100%')
-      .height('100%')
-      .backgroundColor(Color.White)
-      .hitTestBehavior(HitTestMode.Default)
     }
+    .width('100%')
+    .height('100%')
+    .padding({ top: this.statusBarHeightVp() })
+    .backgroundColor(Color.White)
+    .hitTestBehavior(HitTestMode.Default)
   }
 
   build() {
@@ -201,7 +229,7 @@ export struct DoKitFloatingWindow {
         if (this.activeFragmentClass.length > 0) {
           this.buildUniversalContent()
         } else if (this.showPanel) {
-          Stack() {
+          Column() {
             ToolPanelDoKitView({
               kitGroups: this.kitGroups,
               onClose: () => {
@@ -211,6 +239,8 @@ export struct DoKitFloatingWindow {
           }
           .width('100%')
           .height('100%')
+          .padding({ top: this.statusBarHeightVp() })
+          .backgroundColor(Color.White)
           .hitTestBehavior(HitTestMode.Default)
         } else if (this.iconVisible) {
           Row() {
