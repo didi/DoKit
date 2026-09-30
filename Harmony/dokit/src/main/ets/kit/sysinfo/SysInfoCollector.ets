@@ -17,6 +17,8 @@ export class SysInfoCollector {
   private static readonly PERM_WRITE_MEDIA: Permissions = 'ohos.permission.WRITE_MEDIA';
   private static readonly PERM_CAMERA: Permissions = 'ohos.permission.CAMERA';
   private static readonly PERM_MICROPHONE: Permissions = 'ohos.permission.MICROPHONE';
+  private static readonly PERM_INTERNET: Permissions = 'ohos.permission.INTERNET';
+  private static readonly PERM_NETWORK_INFO: Permissions = 'ohos.permission.GET_NETWORK_INFO';
   private static readonly PERM_TELEPHONY: Permissions = 'ohos.permission.GET_TELEPHONY_STATE';
   private static readonly PERM_CONTACTS: Permissions = 'ohos.permission.READ_CONTACTS';
 
@@ -52,6 +54,14 @@ export class SysInfoCollector {
     items.push(SysInfoListItem.info('手机型号', `${brand} ${model}`.trim() || '-'));
     const osName = deviceInfo.osFullName ?? deviceInfo.displayVersion ?? '-';
     items.push(SysInfoListItem.info('系统版本', `${osName} (${deviceInfo.sdkApiVersion ?? '-'})`));
+    try {
+      const context = DoKitManager.getContext();
+      const path = context?.filesDir ?? '/data';
+      const freeBytes = statfs.getFreeSizeSync(path);
+      items.push(SysInfoListItem.info('应用存储剩余空间', SysInfoCollector.formatSize(freeBytes)));
+    } catch (_err) {
+      items.push(SysInfoListItem.info('应用存储剩余空间', '-'));
+    }
     items.push(SysInfoListItem.info('sd卡剩余空间', SysInfoCollector.readSdSpace()));
     items.push(SysInfoListItem.info('系统剩余空间', SysInfoCollector.readRomSpace()));
 
@@ -102,6 +112,16 @@ export class SysInfoCollector {
     items.push(SysInfoListItem.info(
       '麦克风权限',
       SysInfoCollector.checkSinglePermission(SysInfoCollector.PERM_MICROPHONE),
+      true
+    ));
+    items.push(SysInfoListItem.info(
+      '网络权限',
+      SysInfoCollector.checkSinglePermission(SysInfoCollector.PERM_INTERNET),
+      true
+    ));
+    items.push(SysInfoListItem.info(
+      '网络状态权限',
+      SysInfoCollector.checkSinglePermission(SysInfoCollector.PERM_NETWORK_INFO),
       true
     ));
     items.push(SysInfoListItem.info(
