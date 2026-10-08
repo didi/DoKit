@@ -9,6 +9,7 @@ import { BlockMonitorKit } from '../kit/blockmonitor/BlockMonitorKit';
 import { FrameInfoKit } from '../kit/parameter/frameInfo/FrameInfoKit';
 import { CpuKit } from '../kit/parameter/cpu/CpuKit';
 import { RamKit } from '../kit/parameter/ram/RamKit';
+import { NetworkKit } from '../kit/network/NetworkKit';
 import { DataCleanKit } from '../kit/dataclean/DataCleanKit';
 import { FileExplorerKit } from '../kit/fileexplorer/FileExplorerKit';
 import { WebDoorKit } from '../kit/webdoor/WebDoorKit';
@@ -33,6 +34,7 @@ export class SystemKitRegistry {
     SystemKitRegistry.register(new FrameInfoKit());
     SystemKitRegistry.register(new CpuKit());
     SystemKitRegistry.register(new RamKit());
+    SystemKitRegistry.register(new NetworkKit());
     SystemKitRegistry.register(new DataCleanKit());
     SystemKitRegistry.register(new FileExplorerKit());
     SystemKitRegistry.register(new WebDoorKit());

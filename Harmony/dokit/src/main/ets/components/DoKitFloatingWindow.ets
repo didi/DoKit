@@ -47,6 +47,7 @@ export struct DoKitFloatingWindow {
   @State private showFpsOverlay: boolean = false;
   @State private showCpuOverlay: boolean = false;
   @State private showRamOverlay: boolean = false;
+  @State private showNetworkOverlay: boolean = false;
   @State private fpsMonitorActive: boolean = false;
   @State private viewRefresh: number = 0;
   @State private viewConfigs:ViewConfig[]= [];
@@ -107,17 +108,27 @@ export struct DoKitFloatingWindow {
     this.showFpsOverlay = PerformanceDokitViewManager.isFpsOverlayOpen();
     this.showCpuOverlay = PerformanceDokitViewManager.isCpuOverlayOpen();
     this.showRamOverlay = PerformanceDokitViewManager.isRamOverlayOpen();
+    this.showNetworkOverlay = PerformanceDokitViewManager.isNetworkOverlayOpen();
     this.fpsMonitorActive = DokitMemoryConfig.FPS_STATUS;
   }
 
-  private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, performanceType: number): number {
+  private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
+    performanceType: number): number {
     let top = 88;
-    if (performanceType === DataSourceFactory.TYPE_CPU || performanceType === DataSourceFactory.TYPE_RAM) {
+    if (performanceType === DataSourceFactory.TYPE_CPU ||
+      performanceType === DataSourceFactory.TYPE_RAM ||
+      performanceType === DataSourceFactory.TYPE_NETWORK) {
       if (showFps) {
         top += 52;
       }
     }
-    if (performanceType === DataSourceFactory.TYPE_RAM && showCpu) {
+    if (performanceType === DataSourceFactory.TYPE_RAM ||
+      performanceType === DataSourceFactory.TYPE_NETWORK) {
+      if (showCpu) {
+        top += 52;
+      }
+    }
+    if (performanceType === DataSourceFactory.TYPE_NETWORK && showRam) {
       top += 52;
     }
     return top;
@@ -188,7 +199,7 @@ export struct DoKitFloatingWindow {
 
   private shouldBlockHitThrough(): boolean {
     return this.activeFragmentClass.length > 0 || this.showPanel || this.showCustomFloat ||
-      this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay;
+      this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay || this.showNetworkOverlay;
   }
 
   @Builder
@@ -267,7 +278,8 @@ export struct DoKitFloatingWindow {
             performanceType: DataSourceFactory.TYPE_CPU,
             title: 'CPU',
             unit: '%',
-            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, false, DataSourceFactory.TYPE_CPU),
+            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, false, false,
+              DataSourceFactory.TYPE_CPU),
             onClose: () => {
               PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_CPU);
               this.syncPerformanceOverlayState();
@@ -280,10 +292,24 @@ export struct DoKitFloatingWindow {
             performanceType: DataSourceFactory.TYPE_RAM,
             title: '内存',
             unit: 'MB',
-            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay,
+            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay, false,
               DataSourceFactory.TYPE_RAM),
             onClose: () => {
               PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_RAM);
+              this.syncPerformanceOverlayState();
+            }
+          })
+        }
+
+        if (this.showNetworkOverlay) {
+          PerformanceDoKitView({
+            performanceType: DataSourceFactory.TYPE_NETWORK,
+            title: '流量',
+            unit: 'KB/s',
+            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay,
+              this.showRamOverlay, DataSourceFactory.TYPE_NETWORK),
+            onClose: () => {
+              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_NETWORK);
               this.syncPerformanceOverlayState();
             }
           })
