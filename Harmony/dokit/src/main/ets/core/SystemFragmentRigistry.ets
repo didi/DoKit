@@ -12,6 +12,7 @@ import { BlockMonitorFragmentMeta, renderBlockMonitorFragment } from '../kit/blo
 import { FrameInfoFragmentMeta, renderFrameInfoFragment } from '../kit/parameter/frameInfo/FrameInfoFragment';
 import { CpuMainPageFragmentMeta, renderCpuMainPageFragment } from '../kit/parameter/cpu/CpuMainPageFragment';
 import { RamMainPageFragmentMeta, renderRamMainPageFragment } from '../kit/parameter/ram/RamMainPageFragment';
+import { NetWorkMonitorFragmentMeta, renderNetWorkMonitorFragment } from '../kit/network/NetWorkMonitorFragment';
 
 /**
  * 全屏工具页容器，对标 Android kit/core/UniversalActivity
@@ -48,6 +49,8 @@ export class SystemFragmentRegistry {
       wrapBuilder(renderCpuMainPageFragment));
     SystemFragmentRegistry.registerSystemFragment(RamMainPageFragmentMeta.CLASS_NAME,
       wrapBuilder(renderRamMainPageFragment));
+    SystemFragmentRegistry.registerSystemFragment(NetWorkMonitorFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderNetWorkMonitorFragment));
     SystemFragmentRegistry.initialized = true;
   }
 
