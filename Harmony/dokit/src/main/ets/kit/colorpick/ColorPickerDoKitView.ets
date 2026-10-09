@@ -253,7 +253,7 @@ export struct ColorPickerDoKitView {
           .hitTestBehavior(HitTestMode.None)
 
         ColorPickerRingText({
-          viewSize: this.viewSize,
+          viewSize: this.viewSize + 1,//去掉毛边
           ringWidth: this.ringWidth,
           infoText: this.infoText,
           textColor: this.getFocusColor(),
