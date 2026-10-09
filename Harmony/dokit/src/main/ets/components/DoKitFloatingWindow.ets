@@ -16,6 +16,8 @@ import { DoKitBundle } from '../core/FragmentRenderer';
 import { ViewConfigDoKitView } from '../core/ViewConfigDoKitView';
 import { ColorPickManager } from '../kit/colorpick/ColorPickManager';
 import { ColorPickerDoKitView } from '../kit/colorpick/ColorPickerDoKitView';
+import { AlignRulerManager } from '../kit/alignruler/AlignRulerManager';
+import { AlignRulerDoKitView } from '../kit/alignruler/AlignRulerDoKitView';
 import { window } from '@kit.ArkUI';
 
 @Builder
@@ -52,6 +54,7 @@ export struct DoKitFloatingWindow {
   @State private showNetworkOverlay: boolean = false;
   @State private fpsMonitorActive: boolean = false;
   @State private showColorPicker: boolean = false;
+  @State private showAlignRuler: boolean = false;
   @State private viewRefresh: number = 0;
   @State private viewConfigs:ViewConfig[]= [];
 
@@ -97,8 +100,12 @@ export struct DoKitFloatingWindow {
     ColorPickManager.getInstance().setOverlayChangeHandler(() => {
       this.syncColorPickerState();
     });
+    AlignRulerManager.getInstance().setOverlayChangeHandler(() => {
+      this.syncAlignRulerState();
+    });
     this.syncPerformanceOverlayState();
     this.syncColorPickerState();
+    this.syncAlignRulerState();
   }
 
   aboutToDisappear(): void {
@@ -110,6 +117,7 @@ export struct DoKitFloatingWindow {
     DoKitViewManager.setWindowRefreshHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
     ColorPickManager.getInstance().setOverlayChangeHandler(null);
+    AlignRulerManager.getInstance().setOverlayChangeHandler(null);
   }
 
   private syncPerformanceOverlayState(): void {
@@ -124,6 +132,9 @@ export struct DoKitFloatingWindow {
     this.showColorPicker = ColorPickManager.getInstance().isOverlayOpen();
   }
 
+  private syncAlignRulerState(): void {
+    this.showAlignRuler = AlignRulerManager.getInstance().isOverlayOpen();
+  }
 
   private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
     performanceType: number): number {
@@ -344,6 +355,13 @@ export struct DoKitFloatingWindow {
 
         if (this.showColorPicker) {
           ColorPickerDoKitView({
+            containerWidth: this.containerWidth,
+            containerHeight: this.containerHeight
+          })
+        }
+
+        if (this.showAlignRuler) {
+          AlignRulerDoKitView({
             containerWidth: this.containerWidth,
             containerHeight: this.containerHeight
           })
