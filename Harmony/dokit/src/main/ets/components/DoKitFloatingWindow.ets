@@ -14,6 +14,8 @@ import { DoKitOverlayState } from '../model/DoKitOverlayState';
 import { KitGroup } from '../model/KitModels';
 import { DoKitBundle } from '../core/FragmentRenderer';
 import { ViewConfigDoKitView } from '../core/ViewConfigDoKitView';
+import { ColorPickManager } from '../kit/colorpick/ColorPickManager';
+import { ColorPickerDoKitView } from '../kit/colorpick/ColorPickerDoKitView';
 import { window } from '@kit.ArkUI';
 
 @Builder
@@ -49,6 +51,7 @@ export struct DoKitFloatingWindow {
   @State private showRamOverlay: boolean = false;
   @State private showNetworkOverlay: boolean = false;
   @State private fpsMonitorActive: boolean = false;
+  @State private showColorPicker: boolean = false;
   @State private viewRefresh: number = 0;
   @State private viewConfigs:ViewConfig[]= [];
 
@@ -91,7 +94,11 @@ export struct DoKitFloatingWindow {
     PerformanceDokitViewManager.setOverlayChangeHandler(() => {
       this.syncPerformanceOverlayState();
     });
+    ColorPickManager.getInstance().setOverlayChangeHandler(() => {
+      this.syncColorPickerState();
+    });
     this.syncPerformanceOverlayState();
+    this.syncColorPickerState();
   }
 
   aboutToDisappear(): void {
@@ -102,6 +109,7 @@ export struct DoKitFloatingWindow {
     DoKitViewManager.setFloatingDetachHandler(null);
     DoKitViewManager.setWindowRefreshHandler(null);
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
+    ColorPickManager.getInstance().setOverlayChangeHandler(null);
   }
 
   private syncPerformanceOverlayState(): void {
@@ -111,6 +119,11 @@ export struct DoKitFloatingWindow {
     this.showNetworkOverlay = PerformanceDokitViewManager.isNetworkOverlayOpen();
     this.fpsMonitorActive = DokitMemoryConfig.FPS_STATUS;
   }
+
+  private syncColorPickerState(): void {
+    this.showColorPicker = ColorPickManager.getInstance().isOverlayOpen();
+  }
+
 
   private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
     performanceType: number): number {
@@ -326,6 +339,13 @@ export struct DoKitFloatingWindow {
             }
             .width('100%')
             .height('100%')
+          })
+        }
+
+        if (this.showColorPicker) {
+          ColorPickerDoKitView({
+            containerWidth: this.containerWidth,
+            containerHeight: this.containerHeight
           })
         }
       }
