@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
 import { DokitMemoryConfig } from '../../config/DokitMemoryConfig';
 import { DoKitManager } from '../../core/DoKitManager';
+import { NetworkManager } from '../network/NetworkManager';
 import { CpuSampler } from './CpuSampler';
 import { RamSampler } from './RamSampler';
 
@@ -17,17 +18,23 @@ export class PerformanceDataManager {
   private fpsFilePath: string = '';
   private cpuFilePath: string = '';
   private memoryFilePath: string = '';
+  private networkFilePath: string = '';
   private maxFrameRate: number = PerformanceDataManager.MAX_FRAME_RATE;
   private lastFrameRate: number = 60;
   private lastCpuRate: number = 0;
   private lastMemoryRate: number = 0;
+  private lastNetworkRate: number = 0;
+  private lastUpBytes: number = 0;
+  private lastDownBytes: number = 0;
   private totalFramesPerSecond: number = 0;
   private frameMonitorRunning: boolean = false;
   private cpuMonitorRunning: boolean = false;
   private memoryMonitorRunning: boolean = false;
+  private networkMonitorRunning: boolean = false;
   private fpsTimer: number = -1;
   private cpuTimer: number = -1;
   private memoryTimer: number = -1;
+  private networkTimer: number = -1;
   private cpuSampler: CpuSampler = new CpuSampler();
   private ramSampler: RamSampler = new RamSampler();
 
@@ -43,6 +50,7 @@ export class PerformanceDataManager {
     this.fpsFilePath = `${this.context.cacheDir}/doraemon/fps.txt`;
     this.cpuFilePath = `${this.context.cacheDir}/doraemon/cpu.txt`;
     this.memoryFilePath = `${this.context.cacheDir}/doraemon/memory.txt`;
+    this.networkFilePath = `${this.context.cacheDir}/doraemon/network.txt`;
   }
 
   isMonitoringFps(): boolean {
@@ -55,6 +63,10 @@ export class PerformanceDataManager {
 
   isMonitoringMemory(): boolean {
     return this.memoryMonitorRunning;
+  }
+
+  isMonitoringNetwork(): boolean {
+    return this.networkMonitorRunning;
   }
 
   startMonitorFrameInfo(): void {
@@ -105,6 +117,24 @@ export class PerformanceDataManager {
     }
   }
 
+  startMonitorNetFlowInfo(): void {
+    DokitMemoryConfig.NETWORK_STATUS = true;
+    this.networkMonitorRunning = true;
+    this.lastNetworkRate = 0;
+    this.lastUpBytes = 0;
+    this.lastDownBytes = 0;
+    this.scheduleNetworkTick();
+  }
+
+  stopMonitorNetFlowInfo(): void {
+    DokitMemoryConfig.NETWORK_STATUS = false;
+    this.networkMonitorRunning = false;
+    if (this.networkTimer >= 0) {
+      clearTimeout(this.networkTimer);
+      this.networkTimer = -1;
+    }
+  }
+
   recordFrame(): void {
     if (this.frameMonitorRunning) {
       this.totalFramesPerSecond++;
@@ -123,6 +153,19 @@ export class PerformanceDataManager {
     return this.lastMemoryRate;
   }
 
+  /** 本采样周期总流量速率（KB/s），对齐 NetworkDataSource */
+  getLastNetworkInfo(): number {
+    return this.lastNetworkRate;
+  }
+
+  getLastUpBytes(): number {
+    return this.lastUpBytes;
+  }
+
+  getLastDownBytes(): number {
+    return this.lastDownBytes;
+  }
+
   getFpsFilePath(): string {
     return this.fpsFilePath;
   }
@@ -133,6 +176,10 @@ export class PerformanceDataManager {
 
   getMemoryFilePath(): string {
     return this.memoryFilePath;
+  }
+
+  getNetworkFilePath(): string {
+    return this.networkFilePath;
   }
 
   getMaxFrameRate(): number {
@@ -194,6 +241,39 @@ export class PerformanceDataManager {
     const callback = DoKitManager.getCallBack();
     if (callback !== null && callback.onMemoryCallBack !== undefined) {
       callback.onMemoryCallBack(this.lastMemoryRate, this.memoryFilePath);
+    }
+  }
+
+  private scheduleNetworkTick(): void {
+    if (!this.networkMonitorRunning) {
+      return;
+    }
+    const delta = NetworkManager.get().getSampler().sampleDelta();
+    const rxDelta = delta[0];
+    const txDelta = delta[1];
+    this.lastDownBytes = rxDelta;
+    this.lastUpBytes = txDelta;
+    const totalDelta = rxDelta + txDelta;
+    // 对齐 Android NetworkDataSource：周期增量转 KB
+    this.lastNetworkRate = Math.ceil(totalDelta / 1024);
+    this.writeNetworkDataIntoFile();
+    this.networkTimer = setTimeout(() => {
+      this.scheduleNetworkTick();
+    }, PerformanceDataManager.NORMAL_SAMPLING_TIME);
+  }
+
+  private writeNetworkDataIntoFile(): void {
+    const callback = DoKitManager.getCallBack();
+    if (callback !== null && callback.onNetworkCallBack !== undefined) {
+      const record: Record<string, Object> = {};
+      record['upBytes'] = this.lastUpBytes;
+      record['downBytes'] = this.lastDownBytes;
+      record['rateKBps'] = this.lastNetworkRate;
+      record['totalRequestSize'] = NetworkManager.get().getTotalRequestSize();
+      record['totalResponseSize'] = NetworkManager.get().getTotalResponseSize();
+      record['totalSize'] = NetworkManager.get().getTotalSize();
+      record['filePath'] = this.networkFilePath;
+      callback.onNetworkCallBack(record);
     }
   }
 }

@@ -38,6 +38,10 @@ export struct PerformanceDoKitView {
       this.metricValue = `${Math.round(manager.getLastMemoryInfo())}`;
       return;
     }
+    if (this.performanceType === DataSourceFactory.TYPE_NETWORK) {
+      this.metricValue = `${Math.round(manager.getLastNetworkInfo())}`;
+      return;
+    }
     this.metricValue = `${manager.getLastFrameRate()}`;
   }
 

@@ -25,6 +25,10 @@ export class PerformanceDokitViewManager {
     return PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_RAM);
   }
 
+  static isNetworkOverlayOpen(): boolean {
+    return PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_NETWORK);
+  }
+
   static isOverlayOpen(performanceType: number): boolean {
     return PerformanceDokitViewManager.overlayOpenMap.get(performanceType) ?? false;
   }

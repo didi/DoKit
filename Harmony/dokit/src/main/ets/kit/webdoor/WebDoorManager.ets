@@ -36,6 +36,11 @@ export class WebDoorManager {
     return true;
   }
 
+  /** 宿主是否注入了 webDoorCallback（司机端会 Navigation.push，需先关 Overlay） */
+  static hasHostCallback(): boolean {
+    return GlobalConfig.webDoorCallback !== null;
+  }
+
   static getWebDoorCallback(): WebDoorCallback {
     if (GlobalConfig.webDoorCallback !== null) {
       return GlobalConfig.webDoorCallback;
