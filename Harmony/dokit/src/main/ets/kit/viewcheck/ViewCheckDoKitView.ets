@@ -117,7 +117,7 @@ export struct ViewCheckDoKitView {
     const node = this.hits[this.hitIndex];
     const width = Math.round(node.right - node.left);
     const height = Math.round(node.bottom - node.top);
-    const idText = node.componentId.length > 0 ? node.componentId : '无';
+    const idText = node.componentId.length > 0 ? node.componentId : '';
     const lines: string[] = [];
     lines.push(`控件类型：${node.typeName}`);
     lines.push(`控件ID：${idText}`);
@@ -129,10 +129,6 @@ export struct ViewCheckDoKitView {
     const pageName = node.pageName.length > 0 ? node.pageName : this.readPageName();
     if (pageName.length > 0) {
       lines.push(`当前页面：${pageName}`);
-    }
-    const visiblePage = ViewCheckTree.findVisiblePage(this.hits);
-    if (visiblePage.length > 0) {
-      lines.push(`可见页面：${visiblePage}`);
     }
     this.infoText = lines.join('\n');
     this.frameLeft = node.left - vp2px(this.originX);
