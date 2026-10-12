@@ -18,6 +18,9 @@ import { ColorPickManager } from '../kit/colorpick/ColorPickManager';
 import { ColorPickerDoKitView } from '../kit/colorpick/ColorPickerDoKitView';
 import { AlignRulerManager } from '../kit/alignruler/AlignRulerManager';
 import { AlignRulerDoKitView } from '../kit/alignruler/AlignRulerDoKitView';
+import { ViewCheckManager } from '../kit/viewcheck/ViewCheckManager';
+import { ViewCheckDoKitView } from '../kit/viewcheck/ViewCheckDoKitView';
+import { ViewCheckTree } from '../kit/viewcheck/ViewCheckTree';
 import { window } from '@kit.ArkUI';
 
 @Builder
@@ -55,6 +58,7 @@ export struct DoKitFloatingWindow {
   @State private fpsMonitorActive: boolean = false;
   @State private showColorPicker: boolean = false;
   @State private showAlignRuler: boolean = false;
+  @State private showViewCheck: boolean = false;
   @State private viewRefresh: number = 0;
   @State private viewConfigs:ViewConfig[]= [];
 
@@ -103,9 +107,13 @@ export struct DoKitFloatingWindow {
     AlignRulerManager.getInstance().setOverlayChangeHandler(() => {
       this.syncAlignRulerState();
     });
+    ViewCheckManager.getInstance().setOverlayChangeHandler(() => {
+      this.syncViewCheckState();
+    });
     this.syncPerformanceOverlayState();
     this.syncColorPickerState();
     this.syncAlignRulerState();
+    this.syncViewCheckState();
   }
 
   aboutToDisappear(): void {
@@ -118,6 +126,7 @@ export struct DoKitFloatingWindow {
     PerformanceDokitViewManager.setOverlayChangeHandler(null);
     ColorPickManager.getInstance().setOverlayChangeHandler(null);
     AlignRulerManager.getInstance().setOverlayChangeHandler(null);
+    ViewCheckManager.getInstance().setOverlayChangeHandler(null);
   }
 
   private syncPerformanceOverlayState(): void {
@@ -134,6 +143,10 @@ export struct DoKitFloatingWindow {
 
   private syncAlignRulerState(): void {
     this.showAlignRuler = AlignRulerManager.getInstance().isOverlayOpen();
+  }
+
+  private syncViewCheckState(): void {
+    this.showViewCheck = ViewCheckManager.getInstance().isOverlayOpen();
   }
 
   private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
@@ -366,8 +379,16 @@ export struct DoKitFloatingWindow {
             containerHeight: this.containerHeight
           })
         }
+
+        if (this.showViewCheck) {
+          ViewCheckDoKitView({
+            containerWidth: this.containerWidth,
+            containerHeight: this.containerHeight
+          })
+        }
       }
     }
+    .id(ViewCheckTree.FLOATING_ID)
     .width('100%')
     .height('100%')
     .hitTestBehavior(this.shouldBlockHitThrough() ? HitTestMode.Default : HitTestMode.Transparent)

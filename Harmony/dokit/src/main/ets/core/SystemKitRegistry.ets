@@ -15,6 +15,7 @@ import { FileExplorerKit } from '../kit/fileexplorer/FileExplorerKit';
 import { WebDoorKit } from '../kit/webdoor/WebDoorKit';
 import { ColorPickerKit } from '../kit/colorpick/ColorPickerKit';
 import { AlignRulerKit } from '../kit/alignruler/AlignRulerKit';
+import { ViewCheckKit } from '../kit/viewcheck/ViewCheckKit';
 
 /**
  * 内置 Kit 注册表，对标 Android ServiceLoader.load(AbstractKit)
@@ -42,6 +43,7 @@ export class SystemKitRegistry {
     SystemKitRegistry.register(new WebDoorKit());
     SystemKitRegistry.register(new ColorPickerKit());
     SystemKitRegistry.register(new AlignRulerKit());
+    SystemKitRegistry.register(new ViewCheckKit());
     SystemKitRegistry.initialized = true;
   }
 

@@ -45,7 +45,7 @@ export function getDemoMenuSections(): DemoMenuSection[] {
     },
     {
       title: '视觉工具',
-      items: ['取色器测试', '标尺对齐测试']
+      items: ['取色器测试', '标尺对齐测试', '控件检查测试']
     },
     {
       title: '其他工具',
