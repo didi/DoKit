@@ -21,6 +21,8 @@ import { AlignRulerDoKitView } from '../kit/alignruler/AlignRulerDoKitView';
 import { ViewCheckManager } from '../kit/viewcheck/ViewCheckManager';
 import { ViewCheckDoKitView } from '../kit/viewcheck/ViewCheckDoKitView';
 import { ViewCheckTree } from '../kit/viewcheck/ViewCheckTree';
+import { LayoutBorderManager } from '../kit/layoutborder/LayoutBorderManager';
+import { LayoutBorderDoKitView } from '../kit/layoutborder/LayoutBorderDoKitView';
 import { window } from '@kit.ArkUI';
 
 @Builder
@@ -59,6 +61,7 @@ export struct DoKitFloatingWindow {
   @State private showColorPicker: boolean = false;
   @State private showAlignRuler: boolean = false;
   @State private showViewCheck: boolean = false;
+  @State private showLayoutBorder: boolean = false;
   @State private viewRefresh: number = 0;
   @State private viewConfigs:ViewConfig[]= [];
 
@@ -110,10 +113,14 @@ export struct DoKitFloatingWindow {
     ViewCheckManager.getInstance().setOverlayChangeHandler(() => {
       this.syncViewCheckState();
     });
+    LayoutBorderManager.getInstance().setOverlayChangeHandler(() => {
+      this.syncLayoutBorderState();
+    });
     this.syncPerformanceOverlayState();
     this.syncColorPickerState();
     this.syncAlignRulerState();
     this.syncViewCheckState();
+    this.syncLayoutBorderState();
   }
 
   aboutToDisappear(): void {
@@ -127,6 +134,7 @@ export struct DoKitFloatingWindow {
     ColorPickManager.getInstance().setOverlayChangeHandler(null);
     AlignRulerManager.getInstance().setOverlayChangeHandler(null);
     ViewCheckManager.getInstance().setOverlayChangeHandler(null);
+    LayoutBorderManager.getInstance().setOverlayChangeHandler(null);
   }
 
   private syncPerformanceOverlayState(): void {
@@ -147,6 +155,10 @@ export struct DoKitFloatingWindow {
 
   private syncViewCheckState(): void {
     this.showViewCheck = ViewCheckManager.getInstance().isOverlayOpen();
+  }
+
+  private syncLayoutBorderState(): void {
+    this.showLayoutBorder = LayoutBorderManager.getInstance().isOverlayOpen();
   }
 
   private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
@@ -378,6 +390,10 @@ export struct DoKitFloatingWindow {
             containerWidth: this.containerWidth,
             containerHeight: this.containerHeight
           })
+        }
+
+        if (this.showLayoutBorder) {
+          LayoutBorderDoKitView()
         }
 
         if (this.showViewCheck) {
