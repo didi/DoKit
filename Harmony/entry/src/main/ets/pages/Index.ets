@@ -1,5 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import { AlignRulerManager, ColorPickManager, DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState, ViewCheckManager } from '@didi-hummer/dokit';
+import { AlignRulerManager, ColorPickManager, DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState, LayoutBorderManager, ViewCheckManager } from '@didi-hummer/dokit';
 import { buildEntryCustomFullScreen } from '../dokit/DemoCustomKitRenderers';
 import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
 import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
@@ -44,6 +44,9 @@ struct Index {
         return;
       case '控件检查测试':
         ViewCheckManager.getInstance().open();
+        return;
+      case '布局边框测试':
+        LayoutBorderManager.getInstance().open();
         return;
       default:
         promptAction.showToast({
