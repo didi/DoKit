@@ -74,6 +74,7 @@ export { NetworkKit } from './src/main/ets/kit/network/NetworkKit';
 export { NetWorkMonitorFragment } from './src/main/ets/kit/network/NetWorkMonitorFragment';
 export { NetworkManager } from './src/main/ets/kit/network/NetworkManager';
 export { PerformanceDataManager } from './src/main/ets/kit/performance/PerformanceDataManager';
+export { PerformanceMonitorFragment } from './src/main/ets/kit/performance/PerformanceMonitorFragment';
 export { DokitMemoryConfig } from './src/main/ets/config/DokitMemoryConfig';
 export { CrashCaptureConfig } from './src/main/ets/config/CrashCaptureConfig';
 export { DoKitSPUtil } from './src/main/ets/util/DoKitSPUtil';

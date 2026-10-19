@@ -1,9 +1,9 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit } from '../../AbstractKit';
-import { RamMainPageFragmentMeta } from './RamMainPageFragment';
+import { PerformanceMonitorFragmentMeta } from '../../performance/PerformanceMonitorFragment';
 
 /**
- * 内存检测 Kit，对标 Android RamKit
+ * 内存检测 Kit：入口打开统一性能监测页
  */
 export class RamKit extends AbstractKit {
   get isInnerKit(): boolean {
@@ -26,7 +26,7 @@ export class RamKit extends AbstractKit {
   }
 
   onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(RamMainPageFragmentMeta.CLASS_NAME, context, undefined, true);
+    this.startUniversalActivity(PerformanceMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

@@ -73,6 +73,7 @@ export class PerformanceDataManager {
     DokitMemoryConfig.FPS_STATUS = true;
     this.frameMonitorRunning = true;
     this.totalFramesPerSecond = 0;
+    this.lastFrameRate = 0;
     this.scheduleFpsTick();
   }
 
@@ -83,11 +84,15 @@ export class PerformanceDataManager {
       clearTimeout(this.fpsTimer);
       this.fpsTimer = -1;
     }
+    // 停止后清零，避免下次打开仍读到上一轮帧率
+    this.totalFramesPerSecond = 0;
+    this.lastFrameRate = 0;
   }
 
   startMonitorCPUInfo(): void {
     DokitMemoryConfig.CPU_STATUS = true;
     this.cpuMonitorRunning = true;
+    this.lastCpuRate = 0;
     this.cpuSampler.reset();
     this.scheduleCpuTick();
   }
@@ -100,11 +105,13 @@ export class PerformanceDataManager {
       this.cpuTimer = -1;
     }
     this.cpuSampler.reset();
+    this.lastCpuRate = 0;
   }
 
   startMonitorMemoryInfo(): void {
     DokitMemoryConfig.RAM_STATUS = true;
     this.memoryMonitorRunning = true;
+    this.lastMemoryRate = 0;
     this.scheduleMemoryTick();
   }
 
@@ -115,6 +122,7 @@ export class PerformanceDataManager {
       clearTimeout(this.memoryTimer);
       this.memoryTimer = -1;
     }
+    this.lastMemoryRate = 0;
   }
 
   startMonitorNetFlowInfo(): void {
@@ -133,6 +141,9 @@ export class PerformanceDataManager {
       clearTimeout(this.networkTimer);
       this.networkTimer = -1;
     }
+    this.lastNetworkRate = 0;
+    this.lastUpBytes = 0;
+    this.lastDownBytes = 0;
   }
 
   recordFrame(): void {
