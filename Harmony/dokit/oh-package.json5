@@ -1,6 +1,6 @@
 {
   "name": "@didi-hummer/dokit",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "DoKit SDK for HarmonyOS",
   "main": "Index.ets",
   "author": "didi",

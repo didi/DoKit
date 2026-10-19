@@ -36,8 +36,8 @@ export struct PerformanceDoKitView {
   private readonly canvasPadBottom: number = 8;
   private readonly viewPadTop: number = 0;
   private readonly viewPadBottom: number = 4;
-  /** 与设置页开关左右 padding 一致 */
-  private readonly sidePad: number = 16;
+  /** 图表左右边距：原 16 再收 1/3 → ≈11，图例关闭按钮同步对齐 */
+  private readonly sidePad: number = 11;
   private readonly dragThreshold: number = 3;
 
   @State private viewY: number = 88;
