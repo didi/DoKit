@@ -1,10 +1,10 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit } from '../AbstractKit';
 import { PerformanceDataManager } from '../performance/PerformanceDataManager';
-import { NetWorkMonitorFragmentMeta } from './NetWorkMonitorFragment';
+import { PerformanceMonitorFragmentMeta } from '../performance/PerformanceMonitorFragment';
 
 /**
- * 网络监测 Kit，对标 Android NetworkKit
+ * 网络监测 Kit：入口打开统一性能监测页
  */
 export class NetworkKit extends AbstractKit {
   get isInnerKit(): boolean {
@@ -28,7 +28,7 @@ export class NetworkKit extends AbstractKit {
   }
 
   onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(NetWorkMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
+    this.startUniversalActivity(PerformanceMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
     return true;
   }
 }

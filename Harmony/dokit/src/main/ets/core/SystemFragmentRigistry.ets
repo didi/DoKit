@@ -13,6 +13,10 @@ import { FrameInfoFragmentMeta, renderFrameInfoFragment } from '../kit/parameter
 import { CpuMainPageFragmentMeta, renderCpuMainPageFragment } from '../kit/parameter/cpu/CpuMainPageFragment';
 import { RamMainPageFragmentMeta, renderRamMainPageFragment } from '../kit/parameter/ram/RamMainPageFragment';
 import { NetWorkMonitorFragmentMeta, renderNetWorkMonitorFragment } from '../kit/network/NetWorkMonitorFragment';
+import {
+  PerformanceMonitorFragmentMeta,
+  renderPerformanceMonitorFragment
+} from '../kit/performance/PerformanceMonitorFragment';
 
 /**
  * 全屏工具页容器，对标 Android kit/core/UniversalActivity
@@ -43,6 +47,9 @@ export class SystemFragmentRegistry {
       wrapBuilder(renderCrashCaptureMainFragment));
     SystemFragmentRegistry.registerSystemFragment(BlockMonitorFragmentMeta.CLASS_NAME,
       wrapBuilder(renderBlockMonitorFragment));
+    SystemFragmentRegistry.registerSystemFragment(PerformanceMonitorFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderPerformanceMonitorFragment));
+    // 旧独立页仍注册，兼容历史跳转；四个 Kit 入口已统一到 PerformanceMonitorFragment
     SystemFragmentRegistry.registerSystemFragment(FrameInfoFragmentMeta.CLASS_NAME,
       wrapBuilder(renderFrameInfoFragment));
     SystemFragmentRegistry.registerSystemFragment(CpuMainPageFragmentMeta.CLASS_NAME,

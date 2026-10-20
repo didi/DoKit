@@ -248,6 +248,7 @@ export struct FileExplorerPage {
 
   @Builder
   private buildTextPreview() {
+    // 内容顶对齐（非居中）；顶部安全区由 FloatingWindow 外层 padding 避让
     Column() {
       Row() {
         Text('←')
@@ -274,13 +275,18 @@ export struct FileExplorerPage {
           .fontSize(13)
           .fontColor('#333333')
           .width('100%')
+          .textAlign(TextAlign.Start)
           .padding(16)
       }
+      .width('100%')
       .layoutWeight(1)
+      .align(Alignment.TopStart)
       .scrollBar(BarState.Auto)
     }
     .width('100%')
     .height('100%')
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
     .backgroundColor('#F5F6F8')
   }
 
@@ -308,15 +314,25 @@ export struct FileExplorerPage {
       .backgroundColor(Color.White)
 
       Scroll() {
-        Image(this.previewImageUri)
-          .width('100%')
-          .objectFit(ImageFit.Contain)
-          .margin(16)
+        Column() {
+          Image(this.previewImageUri)
+            .width('100%')
+            .objectFit(ImageFit.Contain)
+            .align(Alignment.Top)
+        }
+        .width('100%')
+        .alignItems(HorizontalAlign.Start)
+        .padding({ left: 16, right: 16, top: 12, bottom: 16 })
       }
+      .width('100%')
       .layoutWeight(1)
+      .align(Alignment.TopStart)
+      .scrollBar(BarState.Auto)
     }
     .width('100%')
     .height('100%')
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
     .backgroundColor('#000000')
   }
 
@@ -346,9 +362,13 @@ export struct FileExplorerPage {
         .width('100%')
         .height(240)
         .controls(true)
+        .align(Alignment.Top)
+        .margin({ top: 0 })
     }
     .width('100%')
     .height('100%')
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
     .backgroundColor('#000000')
   }
 
@@ -395,62 +415,66 @@ export struct FileExplorerPage {
   }
 
   build() {
-    Stack() {
+    Stack({ alignContent: Alignment.TopStart }) {
       Column() {
-      if (this.showTextPreview) {
-        this.buildTextPreview()
-      } else if (this.showImagePreview) {
-        this.buildImagePreview()
-      } else if (this.showVideoPreview) {
-        this.buildVideoPreview()
-      } else {
-        Row() {
-          Text('←')
-            .fontSize(22)
-            .fontColor('#333333')
-            .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-            .onClick(() => {
-              this.handleBack();
-            })
+        if (this.showTextPreview) {
+          this.buildTextPreview()
+        } else if (this.showImagePreview) {
+          this.buildImagePreview()
+        } else if (this.showVideoPreview) {
+          this.buildVideoPreview()
+        } else {
+          Row() {
+            Text('←')
+              .fontSize(22)
+              .fontColor('#333333')
+              .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+              .onClick(() => {
+                this.handleBack();
+              })
 
-          Text(this.pageTitle)
-            .fontSize(18)
-            .fontWeight(FontWeight.Medium)
-            .fontColor('#111111')
-            .layoutWeight(1)
-            .textAlign(TextAlign.Center)
-            .maxLines(1)
-            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            Text(this.pageTitle)
+              .fontSize(18)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#111111')
+              .layoutWeight(1)
+              .textAlign(TextAlign.Start)
+              .maxLines(1)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
 
-          Text('✕')
-            .fontSize(20)
-            .fontColor('#666666')
-            .padding(8)
-            .onClick(() => {
-              this.onClose();
-            })
-        }
-        .width('100%')
-        .height(56)
-        .padding({ right: 8 })
-        .backgroundColor(Color.White)
-
-        if (this.fileItems.length === 0) {
-          Column() {
-            Text('目录为空')
-              .fontSize(14)
-              .fontColor('#999999')
+            Text('✕')
+              .fontSize(20)
+              .fontColor('#666666')
+              .padding(8)
+              .onClick(() => {
+                this.onClose();
+              })
           }
           .width('100%')
-          .layoutWeight(1)
-          .justifyContent(FlexAlign.Center)
-        } else {
-          this.buildFileList()
+          .height(56)
+          .padding({ right: 8 })
+          .backgroundColor(Color.White)
+
+          if (this.fileItems.length === 0) {
+            Column() {
+              Text('目录为空')
+                .fontSize(14)
+                .fontColor('#999999')
+                .margin({ top: 24 })
+            }
+            .width('100%')
+            .layoutWeight(1)
+            .justifyContent(FlexAlign.Start)
+            .alignItems(HorizontalAlign.Center)
+          } else {
+            this.buildFileList()
+          }
         }
-      }
       }
       .width('100%')
       .height('100%')
+      .justifyContent(FlexAlign.Start)
+      .alignItems(HorizontalAlign.Start)
       .backgroundColor(Color.White)
 
       if (this.showChooseDialog) {

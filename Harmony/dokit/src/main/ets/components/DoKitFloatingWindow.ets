@@ -161,26 +161,14 @@ export struct DoKitFloatingWindow {
     this.showLayoutBorder = LayoutBorderManager.getInstance().isOverlayOpen();
   }
 
-  private getPerformanceOverlayTop(showFps: boolean, showCpu: boolean, showRam: boolean,
-    performanceType: number): number {
-    let top = 88;
-    if (performanceType === DataSourceFactory.TYPE_CPU ||
-      performanceType === DataSourceFactory.TYPE_RAM ||
-      performanceType === DataSourceFactory.TYPE_NETWORK) {
-      if (showFps) {
-        top += 52;
-      }
-    }
-    if (performanceType === DataSourceFactory.TYPE_RAM ||
-      performanceType === DataSourceFactory.TYPE_NETWORK) {
-      if (showCpu) {
-        top += 52;
-      }
-    }
-    if (performanceType === DataSourceFactory.TYPE_NETWORK && showRam) {
-      top += 52;
-    }
-    return top;
+  private hasPerformanceOverlay(): boolean {
+    return this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay || this.showNetworkOverlay;
+  }
+
+  private closeAllPerformanceOverlays(): void {
+    // 关掉整块色块：四项监测全停，并重置设置页开关（AppStorage + 日志）
+    PerformanceDokitViewManager.closeAllOverlaysFromView();
+    this.syncPerformanceOverlayState();
   }
 
   private onPanelOpenRequest(): void {
@@ -246,9 +234,11 @@ export struct DoKitFloatingWindow {
     }
   }
 
+  /**
+   * 全屏拦截仅用于面板/Fragment；性能折线浮层对标安卓 FLAG_NOT_TOUCHABLE，需穿透点击
+   */
   private shouldBlockHitThrough(): boolean {
-    return this.activeFragmentClass.length > 0 || this.showPanel || this.showCustomFloat ||
-      this.showFpsOverlay || this.showCpuOverlay || this.showRamOverlay || this.showNetworkOverlay;
+    return this.activeFragmentClass.length > 0 || this.showPanel || this.showCustomFloat;
   }
 
   @Builder
@@ -309,57 +299,16 @@ export struct DoKitFloatingWindow {
           FpsFrameCollector()
         }
 
-        if (this.showFpsOverlay) {
+        if (this.hasPerformanceOverlay()) {
           PerformanceDoKitView({
-            performanceType: DataSourceFactory.TYPE_FPS,
-            title: '帧率',
-            unit: 'FPS',
+            showFps: this.showFpsOverlay,
+            showCpu: this.showCpuOverlay,
+            showRam: this.showRamOverlay,
+            showNetwork: this.showNetworkOverlay,
             topOffset: 88,
+            containerHeight: this.containerHeight,
             onClose: () => {
-              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_FPS);
-              this.syncPerformanceOverlayState();
-            }
-          })
-        }
-
-        if (this.showCpuOverlay) {
-          PerformanceDoKitView({
-            performanceType: DataSourceFactory.TYPE_CPU,
-            title: 'CPU',
-            unit: '%',
-            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, false, false,
-              DataSourceFactory.TYPE_CPU),
-            onClose: () => {
-              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_CPU);
-              this.syncPerformanceOverlayState();
-            }
-          })
-        }
-
-        if (this.showRamOverlay) {
-          PerformanceDoKitView({
-            performanceType: DataSourceFactory.TYPE_RAM,
-            title: '内存',
-            unit: 'MB',
-            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay, false,
-              DataSourceFactory.TYPE_RAM),
-            onClose: () => {
-              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_RAM);
-              this.syncPerformanceOverlayState();
-            }
-          })
-        }
-
-        if (this.showNetworkOverlay) {
-          PerformanceDoKitView({
-            performanceType: DataSourceFactory.TYPE_NETWORK,
-            title: '流量',
-            unit: 'KB/s',
-            topOffset: this.getPerformanceOverlayTop(this.showFpsOverlay, this.showCpuOverlay,
-              this.showRamOverlay, DataSourceFactory.TYPE_NETWORK),
-            onClose: () => {
-              PerformanceDokitViewManager.closeOverlayFromView(DataSourceFactory.TYPE_NETWORK);
-              this.syncPerformanceOverlayState();
+              this.closeAllPerformanceOverlays();
             }
           })
         }
