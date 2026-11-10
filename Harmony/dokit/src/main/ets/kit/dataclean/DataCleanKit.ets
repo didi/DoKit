@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { DataCleanFragment } from './DataCleanPage';
+import { DataCleanFragment, renderDataCleanFragment } from './DataCleanPage';
 
 /**
  * 清理缓存 Kit，对标 Android DataCleanKit
@@ -22,8 +23,13 @@ export class DataCleanKit extends AbstractKit {
     return $r('app.media.dk_data_clean');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(DataCleanFragment.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      DataCleanFragment.CLASS_NAME,
+      wrapBuilder(renderDataCleanFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

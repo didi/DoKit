@@ -1,7 +1,8 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
 import { PerformanceDataManager } from '../performance/PerformanceDataManager';
-import { PerformanceMonitorFragmentMeta } from '../performance/PerformanceMonitorFragment';
+import { PerformanceMonitorFragmentMeta, renderPerformanceMonitorFragment } from '../performance/PerformanceMonitorFragment';
 
 /**
  * 网络监测 Kit：入口打开统一性能监测页
@@ -27,8 +28,13 @@ export class NetworkKit extends AbstractKit {
     PerformanceDataManager.getInstance().init(context);
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(PerformanceMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      PerformanceMonitorFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderPerformanceMonitorFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

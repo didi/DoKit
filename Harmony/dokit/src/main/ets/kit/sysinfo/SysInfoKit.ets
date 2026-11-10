@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { SysInfoFragment } from './SysInfoPage';
+import { renderSysInfoFragment, SysInfoFragment } from './SysInfoPage';
 
 /**
  * App 信息 Kit，对标 Android SysInfoKit
@@ -22,8 +23,13 @@ export class SysInfoKit extends AbstractKit {
     return $r('app.media.dk_sys_info');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(SysInfoFragment.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      SysInfoFragment.CLASS_NAME,
+      wrapBuilder(renderSysInfoFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

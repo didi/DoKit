@@ -1,4 +1,4 @@
-import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi-hummer/dokit';
+import { DoKit, DoKitParams, FragmentCloseHandler } from '@didi-hummer/dokit';
 import { ViewSetupHelper } from './ViewSetupHelper';
 
 /** 对标 Android dokit/CustomDokitFragment */
@@ -7,7 +7,7 @@ export class CustomDokitFragment {
 }
 
 @Builder
-export function buildCustomDokitFragment(bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+export function buildCustomDokitFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   Column() {
     Row() {
       Text('我是自定义页面')
@@ -34,7 +34,12 @@ export function buildCustomDokitFragment(bundle: DoKitBundle, onClose: CustomKit
       ViewSetupHelper({
         showFullScreenLauncher: true,
         onLaunchFullScreen: () => {
-          DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
+          // 页内下级：压栈，返回可回到当前页
+          DoKit.pushFullScreen(
+            CustomDokitFragment.CLASS_NAME,
+            wrapBuilder(buildCustomDokitFragment),
+            { 'test': 'nested' }
+          );
         }
       })
     }

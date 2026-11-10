@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { ThirdLibInfoFragment } from './ThirdLibInfoPage';
+import { renderThirdLibInfoFragment, ThirdLibInfoFragment } from './ThirdLibInfoPage';
 
 /**
  * 三方库信息 Kit，对标 Android sysinfo/ThirdLibInfoKit
@@ -22,8 +23,13 @@ export class ThirdLibInfoKit extends AbstractKit {
     return $r('app.media.dk_icon_third_lib');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(ThirdLibInfoFragment.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      ThirdLibInfoFragment.CLASS_NAME,
+      wrapBuilder(renderThirdLibInfoFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

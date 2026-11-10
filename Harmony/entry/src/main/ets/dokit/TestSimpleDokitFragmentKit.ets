@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
-import { CustomDokitFragment } from './CustomDokitFragment';
+import { buildCustomDokitFragment, CustomDokitFragment } from './CustomDokitFragment';
 
 /** 对标 Android dokit/TestSimpleDokitFragmentKit */
 export class TestSimpleDokitFragmentKit extends AbstractKit {
@@ -18,7 +18,11 @@ export class TestSimpleDokitFragmentKit extends AbstractKit {
   }
 
   onClickWithReturn(context: common.UIAbilityContext): boolean {
-    DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
+    DoKit.launchFullScreen(
+      CustomDokitFragment.CLASS_NAME,
+      wrapBuilder(buildCustomDokitFragment),
+      { 'test': 'test' }
+    );
     return true;
   }
 }

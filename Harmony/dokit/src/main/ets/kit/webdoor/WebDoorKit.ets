@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { WebDoorFragment } from './WebDoorPage';
+import { renderWebDoorFragment, WebDoorFragment } from './WebDoorPage';
 
 /**
  * H5 任意门 Kit，对标 Android WebDoorKit
@@ -22,8 +23,13 @@ export class WebDoorKit extends AbstractKit {
     return $r('app.media.dk_web_door');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(WebDoorFragment.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      WebDoorFragment.CLASS_NAME,
+      wrapBuilder(renderWebDoorFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

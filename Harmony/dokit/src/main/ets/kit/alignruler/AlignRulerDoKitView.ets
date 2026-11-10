@@ -97,7 +97,7 @@ export struct AlignRulerDoKitView {
   }
 
   /**
-   * 与 DoKitFloatingWindow 相同：isLayoutFullScreen 为沉浸式。
+   * isLayoutFullScreen 为沉浸式。
    * 读不到窗口时按非沉浸式处理，避免在安全区内把状态栏减掉。
    */
   private readLayoutFullScreen(): boolean {

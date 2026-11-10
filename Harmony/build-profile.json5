@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "/Users/didi/.ohos/config/default_Harmony_mnq8KI-CdLAZFXFn9KByO0TW8aqauS40l6qkeQavyrs=.cer",
+          "certpath": "/Users/didi/.ohos/config/default_Harmony_Tkw0uyZJrBt6CBtv3KZjq82ANGIUzWXTOb-sNMXRR_I=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001A9D0A5EF205DF17B5E0C24A81B7BCFB30A883708F532E6CF221AA6CD9D954F596D38AC5E2E14A",
-          "profile": "/Users/didi/.ohos/config/default_Harmony_mnq8KI-CdLAZFXFn9KByO0TW8aqauS40l6qkeQavyrs=.p7b",
+          "keyPassword": "0000001B770F8E94A19B0CDA469C656624A0E83753920D610ECBE78A1B1F8863EE7BBDF9FA977F59F1AD0B",
+          "profile": "/Users/didi/.ohos/config/default_Harmony_Tkw0uyZJrBt6CBtv3KZjq82ANGIUzWXTOb-sNMXRR_I=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/didi/.ohos/config/default_Harmony_mnq8KI-CdLAZFXFn9KByO0TW8aqauS40l6qkeQavyrs=.p12",
-          "storePassword": "0000001A7B88F3AD0BFF8CE1B8DD338248106B13DA60918AA0126888FF0504D77EA60C3DE9C4CE67D0D7"
+          "storeFile": "/Users/didi/.ohos/config/default_Harmony_Tkw0uyZJrBt6CBtv3KZjq82ANGIUzWXTOb-sNMXRR_I=.p12",
+          "storePassword": "0000001BF510D20D9CEC68951A64A7CAF5F623CC2694C0AB374CA8065F75C70692E87EB83A921BD7305FB5"
         }
       }
     ],
@@ -26,7 +26,8 @@
             "caseSensitiveCheck": true,
             "useNormalizedOHMUrl": true
           }
-        }
+        },
+        "targetSdkVersion": "5.0.0(12)"
       }
     ],
     "buildModeSet": [

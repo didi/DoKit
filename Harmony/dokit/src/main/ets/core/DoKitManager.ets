@@ -4,9 +4,9 @@ import { AbstractKit } from '../kit/AbstractKit';
 import { KitItemHelper } from '../kit/KitItemHelper';
 import { DoKitCallBack } from '../DoKitCallBack';
 import { SystemKitRegistry } from './SystemKitRegistry';
-import { SystemFragmentRegistry } from './SystemFragmentRigistry';
 import { KitWrapItem } from './toolpanel/KitWrapItem';
 import { ToolPanelUtil } from './toolpanel/ToolPanelUtil';
+import { SystemFragmentRegistry } from './SystemFragmentRigistry';
 
 /**
  * 全局 Kit 注册表，对标 Android kit/core/DoKitManager

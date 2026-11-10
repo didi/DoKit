@@ -1,10 +1,11 @@
 import { LayoutBorderConfig } from '../../config/LayoutBorderConfig';
-import { DoKitViewManager } from '../../core/DoKitViewManager';
+import { DoKit } from '../../DoKit';
 
 /**
  * 布局边框浮层开关，对标 Android LayoutBorderManager.start / stop。
  */
 export class LayoutBorderManager {
+  static readonly FLOAT_NAME: string = 'dokit.layout';
   private static instance: LayoutBorderManager | null = null;
 
   private overlayOpen: boolean = false;
@@ -29,9 +30,9 @@ export class LayoutBorderManager {
     if (this.overlayOpen) {
       return;
     }
-    DoKitViewManager.detachToolPanel();
-    LayoutBorderConfig.setLayoutBorderOpen(true);
     this.overlayOpen = true;
+    LayoutBorderConfig.setLayoutBorderOpen(true);
+    DoKit.detachToolPanel();
     this.notifyChange();
   }
 
@@ -41,6 +42,7 @@ export class LayoutBorderManager {
     }
     LayoutBorderConfig.setLayoutBorderOpen(false);
     this.overlayOpen = false;
+    DoKit.removeFloatingView(LayoutBorderManager.FLOAT_NAME);
     this.notifyChange();
   }
 

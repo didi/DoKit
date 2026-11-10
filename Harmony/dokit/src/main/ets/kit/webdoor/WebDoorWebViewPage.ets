@@ -1,5 +1,6 @@
 import { webview } from '@kit.ArkWeb';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { BundleKey } from '../../constant/BundleKey';
 
 /** 对标 Android WebDoorDefaultFragment */
@@ -67,9 +68,9 @@ export struct WebDoorWebViewPage {
 }
 
 @Builder
-export function renderWebDoorDefaultFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderWebDoorDefaultFragment(params: DoKitParams, onClose: FragmentCloseHandler) {
   WebDoorWebViewPage({
-    url: String(bundle[BundleKey.KEY_URL] ?? ''),
+    url: String(params[BundleKey.KEY_URL] ?? ''),
     onClose
   });
 }

@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../../DoKit';
 import { AbstractKit } from '../../AbstractKit';
-import { PerformanceMonitorFragmentMeta } from '../../performance/PerformanceMonitorFragment';
+import { PerformanceMonitorFragmentMeta, renderPerformanceMonitorFragment } from '../../performance/PerformanceMonitorFragment';
 
 /**
  * 内存检测 Kit：入口打开统一性能监测页
@@ -25,8 +26,13 @@ export class RamKit extends AbstractKit {
   onAppInit(_context: common.UIAbilityContext): void {
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(PerformanceMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      PerformanceMonitorFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderPerformanceMonitorFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

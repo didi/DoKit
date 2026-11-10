@@ -1,28 +1,40 @@
 import promptAction from '@ohos.promptAction';
-import { AlignRulerManager, ColorPickManager, DoKit, DoKitConstants, DoKitFloatingWindow, DoKitOverlayState, LayoutBorderManager, ViewCheckManager } from '@didi-hummer/dokit';
-import { buildEntryCustomFullScreen } from '../dokit/DemoCustomKitRenderers';
+import {
+  AlignRulerManager,
+  ColorPickManager,
+  DoKit,
+  DoKitConstants,
+  LayoutBorderManager,
+  ViewCheckManager
+} from '@didi-hummer/dokit';
 import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
 import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
 import { CrashTest } from '../module/CrashTest';
 import { MethodCostTest } from '../module/MethodCostTest';
 
 /**
- * Demo 主页 UI 入口，对标 Android MainDoKitActivity + activity_dokit_main.xml
+ * Demo 主页：浮层挂在主窗口 OverlayManager 上
  */
 @Entry
 @Component
 struct Index {
   @State menuSections: DemoMenuSection[] = getDemoMenuSections();
-  @StorageLink(DoKitOverlayState.ICON_VISIBLE_KEY) isFloatIconShow: boolean = true;
+  @State isFloatIconShow: boolean = true;
+
+  aboutToAppear(): void {
+    this.isFloatIconShow = DoKit.isMainIconShow;
+  }
 
   private onItemClick(title: string): void {
     switch (title) {
       case '显示/隐藏快捷入口':
-        if (this.isFloatIconShow) {
-          DoKit.hide();
+        if (DoKit.isMainIconShow) {
+          DoKit.detachMainIcon();
+          this.isFloatIconShow = false;
           promptAction.showToast({ message: '已隐藏快捷入口', duration: 1500 });
         } else {
-          DoKit.show();
+          DoKit.attachMainIcon();
+          this.isFloatIconShow = true;
           promptAction.showToast({ message: '已显示快捷入口', duration: 1500 });
         }
         return;
@@ -57,84 +69,76 @@ struct Index {
   }
 
   build() {
-    Stack() {
-      Scroll() {
-        Column() {
-          Stack({ alignContent: Alignment.Top }) {
-            Column()
-              .width('100%')
-              .height(80)
-              .backgroundColor('#337CC4')
-
-            Column() {
-              Image($r('app.media.dk_dokit_big'))
-                .width(65)
-                .height(65)
-                .objectFit(ImageFit.Contain)
-                .margin({ top: 15 })
-
-              Text('一款面向泛前端产品研发全生命周期的效率平台')
-                .fontSize(12)
-                .fontColor('#333333')
-                .margin({ top: 12, bottom: 20 })
-                .textAlign(TextAlign.Center)
-                .padding({ left: 12, right: 12 })
-            }
+    Scroll() {
+      Column() {
+        Stack({ alignContent: Alignment.Top }) {
+          Column()
             .width('100%')
-            .height(140)
-            .backgroundColor(Color.White)
-            .borderRadius(8)
-            .margin({ left: 18, right: 18, top: 10 })
-            .shadow({ radius: 12, color: '#1A000000', offsetX: 0, offsetY: 4 })
+            .height(80)
+            .backgroundColor('#337CC4')
+
+          Column() {
+            Image($r('app.media.dk_dokit_big'))
+              .width(65)
+              .height(65)
+              .objectFit(ImageFit.Contain)
+              .margin({ top: 15 })
+
+            Text('一款面向泛前端产品研发全生命周期的效率平台')
+              .fontSize(12)
+              .fontColor('#333333')
+              .margin({ top: 12, bottom: 20 })
+              .textAlign(TextAlign.Center)
+              .padding({ left: 12, right: 12 })
           }
           .width('100%')
-          .height(160)
-
-          ForEach(this.menuSections, (section: DemoMenuSection) => {
-            Column() {
-              DoKitSectionTitle({ title: section.title })
-              if (section.title === '工具入口') {
-                Row() {
-                  Text('快捷入口状态：')
-                    .fontSize(13)
-                    .fontColor('#666666')
-                  Text(this.isFloatIconShow ? '显示中' : '已隐藏')
-                    .fontSize(13)
-                    .fontColor(this.isFloatIconShow ? '#337CC4' : '#999999')
-                    .fontWeight(FontWeight.Medium)
-                }
-                .width('100%')
-                .padding({ left: 28, right: 28, bottom: 4 })
-              }
-              ForEach(section.items, (item: string) => {
-                DoKitItemView({
-                  itemText: item,
-                  onTap: () => {
-                    this.onItemClick(item);
-                  }
-                })
-              }, (item: string) => item)
-            }
-            .width('100%')
-          }, (section: DemoMenuSection) => section.title)
-
-          Text('v' + DoKitConstants.VERSION)
-            .fontSize(14)
-            .fontColor('#999999')
-            .margin({ top: 26, bottom: 40 })
+          .height(140)
+          .backgroundColor(Color.White)
+          .borderRadius(8)
+          .margin({ left: 18, right: 18, top: 10 })
+          .shadow({ radius: 12, color: '#1A000000', offsetX: 0, offsetY: 4 })
         }
         .width('100%')
+        .height(160)
+
+        ForEach(this.menuSections, (section: DemoMenuSection) => {
+          Column() {
+            DoKitSectionTitle({ title: section.title })
+            if (section.title === '工具入口') {
+              Row() {
+                Text('快捷入口状态：')
+                  .fontSize(13)
+                  .fontColor('#666666')
+                Text(this.isFloatIconShow ? '显示中' : '已隐藏')
+                  .fontSize(13)
+                  .fontColor(this.isFloatIconShow ? '#337CC4' : '#999999')
+                  .fontWeight(FontWeight.Medium)
+              }
+              .width('100%')
+              .padding({ left: 28, right: 28, bottom: 4 })
+            }
+            ForEach(section.items, (item: string) => {
+              DoKitItemView({
+                itemText: item,
+                onTap: () => {
+                  this.onItemClick(item);
+                }
+              })
+            }, (item: string) => item)
+          }
+          .width('100%')
+        }, (section: DemoMenuSection) => section.title)
+
+        Text('v' + DoKitConstants.VERSION)
+          .fontSize(14)
+          .fontColor('#999999')
+          .margin({ top: 26, bottom: 40 })
       }
       .width('100%')
-      .height('100%')
-      .backgroundColor('#F5F6F8')
-      .scrollBar(BarState.Off)
-
-      DoKitFloatingWindow({
-        customFullScreenPage: buildEntryCustomFullScreen
-      })
     }
     .width('100%')
     .height('100%')
+    .backgroundColor('#F5F6F8')
+    .scrollBar(BarState.Off)
   }
 }

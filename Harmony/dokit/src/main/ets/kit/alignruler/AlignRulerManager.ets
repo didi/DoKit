@@ -1,11 +1,12 @@
 import { AlignRulerConfig } from '../../config/AlignRulerConfig';
-import { DoKitViewManager } from '../../core/DoKitViewManager';
+import { DoKit } from '../../DoKit';
 
 /**
  * 对齐标尺浮层开关，对标 Android AlignRulerKit 拉起/关闭三层悬浮窗。
  * 只关工具面板，主图标保持原样。
  */
 export class AlignRulerManager {
+  static readonly FLOAT_NAME: string = 'dokit.ruler';
   private static instance: AlignRulerManager | null = null;
 
   private overlayOpen: boolean = false;
@@ -30,9 +31,9 @@ export class AlignRulerManager {
     if (this.overlayOpen) {
       return;
     }
-    DoKitViewManager.detachToolPanel();
-    AlignRulerConfig.setAlignRulerOpen(true);
     this.overlayOpen = true;
+    AlignRulerConfig.setAlignRulerOpen(true);
+    DoKit.detachToolPanel();
     this.notifyChange();
   }
 
@@ -42,6 +43,7 @@ export class AlignRulerManager {
     }
     AlignRulerConfig.setAlignRulerOpen(false);
     this.overlayOpen = false;
+    DoKit.removeFloatingView(AlignRulerManager.FLOAT_NAME);
     this.notifyChange();
   }
 

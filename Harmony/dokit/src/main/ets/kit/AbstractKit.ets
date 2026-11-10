@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { Category } from './Category';
-import { DoKitBundle } from '../core/FragmentRenderer';
+import { DoKitParams } from '../core/CustomViewRegistry';
 import { DoKitLauncher } from '../core/DoKitLauncher';
 import { IKit } from './IKit';
 
@@ -36,9 +36,9 @@ export abstract class AbstractKit implements IKit {
   protected startUniversalActivity(
     fragmentClass: string,
     context?: common.UIAbilityContext,
-    bundle?: DoKitBundle,
+    params?: DoKitParams,
     isSystemFragment: boolean = false
   ): void {
-    DoKitLauncher.launchFullScreen(fragmentClass, bundle, isSystemFragment);
+    DoKitLauncher.launchFullScreen(fragmentClass, undefined, params, isSystemFragment);
   }
 }

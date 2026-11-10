@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { BlockMonitorFragmentMeta } from './BlockMonitorFragment';
+import { BlockMonitorFragmentMeta, renderBlockMonitorFragment } from './BlockMonitorFragment';
 
 /**
  * 卡顿检测 Kit，对标 Android BlockMonitorKit
@@ -22,8 +23,13 @@ export class BlockMonitorKit extends AbstractKit {
     return $r('app.media.dk_block_monitor');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(BlockMonitorFragmentMeta.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      BlockMonitorFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderBlockMonitorFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

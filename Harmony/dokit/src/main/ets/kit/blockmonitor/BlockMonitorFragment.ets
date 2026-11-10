@@ -1,6 +1,7 @@
 import { BlockMonitorManager } from './core/BlockMonitorManager';
 import { BlockListFragment } from './BlockListFragment';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { SettingItem } from '../../core/SettingItem';
 
 /** 对标 Android BlockMonitorFragment */
@@ -144,9 +145,9 @@ export struct BlockMonitorFragment {
 }
 
 @Builder
-export function renderBlockMonitorFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderBlockMonitorFragment(params: DoKitParams, onClose: FragmentCloseHandler) {
   BlockMonitorFragment({
-    jumpToList: bundle[BlockMonitorFragmentKeys.KEY_JUMP_TO_LIST] === true,
+    jumpToList: params[BlockMonitorFragmentKeys.KEY_JUMP_TO_LIST] === true,
     onClose
   });
 }
