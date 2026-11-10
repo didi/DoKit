@@ -1,6 +1,7 @@
 import { common } from '@kit.AbilityKit';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { FileExplorerFragment } from './FileExplorerPage';
+import { FileExplorerFragment, renderFileExplorerFragment } from './FileExplorerPage';
 
 /**
  * 沙盒浏览 Kit，对标 Android FileExplorerKit
@@ -22,8 +23,13 @@ export class FileExplorerKit extends AbstractKit {
     return $r('app.media.dk_file_explorer');
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(FileExplorerFragment.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      FileExplorerFragment.CLASS_NAME,
+      wrapBuilder(renderFileExplorerFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

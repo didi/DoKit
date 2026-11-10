@@ -3,7 +3,8 @@ import type { BusinessError } from '@ohos.base';
 import { common } from '@kit.AbilityKit';
 import scanBarcode from '@hms.core.scan.scanBarcode';
 import scanCore from '@hms.core.scan.scanCore';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { WebDoorHistoryStore } from './WebDoorHistoryStore';
 import { WebDoorManager } from './WebDoorManager';
 
@@ -215,6 +216,6 @@ export struct WebDoorPage {
 }
 
 @Builder
-export function renderWebDoorFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderWebDoorFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   WebDoorPage({ onClose });
 }

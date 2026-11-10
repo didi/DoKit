@@ -24,6 +24,8 @@ export struct PerformanceDoKitView {
   @Prop showCpu: boolean = false;
   @Prop showRam: boolean = false;
   @Prop showNetwork: boolean = false;
+  /** 对标 Android PerformanceDoKitView.canDrag()。主窗口浮层传 false。 */
+  @Prop canDrag: boolean = true;
   @Prop @Watch('onTopOffsetChange') topOffset: number = 88;
   @Prop containerHeight: number = 0;
   onClose: () => void = () => {};
@@ -79,9 +81,10 @@ export struct PerformanceDoKitView {
   }
 
   private onTopOffsetChange(): void {
-    if (!this.userDragged) {
-      this.viewY = this.topOffset;
+    if (this.userDragged) {
+      return;
     }
+    this.viewY = this.topOffset;
   }
 
   private getMaxY(): number {
@@ -151,12 +154,15 @@ export struct PerformanceDoKitView {
             .height(5)
             .borderRadius(2.5)
             .backgroundColor(item.color)
+            .hitTestBehavior(HitTestMode.None)
           Text(`${item.title} ${item.label}`)
             .fontSize(8)
             .fontColor('#FFFFFF')
             .maxLines(1)
             .constraintSize({ maxWidth: 80 })
+            .hitTestBehavior(HitTestMode.None)
         }
+        .hitTestBehavior(HitTestMode.None)
       }, (item: LegendItem) => item.id)
       Blank().layoutWeight(1)
       // 右对齐到与下方图表右缘一致（原先 24 居中会偏左）
@@ -173,10 +179,11 @@ export struct PerformanceDoKitView {
     .width('100%')
     .height(this.legendHeight)
     .padding({ left: this.sidePad, right: this.sidePad })
-    .hitTestBehavior(HitTestMode.Default)
+    .hitTestBehavior(this.canDrag ? HitTestMode.Default : HitTestMode.None)
   }
 
-  build() {
+  @Builder
+  private ChartBody() {
     Column() {
       this.LegendRow()
       MultiCardiogramView({
@@ -203,19 +210,35 @@ export struct PerformanceDoKitView {
     .width('100%')
     .height(this.getTotalHeight())
     .backgroundColor('#AA000000')
-    .position({ x: 0, y: this.viewY })
-    .hitTestBehavior(HitTestMode.Default)
-    .gesture(
-      PanGesture({ direction: PanDirection.Vertical, fingers: 1, distance: 1 })
-        .onActionStart(() => {
-          this.onPanStart();
-        })
-        .onActionUpdate((event?: GestureEvent) => {
-          this.onPanMove(event);
-        })
-        .onActionEnd((event?: GestureEvent) => {
-          this.onPanEnd(event);
-        })
-    )
+    .hitTestBehavior(this.canDrag ? HitTestMode.Default : HitTestMode.None)
+  }
+
+  build() {
+    if (!this.canDrag) {
+      Column() {
+        this.ChartBody()
+      }
+      .width('100%')
+      .position({ x: 0, y: this.topOffset })
+      .hitTestBehavior(HitTestMode.None)
+    } else {
+      Column() {
+        this.ChartBody()
+      }
+      .position({ x: 0, y: this.viewY })
+      .hitTestBehavior(HitTestMode.Default)
+      .gesture(
+        PanGesture({ direction: PanDirection.Vertical, fingers: 1, distance: 1 })
+          .onActionStart(() => {
+            this.onPanStart();
+          })
+          .onActionUpdate((event?: GestureEvent) => {
+            this.onPanMove(event);
+          })
+          .onActionEnd((event?: GestureEvent) => {
+            this.onPanEnd(event);
+          })
+      )
+    }
   }
 }

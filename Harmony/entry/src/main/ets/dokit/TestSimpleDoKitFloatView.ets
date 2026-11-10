@@ -1,5 +1,5 @@
-import { CustomKitCloseHandler, DoKit, DoKitBundle } from '@didi-hummer/dokit';
-import { CustomDokitFragment } from './CustomDokitFragment';
+import { CloseRegistrar, DoKit, DoKitParams } from '@didi-hummer/dokit';
+import { buildCustomDokitFragment, CustomDokitFragment } from './CustomDokitFragment';
 import { ViewSetupHelper } from './ViewSetupHelper';
 
 /** 对标 Android dokit/TestSimpleDoKitFloatView */
@@ -8,7 +8,7 @@ export class TestSimpleDoKitFloatView {
 }
 
 @Builder
-export function buildTestSimpleDoKitFloatView(_bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
+export function TestSimpleDoKitFloatViewBuilder(_params: DoKitParams, _register: CloseRegistrar) {
   Column() {
     Row() {
       Text('TestSimpleDoKitFloatView')
@@ -19,9 +19,13 @@ export function buildTestSimpleDoKitFloatView(_bundle: DoKitBundle, onClose: Cus
       Text('✕')
         .fontSize(18)
         .fontColor('#666666')
-        .padding(8)
+        .width(40)
+        .height(40)
+        .textAlign(TextAlign.Center)
+        .hitTestBehavior(HitTestMode.Default)
+        .monopolizeEvents(true)
         .onClick(() => {
-          onClose();
+          DoKit.removeFloatingView(TestSimpleDoKitFloatView.CLASS_NAME);
         })
     }
     .width('100%')
@@ -30,12 +34,16 @@ export function buildTestSimpleDoKitFloatView(_bundle: DoKitBundle, onClose: Cus
     ViewSetupHelper({
       showFullScreenLauncher: true,
       onLaunchFullScreen: () => {
-        DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, { "test": 'test' });
+        DoKit.pushFullScreen(
+          CustomDokitFragment.CLASS_NAME,
+          wrapBuilder(buildCustomDokitFragment),
+          { 'test': 'test' }
+        );
       }
     })
   }
+  .width(280)
   .backgroundColor(Color.White)
   .borderRadius(8)
   .shadow({ radius: 8, color: '#33000000', offsetX: 0, offsetY: 2 })
-  .position({ x: 48, y: 180 })
 }

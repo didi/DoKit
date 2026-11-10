@@ -1,5 +1,6 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../../../core/FragmentRenderer';
+import { DoKitParams } from '../../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../../performance/PerformanceDataManager';
@@ -144,6 +145,6 @@ export struct CpuMainPageFragment {
 }
 
 @Builder
-export function renderCpuMainPageFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderCpuMainPageFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   CpuMainPageFragment({ onClose });
 }

@@ -1,4 +1,5 @@
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../config/DokitMemoryConfig';
 import { DataSourceFactory } from '../performance/datasource/DataSourceFactory';
 import { PerformanceDataManager } from '../performance/PerformanceDataManager';
@@ -114,6 +115,6 @@ export struct NetWorkMonitorFragment {
 }
 
 @Builder
-export function renderNetWorkMonitorFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderNetWorkMonitorFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   NetWorkMonitorFragment({ onClose });
 }

@@ -1,5 +1,6 @@
 import { Want } from '@kit.AbilityKit';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DoKitManager } from '../../core/DoKitManager';
 import { SysInfoCollector } from './SysInfoCollector';
 import { SysInfoListItem } from './SysInfoModels';
@@ -145,6 +146,6 @@ export struct SysInfoPage {
 }
 
 @Builder
-export function renderSysInfoFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderSysInfoFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   SysInfoPage({ onClose });
 }

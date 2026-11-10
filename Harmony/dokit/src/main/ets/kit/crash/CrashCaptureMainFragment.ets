@@ -2,11 +2,12 @@ import promptAction from '@ohos.promptAction';
 import { CrashCaptureConfig } from '../../config/CrashCaptureConfig';
 import { BundleKey } from '../../constant/BundleKey';
 import { DoKitFileUtil } from '../../util/DoKitFileUtil';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
-import { DoKitLauncher } from '../../core/DoKitLauncher';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKit } from '../../DoKit';
 import { SettingItem } from '../../core/SettingItem';
 import { CrashCaptureManager } from './CrashCaptureManager';
-import { FileExplorerFragment } from '../fileexplorer/FileExplorerPage';
+import { FileExplorerFragment, renderFileExplorerFragment } from '../fileexplorer/FileExplorerPage';
 
 /** 对标 Android CrashCaptureMainFragment */
 export class CrashCaptureMainFragmentMeta {
@@ -50,9 +51,14 @@ export struct CrashCaptureMainFragment {
 
   private openCrashHistory(): void {
     const crashDir = CrashCaptureManager.getInstance().getCrashCacheDir();
-    const bundle: DoKitBundle = {};
-    bundle[BundleKey.DIR_KEY] = crashDir;
-    DoKitLauncher.launchFullScreen(FileExplorerFragment.CLASS_NAME, bundle, true);
+    const params: DoKitParams = {};
+    params[BundleKey.DIR_KEY] = crashDir;
+    DoKit.launchFullScreen(
+      FileExplorerFragment.CLASS_NAME,
+      wrapBuilder(renderFileExplorerFragment),
+      params,
+      true
+    );
   }
 
   private cleanCrashHistory(): void {
@@ -154,6 +160,6 @@ export struct CrashCaptureMainFragment {
 }
 
 @Builder
-export function renderCrashCaptureMainFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderCrashCaptureMainFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   CrashCaptureMainFragment({ onClose });
 }

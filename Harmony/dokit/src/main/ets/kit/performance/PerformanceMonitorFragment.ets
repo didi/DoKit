@@ -1,5 +1,6 @@
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitMemoryConfig } from '../../config/DokitMemoryConfig';
 import { DataSourceFactory } from './datasource/DataSourceFactory';
 import { PerformanceDataManager } from './PerformanceDataManager';
@@ -278,6 +279,6 @@ export struct PerformanceMonitorFragment {
 }
 
 @Builder
-export function renderPerformanceMonitorFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderPerformanceMonitorFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   PerformanceMonitorFragment({ onClose });
 }

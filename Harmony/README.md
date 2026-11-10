@@ -5,11 +5,17 @@
 ## 当前进度（v0.1.0）
 
 - [x] 工程骨架：`entry`（Demo）+ `dokit`（核心 HAR）
-- [x] 悬浮球 + 工具面板 Overlay（41 个内置工具占位）
-- [x] **App信息**（常用工具，对标 Android SysInfoKit）
-- [x] **H5任意门**（常用工具，对标 Android WebDoorKit / harmonydriver H5AnyDoorPage）
-- [x] **沙盒浏览**（常用工具，对标 Android FileExplorerKit）
-- [ ] 其余工具真实功能
+- [x] 主窗口浮层：悬浮球、工具面板、全屏页、自定义浮窗（`OverlayManager`）
+- [x] 内置工具目录 `dokit_system_kits.json` 共 41 项；其中 17 项已在 `SystemKitRegistry` 接入
+- [ ] 其余 24 项（平台、LBS、Weex、日志、大图、弱网、启动耗时、布局层级、函数耗时、内存泄漏等）尚无 Kit 实现
+
+已接入的 17 项：
+
+- 常用：App信息、三方库信息、开发者选项、本地语言、沙盒浏览、H5任意门、清理缓存
+- 性能：帧率、CPU、内存、网络、Crash、卡顿
+- 视觉：取色器、对齐标尺、控件检查、布局边框
+
+帧率、CPU、内存、网络四个入口打开同一张性能监测页。
 
 ## 目录结构
 
@@ -32,18 +38,40 @@ Harmony/
         ├── DoKitCallBack.ets           # 回调接口（对标根包 DoKitCallBack.kt）
         ├── constant/DoKitConstants.ets
         ├── aop/DokitThirdLibInfo.ets
-        ├── components/DoKitFloatingWindow.ets
+        ├── layer/                      # 主窗口浮层
+        │   ├── DoKitOverlayManager.ets # 挂到 OverlayManager，按状态对齐各层
+        │   ├── DoKitOverlayRoot.ets    # 叠层根
+        │   ├── DoKitOverlayPage.ets    # 全屏页
+        │   ├── DoKitOverlayPanel.ets   # 工具面板
+        │   ├── DoKitOverlayBall.ets    # 悬浮球
+        │   └── DoKitOverlayFloat.ets   # 自定义浮窗
         ├── config/                     # GlobalConfig、KitIconResolver、KitDisplayMeta
+        ├── core/                       # 对标 kit/core
+        │   ├── DoKitManager.ets
+        │   ├── DoKitLauncher.ets       # 对外导出名 SimpleDoKitLauncher
+        │   ├── DoKitViewManager.ets
+        │   ├── DoKitPageStack.ets      # 全屏页栈；按名字先查系统表，没有再记业务页
+        │   ├── SystemKitRegistry.ets   # 对外导出名 InnerKitRegistry
+        │   ├── SystemFragmentRigistry.ets
+        │   ├── CustomFragmentRegistry.ets
+        │   └── toolpanel/              # ToolPanelUtil、KitWrapItem（读 dokit_system_kits.json）
         ├── kit/
         │   ├── IKit.ets                # 对标 IKit.kt
         │   ├── AbstractKit.ets
-        │   ├── core/                   # DoKitManager、SimpleDoKitLauncher、InnerKitRegistry
-        │   ├── toolpanel/              # ToolPanelUtil、KitWrapItem（读 dokit_system_kits.json）
-        │   ├── sysinfo/                # SysInfoKit、ThirdLibInfoKit、DevelopmentPageKit + Page
-        │   ├── dataclean/              # DataCleanKit + DataCleanPage
-        │   ├── fileexplorer/           # FileExplorerKit + FileExplorerPage
-        │   └── webdoor/                # WebDoorKit + WebDoorPage
-        ├── util/                       # DataCleanUtil、DoKitFileUtil、DoKitSystemUtil
+        │   ├── sysinfo/                # App信息、三方库、开发者选项、本地语言
+        │   ├── dataclean/              # 清理缓存
+        │   ├── fileexplorer/           # 沙盒浏览
+        │   ├── webdoor/                # H5任意门
+        │   ├── crash/                  # Crash
+        │   ├── blockmonitor/           # 卡顿
+        │   ├── performance/            # 性能监测页与浮窗
+        │   ├── network/                # 网络监测
+        │   ├── parameter/              # 帧率、CPU、内存入口
+        │   ├── colorpick/              # 取色器
+        │   ├── alignruler/             # 对齐标尺
+        │   ├── viewcheck/              # 控件检查
+        │   └── layoutborder/           # 布局边框
+        ├── util/                       # DataCleanUtil、DoKitFileUtil、DoKitSystemUtil、DoKitWindowUtil
         └── model/
 ```
 
@@ -51,35 +79,46 @@ Harmony/
 
 DevEco Studio 打开 `Harmony/` → Sync → 运行 `entry` 模块。
 
-## 接入方式（Overlay 方案）
+## 接入方式（主窗口 OverlayManager）
 
-对标 harmonydriver，不再使用 SubWindow，而是在宿主页面根 `Stack` 叠加 `DoKitFloatingWindow`：
+业务页不用放 DoKit 控件。在主 Ability 绑定 `WindowStage`，主窗 `loadContent` 成功后再把浮层挂上：
 
 ```typescript
-import { DoKit, DoKitFloatingWindow } from '@didi/dokit';
+import { DoKit } from '@didi-hummer/dokit';
 
-// 1. Ability 中初始化（无需 windowStage）
+// onWindowStageCreate
 DoKit.Builder(context)
+  .windowStage(windowStage)
   .productId('your_product_id')
   .debug(true)
   .build();
 
-// 2. 主页 Stack 叠加
-Stack() {
-  // 业务内容
-  YourMainPage()
+windowStage.loadContent('pages/Index', (err) => {
+  if (!err.code) {
+    DoKit.addRootComponentContent();
+  }
+});
 
-  DoKitFloatingWindow()
-}
-.width('100%')
-.height('100%')
+// onWindowStageDestroy
+DoKit.removeRootComponentContent();
 ```
+
+`build()` 只记下主窗口。`addRootComponentContent()` 才把浮层挂到主窗口的 `OverlayManager`。Demo 的调用在 `entry/src/main/ets/entryability/EntryAbility.ets`。
+
+自定义全屏 / 浮窗：
+
+- `DoKit.launchFloatingView(name, wrapBuilder(...), params?, options?)` — 可与悬浮球并存。层表重排后悬浮球在最上面
+- `DoKit.launchFullScreen(name, wrapBuilder(...), params?, isSystemFragment?)` — 清栈后打开全屏根页
+- `DoKit.pushFullScreen(name, wrapBuilder(...), params?, isSystemFragment?)` — 在当前全屏页上压入下级页
+
+传入的 `wrapBuilder` 在 `isSystemFragment` 为 false 时登记进 `CustomFragmentRegistry`。入栈时 `DoKitPageStack` 按页面名先查 `SystemFragmentRegistry`：系统表有这个名字就记成系统页，没有再记成业务页。系统页的画法在 `SystemFragmentRigistry.ets` 的 `initDefaultFragments` 里登记。
 
 API：
 
-- `DoKit.show()` / `DoKit.hide()` — 显示/隐藏悬浮球
-- `DoKit.showToolPanel()` — 远程打开工具面板
-- `DoKit.isMainIconShow` — 悬浮球是否可见
+- `DoKit.attachMainIcon()` / `DoKit.detachMainIcon()` — 显示 / 隐藏悬浮球
+- `DoKit.showToolPanel()` / `DoKit.detachToolPanel()` — 打开 / 关闭工具面板
+- `DoKit.popFullScreen()` / `DoKit.closeFullScreen()` — 退一层 / 关掉全部全屏页
+- `DoKit.isMainIconShow` — 悬浮球开关是否开着。全屏页盖住时，开关仍可能是开的
 
 ## 图片资源（对标 Android）
 
@@ -98,9 +137,11 @@ API：
 见 `entry/src/main/ets/App.ets`：
 
 ```typescript
-App.onCreate(context);
+App.onCreate(context, windowStage);
 // 内部等价于 Android App.onCreate 中的 DoKit.Builder(this)...
 ```
+
+`Builder` 上还挂了 `customKits(buildDemoCustomKits())`。`build()` 之后，`App.onCreate` 又用 `DoKit.registerCustomKits` 登记了「业务专区一」「业务专区二」「业务专区」。
 
 ### 2. 模块依赖（对标 `doraemonkit.gradle`）
 
@@ -116,7 +157,7 @@ App.onCreate(context);
 
 ### 4. 自定义业务 Kit
 
-工具面板「业务专区1 / 业务专区2」来自 `DemoCustomKits.ets`，对标 Android 的 `DemoKit`、`TestSimpleDokitFloatViewKit` 等。
+`DemoCustomKits.ets` 提供「业务专区1 / 业务专区2」，对标 Android 的 `DemoKit`、`TestSimpleDokitFloatViewKit` 等。`App.onCreate` 里另有一组「业务专区一 / 业务专区二 / 业务专区」。
 
 ## 与 Android 配置对照
 
@@ -127,7 +168,7 @@ App.onCreate(context);
 | `DoKit.Builder(...).productId()` | 同 API |
 | `customKits(mapKits)` | `customKits(Map<string, AbstractKit[]>)` |
 | `MainDoKitActivity.kt` | `pages/Index.ets` |
-| SubWindow 悬浮球 | `DoKitFloatingWindow` Overlay |
+| 系统悬浮窗 / 页面 Overlay | 主窗口 `OverlayManager` + `DoKitOverlayRoot`（Page / Panel / Ball / Float） |
 | `AndroidManifest` 权限 | `module.json5` requestPermissions |
 
 ## entry 目录对照（对标 Android app/src/main/java/.../doraemondemo）
@@ -148,8 +189,12 @@ App.onCreate(context);
 | `module/MethodCostTest.kt` | `module/MethodCostTest.ets` |
 | `res/layout/activity_dokit_main.xml` | `module/DemoMenuData.ets` |
 | — | `entryability/EntryAbility.ets`（鸿蒙 Ability 入口） |
-| — | `dokit/DemoCustomKitRenderers.ets`（鸿蒙 Overlay 渲染分发） |
+| — | `dokit/MultiPageKit.ets`、`dokit/MultiPagePages.ets`（多级全屏页） |
+| — | `dokit/FloatWindow1Kit.ets`、`dokit/FloatWindow1View.ets`（自定义浮窗） |
+| — | `dokit/DemoCustomKitRenderers.ets`（文件还在，当前没有引用） |
 
 ## 后续开发
 
-在 `pages/Index.ets` 的 `onItemClick` 中按菜单项逐个接入；工具 Kit 在 `DoKitFloatingWindow` 面板点击后路由。
+`pages/Index.ets` 的 `onItemClick` 已接上显示/隐藏悬浮球、打开工具面板、崩溃模拟、耗时函数、取色器、对齐标尺、控件检查、布局边框。其余菜单项仍弹出开发中提示。
+
+工具面板里未接入的 24 个内置项，仍按 `dokit_system_kits.json` 占位，点击没有对应 Kit。

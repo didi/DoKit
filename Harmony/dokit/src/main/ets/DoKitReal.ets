@@ -2,7 +2,7 @@ import { common } from '@kit.AbilityKit';
 import { AbstractKit } from './kit/AbstractKit';
 import { DoKitManager } from './core/DoKitManager';
 import { DEFAULT_BIZ_GROUP_NAME } from './kit/KitItemHelper';
-import { DoKitOverlayState } from './model/DoKitOverlayState';
+import { DoKitViewManager } from './core/DoKitViewManager';
 
 /**
  * DoKit 真正执行的类，对标 Android DoKitReal（不建议外部直接调用）
@@ -23,7 +23,7 @@ export class DoKitReal {
     } else if (customKitList.length > 0) {
       DoKitManager.addCustomKits(DEFAULT_BIZ_GROUP_NAME, customKitList);
     }
-    DoKitOverlayState.init();
+    DoKitViewManager.overlayState.init();
     DoKitReal.isInit = true;
   }
 }

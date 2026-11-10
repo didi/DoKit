@@ -4,6 +4,7 @@ import { ColorPickConstants } from './ColorPickConstants';
 import { ColorPickManager } from './ColorPickManager';
 import { ColorPickerPatch, ImageCapture } from './ImageCapture';
 import { ColorUtil } from '../../util/ColorUtil';
+import { DoKitParams } from '../../core/CustomViewRegistry';
 
 /**
  * 取色放大镜 + 底部信息栏，对标 Android
@@ -13,6 +14,8 @@ import { ColorUtil } from '../../util/ColorUtil';
 export struct ColorPickerDoKitView {
   containerWidth: number = 0;
   containerHeight: number = 0;
+  /** 打开浮窗时传入的参数。创建时写入，之后不再改。 */
+  params: DoKitParams = {};
 
   private readonly viewSize: number = px2vp(ColorPickConstants.PICK_VIEW_SIZE);
   private readonly ringWidth: number = px2vp(ColorPickConstants.PIX_INTERVAL * 2 + 4);

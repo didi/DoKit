@@ -1,5 +1,6 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DokitThirdLibInfo } from '../../aop/DokitThirdLibInfo';
 import { ThirdLibInfoHelper } from './ThirdLibInfoHelper';
 import { ThirdLibListItem, ThirdLibSortMode } from './ThirdLibInfoModels';
@@ -186,6 +187,6 @@ export struct ThirdLibInfoPage {
 }
 
 @Builder
-export function renderThirdLibInfoFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderThirdLibInfoFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   ThirdLibInfoPage({ onClose });
 }

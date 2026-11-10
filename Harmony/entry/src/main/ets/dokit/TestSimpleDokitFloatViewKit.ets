@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
-import { TestSimpleDoKitFloatView } from './TestSimpleDoKitFloatView';
+import { AbstractKit, Category, DoKit, DoKitFloatOptions } from '@didi-hummer/dokit';
+import { TestSimpleDoKitFloatView, TestSimpleDoKitFloatViewBuilder } from './TestSimpleDoKitFloatView';
 
 /** 对标 Android dokit/TestSimpleDokitFloatViewKit */
 export class TestSimpleDokitFloatViewKit extends AbstractKit {
@@ -18,7 +18,16 @@ export class TestSimpleDokitFloatViewKit extends AbstractKit {
   }
 
   onClickWithReturn(_context: common.UIAbilityContext): boolean {
-    DoKit.launchFloating(TestSimpleDoKitFloatView.CLASS_NAME);
+
+    const options = new DoKitFloatOptions();
+    options.x = 120;
+    options.y = 120;
+    DoKit.launchFloatingView(
+      TestSimpleDoKitFloatView.CLASS_NAME,
+      wrapBuilder(TestSimpleDoKitFloatViewBuilder),
+      undefined,
+      options
+    );
     return true;
   }
 }

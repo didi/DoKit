@@ -1,16 +1,19 @@
 import { ColorPickConfig } from '../../config/ColorPickConfig';
-import { DoKitViewManager } from '../../core/DoKitViewManager';
-import { DoKitOverlayState } from '../../model/DoKitOverlayState';
+import { DoKit } from '../../DoKit';
 
 /**
  * 取色器浮层管理，对标 Android ColorPickManager + 浮层开关
  */
 export class ColorPickManager {
+  static readonly FLOAT_NAME: string = 'dokit.color';
   private static instance: ColorPickManager | null = null;
 
   private overlayOpen: boolean = false;
   private restoreIcon: boolean = true;
   private overlayChangeHandler: (() => void) | null = null;
+
+  private constructor() {
+  }
 
   static getInstance(): ColorPickManager {
     if (ColorPickManager.instance === null) {
@@ -31,11 +34,11 @@ export class ColorPickManager {
     if (this.overlayOpen) {
       return;
     }
-    this.restoreIcon = DoKitOverlayState.isIconVisible();
-    DoKitViewManager.detachToolPanel();
-    DoKitViewManager.detachMainIcon();
-    ColorPickConfig.setColorPickOpen(true);
+    this.restoreIcon = DoKit.isMainIconShow;
     this.overlayOpen = true;
+    ColorPickConfig.setColorPickOpen(true);
+    DoKit.detachToolPanel();
+    DoKit.detachMainIcon();
     this.notifyChange();
   }
 
@@ -46,8 +49,9 @@ export class ColorPickManager {
     ColorPickConfig.setColorPickOpen(false);
     this.overlayOpen = false;
     if (this.restoreIcon) {
-      DoKitViewManager.attachMainIcon();
+      DoKit.attachMainIcon();
     }
+    DoKit.removeFloatingView(ColorPickManager.FLOAT_NAME);
     this.notifyChange();
   }
 

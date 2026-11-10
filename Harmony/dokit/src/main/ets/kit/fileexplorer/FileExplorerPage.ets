@@ -1,7 +1,8 @@
 import promptAction from '@ohos.promptAction';
 import { BundleKey } from '../../constant/BundleKey';
 import { DoKitManager } from '../../core/DoKitManager';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DoKitFileUtil } from '../../util/DoKitFileUtil';
 import { FileExplorerHelper } from './FileExplorerHelper';
 import { FileExplorerNavigator } from './FileExplorerNavigator';
@@ -487,9 +488,9 @@ export struct FileExplorerPage {
 }
 
 @Builder
-export function renderFileExplorerFragment(bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderFileExplorerFragment(params: DoKitParams, onClose: FragmentCloseHandler) {
   FileExplorerPage({
-    initialPath: String(bundle[BundleKey.DIR_KEY] ?? ''),
+    initialPath: String(params[BundleKey.DIR_KEY] ?? ''),
     onClose
   });
 }

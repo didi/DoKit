@@ -1,7 +1,8 @@
 import { common } from '@kit.AbilityKit';
 import { CrashCaptureConfig } from '../../config/CrashCaptureConfig';
+import { DoKit } from '../../DoKit';
 import { AbstractKit } from '../AbstractKit';
-import { CrashCaptureMainFragmentMeta } from './CrashCaptureMainFragment';
+import { CrashCaptureMainFragmentMeta, renderCrashCaptureMainFragment } from './CrashCaptureMainFragment';
 import { CrashCaptureManager } from './CrashCaptureManager';
 
 /**
@@ -33,8 +34,13 @@ export class CrashCaptureKit extends AbstractKit {
     }
   }
 
-  onClickWithReturn(context: common.UIAbilityContext): boolean {
-    this.startUniversalActivity(CrashCaptureMainFragmentMeta.CLASS_NAME, context, undefined, true);
+  onClickWithReturn(_context: common.UIAbilityContext): boolean {
+    DoKit.launchFullScreen(
+      CrashCaptureMainFragmentMeta.CLASS_NAME,
+      wrapBuilder(renderCrashCaptureMainFragment),
+      undefined,
+      true
+    );
     return true;
   }
 }

@@ -1,14 +1,18 @@
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DokitMemoryConfig } from '../../config/DokitMemoryConfig';
+import { DoKit } from '../../DoKit';
+import { DoKitFloatOptions } from '../../DoKitFloatOptions';
 import { NetworkManager } from '../network/NetworkManager';
 import { DataSourceFactory } from './datasource/DataSourceFactory';
 import { PerformanceDataManager } from './PerformanceDataManager';
 import { PerformanceFragmentCloseListener } from './PerformanceFragmentCloseListener';
+import { PERFORMANCE_FLOAT_BUILDER, setPerformanceFloatClose } from './PerformanceFloat';
 
 /**
  * 性能浮层管理，对标 Android PerformanceDokitViewManager
  */
 export class PerformanceDokitViewManager {
+  static readonly FLOAT_NAME: string = 'dokit.perf';
   private static readonly DOMAIN: number = 0xD0F1;
   private static readonly TAG: string = 'DoKitH5';
 
@@ -52,11 +56,17 @@ export class PerformanceDokitViewManager {
     PerformanceDokitViewManager.overlayOpenMap.set(performanceType, true);
     PerformanceDokitViewManager.closeListenerMap.set(performanceType, listener);
     PerformanceDokitViewManager.logSwitchState(`open type=${performanceType}`);
+    PerformanceDokitViewManager.ensureFloat();
+    DokitMemoryConfig.publishSwitchToStorage();
     PerformanceDokitViewManager.notifyChange();
   }
 
   static close(performanceType: number, _title: string): void {
     PerformanceDokitViewManager.overlayOpenMap.set(performanceType, false);
+    if (!PerformanceDokitViewManager.anyOverlayOpen()) {
+      DoKit.removeFloatingView(PerformanceDokitViewManager.FLOAT_NAME);
+    }
+    DokitMemoryConfig.publishSwitchToStorage();
     PerformanceDokitViewManager.notifyChange();
   }
 
@@ -89,6 +99,7 @@ export class PerformanceDokitViewManager {
     PerformanceDokitViewManager.overlayOpenMap.set(DataSourceFactory.TYPE_CPU, false);
     PerformanceDokitViewManager.overlayOpenMap.set(DataSourceFactory.TYPE_RAM, false);
     PerformanceDokitViewManager.overlayOpenMap.set(DataSourceFactory.TYPE_NETWORK, false);
+    DoKit.removeFloatingView(PerformanceDokitViewManager.FLOAT_NAME);
     PerformanceDokitViewManager.notifyChange();
     PerformanceDokitViewManager.publishAndNotifySwitchSync('closeAll');
     PerformanceDokitViewManager.logSwitchState('closeAll.after');
@@ -146,6 +157,34 @@ export class PerformanceDokitViewManager {
       PerformanceDokitViewManager.isCpuOverlayOpen() ? '1' : '0',
       PerformanceDokitViewManager.isRamOverlayOpen() ? '1' : '0',
       PerformanceDokitViewManager.isNetworkOverlayOpen() ? '1' : '0');
+  }
+
+  private static anyOverlayOpen(): boolean {
+    return PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_FPS) ||
+      PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_CPU) ||
+      PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_RAM) ||
+      PerformanceDokitViewManager.isOverlayOpen(DataSourceFactory.TYPE_NETWORK);
+  }
+
+  /** 四项里第一次打开才挂上。之后只改开关，曲线不重建。 */
+  private static ensureFloat(): void {
+    setPerformanceFloatClose((): void => {
+      PerformanceDokitViewManager.closeAllOverlaysFromView();
+    });
+    if (DoKit.getViewConfigByName(PerformanceDokitViewManager.FLOAT_NAME) !== undefined) {
+      return;
+    }
+    const options = new DoKitFloatOptions();
+    options.draggable = false;
+    options.abovePage = true;
+    options.abovePanel = true;
+    options.passThrough = true;
+    DoKit.launchFloatingView(
+      PerformanceDokitViewManager.FLOAT_NAME,
+      PERFORMANCE_FLOAT_BUILDER,
+      undefined,
+      options
+    );
   }
 
   private static notifyChange(): void {

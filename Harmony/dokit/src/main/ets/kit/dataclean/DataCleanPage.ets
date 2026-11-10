@@ -1,5 +1,6 @@
 import promptAction from '@ohos.promptAction';
-import { DoKitBundle, FragmentCloseHandler } from '../../core/FragmentRenderer';
+import { DoKitParams } from '../../core/CustomViewRegistry';
+import { FragmentCloseHandler } from '../../core/FragmentRenderer';
 import { DataCleanDirItem, DataCleanOutcome, DataCleanResult } from './DataCleanModels';
 import { DataCleanUtil } from '../../util/DataCleanUtil';
 
@@ -220,6 +221,6 @@ struct DataCleanDirRow {
 }
 
 @Builder
-export function renderDataCleanFragment(_bundle: DoKitBundle, onClose: FragmentCloseHandler) {
+export function renderDataCleanFragment(_params: DoKitParams, onClose: FragmentCloseHandler) {
   DataCleanPage({ onClose });
 }

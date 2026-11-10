@@ -42,13 +42,12 @@ export class ImageCapture {
     if (this.capturing) {
       return this.pixelMap !== null;
     }
-    const context = DoKitManager.getContext();
-    if (context === null) {
-      return false;
-    }
     this.capturing = true;
     try {
-      const win = await window.getLastWindow(context);
+      const win = await this.resolveCaptureWindow();
+      if (win === undefined) {
+        return false;
+      }
       const snapshot = await win.snapshot();
       this.replacePixelMap(snapshot);
       const info = snapshot.getImageInfoSync();
@@ -162,6 +161,25 @@ export class ImageCapture {
     this.contentWidth = 0;
     this.contentHeight = 0;
     this.bottomInset = 0;
+  }
+
+  private async resolveCaptureWindow(): Promise<window.Window | undefined> {
+    try {
+      const stage = AppStorage.get<window.WindowStage>('windowStage');
+      if (stage !== undefined && stage !== null) {
+        return stage.getMainWindowSync();
+      }
+    } catch (_e) {
+    }
+    const context = DoKitManager.getContext();
+    if (context === null) {
+      return undefined;
+    }
+    try {
+      return await window.getLastWindow(context);
+    } catch (_e2) {
+      return undefined;
+    }
   }
 
   private replacePixelMap(next: image.PixelMap | null): void {

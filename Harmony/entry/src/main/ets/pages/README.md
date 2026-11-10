@@ -42,7 +42,7 @@ export class MyToolKit extends AbstractKit {
   onClickWithReturn(context: common.UIAbilityContext): boolean {
     // 全屏页，对标 DoKit.launchFullScreen(MyToolFragment::class, activity, bundle)
     DoKit.launchFullScreen(MyToolFragment.CLASS_NAME, { "key": 'value' });
-    // 悬浮窗：DoKit.launchFloating(MyFloatView.CLASS_NAME);
+    // 悬浮窗：DoKit.launchFloatingView(MyFloatView.KIT_NAME, wrapBuilder(...));
     return true;
   }
 }
@@ -54,44 +54,42 @@ export class MyToolKit extends AbstractKit {
 
 ```typescript
 DoKit.Builder(context)
-  .customKits(buildDemoCustomKits())
+  .windowStage(windowStage)
   .build();
+
+DoKit.registerCustomKits('业务专区一', [new MyToolKit()]);
 ```
 
 ---
 
-## 第四步：实现 UI（@Builder）并挂到 DoKitFloatingWindow
+## 第四步：实现 UI（@Builder）并注册到 DoKit（SubWindow 方案）
+
+业务页不用放 DoKit 控件。在 Ability 里 `windowStage` + `attach`，自定义能力分别注册：
+
+```typescript
+// 自定义全屏：Ability 初始化时注册一次
+DoKit.registerCustomFragment(
+  MyToolFragment.CLASS_NAME,
+  wrapBuilder(buildMyToolFragment)
+);
+
+// 自定义浮窗：Kit 点击时启动（可多实例，球在最上）
+DoKit.launchFloatingView(MyFloatView.KIT_NAME, wrapBuilder(MyFloatViewBuilder));
+
+// 全屏根页 / 下级压栈
+DoKit.launchFullScreen(MyToolFragment.CLASS_NAME, wrapBuilder(buildMyToolFragment), params);
+DoKit.pushFullScreen(MyToolFragment.CLASS_NAME, wrapBuilder(buildMyToolFragment), nestedParams);
+```
 
 ```typescript
 // entry/src/main/ets/dokit/MyToolFragment.ets
 @Builder
-export function buildMyToolFragment(bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
-  // UI 实现，bundle 对标 Android Fragment.arguments
+export function buildMyToolFragment(params: DoKitParams, onClose: FragmentCloseHandler) {
+  // UI 实现，params 对标 Android Fragment.arguments
 }
 ```
 
-分发器（对标 Android 反射创建，鸿蒙由宿主手动映射）：
-
-```typescript
-// entry/src/main/ets/dokit/DemoCustomKitRenderers.ets
-@Builder
-export function buildEntryCustomFullScreen(fragmentClass: string, bundle: DoKitBundle, onClose: CustomKitCloseHandler) {
-  if (fragmentClass === MyToolFragment.CLASS_NAME) {
-    buildMyToolFragment(bundle, onClose);
-  }
-}
-```
-
-根页面挂载：
-
-```typescript
-DoKitFloatingWindow({
-  customFullScreenPage: buildEntryCustomFullScreen,
-  customFloatingPage: buildEntryCustomFloating
-})
-```
-
-关闭悬浮窗使用 `DoKit.removeFloating(MyFloatView.CLASS_NAME)`，对标 Android `DoKit.removeFloating(Class)`。
+关闭自定义浮窗：`DoKit.removeFloatingView(name)`。
 
 ---
 
@@ -101,14 +99,15 @@ DoKitFloatingWindow({
 |------|---------|---------|
 | 页面标识 | `CustomDokitFragment::class.java` | `CustomDokitFragment.CLASS_NAME` |
 | 启动全屏 | `DoKit.launchFullScreen(Class, activity, bundle)` | `DoKit.launchFullScreen(CLASS_NAME, bundle)` |
-| 启动悬浮 | `DoKit.launchFloating(Class)` | `DoKit.launchFloating(CLASS_NAME)` |
-| 关闭悬浮 | `DoKit.removeFloating(Class)` | `DoKit.removeFloating(CLASS_NAME)` |
+| 下级压栈 | Activity 内 Fragment 栈 | `DoKit.pushFullScreen(CLASS_NAME, bundle)` |
+| 启动悬浮 | `DoKit.launchFloating(Class)` | `DoKit.launchFloatingView(name, wrapBuilder(...))` |
+| 关闭悬浮 | `DoKit.removeFloating(Class)` | `DoKit.removeFloatingView(name)` |
 | 内置 Kit | `startUniversalActivity(Class, activity, null, true)` | `startUniversalActivity(CLASS_NAME, context, undefined, true)` |
-| UI 渲染 | 反射 `newInstance()` | 宿主 `@Builder` + `DemoCustomKitRenderers` 分发 |
+| UI 渲染 | 反射 `newInstance()` | `registerCustomFragment` / `launchFloatingView` 的 `@Builder` |
 
 ## 参考实现
 
-- `dokit/DemoKit.ets` — `DoKit.launchFloating(DemoDoKitView.CLASS_NAME)`
-- `dokit/TestSimpleDokitFragmentKit.ets` — `DoKit.launchFullScreen(CustomDokitFragment.CLASS_NAME, bundle)`
-- `dokit/CustomDokitFragment.ets` / `DemoDoKitView.ets` / `TestSimpleDoKitFloatView.ets`
-- `dokit/DemoCustomKitRenderers.ets` — 按 CLASS_NAME 分发
+- `dokit/DemoKit.ets` — `DoKit.launchFloatingView(...)`
+- `dokit/TestSimpleDokitFragmentKit.ets` — `DoKit.launchFullScreen(...)`
+- `dokit/CustomDokitFragment.ets` — `registerCustomFragment` + 页内 `pushFullScreen`
+- `dokit/TestSimpleDoKitFloatView.ets` / `DemoDoKitView.ets`

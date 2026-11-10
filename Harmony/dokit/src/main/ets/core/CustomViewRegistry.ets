@@ -6,10 +6,13 @@ export type DoKitParams = Record<string, Object>;
  */
 export type CloseHandler = Callback<void>;
 
+/** 业务把关闭函数交给框架保存。 */
+export type CloseRegistrar = Callback<CloseHandler>;
+
 /**
  * 自定义视图builder
  */
-export type CustomViewBuilder = WrappedBuilder<[DoKitParams, CloseHandler]>;
+export type CustomViewBuilder = WrappedBuilder<[DoKitParams, CloseRegistrar]>;
 
 
 export class CustomViewRegistry {

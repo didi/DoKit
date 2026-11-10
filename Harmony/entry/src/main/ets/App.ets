@@ -1,25 +1,26 @@
 import { common } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { window } from '@kit.ArkUI';
 import { AbstractKit, DoKit } from '@didi-hummer/dokit';
 import { DoKitDemoConfig } from './DoKitDemoConfig';
 import { buildDemoCustomKits } from './dokit/DemoCustomKits';
 import { DemoKit } from './dokit/DemoKit';
 import { TestSimpleDokitFloatViewKit } from './dokit/TestSimpleDokitFloatViewKit';
 import { TestSimpleDokitFragmentKit } from './dokit/TestSimpleDokitFragmentKit';
+import { MultiPageKit } from './dokit/MultiPageKit';
+import { FloatWindow1Kit } from './dokit/FloatWindow1Kit';
 
 const DOMAIN = 0xD0F1;
 const TAG = 'App';
 
 /**
  * Demo Application 初始化，对标 Android App.onCreate
- * 测试环境: DoKitDemoConfig.PRODUCT_ID_TEST
- * 线上环境: DoKitDemoConfig.PRODUCT_ID_PROD
  */
 export class App {
-  static onCreate(context: common.UIAbilityContext): void {
+  static onCreate(context: common.UIAbilityContext, windowStage: window.WindowStage): void {
     DoKit.Builder(context)
+      .windowStage(windowStage)
       .productId(DoKitDemoConfig.PRODUCT_ID_PROD)
-      // .productId(DoKitDemoConfig.PRODUCT_ID_TEST)
       .disableUpload()
       .customKits(buildDemoCustomKits())
       .fileManagerHttpPort(DoKitDemoConfig.FILE_MANAGER_HTTP_PORT)
@@ -47,23 +48,21 @@ export class App {
     const zone1: AbstractKit[] = [
       new DemoKit(),
       new TestSimpleDokitFloatViewKit(),
-      new TestSimpleDokitFragmentKit()
+      new TestSimpleDokitFragmentKit(),
+      new MultiPageKit(),
+      new FloatWindow1Kit()
     ];
     const zone2: AbstractKit[] = [
       new DemoKit(),
-      new TestSimpleDokitFloatViewKit(),
-      // new TestSimpleDokitFragmentKit()
+      new TestSimpleDokitFloatViewKit()
     ];
-
     const zone3: AbstractKit[] = [
-      new DemoKit(),
-      // new TestSimpleDokitFloatViewKit(),
-      // new TestSimpleDokitFragmentKit()
+      new DemoKit()
     ];
 
-    DoKit.registerCustomKits('业务专区3', zone3)
-    DoKit.registerCustomKits('业务专区2', zone2)
-    DoKit.registerCustomKits('业务专区1', zone1)
+    DoKit.registerCustomKits('业务专区一', zone1);
+    DoKit.registerCustomKits('业务专区二', zone2);
+    DoKit.registerCustomKits('业务专区', zone3);
     hilog.info(DOMAIN, TAG, 'DoKit demo initialized, productId=%{public}s', DoKitDemoConfig.PRODUCT_ID_PROD);
   }
 }
