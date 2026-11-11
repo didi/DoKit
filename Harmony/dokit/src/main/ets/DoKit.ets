@@ -4,7 +4,6 @@ import { DokitThirdLibInfo } from './aop/DokitThirdLibInfo';
 import { DoKitCallBack } from './DoKitCallBack';
 import { DoKitReal } from './DoKitReal';
 import { GlobalConfig } from './config/GlobalConfig';
-import { DoKitConstants } from './constant/DoKitConstants';
 import { WebDoorCallback } from './kit/webdoor/WebDoorCallback';
 import { AbstractKit } from './kit/AbstractKit';
 import { DoKitManager } from './core/DoKitManager';
@@ -14,8 +13,6 @@ import { SystemFragmentBuilder } from './core/FragmentRenderer';
 import { DoKitLauncher } from './core/DoKitLauncher';
 import { CustomViewBuilder, DoKitParams } from './core/CustomViewRegistry';
 import { DoKitOverlayManager } from './layer/DoKitOverlayManager';
-
-export { DoKitConstants } from './constant/DoKitConstants';
 
 /** 安装配置。配完调用 build，调试包才会真正装上。 */
 export class DoKitBuilder {

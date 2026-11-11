@@ -7,12 +7,15 @@ import { SystemKitRegistry } from '../SystemKitRegistry';
 import { KitBean, KitGroupBean } from './KitBeans';
 import { KitWrapItem } from './KitWrapItem';
 
+/** 系统工具配置的 rawfile 文件名。 */
 const SYSTEM_KITS_JSON: string = 'dokit_system_kits.json';
 
 /**
- * 工具面板配置解析，对标 Android ToolPanelUtil
+ * 工具面板配置解析，对标 Android ToolPanelUtil。
+ * 读 dokit_system_kits.json，按 innerKitId 绑上已实现的工具。
  */
 export class ToolPanelUtil {
+  /** 从 rawfile 读取系统工具。读失败时用内置兜底列表。 */
   static loadSystemKitsFromRawFile(context: common.UIAbilityContext): Map<string, KitWrapItem[]> {
     try {
       const buffer = context.resourceManager.getRawFileContentSync(SYSTEM_KITS_JSON);
@@ -24,11 +27,13 @@ export class ToolPanelUtil {
     }
   }
 
+  /** 把配置 JSON 解析成分组表。键是分组 id。 */
   static jsonConfig2InnerKits(json: string): Map<string, KitWrapItem[]> {
     const localConfigs: KitGroupBean[] = ToolPanelUtil.parseJson(json);
     return ToolPanelUtil.buildSystemKits(localConfigs);
   }
 
+  /** 按 innerKitId 绑上已登记的工具。代码里还没有的项仍保留占位。 */
   private static buildSystemKits(localConfigs: KitGroupBean[]): Map<string, KitWrapItem[]> {
     const systemKits: Map<string, KitWrapItem[]> = new Map();
     localConfigs.forEach((group: KitGroupBean) => {
@@ -53,6 +58,7 @@ export class ToolPanelUtil {
     return systemKits;
   }
 
+  /** 把分组表追加进面板分组。名称和颜色查 KitGroupNames、KitGroupColors。 */
   static toKitGroups( groups: KitGroup[] ,globalKits: Map<string, KitWrapItem[]>): KitGroup[] {
     globalKits.forEach((wrapItems: KitWrapItem[], groupId: string) => {
       const groupEnum = groupId as KitGroupId;
@@ -64,6 +70,7 @@ export class ToolPanelUtil {
     return groups;
   }
 
+  /** 转成面板上的一项。内置工具不挂 customKit，点击时再按 id 去系统表取。 */
   private static toKitItem(wrap: KitWrapItem): KitItem {
     const item: KitItem = {
       innerKitId: wrap.innerKitId,
@@ -80,6 +87,7 @@ export class ToolPanelUtil {
     return item;
   }
 
+  /** 解析分组 id，以及每项的 innerKitId、checked、allClassName。 */
   private static parseJson(json: string): KitGroupBean[] {
     const parsed = JSON.parse(json) as Array<Record<string, Object>>;
     const result: KitGroupBean[] = [];
@@ -101,6 +109,7 @@ export class ToolPanelUtil {
     return result;
   }
 
+  /** rawfile 读失败时的兜底：常用工具六项和取色器。 */
   private static loadFallbackKits(): Map<string, KitWrapItem[]> {
     const kits: KitBean[] = [];
     kits.push(new KitBean('dokit_sdk_comm_ck_appinfo', true));

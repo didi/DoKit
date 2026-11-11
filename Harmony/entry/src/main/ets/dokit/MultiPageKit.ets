@@ -1,14 +1,9 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
+import { AbstractKit, DoKit } from '@didi-hummer/dokit';
 import { buildMultiPageA, MultiPageA } from './MultiPagePages';
 
 /** 全屏页 A → B → C，再按栈逐级返回 */
 export class MultiPageKit extends AbstractKit {
-  constructor() {
-    super();
-    this.category = Category.BIZ;
-  }
-
   getName(): string {
     return '多页面kit';
   }

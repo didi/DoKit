@@ -6,13 +6,14 @@ import { CustomViewBuilder, CustomViewRegistry, DoKitParams } from './CustomView
 import { CustomFragmentRegistry } from './CustomFragmentRegistry';
 import { SystemFragmentRegistry } from './SystemFragmentRigistry';
 
+/** 预留的日志域。 */
 const DOMAIN = 0x0000;
+/** 预留的日志标签。 */
 const TAG = 'DoKitH5';
 
 /**
- * 悬浮窗和全屏启动器，对标 Android kit/core/SimpleDoKitLauncher
- *
- * 自定义组件注册流程（）
+ * 悬浮窗和全屏启动器，对标 Android kit/core/SimpleDoKitLauncher。
+ * 浮窗先按名字登记画法再挂上。全屏传入业务画法时登记进自定义表。
  */
 export class DoKitLauncher {
 

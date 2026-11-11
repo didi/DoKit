@@ -1,14 +1,9 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi-hummer/dokit';
+import { AbstractKit, DoKit } from '@didi-hummer/dokit';
 import { buildCustomDokitFragment, CustomDokitFragment } from './CustomDokitFragment';
 
 /** 对标 Android dokit/TestSimpleDokitFragmentKit */
 export class TestSimpleDokitFragmentKit extends AbstractKit {
-  constructor() {
-    super();
-    this.category = Category.BIZ;
-  }
-
   getName(): string {
     return '自定义全屏';
   }

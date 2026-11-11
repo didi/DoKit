@@ -34,7 +34,7 @@ export class MyFloatView {
 ```typescript
 // entry/src/main/ets/dokit/MyToolKit.ets
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit } from '@didi/dokit';
+import { AbstractKit, DoKit } from '@didi/dokit';
 import { MyToolFragment } from './MyToolFragment';
 import { MyFloatView } from './MyFloatView';
 
