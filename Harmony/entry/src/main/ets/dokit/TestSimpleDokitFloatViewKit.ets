@@ -1,14 +1,9 @@
 import { common } from '@kit.AbilityKit';
-import { AbstractKit, Category, DoKit, DoKitFloatOptions } from '@didi-hummer/dokit';
+import { AbstractKit, DoKit, DoKitFloatOptions } from '@didi-hummer/dokit';
 import { TestSimpleDoKitFloatView, TestSimpleDoKitFloatViewBuilder } from './TestSimpleDoKitFloatView';
 
 /** 对标 Android dokit/TestSimpleDokitFloatViewKit */
 export class TestSimpleDokitFloatViewKit extends AbstractKit {
-  constructor() {
-    super();
-    this.category = Category.BIZ;
-  }
-
   getName(): string {
     return '自定义悬浮';
   }

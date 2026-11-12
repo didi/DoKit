@@ -1,12 +1,5 @@
 import promptAction from '@ohos.promptAction';
-import {
-  AlignRulerManager,
-  ColorPickManager,
-  DoKit,
-  DoKitConstants,
-  LayoutBorderManager,
-  ViewCheckManager
-} from '@didi-hummer/dokit';
+import { DoKit } from '@didi-hummer/dokit';
 import { DoKitItemView, DoKitSectionTitle } from '../module/DoKitItemView';
 import { DemoMenuSection, getDemoMenuSections } from '../module/DemoMenuData';
 import { CrashTest } from '../module/CrashTest';
@@ -49,20 +42,14 @@ struct Index {
         CrashTest.test();
         return;
       case '取色器测试':
-        ColorPickManager.getInstance().open();
-        return;
       case '标尺对齐测试':
-        AlignRulerManager.getInstance().open();
-        return;
       case '控件检查测试':
-        ViewCheckManager.getInstance().open();
-        return;
       case '布局边框测试':
-        LayoutBorderManager.getInstance().open();
+        DoKit.showToolPanel();
         return;
       default:
         promptAction.showToast({
-          message: `${title}：${DoKitConstants.DEV_TIP}`,
+          message: `${title}：功能开发中，敬请期待`,
           duration: 2000
         });
     }
@@ -129,7 +116,7 @@ struct Index {
           .width('100%')
         }, (section: DemoMenuSection) => section.title)
 
-        Text('v' + DoKitConstants.VERSION)
+        Text('v0.1.0')
           .fontSize(14)
           .fontColor('#999999')
           .margin({ top: 26, bottom: 40 })

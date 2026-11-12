@@ -6,12 +6,19 @@ import { DoKitViewManager } from '../DoKitViewManager';
 import { DoKitManager } from '../DoKitManager';
 import { KitGroup, KitGroupId, KitItem } from '../../model/KitModels';
 
-/** 工具面板，对标 Android kit/toolpanel/ToolPanelDoKitView */
+/** 工具面板，对标 Android kit/toolpanel/ToolPanelDoKitView。 */
 @Component
 export struct ToolPanelDoKitView {
+  /** 要画的分组，业务分组在前。 */
   kitGroups: KitGroup[] = [];
+  /** 点右上角关闭时回调。 */
   onClose: () => void = () => {};
 
+  /**
+   * 点击一项工具。
+   * 业务工具和内置工具都走 onClickWithReturn。返回 true 时关掉面板。
+   * 两边都没有这个 id 时，提示功能开发中。
+   */
   private onKitClick(item: KitItem): void {
     if (item.customKit !== undefined) {
       const context = DoKitManager.getContext();

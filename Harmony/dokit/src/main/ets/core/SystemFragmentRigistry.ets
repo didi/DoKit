@@ -17,11 +17,17 @@ import {
   renderPerformanceMonitorFragment
 } from '../kit/performance/PerformanceMonitorFragment';
 
-/** 系统全屏页画法表。进出栈在 DoKitPageStack。 */
+/**
+ * 系统全屏页画法表。进出栈在 DoKitPageStack。
+ * 安装时登记一次。页面栈按页面名查这张表，有则记成系统页。
+ */
 export class SystemFragmentRegistry {
+  /** 已登记的系统页画法。键是页面名。 */
   private static readonly fragments: Map<string, SystemFragmentBuilder> = new Map();
+  /** 是否已经登记过默认页。重复 init 直接返回。 */
   private static initialized: boolean = false;
 
+  /** 登记当前已实现的系统全屏页。只执行一次。 */
   static initDefaultFragments(): void {
     if (SystemFragmentRegistry.initialized) {
       return;
@@ -52,21 +58,28 @@ export class SystemFragmentRegistry {
     SystemFragmentRegistry.initialized = true;
   }
 
+  /** 按页面名登记画法。同名后登记的覆盖先登记的。 */
   static registerSystemFragment(fragmentName: string, builder: SystemFragmentBuilder): void {
     SystemFragmentRegistry.fragments.set(fragmentName, builder);
   }
 
+  /** 按页面名取画法。没有则返回空。取之前会先确保默认页已登记。 */
   static getSystemFragmentBuilder(fragmentName: string): SystemFragmentBuilder | undefined {
     SystemFragmentRegistry.initDefaultFragments();
     return SystemFragmentRegistry.fragments.get(fragmentName);
   }
 
+  /** 表里是否已有这个页面名。页面栈用来区分系统页和业务页。 */
   static hasSystemFragment(fragmentName: string): boolean {
     SystemFragmentRegistry.initDefaultFragments();
     return SystemFragmentRegistry.fragments.has(fragmentName);
   }
 }
 
+/**
+ * 按页面名画出系统全屏页。
+ * 全屏层在栈顶是系统页时调用。没有对应画法时不画。
+ */
 @Builder
 export function buildUniversalFragment(fragmentName: string, params: DoKitParams, onClose: FragmentCloseHandler) {
   SystemFragmentRegistry.getSystemFragmentBuilder(fragmentName)?.builder(params, onClose);
