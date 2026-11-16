@@ -1,3 +1,4 @@
+import { DoKitBallViewComponent } from '../components/DoKitBallViewComponent';
 import { DoKitViewManager } from '../core/DoKitViewManager';
 import { DoKitWindowUtil } from '../util/DoKitWindowUtil';
 import { DoKitOverlayBuilder } from './DoKitOverlayTable';
@@ -233,17 +234,15 @@ export struct DoKitOverlayBall {
   /** 铺满后自己量宽高。空白点透，只有图片接收点击。 */
   build() {
     Stack({ alignContent: Alignment.TopStart }) {
-      Image($r('app.media.dk_doraemon'))
-        .width(this.ballSize)
-        .height(this.ballSize)
-        .objectFit(ImageFit.Contain)
-        .position({ x: this.x, y: this.y })
-        .visibility(this.placed ? Visibility.Visible : Visibility.None)
-        .hitTestBehavior(HitTestMode.Default)
-        .monopolizeEvents(true)
-        .onTouch((event: TouchEvent) => {
+      DoKitBallViewComponent({
+        x: this.x,
+        y: this.y,
+        ballSize: this.ballSize,
+        placed: this.placed,
+        onBallTouch: (event: TouchEvent): void => {
           this.onBallTouch(event);
-        })
+        }
+      })
     }
     .width('100%')
     .height('100%')
